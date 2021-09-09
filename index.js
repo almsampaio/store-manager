@@ -16,13 +16,13 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
 
 // Products
-app.post('/products', Validate.validName, Validate.validQuantity, Products.create);
+app.post('/products', Validate.validName, Validate.validQuantityProducts, Products.create);
 app.get('/products', Products.getAll);
 app.get('/products/:id', Products.getById);
-app.put('/products/:id', Validate.validName, Validate.validQuantity, Products.update);
+app.put('/products/:id', Validate.validName, Validate.validQuantityProducts, Products.update);
 app.delete('/products/:id', Products.remove);
 
 // Sales
-app.post('/sales', Sales.create);
+app.post('/sales', Validate.validQuantitySales, Sales.create);
 app.get('/sales', Sales.getAll);
 app.get('/sales/:id', Sales.getById);

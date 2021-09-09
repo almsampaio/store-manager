@@ -25,7 +25,7 @@ const validName = (req, res, next) => {
   next();
 };
 
-const validQuantity = (req, res, next) => {
+const validQuantityProducts = (req, res, next) => {
   const { quantity } = req.body;
   if (typeof quantity !== 'number') {
     return res.status(HTTP_VALID_STATUS).json({
@@ -47,7 +47,41 @@ const validQuantity = (req, res, next) => {
   next();
 };
 
+const validQuantitySales = (req, res, next) => {
+  let error = null;
+  const message = 'Wrong product ID or invalid quantity';
+
+  req.body.forEach((sale) => {
+    if (typeof sale.quantity !== 'number') {
+      error = { err: { code: 'invalid_data', message } };
+    }
+    if (sale.quantity <= MIN_QUANT_ZERO) {
+      error = { err: { code: 'invalid_data', message } };
+    }
+  });
+  if (error !== null) return res.status(HTTP_VALID_STATUS).json(error);
+  // if (typeof quantity !== 'number') {
+  //   return res.status(HTTP_VALID_STATUS).json({
+  //     err: {
+  //       code: 'invalid_data',
+  //       message: '"quantity" must be a number',
+  //     },
+  //   });
+  // }
+  // if (quantity <= MIN_QUANT_ZERO) {
+  //   return res.status(HTTP_VALID_STATUS).json({
+  //     err: {
+  //       code: 'invalid_data',
+  //       message: '"quantity" must be larger than or equal to 1',
+  //     },
+  //   });
+  // }
+
+  next();
+};
+
 module.exports = {
   validName,
-  validQuantity,
+  validQuantityProducts,
+  validQuantitySales,
 };
