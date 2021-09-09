@@ -40,6 +40,7 @@ const deleteById = async (id) => {
   const product = await db.collection('products').deleteOne({ _id: ObjectId(id) });
 };
 
+
 module.exports = {
   getAll,
   getById,
