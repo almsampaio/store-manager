@@ -51,10 +51,42 @@ const create = async (name, quantity) => {
   return { product };
 };
 
+const editById = async (id, name, quantity) => {
+  const minimumNameLength = 5;
+  const minimumQuantity = 1;
+
+  if (name.length < minimumNameLength) {
+    return {
+      err:{
+        code: 'invalid_data',
+        message: '"name" length must be at least 5 characters long'
+      }};
+  }
+
+  if (quantity < minimumQuantity) {
+    return {
+      err:{
+        code: 'invalid_data',
+        message: '"quantity" must be larger than or equal to 1'
+      }};
+  }
+
+  if (typeof(quantity) === 'string') {
+    return {
+      err:{
+        code: 'invalid_data',
+        message: '"quantity" must be a number'
+      }};
+  }
+
+  const product = await productsModel.editById(id,name,quantity);
+  return { product };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
-  // editById,
+  editById,
   // deleteById
 };
