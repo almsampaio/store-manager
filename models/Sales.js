@@ -23,7 +23,7 @@ const create = async (itensSold) => {
 const update = async (id, itensSold) => {
   if (!ObjectID.isValid(id)) return null;
   const db = await Connection();
-  await db.collection('sales').updateOne({ _id: ObjectID(id) }, { itensSold });
+  await db.collection('sales').updateOne({ _id: ObjectID(id) }, { $set: { itensSold } });
   const sale = await getById(id);
   return sale;
 };
