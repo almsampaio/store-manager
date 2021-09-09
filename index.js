@@ -9,6 +9,10 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+const productsController = require('./controllers/productsController');
+
+app.post('/products', productsController.create);
+
 const PORT = '3000';
 
 app.listen(PORT, () => {
