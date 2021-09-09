@@ -83,10 +83,15 @@ const editById = async (id, name, quantity) => {
   return { product };
 };
 
+const deleteById = async (id) => {
+  const product = productsModel.deleteById(id);
+  return product;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   editById,
-  // deleteById
+  deleteById
 };
