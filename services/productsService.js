@@ -40,3 +40,11 @@ const create = async (name, quantity) => {
   const product = await productsModel.create(name,quantity);
   return { product };
 };
+
+module.exports = {
+  // getAll,
+  // getById,
+  create,
+  // editById,
+  // deleteById
+};
