@@ -26,11 +26,21 @@ const create = async (req, res) => {
   return res.status(HTTP_200).json(sale);
 };
 
+const deleteById = async (req, res) => {
+  const {id} = req.params;
+  const sale = await salesService.getById(id);
+  if(!sale) {
+    return res.status(HTTP_422).json({ err:
+      {code: 'invalid_data', message: 'Wrong sale ID format'}});
+  }
+  await salesService.deleteById(id);
+  return res.status(HTTP_200).json(sale);
+};
 
 module.exports = {
   getAll,
   getById,
   create,
   // editById,
-  // deleteById
+  deleteById
 };
