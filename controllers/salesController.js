@@ -11,6 +11,7 @@ const create = async (req, res) => {
   return res.status(HTTP_200).json(sale);
 };
 
+
 module.exports = {
   // getAll,
   // getById,
