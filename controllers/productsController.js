@@ -26,11 +26,18 @@ const create = async (req, res) => {
   return res.status(HTTP_201).json(product);
 };
 
+const editById = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const { err, product } = await productsService.editById(id, name, quantity);
+  if (err) return res.status(HTTP_422).json({ err });
+  return res.status(HTTP_200).json(product);
+};
 
 module.exports = {
   getAll,
   getById,
   create,
-  // editById,
+  editById,
   // deleteById
 };
