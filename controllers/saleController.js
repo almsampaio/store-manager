@@ -42,8 +42,36 @@ const findById = rescue(async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(getaSalesById);
 });
 
+const updateById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const [{ productId, quantity }] = req.body;
+  // console.log(productId, quantity);
+  const updateSale = await service.updateById(id, productId, quantity);
+  if (updateSale.err) { 
+    return res.status(HTTP_NO_BODY_STATUS)
+    .json(updateSale);
+  }
+
+  // console.log(updateSale);
+  return res.status(HTTP_OK_STATUS).json(updateSale);
+});
+
+const deleteById = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const deleteProduct = await service.deleteById(id);
+  if (deleteProduct.err) {
+    return res.status(HTTP_NO_BODY_STATUS)
+    .json(deleteProduct);
+  }
+
+  return res.status(HTTP_OK_STATUS).json(deleteProduct);
+});
+
 module.exports = {
   createController,
   getAll,
   findById,
+  updateById,
+  deleteById,
 };

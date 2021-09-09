@@ -47,8 +47,33 @@ const findById = async (id) => {
   return getSalesById;
 };
 
+const updateById = async (id, productId, quantity) => {
+  const updateSalesById = await salesModel
+    .updateById(id, productId, quantity);
+  
+  if (isLessThan(quantity, zero)) return returned;
+  if (isNumber(quantity)) return returned;
+
+  return updateSalesById;
+};
+
+const deleteById = async (id) => {
+  const deleteSale = await salesModel.deleteById(id);
+  if (deleteSale === null) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return deleteSale;
+};
+
 module.exports = {
   create,
   getAll,
   findById,
+  updateById,
+  deleteById,
 };

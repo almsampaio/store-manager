@@ -7,10 +7,12 @@ const {
   createController,
   getAll,
   findById,
+  updateById,
 } = require('../controllers/saleController');
 
 router.post('/', createController);
 router.get('/', getAll);
 router.get('/:id', findById);
+router.put('/:id', updateById);
 
 module.exports = router;
