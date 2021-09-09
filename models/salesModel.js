@@ -20,6 +20,14 @@ const create = async (itensSold) => {
   return { _id: Object.values(result.insertedIds).toString(), 'itensSold': itensSold};
 };
 
+const editById = async (id,itensSold) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getConnection();
+  const product = await db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+  return {id, itensSold};
+};
+
 const deleteById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await getConnection();
