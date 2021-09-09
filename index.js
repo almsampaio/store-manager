@@ -10,12 +10,15 @@ app.get('/', (_request, response) => {
 });
 
 const productsController = require('./controllers/productsController');
+const salesController = require('./controllers/salesController');
 
 app.get('/products', productsController.getAll);
 app.get('/products/:id', productsController.getById);
 app.post('/products', productsController.create);
 app.put('/products/:id', productsController.editById);
 app.delete('/products/:id', productsController.deleteById);
+
+app.post('/sales', salesController.create);
 
 const PORT = '3000';
 
