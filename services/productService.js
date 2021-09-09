@@ -47,8 +47,18 @@ const findById = async (id) => {
   return getProductsById;
 };
 
+const updateById = async (id, name, quantity) => {
+  const getProductsById = await productsModel.updateById(id, name, quantity);
+  
+  const schema = productSchema(name, quantity);
+  if (schema) return schema;
+
+  return getProductsById;
+};
+
 module.exports = {
   create,
   getAll,
   findById,
+  updateById,
 };

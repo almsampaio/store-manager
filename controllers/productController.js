@@ -42,8 +42,23 @@ const findById = rescue(async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(getProductsById);
 });
 
+const updateById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const updateProduct = await service.updateById(id, name, quantity);
+  if (updateProduct.err) {
+    return res.status(HTTP_NO_BODY_STATUS)
+    .json(updateProduct);
+  }
+
+  console.log(updateProduct);
+  return res.status(HTTP_OK_STATUS).json(updateProduct);
+});
+
 module.exports = {
   createController,
   getAll,
   findById,
+  updateById,
 };
