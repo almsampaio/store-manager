@@ -38,6 +38,6 @@ module.exports = {
   getAll,
   getById,
   create,
-  // editById,
+  editById,
   deleteById
 };
