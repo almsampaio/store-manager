@@ -1,5 +1,15 @@
 const productsModel = require('../models/productsModel');
 
+const getAll =  async () => {
+  const products = productsModel.getAll();
+  return products;
+};
+
+const getById = async (id) => {
+  const product = productsModel.getById(id);
+  return product;
+};
+
 const create = async (name, quantity) => {
   const minimumNameLength = 5;
   const minimumQuantity = 1;
@@ -42,8 +52,8 @@ const create = async (name, quantity) => {
 };
 
 module.exports = {
-  // getAll,
-  // getById,
+  getAll,
+  getById,
   create,
   // editById,
   // deleteById

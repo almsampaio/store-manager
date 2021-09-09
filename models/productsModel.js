@@ -27,8 +27,8 @@ const findByName = async (name) => {
 };
 
 module.exports = {
-  // getAll,
-  // getById,
+  getAll,
+  getById,
   create,
   findByName,
   // editById,
