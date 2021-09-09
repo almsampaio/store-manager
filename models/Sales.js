@@ -1,4 +1,4 @@
-const { ObjectId } = require('bson');
+const { ObjectID } = require('mongodb');
 const Connection = require('./connection');
 
 const getAll = async () => {
@@ -8,9 +8,9 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
+  if (!ObjectID.isValid(id)) return null;
   const db = await Connection();
-  const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
+  const sale = await db.collection('sales').findOne({ _id: ObjectID(id) });
   return sale;
 };
 
