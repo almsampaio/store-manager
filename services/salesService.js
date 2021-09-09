@@ -34,10 +34,15 @@ const create = async (itensSold) => {
   return { sale };
 };
 
+const deleteById = async (id) => {
+  const sale = salesModel.deleteById(id);
+  return sale;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   // editById,
-  // deleteById
+  deleteById
 };
