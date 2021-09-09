@@ -20,10 +20,16 @@ const create = async (itensSold) => {
   return { _id: Object.values(result.insertedIds).toString(), 'itensSold': itensSold};
 };
 
+const deleteById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getConnection();
+  const sale = await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   // editById,
-  // deleteById
+  deleteById
 };
