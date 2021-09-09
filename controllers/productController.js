@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const {
+  HTTP_OK_STATUS,
   HTTP_CREATED_STATUS,
   HTTP_NO_BODY_STATUS,
 } = require('../helpers/helpers');
@@ -23,6 +24,26 @@ const createController = rescue(async (req, res) => {
   return res.status(HTTP_CREATED_STATUS).json(productsCreated);
 });
 
+const getAll = rescue(async (_req, res) => {
+  const getAllProducts = await service.getAll();
+  return res.status(HTTP_OK_STATUS).json({ products: getAllProducts });
+});
+
+const findById = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const getProductsById = await service.findById(id);
+  if (getProductsById.err) {
+  return res.status(HTTP_NO_BODY_STATUS)
+    .json(getProductsById); 
+}
+
+  // console.log(getProductsById);
+  return res.status(HTTP_OK_STATUS).json(getProductsById);
+});
+
 module.exports = {
   createController,
+  getAll,
+  findById,
 };

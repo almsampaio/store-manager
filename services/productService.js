@@ -24,38 +24,31 @@ const create = async (name, quantity) => {
   }
   const schema = productSchema(name, quantity);
   if (schema) return schema;
-  // if (isString(name)) return {
-  //   err: {
-  //     code: 'invalid_data', 
-  //     message: '"name" must be a String',
-  //   },
-  // };
-      
-  // if (isLengthLetterThan(name, five)) return {
-  //   err: {
-  //     code: 'invalid_data', 
-  //     message: '"name" length must be at least 5 characters long',
-  //   },
-  // };
-
-  // if (isNumber(quantity)) return {
-  //   err: {
-  //     code: 'invalid_data', 
-  //     message: '"quantity" must be a number',
-  //   },
-  // };
-
-  // if (isLengthMoreThan(quantity, one)) return {
-  //   err: {
-  //     code: 'invalid_data', 
-  //     message: '"quantity" must be larger than or equal to 1',
-  //   },
-  // };
 
   const productsService = await productsModel.create(name, quantity);
   return productsService;
 };
 
+const getAll = async () => {
+  const getAllProducts = await productsModel.getAll();
+  return getAllProducts;
+};
+
+const findById = async (id) => {
+  const getProductsById = await productsModel.findById(id);
+  if (getProductsById === null) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return getProductsById;
+};
+
 module.exports = {
   create,
+  getAll,
+  findById,
 };

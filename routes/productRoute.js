@@ -5,8 +5,14 @@ const router = express.Router();
 
 const {
   createController,
+  getAll,
+  findById,
 } = require('../controllers/productController');
 
 router.post('/', createController);
+
+router.get('/', getAll);
+
+router.get('/:id', findById);
 
 module.exports = router;

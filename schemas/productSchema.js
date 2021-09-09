@@ -3,7 +3,6 @@ const {
   isNumber,
   isLengthLetterThan,
   isLessThan,
-  isEqualsTo,
 } = require('../helpers/helpers');
 
 const five = 5;
@@ -21,9 +20,6 @@ const productSchema = (name, quantity) => {
   return { err: { code, message: '"quantity" must be a number' } }; 
 }
   if (isLessThan(quantity, zero)) {
-  return { err: { code, message: '"quantity" must be larger than or equal to 1' } }; 
-}
-if (isEqualsTo(quantity, zero)) {
   return { err: { code, message: '"quantity" must be larger than or equal to 1' } }; 
 }
 };
