@@ -25,5 +25,5 @@ app.post('/sales', salesController.create);
 const PORT = '3000';
 
 app.listen(PORT, () => {
-  console.log(`Mãe tá on na porta ${PORT}!`);
+  console.log(`💃🏻 Mãe tá on na porta ${PORT}! 👩🏻‍💻🤘🏻`);
 });
