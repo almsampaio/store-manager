@@ -1,4 +1,4 @@
-const Sales = require('../services/Products');
+const Sales = require('../services/Sales');
 
 const getAll = async (_req, res) => {
   const { status, data } = await Sales.getAll();
@@ -7,7 +7,9 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const { status, data } = await Sales.getById(id);
+  const { status, data, message } = await Sales.getById(id);
+
+  if (message) return res.status(status).json({ err: { code: 'not_found', message } });
   res.status(status).json(data);
 };
 

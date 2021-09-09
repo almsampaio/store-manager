@@ -7,19 +7,22 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const { status, data } = await Products.getById(id);
+  const { status, data, message } = await Products.getById(id);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
   res.status(status).json(data);
 };
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
-  const { status, data } = await Products.create(name, quantity);
+  const { status, data, message } = await Products.create(name, quantity);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
   res.status(status).json(data);
 };
 
 const remove = async (req, res) => {
   const { id } = req.params;
-  const { status, data } = await Products.remove(id);
+  const { status, data, message } = await Products.remove(id);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
   res.status(status).json(data);
 };
 
@@ -35,5 +38,5 @@ module.exports = {
   getById,
   create,
   remove,
-  update
+  update,
 };

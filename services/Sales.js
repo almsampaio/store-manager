@@ -7,6 +7,9 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const sale = await Sales.getById(id);
+  const message = 'Sale not found';
+
+  if (!sale) return { status: 404, message };
   return { status: 200, data: sale };
 };
 

@@ -19,8 +19,8 @@ app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
 app.post('/products', Validate.validName, Validate.validQuantity, Products.create);
 app.get('/products', Products.getAll);
 app.get('/products/:id', Products.getById);
-app.delete('/products/:id', Products.remove);
 app.put('/products/:id', Validate.validName, Validate.validQuantity, Products.update);
+app.delete('/products/:id', Products.remove);
 
 // Sales
 app.get('/sales', Sales.getAll);

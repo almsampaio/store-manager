@@ -1,4 +1,4 @@
-const { ObjectId } = require('bson');
+const { ObjectID } = require('mongodb');
 const Connection = require('./connection');
 
 const getAll = async () => {
@@ -8,9 +8,9 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
+  if (!ObjectID.isValid(id)) return null;
   const db = await Connection();
-  const product = await db.collection('products').findOne({ _id: ObjectId(id) });
+  const product = await db.collection('products').findOne({ _id: ObjectID(id) });
   return product;
 };
 
@@ -21,27 +21,23 @@ const create = async (name, quantity) => {
 };
 
 const remove = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
+  if (!ObjectID.isValid(id)) return null;
   const db = await Connection();
-  const result = await db.collection('products').deleteOne({ _id: ObjectId(id) });
+  const result = await db.collection('products').deleteOne({ _id: ObjectID(id) });
   return result;
 };
 
 const update = async (id, name, quantity) => {
-  if (!ObjectId.isValid(id)) return null;
+  if (!ObjectID.isValid(id)) return null;
   const db = await Connection();
-  await db.collection('products').updateOne({
-    _id: ObjectId(id),
-    $set: { name, quantity },
-    upsert: false,
-  });
+  await db.collection('products').updateOne({ _id: ObjectID(id) }, { $set: { name, quantity } });
   const product = await getById(id);
   return product;
 };
 
-const findByNameAndQuantity = async (name, quantity) => {
+const findByName = async (name) => {
   const db = await Connection();
-  const product = db.collection('products').findOne({ name, quantity });
+  const product = db.collection('products').findOne({ name });
   return product;
 };
 
@@ -51,5 +47,5 @@ module.exports = {
   create,
   remove,
   update,
-  findByNameAndQuantity,
+  findByName,
 };

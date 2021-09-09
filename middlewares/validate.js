@@ -7,12 +7,18 @@ const validName = (req, res, next) => {
   const { name } = req.body;
   if (typeof name !== 'string') {
     return res.status(HTTP_VALID_STATUS).json({
-      mensage: '"name" must be a string',
+      err: {
+        code: 'invalid_data',
+        message: '"name" must be a string',
+      },
     });
   }
   if (name.length <= MIN_NAME_LENGTH) {
     return res.status(HTTP_VALID_STATUS).json({
-      mensage: '"name" length must be at least 5 characters long',
+      err: {
+        code: 'invalid_data',
+        message: '"name" length must be at least 5 characters long',
+      },
     });
   }
 
@@ -23,12 +29,18 @@ const validQuantity = (req, res, next) => {
   const { quantity } = req.body;
   if (typeof quantity !== 'number') {
     return res.status(HTTP_VALID_STATUS).json({
-      message: '"quantity" must be a number',
+      err: {
+        code: 'invalid_data',
+        message: '"quantity" must be a number',
+      },
     });
   }
   if (quantity <= MIN_QUANT_ZERO) {
     return res.status(HTTP_VALID_STATUS).json({
-      mensage: '"quantity" must be larger than or equal to 1',
+      err: {
+        code: 'invalid_data',
+        message: '"quantity" must be larger than or equal to 1',
+      },
     });
   }
 
