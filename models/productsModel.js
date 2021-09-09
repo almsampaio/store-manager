@@ -26,11 +26,19 @@ const findByName = async (name) => {
   return product;
 };
 
+const editById = async (id,name,quantity) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getConnection();
+  const product = await db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+  return {id, name, quantity};
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   findByName,
-  // editById,
+  editById,
   // deleteById
 };

@@ -14,6 +14,7 @@ const productsController = require('./controllers/productsController');
 app.get('/products', productsController.getAll);
 app.get('/products/:id', productsController.getById);
 app.post('/products', productsController.create);
+app.put('/products/:id', productsController.editById);
 
 const PORT = '3000';
 
