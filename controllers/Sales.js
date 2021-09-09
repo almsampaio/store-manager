@@ -19,8 +19,23 @@ const create = async (req, res) => {
   res.status(status).json(data);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { status, data } = Sales.update(id, req.body);
+  res.status(status).json(data);
+};
+
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { status, data, message } = await Sales.remove(id);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
+  res.status(status).json(data);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
+  remove,
 };

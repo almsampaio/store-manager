@@ -22,8 +22,25 @@ const create = async (itensSold) => {
   return { status: 200, data: result };
 };
 
+const update = async (id, itensSold) => {
+  const sale = await Sales.update(id, itensSold);
+
+  return { status: 200, data: sale };
+};
+
+const remove = async (id) => {
+  const product = await Sales.getById(id);
+  const message = 'Wrong sale ID format';
+
+  if (!product) return { status: 422, message };
+  const result = await Sales.remove(id);
+  return { status: 200, data: result };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
+  remove,
 };

@@ -60,22 +60,6 @@ const validQuantitySales = (req, res, next) => {
     }
   });
   if (error !== null) return res.status(HTTP_VALID_STATUS).json(error);
-  // if (typeof quantity !== 'number') {
-  //   return res.status(HTTP_VALID_STATUS).json({
-  //     err: {
-  //       code: 'invalid_data',
-  //       message: '"quantity" must be a number',
-  //     },
-  //   });
-  // }
-  // if (quantity <= MIN_QUANT_ZERO) {
-  //   return res.status(HTTP_VALID_STATUS).json({
-  //     err: {
-  //       code: 'invalid_data',
-  //       message: '"quantity" must be larger than or equal to 1',
-  //     },
-  //   });
-  // }
 
   next();
 };
