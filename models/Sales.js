@@ -12,7 +12,7 @@ const getById = async (id) => {
   const db = await Connection();
   const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
   return sale;
-}
+};
 
 module.exports = {
   getAll,
