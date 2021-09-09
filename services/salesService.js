@@ -1,5 +1,15 @@
 const salesModel = require('../models/salesModel');
 
+const getAll =  async () => {
+  const sales = salesModel.getAll();
+  return sales;
+};
+
+const getById = async (id) => {
+  const sale = salesModel.getById(id);
+  return sale;
+};
+
 const create = async (itensSold) => {
   const [{quantity}] = itensSold;
   const minimumQuantity = 1;
@@ -25,8 +35,8 @@ const create = async (itensSold) => {
 };
 
 module.exports = {
-  // getAll,
-  // getById,
+  getAll,
+  getById,
   create,
   // editById,
   // deleteById
