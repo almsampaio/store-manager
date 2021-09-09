@@ -14,11 +14,11 @@ app.get('/', (_request, response) => {
 });
 
 const productRoute = require('./routes/productRoute');
-// const saleRoute = require('./routes/saleRoute');
+const saleRoute = require('./routes/saleRoute');
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.use('/products', productRoute);
-// app.use('/sales', saleRoute);
+app.use('/sales', saleRoute);
 
 app.listen(PORT, () => {
   console.log(`Online na porta ${PORT}`);

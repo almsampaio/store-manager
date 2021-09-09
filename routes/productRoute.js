@@ -8,14 +8,13 @@ const {
   getAll,
   findById,
   updateById,
+  deleteById,
 } = require('../controllers/productController');
 
 router.post('/', createController);
-
 router.get('/', getAll);
-
 router.get('/:id', findById);
-
 router.put('/:id', updateById);
+router.delete('/:id', deleteById);
 
 module.exports = router;
