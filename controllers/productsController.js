@@ -34,6 +34,7 @@ const editById = async (req, res) => {
   return res.status(HTTP_200).json(product);
 };
 
+
 module.exports = {
   getAll,
   getById,
