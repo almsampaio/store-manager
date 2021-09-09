@@ -13,7 +13,17 @@ const getById = async (id) => {
   return { status: 200, data: sale };
 };
 
+const create = async (itensSold) => {
+  const findSales = await Sales.getByItensSold(itensSold);
+  const message = 'erro';
+
+  if (findSales) return { status: 422, message };
+  const result = await Sales.create(itensSold);
+  return { status: 200, data: result };
+};
+
 module.exports = {
   getAll,
   getById,
+  create,
 };

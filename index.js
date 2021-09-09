@@ -23,5 +23,6 @@ app.put('/products/:id', Validate.validName, Validate.validQuantity, Products.up
 app.delete('/products/:id', Products.remove);
 
 // Sales
+app.post('/sales', Sales.create);
 app.get('/sales', Sales.getAll);
 app.get('/sales/:id', Sales.getById);
