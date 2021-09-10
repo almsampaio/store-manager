@@ -12,6 +12,7 @@ const {
 const {
   insertOneControler,
   findManyOrByIdControler,
+  updateAndReturnOneController,
 } = require('./controlers');
 
 const app = express();
@@ -34,6 +35,12 @@ insertOneControler);
 app.get('/products', findManyOrByIdControler);
 
 app.get('/products/:id', findManyOrByIdControler);
+
+app.put('/products/:id',
+validateName,
+validateQuantityType,
+validateQuantityValue,
+updateAndReturnOneController);
 
 app.listen(PORT, () => {
   console.log('tamo on');

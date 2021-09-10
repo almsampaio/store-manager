@@ -4,6 +4,7 @@ const validateQuantityValue = require('./validateQuantityValue');
 const validateName = require('./validateName');
 const validateNameInTable = require('./validateNameInTable');
 const findManyOrByIdProducts = require('./findManyOrByIdProducts');
+const updateAndReturnOne = require('./updateAndReturnOne');
 
 module.exports = {
     insertAndReturnOne,
@@ -12,4 +13,5 @@ module.exports = {
     validateQuantityType,
     validateQuantityValue,
     findManyOrByIdProducts,
+    updateAndReturnOne,
 };
