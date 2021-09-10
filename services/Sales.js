@@ -18,10 +18,13 @@ const create = async (itensSold) => {
   const { productId, quantity } = itensSold[0];
   const findSales = await Sales.getByItensSold(itensSold);
   const message = 'erro';
+  const err = 'Such amount is not permitted to sell';
   if (findSales) return { status: 422, message };
 
   const product = await Products.getById(productId);
   const resultQuantity = product.quantity - quantity;
+
+  if (resultQuantity < 0) return { status: 404, err };
   const data = { name: product.name, quantity: resultQuantity };
   await Products.update(productId, data);
 
