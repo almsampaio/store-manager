@@ -34,7 +34,7 @@ const getAll = async () => {
   const productsCollection = await connection.getConnection()
     .then((db) => db.collection('products'));
 
-  const products = await productsCollection.find();
+  const products = await productsCollection.find().toArray();
   return { products };
 };
 

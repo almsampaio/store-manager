@@ -10,7 +10,10 @@ const addNew = async (newProductObj) => {
   return newProduct;
 };
 
-const getAll = async () => productModel.getAll();
+const getAll = async () => {
+  const products = await productModel.getAll();
+  return products;
+};
 
 const getById = async (id) => {
   const result = await productModel.getById(id);
