@@ -1,3 +1,4 @@
+const deleteOneById = require('./deleteOneById');
 const findAll = require('./findAllProducts');
 const findById = require('./findById');
 const findOneProduct = require('./findOneProduct');
@@ -10,4 +11,5 @@ module.exports = {
     findAll,
     findById,
     updateById,
+    deleteOneById,
 };

@@ -13,6 +13,7 @@ const {
   insertOneControler,
   findManyOrByIdControler,
   updateAndReturnOneController,
+  deleteOneProductController,
 } = require('./controlers');
 
 const app = express();
@@ -41,6 +42,8 @@ validateName,
 validateQuantityType,
 validateQuantityValue,
 updateAndReturnOneController);
+
+app.delete('/products/:id', deleteOneProductController);
 
 app.listen(PORT, () => {
   console.log('tamo on');
