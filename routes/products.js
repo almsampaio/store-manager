@@ -1,8 +1,9 @@
 const express = require('express');
 
 const productsRouter = express.Router();
+const productsMiddlewares = require('../middlewares/products');
 
-productsRouter.get('/', (_req, _res) => {
+productsRouter.post('/', productsMiddlewares.createProductValidation, (_req, _res) => {
 
 });
 
