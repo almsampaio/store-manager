@@ -4,8 +4,8 @@ const addNew = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
 
-    const { _id } = await productService.addNew({ name, quantity });
-    return res.status(201).json({ _id, name, quantity });
+    const newProduct = await productService.addNew({ name, quantity });
+    return res.status(201).json(newProduct);
   } catch (error) {
     next(error);
   }
