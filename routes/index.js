@@ -8,5 +8,7 @@ routes.get('/', (_req, res) => {
 });
 
 routes.post('/products', productsController.create);
+routes.get('/products', productsController.getAll);
+routes.get('/products/:id', productsController.get);
 
 module.exports = routes;

@@ -5,6 +5,6 @@ const productSchema = new mongoose.Schema({
     quantity: Number,
 });
 
-const productModel = mongoose.model('products', productSchema);
+exports.productsModel = mongoose.model('products', productSchema);
 
-module.exports = productModel;
+exports.isObjectId = mongoose.Types.ObjectId.isValid;
