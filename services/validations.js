@@ -8,8 +8,14 @@ const CHARACTER_LONG = '"name" length must be at least 5 characters long';
 const QUANTITY_GT_1 = '"quantity" must be larger than or equal to 1';
 const TYPE_MB_NUMBER = '"quantity" must be a number';
 const PRODUCT_ALREADY_EXISTS = 'Product already exists';
+const WRONG_ID_FORMAT = 'Wrong id format';
 
-const validation = async (name, quantity) => {
+const notValidId = () => {
+  const errorMessage = generateError(INVALID_DATA, WRONG_ID_FORMAT);
+  return errorMessage;
+};
+
+const validationToCreate = async (name, quantity) => {
   if (!regexName.test(name)) {
     const errorMessage = generateError(INVALID_DATA, CHARACTER_LONG);
     return { errorMessage };
@@ -32,5 +38,6 @@ const validation = async (name, quantity) => {
 };
 
 module.exports = {
-  validation,
+  notValidId,
+  validationToCreate,
 };

@@ -9,6 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/products', productController.getAll);
+app.get('/products/:id', productController.getById);
 
 app.post('/products', productController.createProduct);
 

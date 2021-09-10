@@ -6,7 +6,19 @@ const HTTP_UNPR_ENTRY_STATUS = 422;
 
 const getAll = async (_req, res) => {
   const allProducts = await productService.listProducts();
-  res.status(HTTP_OK_STATUS).json(allProducts);
+  res.status(HTTP_OK_STATUS).json({ products: allProducts });
+};
+
+const getById = async (req, res) => {
+  const { product, errorMessage } = await productService.getById(req.params.id);
+
+  if (errorMessage) {
+    return res.status(HTTP_UNPR_ENTRY_STATUS).json(errorMessage);
+  }
+
+  if (product) {
+    return res.status(HTTP_OK_STATUS).json(product);
+  }
 };
 
 const createProduct = async (req, res) => {
@@ -24,4 +36,5 @@ const createProduct = async (req, res) => {
 module.exports = {
   createProduct,
   getAll,
+  getById,
 };

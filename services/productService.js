@@ -1,15 +1,26 @@
 const productsModel = require('../models/productsModel');
-const { validation } = require('./validations');
+const { validationToCreate, notValidId } = require('./validations');
 
 const listProducts = async () => {
   const products = await productsModel.getAll();
   return products;
 };
 
-const create = async (name, quantity) => {
-  const result = await validation(name, quantity);
+const getById = async (id) => {
+  const product = await productsModel.getProductById(id);
 
-  if (result) return result;
+  if (!product) {
+    const errorMessage = notValidId();
+    return { errorMessage };
+  }
+
+  return { product };
+};
+
+const create = async (name, quantity) => {
+  const errorMessage = await validationToCreate(name, quantity);
+
+  if (errorMessage) return errorMessage;
 
   const createdProduct = await productsModel.createProduct(name, quantity);
   return { createdProduct };
@@ -18,4 +29,5 @@ const create = async (name, quantity) => {
 module.exports = {
   create,
   listProducts,
+  getById,
 };
