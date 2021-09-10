@@ -12,6 +12,16 @@ const VALIDATION_PRODUCT_INSERT = {
   quantity: 100
 };
 
+
+const VALIDATION_SALE_INSERT = [
+  {
+    productId: "5f43ba273200020b101fe49f",
+    quantity: 2
+  }
+]
+
+
+
 describe('Testes da camada Model', () => {
 
 
@@ -30,7 +40,7 @@ describe('Testes da camada Model', () => {
     mongoConnection.getConnection.restore();
   });
 
-  describe('Testando as requisições com a coleção "/Procucts/"', () => {
+  describe('Testando as requisições com a coleção "Procucts"', () => {
     describe('Teste da Requisição POST - Inserindo um novo produto no BD', () => {
 
 
@@ -54,6 +64,49 @@ describe('Testes da camada Model', () => {
       });
     });
   });
+
+  describe('Testando as requisições com a coleção "Sales"', () => {
+    describe('Teste da Requisição POST - Inserindo uma nova venda no BD', () => {
+
+
+      describe('quando é inserido com sucesso', () => {
+        it('retorna um objeto', async () => {
+          const response = await salesModel.createProduct(VALIDATION_SALE_INSERT);
+          expect(response).to.be.a('object');
+        });
+        it('tal objeto possui um "_id" do novo produto inserido', async () => {
+          const response = await salesModel.createProduct(VALIDATION_SALE_INSERT);
+          expect(response).to.have.a.property('_id');
+        });
+        it('tal objeto possui a propriedade "itensSold" que é um array', async () => {
+          const response = await salesModel.createProduct(VALIDATION_SALE_INSERT);
+          expect(response).to.have.a.property('itensSold');
+        });
+        it('"itensSold" possui possui a propriedade "productId"', async () => {
+          const response = await salesModel.createProduct(VALIDATION_SALE_INSERT);
+          const respItensSold = response[0]
+          expect(respItensSold).to.have.a.property('productId');
+        });
+        it('"itensSold" possui possui a propriedade "quantity"', async () => {
+          const response = await salesModel.createProduct(VALIDATION_SALE_INSERT);
+          const respItensSold = response[0]
+          expect(respItensSold).to.have.a.property('quantity');
+        });
+      });
+    });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
 
