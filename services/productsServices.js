@@ -4,9 +4,9 @@ const createProduct = async ({ name, quantity }) => {
   const alreadyExists = await productsModels.getProductByName(name);
 
   if (alreadyExists) {
-    throw new Error({ code: 1232, message: 'Product already exists' });
+    throw new Error({ code: 422, message: 'Product already exists' });
   }
-  
+
   const response = await productsModels.createProduct({ name, quantity });
   return response;
 };
