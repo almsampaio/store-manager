@@ -2,9 +2,9 @@ const { getConnection } = require('./connection');
 
 const createProduct = async ({ name, quantity }) => {
   const db = await getConnection();
-  const { insertedId: id } = await db.collection('products').insertOne({ name, quantity });
+  const { insertedId: _id } = await db.collection('products').insertOne({ name, quantity });
   return {
-    id,
+    _id,
     name,
     quantity,
   };
