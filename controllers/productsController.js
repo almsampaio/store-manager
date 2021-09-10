@@ -19,7 +19,7 @@ exports.create = async (req, res) => {
 exports.getAll = async (_req, res) => {
   try {
     const products = await productsService.getAll();
-    return res.status(StatusCodes.OK).json(products);
+    return res.status(StatusCodes.OK).json({ products });
   } catch (e) {
     return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
       { err: {
