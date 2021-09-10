@@ -21,3 +21,8 @@ const connection = async () => {
 };
 
 module.exports = connection;
+
+// Source:
+// https://stackoverflow.com/questions/59496986/can-not-read-property-then-of-undefined-in-node-js
+// https://stackoverflow.com/questions/26020578/should-a-promise-reject-message-be-wrapped-in-error
+// https://trybecourse.slack.com/archives/C01L16B9XC7/p1631296337060200
