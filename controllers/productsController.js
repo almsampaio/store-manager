@@ -6,7 +6,7 @@ app.use(bodyParser.json());
 
 const rescue = require('express-rescue');
 const {
-  // HTTP_OK_STATUS,
+  HTTP_OK_STATUS,
   HTTP_CREATED_STATUS,
   HTTP_NO_BODY_STATUS,
   // HTTP_401,
@@ -26,6 +26,24 @@ const createProduct = rescue(async (req, res) => {
   return res.status(HTTP_CREATED_STATUS).json(createdProducts);
 });
 
+const getAllProducts = rescue(async (_req, res) => {
+  const allProducts = await productsService.getAllProducts();
+  return res.status(HTTP_OK_STATUS).json({ products: allProducts });
+});
+
+const getProductById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const productById = await productsService.getProductById(id);
+
+  if (productById.err) {
+    return res.status(HTTP_NO_BODY_STATUS).json(productById);
+  }
+
+  return res.status(HTTP_OK_STATUS).json(productById);
+});
+
 module.exports = {
   createProduct,
+  getAllProducts,
+  getProductById,
 };
