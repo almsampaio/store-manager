@@ -9,7 +9,6 @@ const OPTIONS = {
   useUnifiedTopology: true,
 };
 
-
 let db = null;
 
 const connection = () => (db
