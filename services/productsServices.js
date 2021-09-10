@@ -14,4 +14,21 @@ const productsModel = require('../models/productsModel');
 //   validCreateProducts,
 // };
 
-const createdProducts = 
+const createdProducts = async (name, quantity) => {
+  const validParams = await validations.validProductsParams(name, quantity);
+  if (validParams.err) return validParams.err;
+
+  const productExists = await productsModel.findProductByName(name);
+  if (productExists) {
+    return {
+      err: { code: 'invalid_data', message: 'Product already exists' },
+    };
+  }
+
+  const createdProduct = await productsModel.createProduct(name, quantity);
+  return createdProduct;
+};
+
+module.exports = {
+  createdProducts,
+};

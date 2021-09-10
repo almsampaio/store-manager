@@ -3,7 +3,7 @@ const connect = require('./connection');
 
 const findProductByName = async (name) => {
   const db = await connect();
-  const product = await db.collection('products').finOne({ name });
+  const product = await db.collection('products').findOne({ name });
   return product;
 };
 
