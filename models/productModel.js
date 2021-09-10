@@ -1,4 +1,4 @@
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require('bson');
 const connection = require('./connection');
 
 const getAll = async () => {
@@ -36,8 +36,15 @@ const create = async (name, quantity) => {
   return newProduct;
 };
 
+const findByName = async (name) => {
+  const db = await connection();
+  const productByName = await db.collection('products').findOne({ name });
+  return productByName;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  findByName,
 };
