@@ -1,15 +1,14 @@
 const productService = require('../services/products');
-const errorSchema = require('../schemas/errors');
+const httpStatus = require('../utils/httpStatusCodes');
 
-const insertOne = async (req, res) => {
+const insertOne = async (req, res, next) => {
   const { name, quantity } = req.body;
 
-  const newProduct = await productService.insertOne(name, quantity);
-  if (!newProduct) {
-    const error = errorSchema(422, 'invalid_data', 'Product already exists');
-    return res.status(error.output.statusCode).json(error.output.payload.custom);
+  const product = await productService.insertOne(name, quantity);
+  if (product.err) {
+    return next(product.err);
   }
-  res.status(201).json(newProduct);
+  return res.status(httpStatus.created).json(product);
 };
 
 module.exports = { insertOne };
