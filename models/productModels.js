@@ -22,6 +22,23 @@ const create = async (name, quantity) => {
   };
 };
 
+const getAll = async () => {
+  const db = await mongoConnection.getConnection();
+  const result = await db.collection('products').find().toArray();
+  return { products: result };
+};
+
+const getById = async (idParam) => {
+  const isValid = ObjectId.isValid(idParam);
+  if (!isValid) return null;
+  const db = await mongoConnection.getConnection();
+  const result = await db.collection('products').findOne({ _id: ObjectId(idParam) });
+  if (!result) return null;
+  return result;
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };

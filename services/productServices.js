@@ -25,6 +25,12 @@ const errorList = {
       message: 'Product already exists',
     },
   },
+  errWrongId: {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    },
+  },
 };
 
 const validateName = (name) => {
@@ -66,6 +72,13 @@ const create = async (name, quantity) => {
   return result;
 };
 
+const getById = async (id) => {
+  const result = await productModels.getById(id);
+  if (!id || !result) return errorList.errWrongId;
+  return result;
+};
+
 module.exports = {
   create,
+  getById,
 };
