@@ -16,7 +16,7 @@ const productsModel = require('../models/productsModel');
 
 const createdProducts = async (name, quantity) => {
   const validParams = await validations.validProductsParams(name, quantity);
-  if (validParams.err) return validParams.err;
+  if (validParams.err) return validParams;
 
   const productExists = await productsModel.findProductByName(name);
   if (productExists) {
