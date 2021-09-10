@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const { getAllProducts } = require('./controllers/productController');
+const { createProducts } = require('./controllers/productController');
 // const { getAllSales } = require('./controllers/salesController');
 
 const app = express();
@@ -13,6 +13,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+app.post('/products', createProducts);
 // app.get('/products', getAllProducts);
 // app.get('/sales', getAllSales);
 

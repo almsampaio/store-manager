@@ -9,11 +9,19 @@ const create = async ({ name, quantity }) => {
 
   return {
     id,
-    name, 
-    quantity,
   };
+};
+
+const getAll = async () => {
+  const productCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection('products'));
+
+  const response = await productCollection.find().toArray();
+
+  return response;
 };
 
 module.exports = {
   create,
+  getAll,
 };
