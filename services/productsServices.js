@@ -1,7 +1,7 @@
 const productsModel = require('../models/productsModel');
 const { validateId, validateCreation } = require('./validations');
 
-const listProducts = async () => {
+const getAll = async () => {
   const products = await productsModel.getAll();
   return products;
 };
@@ -28,6 +28,6 @@ const create = async (name, quantity) => {
 
 module.exports = {
   create,
-  listProducts,
+  getAll,
   getById,
 };
