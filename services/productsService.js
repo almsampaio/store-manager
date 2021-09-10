@@ -46,6 +46,13 @@ async function getAll() {
   return products;
 }
 
+async function getById(id) {
+  const productsById = await productsModel.getById(id);
+
+  if (!productsById) return { code: 'invalid_data', message: 'Wrong id format' };
+  return productsById;
+}
+
 async function addProduct({ name, quantity }) {
   const productNameExists = await nameExists(name);
   const productNameIsValid = await nameIsValid(name);
@@ -65,5 +72,6 @@ async function addProduct({ name, quantity }) {
 
 module.exports = {
   getAll,
+  getById,
   addProduct,
 };
