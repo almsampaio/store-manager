@@ -1,8 +1,5 @@
 const mongoConnection = require('./connection');
 
-async function addSale() {
-}
-
 async function getAll() {
   const db = await mongoConnection.getConnection();
 
@@ -13,5 +10,4 @@ async function getAll() {
 
 module.exports = {
   getAll,
-  addSale,
 };
