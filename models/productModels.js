@@ -43,9 +43,9 @@ const updateById = async (idParam, name, quantity) => {
   if (!isValid) return null;
 
   const db = await mongoConnection.getConnection();
-  await db.collection('products').update(
+  await db.collection('products').updateOne(
     { _id: ObjectId(idParam) },
-    { name, quantity },
+    { $set: { name, quantity } },
   );
 
   return {
@@ -55,9 +55,20 @@ const updateById = async (idParam, name, quantity) => {
   };
 };
 
+const removeById = async (idParam) => {
+  // const isValid = ObjectId.isValid(idParam);
+  // if (!isValid) return null;
+  const product = await getById(idParam);
+  if (!product) return null;
+  const db = await mongoConnection.getConnection();
+  await db.collection('products').deleteOne({ _id: ObjectId(idParam) });
+  return product;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
+  removeById,
 };

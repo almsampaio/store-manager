@@ -96,8 +96,15 @@ const updateById = async (id, name, quantity) => {
   return result;
 };
 
+const removeById = async (id) => {
+  const result = await productModels.removeById(id);
+  if (!result) return errorList.errWrongId;
+  return result;
+};
+
 module.exports = {
   create,
   getById,
   updateById,
+  removeById,
 };
