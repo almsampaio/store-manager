@@ -9,6 +9,7 @@ const {
   createServices,
   readByAllServices,
   readByIdServices,
+  updateServices,
 } = require('../../services/products/productsServices');
 
 const createController = async (req, res) => {
@@ -60,8 +61,27 @@ const readByIdController = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(data);
 };
 
+const updateControler = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const { code, message, data } = await updateServices(id, name, quantity);
+
+  if (!data) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code,
+        message,
+      },
+    });
+  }
+
+  return res.status(HTTP_OK_STATUS).json(data);
+};
+
 module.exports = { 
   createController,
   readByAllController,
   readByIdController,
+  updateControler,
 };

@@ -3,6 +3,7 @@ const {
   createController,
   readByAllController,
   readByIdController,
+  updateControler,
 } = require('../../controller/products/productsController');
 
 const {
@@ -23,5 +24,13 @@ router.post(
 
 router.get('/', readByAllController);
 router.get('/:id', readByIdController);
+
+router.put(
+  '/:id',
+  validateName,
+  validateTypeQuantity,
+  validateQuantity,
+  updateControler,
+);
 
 module.exports = router;

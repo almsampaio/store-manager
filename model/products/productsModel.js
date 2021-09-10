@@ -34,9 +34,30 @@ const readByIdModel = async (id) => {
   return result;
 };
 
+const updateModel = async (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const db = await connection();
+  const result = await db.collection('products')
+    .updateOne(
+      { _id: ObjectId(id) },
+      {
+        $set: {
+          name,
+          quantity,
+        },
+      },
+    );
+    
+  return result;
+};
+
 module.exports = { 
   createModel,
   readByNameModel,
   readByAllModel,
   readByIdModel,
+  updateModel,
 };
