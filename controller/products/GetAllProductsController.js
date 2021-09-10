@@ -1,13 +1,13 @@
 const GetAllProdutsService = require('../../services/products/GetAllProductsService');
-const http_status = require('../../utils/http_status');
+const httpStatus = require('../../utils/http_status');
 
 class GetAllProdutsController {
-  async handle(_req, res) {
+  static async handle(_req, res) {
     const getAllProdutsService = new GetAllProdutsService();
 
     const allProducts = await getAllProdutsService.handle();
 
-    res.status(http_status.ok).json(allProducts);
+    res.status(httpStatus.ok).json(allProducts);
   }
 }
 

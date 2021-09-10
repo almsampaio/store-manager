@@ -1,8 +1,8 @@
 const GetProductByIdService = require('../../services/products/GetProductByIdService');
-const http_status = require('../../utils/http_status');
+const httpStatus = require('../../utils/http_status');
 
 class GetProductByIdController {
-  async handle(req, res, next) {
+  static async handle(req, res, next) {
     const { id } = req.params;
 
     const getByIdService = new GetProductByIdService();
@@ -11,7 +11,7 @@ class GetProductByIdController {
 
     if (product.err) next(product.err);
 
-    res.status(http_status.ok).json(product);
+    res.status(httpStatus.ok).json(product);
   }
 }
 

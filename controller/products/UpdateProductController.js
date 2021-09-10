@@ -1,8 +1,8 @@
 const UpdateProductService = require('../../services/products/UpdateProductService');
-const http_status = require('../../utils/http_status');
+const httpStatus = require('../../utils/http_status');
 
 class UpdateProductController {
-  async handle(req, res) {
+  static async handle(req, res) {
     const { id } = req.params;
 
     const { name, quantity } = req.body;
@@ -11,7 +11,7 @@ class UpdateProductController {
 
     const updatedProduct = await updateProductService.handle({ id, name, quantity });
 
-    res.status(http_status.ok).json(updatedProduct);
+    res.status(httpStatus.ok).json(updatedProduct);
   }
 }
 

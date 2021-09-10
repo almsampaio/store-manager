@@ -1,8 +1,8 @@
 const RegisterProductService = require('../../services/products/RegisterProductService');
-const http_status = require('../../utils/http_status');
+const httpStatus = require('../../utils/http_status');
 
 class RegisterProductController {
-  async handle(req, res, next) {
+  static async handle(req, res, next) {
     const { name, quantity } = req.body;
 
     const registerProductService = new RegisterProductService();
@@ -11,7 +11,7 @@ class RegisterProductController {
 
     if (product.err) next(product.err);
 
-    res.status(http_status.created).json(product);
+    res.status(httpStatus.created).json(product);
   }
 }
 
