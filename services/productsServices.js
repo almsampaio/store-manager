@@ -1,19 +1,26 @@
 const productsModel = require('../models/productsModel');
-const generateError = require('../utils/errorMessage');
+const { validateId, validateCreation } = require('./validations');
 
 const listProducts = async () => {
   const products = await productsModel.getAll();
   return products;
 };
 
-const create = async (name, quantity) => {
-  if (name.length < 5) {
-    const errorMessage = generateError(
-      'invalid_data',
-      '"name" length must be at least 5 characters long',
-    );
+const getById = async (id) => {
+  const product = await productsModel.getById(id);
+
+  if (!product) {
+    const errorMessage = validateId();
     return { errorMessage };
   }
+
+  return { product };
+};
+
+const create = async (name, quantity) => {
+  const errorMessage = await validateCreation(name, quantity);
+
+  if (errorMessage) return errorMessage;
 
   const createdProduct = await productsModel.createProduct(name, quantity);
   return { createdProduct };
@@ -22,4 +29,5 @@ const create = async (name, quantity) => {
 module.exports = {
   create,
   listProducts,
+  getById,
 };

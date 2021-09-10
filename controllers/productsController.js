@@ -6,6 +6,18 @@ const getAll = async (_req, res) => {
   res.status(httpStatus.ok).json(result);
 };
 
+const getById = async (req, res) => {
+  const { product, errorMessage } = await productsServices.getById(req.params.id);
+
+  if (errorMessage) {
+    return res.status(httpStatus.invalidData).json(errorMessage);
+  }
+
+  if (product) {
+    res.status(httpStatus.ok).json(product);
+  }
+};
+
 const createProduct = async (req, res) => {
   const { name, quantity } = req.body;
 
@@ -21,4 +33,5 @@ const createProduct = async (req, res) => {
 module.exports = {
   createProduct,
   getAll,
+  getById,
 };
