@@ -1,5 +1,7 @@
 const productsModel = require('../models/productsModel');
 
+const code = 'invalid_data';
+
 async function nameExists(name) {
   // checks if the product's name is in the data
   const productsByName = await productsModel.getByName(name);
@@ -49,29 +51,44 @@ async function getAll() {
 async function getById(id) {
   const productsById = await productsModel.getById(id);
 
-  if (!productsById) return { code: 'invalid_data', message: 'Wrong id format' };
+  if (!productsById) return { code, message: 'Wrong id format' };
   return productsById;
 }
 
 async function addProduct({ name, quantity }) {
   const productNameExists = await nameExists(name);
-  const productNameIsValid = await nameIsValid(name);
-  const productQuantityIsNumber = await quantityIsNumber(quantity);
-  const productQuantityIsValid = await quantityIsValid(quantity);
-
-  const code = 'invalid_data';
-
   if (productNameExists.result) return { code, message: productNameExists.message };
+
+  const productNameIsValid = await nameIsValid(name);
   if (!productNameIsValid.result) return { code, message: productNameIsValid.message };
+
+  const productQuantityIsNumber = await quantityIsNumber(quantity);
   if (!productQuantityIsNumber.result) return { code, message: productQuantityIsNumber.message };
+
+  const productQuantityIsValid = await quantityIsValid(quantity);
   if (!productQuantityIsValid.result) return { code, message: productQuantityIsValid.message };
 
   const addedProduct = await productsModel.addProduct({ name, quantity });
   return addedProduct;
 }
 
+async function updateProduct({ id, name, quantity }) {
+  const productNameIsValid = await nameIsValid(name);
+  if (!productNameIsValid.result) return { code, message: productNameIsValid.message };
+
+  const productQuantityIsNumber = await quantityIsNumber(quantity);
+  if (!productQuantityIsNumber.result) return { code, message: productQuantityIsNumber.message };
+
+  const productQuantityIsValid = await quantityIsValid(quantity);
+  if (!productQuantityIsValid.result) return { code, message: productQuantityIsValid.message };
+
+  const updatedProduct = await productsModel.updateProduct({ id, name, quantity });
+  return updatedProduct;
+}
+
 module.exports = {
   getAll,
   getById,
   addProduct,
+  updateProduct,
 };
