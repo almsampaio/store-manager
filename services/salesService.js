@@ -55,7 +55,6 @@ const editById = async (id, itensSold) => {
   }
 
   const sale = await salesModel.editById(id,itensSold);
-  console.log(sale);
   return { sale };
 };
 
