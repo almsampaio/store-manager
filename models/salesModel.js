@@ -22,7 +22,14 @@ const deleteById = async (id) => (
 const create = async (itensSold) => (
   connection()
     .then((db) => db.collection(collectionName).insertOne({ itensSold }))
-    .then((result) => ({ id: result.insertedId, itensSold }))
+    .then((result) => ({ _id: result.insertedId, itensSold }))
 );
 
-module.exports = { getAll, findById, deleteById, create }; 
+const update = async (id, itensSold) => (
+  connection()
+    .then((db) => db.collection(collectionName)
+      .updateOne({ _id: ObjectId(id) }, { $set: itensSold }))
+    .then(() => ({ _id: id, itensSold }))
+);
+
+module.exports = { getAll, findById, deleteById, create, update }; 
