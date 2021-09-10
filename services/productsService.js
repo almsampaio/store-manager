@@ -1,5 +1,10 @@
-const { ObjectId } = require('mongodb');
 const models = require('../models/productsModel');
+const {
+  validateName,
+  validateTypeNumber,
+  validateQuantity,
+  validateId,
+} = require('../middlewares');
 const {
   ERROR_NAME,
   ERROR_QTD_NOT_NUMBER,
@@ -9,17 +14,6 @@ const {
 } = require('../helpers');
 
 // REQUISITO 1 __________________________________________________________________________//
-
-const validateName = (name) => {
-  const regex = /^.{5,}$/;
-  return regex.test(name);
-};
-
-const validateTypeNumber = (quantity) => typeof (quantity) === 'number';
-
-const validateQuantity = (quantity) => quantity >= 1;
-
-const validateId = (id) => (ObjectId.isValid(id));
 
 const createProduct = async (product) => {
   const { name, quantity } = product;
@@ -34,7 +28,10 @@ const createProduct = async (product) => {
 };
 
 // REQUISITO 2 _________________________________________________________________________//
-const getAllProducts = async () => models.createProduct();
+const getAllProducts = async () => {
+  const products = await models.getAllProducts();
+  return products;
+};
 
 const getProductById = async (id) => {
   if (!validateId(id)) return ERROR_ID;

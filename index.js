@@ -13,9 +13,9 @@ app.get('/', (_request, response) => {
 });
 
 // Middleware de erro
-app.use((error, _req, res, _next) => {
-  res.status(error).json({ err: error.err });
-});
+// app.use((error, _req, res, _next) => {
+//   res.status(error).json({ err: error.err });
+// });
 
 const PORT = 3000;
 

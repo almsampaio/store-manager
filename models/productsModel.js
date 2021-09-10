@@ -20,13 +20,13 @@ const createProduct = async (product) => {
 const getAllProducts = async () => {
   const db = await connection();
   const products = await db.collection(COLLECTION_NAME).find({}).toArray();
+  console.log(products);
   return products;
 };
 
 const getProductById = async (id) => {
   const db = await connection();
   const product = await db.collection(COLLECTION_NAME).findOne(ObjectId(id));
-  console.log(product);
   return product;
 };
 
