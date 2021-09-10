@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { validateName, validateQuantity } = require('./service/productService');
+const { validateName, validateQuantity } = require('./services/productService');
 
 const productController = require('./controllers/productController');
 
