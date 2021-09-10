@@ -19,7 +19,7 @@ const createProduct = rescue(async (req, res) => {
   const { name, quantity } = req.body;
 
   const createdProducts = await productsService.createdProducts(name, quantity);
-  console.log(createdProducts);
+  // console.log(createdProducts);
   if (createdProducts.err) {
     return res.status(HTTP_NO_BODY_STATUS).json(createdProducts);
   }
