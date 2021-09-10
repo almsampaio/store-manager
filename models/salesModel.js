@@ -1,7 +1,6 @@
 const mongoConnection = require('./connection');
 
 async function addSale() {
-  console.log('new sale');
 }
 
 async function getAll() {

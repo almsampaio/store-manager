@@ -18,7 +18,6 @@ async function getByName(name) {
 }
 
 async function addProduct({ name, quantity }) {
-  console.log('chegou no model');
   const db = await mongoConnection.getConnection();
   const { insertedId: _id } = await db.collection('products').insertOne(
     { name, quantity },
