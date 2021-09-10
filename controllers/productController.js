@@ -30,8 +30,18 @@ const create = async (req, res) => {
   return res.status(httpStatus.HTTP_CREATE_STATUS).json(newProduct);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const editProduct = await productServices.update(id, name, quantity);
+  console.log(editProduct, 'controller - update product');
+  return res.status(httpStatus.HTTP_OK_STATUS).json(editProduct);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };
