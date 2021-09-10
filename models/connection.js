@@ -1,9 +1,9 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://mongodb:27017/StoreManager';
+const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://mongodb:27017';
 
-const schema = null;
+let schema = null;
 
 async function getConnection() {
   if (schema) return Promise.resolve(schema);
@@ -11,7 +11,10 @@ async function getConnection() {
     MONGODB_URL,
     { useNewUrlParser: true, useUnifiedTopology: true },
   )
-    .then((conn) => conn)
+    .then((conn) => {
+      schema = conn.db('StoreManager');
+      return schema;
+    })
     .catch((err) => console.error(err));
 }
 
