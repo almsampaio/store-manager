@@ -16,6 +16,7 @@ const {
   updateAndReturnOneController,
   deleteOneProductController,
   insertSaleControler,
+  findByIdOrAllSalesController,
 } = require('./controlers');
 
 const app = express();
@@ -48,6 +49,10 @@ updateAndReturnOneController);
 app.delete('/products/:id', deleteOneProductController);
 
 app.post('/sales', validateItemsSold, insertSaleControler);
+
+app.get('/sales', findByIdOrAllSalesController);
+
+app.get('/sales/:id', findByIdOrAllSalesController);
 
 app.listen(PORT, () => {
   console.log('tamo on');

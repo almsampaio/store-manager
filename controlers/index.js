@@ -3,6 +3,7 @@ const findManyOrByIdControler = require('./findManyOrByIdControler');
 const updateAndReturnOneController = require('./UpdateAndReturnOneControler');
 const deleteOneProductController = require('./deleteOneProductController');
 const insertSaleControler = require('./insertSaleControler');
+const findByIdOrAllSalesController = require('./FindByIdOrAllController');
 
 module.exports = {
     insertOneControler,
@@ -10,4 +11,5 @@ module.exports = {
     updateAndReturnOneController,
     deleteOneProductController,
     insertSaleControler,
+    findByIdOrAllSalesController,
 };
