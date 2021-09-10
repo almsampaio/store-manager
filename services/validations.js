@@ -51,7 +51,14 @@ const validationToCreate = async (name, quantity) => {
   if (verifyLengthQuantity(quantity)) return verifyLengthQuantity(quantity);
 };
 
+const validateToUpdate = (name, quantity) => {
+  if (validateName(name)) return validateName(name);
+  if (verifyTypeQuantity(quantity)) return verifyTypeQuantity(quantity);
+  if (verifyLengthQuantity(quantity)) return verifyLengthQuantity(quantity);
+};
+
 module.exports = {
   notValidId,
   validationToCreate,
+  validateToUpdate,
 };
