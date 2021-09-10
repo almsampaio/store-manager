@@ -42,9 +42,24 @@ const findByName = async (name) => {
   return productByName;
 };
 
+const update = async (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const editProduct = await connection().then((db) => db
+  .collection('products').updateOne({
+    _id: new ObjectId(id) }, { $set: { name, quantity } })).then(() => (
+    { _id: id, name, quantity }
+  ));
+
+  return editProduct;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   findByName,
+  update,
 };
