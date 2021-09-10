@@ -17,7 +17,11 @@ app.post('/products', [
   productController.create,
 ]);
 
-app.use((err, req, res, _next) => {
+app.get('/products/:id', productController.getByID);
+
+app.get('/products', productController.getAll);
+
+app.use((err, _req, res, _next) => {
   const { details } = err;
   const error = {
     err: {
