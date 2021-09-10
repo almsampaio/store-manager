@@ -8,6 +8,7 @@ exports.create = async ({ name, quantity }) => {
   const alreadyExists = await productsModel.findOne({ name });
   if (alreadyExists) throw new InvalidDataError('Product already exists');
   const { error } = productSchema.validate({ name, quantity });
+  console.log(error);
   if (error) {
     throw new InvalidDataError(extractErrorMessage(error));
   }
@@ -22,6 +23,17 @@ exports.getAll = async () => {
 
 exports.get = async ({ id }) => {
   if (!isObjectId(id)) throw new InvalidDataError('Wrong id format');
-  const product = await productsModel.findById({ _id: id });
+  const product = await productsModel.findById(id);
   return product;
+};
+
+exports.update = async ({ id, name, quantity }) => {
+  if (!isObjectId(id)) throw new InvalidDataError('Wrong id format');
+  const { error } = productSchema.validate({ name, quantity });
+  console.log(error);
+  if (error) {
+    throw new InvalidDataError(extractErrorMessage(error));
+  }
+  await productsModel.updateOne({ _id: id }, { name, quantity });
+  return productsModel.findById(id);
 };

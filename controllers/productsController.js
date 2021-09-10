@@ -44,3 +44,19 @@ exports.get = async (req, res) => {
     );
   }
 };
+
+exports.update = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  try {
+    const products = await productsService.update({ id, name, quantity });
+    return res.status(StatusCodes.OK).json(products);
+  } catch (e) {
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+      { err: {
+        code: e.name,
+        message: e.message,
+      } },
+    );
+  }
+};
