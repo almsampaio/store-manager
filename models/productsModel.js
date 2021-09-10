@@ -9,6 +9,8 @@ const createProduct = async ({ name, quantity }) => {
 
   return {
     id,
+    name,
+    quantity,
   };
 };
 
