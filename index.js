@@ -7,6 +7,7 @@ const {
   validateNameInTable,
   validateQuantityType,
   validateQuantityValue,
+  validateItemsSold,  
 } = require('./services');
 
 const {
@@ -14,6 +15,7 @@ const {
   findManyOrByIdControler,
   updateAndReturnOneController,
   deleteOneProductController,
+  insertSaleControler,
 } = require('./controlers');
 
 const app = express();
@@ -44,6 +46,8 @@ validateQuantityValue,
 updateAndReturnOneController);
 
 app.delete('/products/:id', deleteOneProductController);
+
+app.post('/sales', validateItemsSold, insertSaleControler);
 
 app.listen(PORT, () => {
   console.log('tamo on');
