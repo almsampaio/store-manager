@@ -39,9 +39,17 @@ const update = async (req, res) => {
   return res.status(httpStatus.HTTP_OK_STATUS).json(editProduct);
 };
 
+const exclude = async (req, res) => {
+  const { id } = req.params;
+
+  const removeProduct = await productServices.exclude(id);
+  return res.status(httpStatus.HTTP_OK_STATUS).json(removeProduct);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  exclude,
 };

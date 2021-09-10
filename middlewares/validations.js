@@ -66,9 +66,24 @@ const validateQuantityisNumber = (req, res, next) => {
   next();
 };
 
+const validateProductIdExists = async (req, res, next) => {
+  const { id } = req.params;
+  const productExists = await productModel.getById(id);
+  if (!productExists) {
+    return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+  next();
+};
+
 module.exports = {
   validateName,
   validateProductExists,
   validateQuantityGreaterThanZero,
   validateQuantityisNumber,
+  validateProductIdExists,
 };

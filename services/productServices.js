@@ -20,9 +20,15 @@ const update = async (id, name, quantity) => {
   return editProduct;
 };
 
+const exclude = async (id) => {
+  const remove = await productModel.exclude(id);
+  return remove;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  exclude,
 };

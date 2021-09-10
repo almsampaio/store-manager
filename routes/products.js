@@ -22,4 +22,8 @@ router.put('/:id',
   validations.validateQuantityisNumber,
   productController.update);
 
+router.delete('/:id',
+  validations.validateProductIdExists,
+  productController.exclude);
+
 module.exports = router;
