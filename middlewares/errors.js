@@ -1,8 +1,8 @@
 const handleErrors = (err, _req, res, _next) => {
-  if (err.value) {
+  if (err.isJoi) {
     return res.status(422).json({ err: {
-      code: 'Invalida_data',
-      message: err.error.details[0].message,
+      code: 'invalid_data',
+      message: err.details[0].message,
     } });
   }
 
