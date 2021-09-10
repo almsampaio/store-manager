@@ -5,9 +5,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const mongoConnection = require('../../models/connection');
 
-const ProductModel = {
-  create: () => {}
-};
+const ProductModel = require('../../models/ProductModel');
 
 // CREATE PRODUCT
 
@@ -31,24 +29,24 @@ describe('Insere um novo produto no BD', () => {
     })
     .then((conn) => conn.db(DB_NAME));
   
-    sinon.stub(mongoConnection, 'connection').resolves(connectionMock);
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
   });
 
   after(() => {
-    mongoConnection.connection.restore();
+    mongoConnection.getConnection.restore();
   });
 
   describe('quando é inserido com sucesso', () => {
     it('retorna um objeto', async () => {
       const response = await ProductModel.create(payloadProduct);
 
-      expect(response).to.be.a('objeto');
+      expect(response).to.be.a('object');
     });
 
-    it('tal objeto possui o "id" do novo filme inserido', async () => {
+    it('tal objeto possui o "_id" do novo produto inserido', async () => {
       const response = await ProductModel.create(payloadProduct);
 
-      expect(response).to.have.a.property('id');
+      expect(response).to.have.a.property('_id');
     });
 
     it('deve existir um produto com o nome e a quantidade cadastrada', async () => {
