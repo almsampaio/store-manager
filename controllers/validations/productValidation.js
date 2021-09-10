@@ -1,6 +1,6 @@
 const rescue = require('express-rescue');
-const { productAlreadyExists } = require('../../services/productService');
 const { ObjectID } = require('mongodb');
+const { productAlreadyExists } = require('../../services/productService');
 const AppError = require('./error');
 
 const errorsMessages = {
@@ -13,15 +13,13 @@ const errorsMessages = {
   productDontFound: 'Product dont found',
 };
 
-const isValidLength = (str, min, max) => {
-  return typeof str === 'string' && str.length >= min && str.length <= max;
-};
+const isValidLength = (str, min, max) => typeof str === 'string'
+  && str.length >= min && str.length <= max;
 
-const isValidQuantityGreaterZero = (number, min, max) => {
-  return typeof number === 'number' && number >= min && number <= max;
-};
+const isValidQuantityGreaterZero = (number, min, max) => typeof number === 'number'
+  && number >= min && number <= max;
 
-const isValidName = rescue(async (req, res, next) => {
+const isValidName = rescue(async (req, _res, next) => {
   const { name } = req.body;
   const minLength = 6;
 
@@ -30,7 +28,7 @@ const isValidName = rescue(async (req, res, next) => {
       { err: {
         code: errorsMessages.code,
         message: errorsMessages.nameLengthGT,
-      }});
+      } });
   }
 
   const productExists = await productAlreadyExists(name);
@@ -39,7 +37,7 @@ const isValidName = rescue(async (req, res, next) => {
       { err: {
         code: errorsMessages.code,
         message: errorsMessages.productAlreadyExists,
-      }});
+      } });
   }
 
   return next();
@@ -55,15 +53,15 @@ const isValidQuantity = rescue(async (req, res, next) => {
       { err: {
         code: errorsMessages.code,
         message: errorsMessages.qtyMustBeANumber,
-      }});
+      } });
   }
 
   if (!isValidQuantityGreaterZero(quantity, minQty, Infinity)) {
     throw new AppError('Validation: Quantity >= 1',
       { err: {
         code: errorsMessages.code,
-        message: errorsMessages.qtyGTEOne
-      }});
+        message: errorsMessages.qtyGTEOne,
+      } });
   }
 
   return next();
@@ -77,7 +75,7 @@ const isValidId = rescue(async (req, res, next) => {
       { err: {
         code: errorsMessages.code,
         message: errorsMessages.wrongIdFormat,
-      }});
+      } });
   }
 
   return next();
