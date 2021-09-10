@@ -31,8 +31,8 @@ const remove = async (id) => {
   return { status: 200, data: result };
 };
 
-const update = async (id, name, quantity) => {
-  const product = await Products.update(id, name, quantity);
+const update = async (id, data) => {
+  const product = await Products.update(id, data);
   return { status: 200, data: product };
 };
 

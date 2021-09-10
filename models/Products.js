@@ -27,10 +27,11 @@ const remove = async (id) => {
   return result;
 };
 
-const update = async (id, name, quantity) => {
+const update = async (id, data) => {
   if (!ObjectID.isValid(id)) return null;
   const db = await Connection();
-  await db.collection('products').updateOne({ _id: ObjectID(id) }, { $set: { name, quantity } });
+  await db.collection('products')
+    .updateOne({ _id: ObjectID(id) }, { $set: data }, { upsert: true });
   const product = await getById(id);
   return product;
 };

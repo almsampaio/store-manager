@@ -28,8 +28,8 @@ const remove = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  const { name, quantity } = req.body;
-  const { status, data } = await Products.update(id, name, quantity);
+  // const { name, quantity } = req.body;
+  const { status, data } = await Products.update(id, req.body);
   res.status(status).json(data);
 };
 
