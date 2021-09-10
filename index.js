@@ -11,4 +11,8 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+const productsRouter = require('./routes/products');
+
+app.use('/products', productsRouter);
+
 app.listen(port, () => console.log('partiu'));
