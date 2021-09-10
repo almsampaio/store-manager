@@ -10,11 +10,11 @@ const DB_NAME = 'StoreManager';
 
 let db = null;
 
-const connection = async () => {
+const mongoDB = async () => {
     if (db) return db;
     const conn = await MongoClient.connect(MONGO_DB_URL, OPTIONS);
     db = conn.db(DB_NAME);
     return db;
 };
 
-module.exports = connection;
+module.exports = { mongoDB };
