@@ -1,13 +1,14 @@
 const express = require('express');
 const rescue = require('express-rescue');
-const isValidPayload = require('../middlewares/products');
+const { isValidPayload, existId } = require('../middlewares/products');
 const error = require('../middlewares/error');
 
-const router = express.Router();
+const route = express.Router();
 
-const { insertOne } = require('../controllers/products');
+const Products = require('../controllers/products');
 
-router.post('/', isValidPayload, rescue(insertOne));
-
-router.use(error);
-module.exports = router;
+route.post('/', isValidPayload, rescue(Products.insertOne));
+route.get('/:id', existId, rescue(Products.getProductById));
+route.get('/', rescue(Products.getProducts));
+route.use(error);
+module.exports = route;
