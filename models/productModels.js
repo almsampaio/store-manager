@@ -56,8 +56,6 @@ const updateById = async (idParam, name, quantity) => {
 };
 
 const removeById = async (idParam) => {
-  // const isValid = ObjectId.isValid(idParam);
-  // if (!isValid) return null;
   const product = await getById(idParam);
   if (!product) return null;
   const db = await mongoConnection.getConnection();

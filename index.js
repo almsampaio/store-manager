@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productsControllers = require('./controllers/productControllers');
+const salesControllers = require('./controllers/salesControllers');
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,3 +22,5 @@ app.get('/products', productsControllers.getAll);
 app.get('/products/:id', productsControllers.getById);
 app.put('/products/:id', productsControllers.updateById);
 app.delete('/products/:id', productsControllers.removeById);
+
+app.post('/sales', salesControllers.create);

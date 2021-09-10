@@ -1,4 +1,5 @@
 const productModels = require('../models/productModels');
+const { isNumber, validateName, validateQuantity } = require('../helpers/validations');
 
 const errorList = {
   errNameLenght: {
@@ -31,23 +32,6 @@ const errorList = {
       message: 'Wrong id format',
     },
   },
-};
-
-const validateName = (name) => {
-  if (name.length > 5
-    && typeof name === 'string'
-  ) return true;
-  return false;
-};
-
-const isNumber = (param) => {
-  if (typeof param !== 'number') return false;
-  return true;
-};
-
-const validateQuantity = (quantity) => {
-  if (!Number.isInteger(quantity) || quantity <= 0) return false;
-  return true;
 };
 
 const create = async (name, quantity) => {
