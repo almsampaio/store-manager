@@ -16,4 +16,10 @@ router.get('/', productController.getAll);
 
 router.get('/:id', productController.getById);
 
+router.put('/:id',
+  validations.validateName,
+  validations.validateQuantityGreaterThanZero,
+  validations.validateQuantityisNumber,
+  productController.update);
+
 module.exports = router;
