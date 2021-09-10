@@ -1,7 +1,7 @@
 const { updateById } = require('../models');
 
 const updateAndReturnOne = async (id, product) => {
-    const { modifiedCount } = await updateById(id, product);
+    const { modifiedCount } = await updateById(id, 'products', product);
     return modifiedCount;
 };
 

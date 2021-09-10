@@ -9,6 +9,8 @@ const deleteOneProduct = require('./deleteOneProduct');
 const validateItemsSold = require('./validateItemsSold');
 const insertAndReturnSale = require('./insertAndReturnSale');
 const findByIdOrAllSales = require('./findByIdOrAllSales');
+const updateOneSale = require('./updateOneSale');
+const deleteSale = require('./deleteSale');
 
 module.exports = {
     insertAndReturnOne,
@@ -22,4 +24,6 @@ module.exports = {
     validateItemsSold,
     insertAndReturnSale,
     findByIdOrAllSales,
+    updateOneSale,
+    deleteSale,
 };

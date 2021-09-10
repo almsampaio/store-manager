@@ -17,6 +17,8 @@ const {
   deleteOneProductController,
   insertSaleControler,
   findByIdOrAllSalesController,
+  updateSaleControler,
+  deleteSaleController,
 } = require('./controlers');
 
 const app = express();
@@ -53,6 +55,10 @@ app.post('/sales', validateItemsSold, insertSaleControler);
 app.get('/sales', findByIdOrAllSalesController);
 
 app.get('/sales/:id', findByIdOrAllSalesController);
+
+app.put('/sales/:id', validateItemsSold, updateSaleControler);
+
+app.delete('/sales/:id', deleteSaleController);
 
 app.listen(PORT, () => {
   console.log('tamo on');

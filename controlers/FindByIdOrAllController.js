@@ -12,7 +12,9 @@ const findByIdOrAllSalesController = async (req, res) => {
     if (id) {
         try {
             const sale = await findByIdOrAllSales(id);
-            return res.status(200).json(sale);
+            console.log(sale);
+            if (sale !== null) return res.status(200).json(sale);
+            return res.status(404).json(errorJson);
         } catch (e) {
             return res.status(404).json(errorJson);
         }

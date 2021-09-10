@@ -4,6 +4,8 @@ const updateAndReturnOneController = require('./UpdateAndReturnOneControler');
 const deleteOneProductController = require('./deleteOneProductController');
 const insertSaleControler = require('./insertSaleControler');
 const findByIdOrAllSalesController = require('./FindByIdOrAllController');
+const updateSaleControler = require('./updateSaleControler');
+const deleteSaleController = require('./deleteSaleControler');
 
 module.exports = {
     insertOneControler,
@@ -12,4 +14,6 @@ module.exports = {
     deleteOneProductController,
     insertSaleControler,
     findByIdOrAllSalesController,
+    updateSaleControler,
+    deleteSaleController,
 };
