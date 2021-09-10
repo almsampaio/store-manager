@@ -60,3 +60,18 @@ exports.update = async (req, res) => {
     );
   }
 };
+
+exports.delete = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const products = await productsService.delete({ id });
+    return res.status(StatusCodes.OK).json(products);
+  } catch (e) {
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+      { err: {
+        code: e.name,
+        message: e.message,
+      } },
+    );
+  }
+};
