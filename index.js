@@ -7,9 +7,9 @@ const productController = require('./controllers/productController');
 const app = express();
 app.use(bodyParser.json());
 
-const PORT = '3001';
+const PORT = '3000';
 
-app.post('/product', validateName, validateQuantity, productController.register);
+app.post('/products', validateName, validateQuantity, productController.register);
 
 app.listen(PORT, () => {
   console.log('🚀 Segura que nossa app tá rodando!');
