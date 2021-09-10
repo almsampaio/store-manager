@@ -4,6 +4,7 @@
   "description": "Simple CRUD to sales and products",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
     "test": "jest --runInBand",
     "test:mocha": "nyc --all --include models --include services --include controllers mocha test/unit/*.js --exit",
     "start": "nodemon index.js",
@@ -13,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/tryber/sd-02-project-store-manager.git"
   },
-  "author": "",
+  "author": "Tiago Emanuel",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tryber/sd-02-project-store-manager/issues"
