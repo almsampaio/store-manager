@@ -1,3 +1,4 @@
+const httpcodes = require('../lib/httpcodes');
 const productsService = require('../services/Products');
 
 module.exports = {
@@ -8,11 +9,11 @@ module.exports = {
       const product = await productsService.create(name, quantity);
       return res.status(201).json(product);
     } catch (error) {
-      const code = 400;
+      const code = 422;
       return res.status(code).json({
         err: {
-          message: error,
-          code,
+          message: error.message,
+          code: httpcodes[code],
         },
       });
     }
