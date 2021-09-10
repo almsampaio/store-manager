@@ -9,9 +9,9 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.get('/products', productsController.getAll);
-
 app.get('/products/:id', productsController.getById);
+
+app.get('/products', productsController.getAll);
 
 app.post('/products', productsController.create); 
 

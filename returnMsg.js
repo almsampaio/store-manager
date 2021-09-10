@@ -14,8 +14,8 @@ const invalidQtdTypeMsg = { err: { err: { code: 'invalid_data',
   message: '"quantity" must be a number' } },
 };
 
-const invalidIdFormat = { err: { err: { code: 'invalid_data',
-  message: 'Wrong id fomrat' } },
+const invalidIdFormat = { err: { code: 'invalid_data',
+  message: 'Wrong id format' },
 };
 
 module.exports = {

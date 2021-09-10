@@ -1,5 +1,6 @@
 const productsService = require('../services/productsService');
 const httpStatus = require('../httpStatus');
+const returnMsg = require('../returnMsg');
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
@@ -15,7 +16,10 @@ const getAll = async (_req, res) => {
 };
 
 const getById = async (req, res) => {
-
+  const { id } = req.params;
+  const result = await productsService.getById(id);
+  if (!result) return res.status(httpStatus.HTTP_INVALID_DATA).json(returnMsg.invalidIdFormat);
+  res.status(httpStatus.HTTP_OK).json(result);
 };
 
 module.exports = {
