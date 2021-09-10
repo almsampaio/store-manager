@@ -13,6 +13,7 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', productController.createProduct);
+app.get('/products', productController.getAllProducts);
 
 app.listen(PORT, () => {
   console.log('Online em:', PORT);
