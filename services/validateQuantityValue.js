@@ -1,6 +1,6 @@
 const err = {
     code: 'invalid_data',
-    message: '"quantity" must be grater than or equal to 1',
+    message: '"quantity" must be larger than or equal to 1',
 };
 
 const validateQuantityValue = (req, res, next) => {

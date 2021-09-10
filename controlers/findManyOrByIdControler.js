@@ -8,9 +8,12 @@ const err = {
 const findManyOrByIdControler = async (req, res) => {
     const { id } = req.params;    
     if (id) {
-        const product = await findManyOrByIdProducts(id);        
-        if (!product) return res.status(422).json({ err });
-        return res.status(200).json(product);
+        try {
+            const product = await findManyOrByIdProducts(id);       
+            return res.status(200).json(product);
+        } catch (e) {
+            return res.status(422).json({ err });
+        }   
     }
     const products = await findManyOrByIdProducts();
     return res.status(200).json({ products });
