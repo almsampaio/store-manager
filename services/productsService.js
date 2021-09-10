@@ -17,9 +17,9 @@ const findById = async (id) => {
 };
 
 const deleteById = async (id) => {
-  const product = await productsModel.deleteById(id);
+  const productDeleted = await productsModel.deleteById(id);
   return {
-    response: product,
+    response: productDeleted,
     status: 200,
   };
 };
@@ -32,4 +32,12 @@ const create = async (name, quantity) => {
   };
 };
 
-module.exports = { getAll, findById, deleteById, create }; 
+const update = async (id, name, quantity) => {
+  const productUpdated = await productsModel.update(id, name, quantity);
+  return {
+    response: productUpdated,
+    status: 201,
+  };
+};
+
+module.exports = { getAll, findById, deleteById, create, update }; 
