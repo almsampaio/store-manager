@@ -86,12 +86,12 @@ describe('Testes da camada Model', () => {
         });
         it('"itensSold" possui possui a propriedade "productId"', async () => {
           const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          const respItensSold = response[0]
+          const respItensSold = response.itensSold[0];
           expect(respItensSold).to.have.a.property('productId');
         });
         it('"itensSold" possui possui a propriedade "quantity"', async () => {
           const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          const respItensSold = response[0]
+          const respItensSold = response.itensSold[0];
           expect(respItensSold).to.have.a.property('quantity');
         });
       });
