@@ -5,7 +5,7 @@ class AppError extends Error {
     message,
     err = {},
     codeStatus = StatusCodes.UNPROCESSABLE_ENTITY,
-    name = 'Error'
+    name = 'Error',
   ) {
     super();
     this.message = message;
