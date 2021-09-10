@@ -4,10 +4,8 @@ const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const { ObjectId } = require('mongodb');
 
-// const productsModel = require('../../models/movieModel');
-const productsModel = {
-  create: () => {}
-};
+const productsModel = require('../../models/productsModel');
+const mongoConnection = require('../../models/connection');
 
 const VALIDATION_PRODUCT_INSERT = {
   name: "Produto do Batista",
@@ -24,7 +22,7 @@ describe('Testes da camada Model', () => {
         useNewUrlParser: true,
         useUnifiedTopology: true
       });
-    sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
   });
 
   after(async () => {
@@ -38,11 +36,11 @@ describe('Testes da camada Model', () => {
 
       describe('quando é inserido com sucesso', () => {
         it('retorna um objeto', async () => {
-          const response = await productsModel.create(VALIDATION_PRODUCT_INSERT);
+          const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
           expect(response).to.be.a('object');
         });
         it('tal objeto possui o "id" do novo filme inserido', async () => {
-          const response = await productsModel.create(VALIDATION_PRODUCT_INSERT);
+          const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
           expect(response).to.have.a.property('id');
         });
       });
