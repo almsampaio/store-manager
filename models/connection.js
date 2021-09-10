@@ -11,10 +11,10 @@ const OPTIONS = {
 // Url sugerida para a execução do projeto:
 
 // Para rodar local:
-const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
+// const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
 
 // Para subir para o Git:
-// const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
+const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
 
 const DB_NAME = 'StoreManager';
 
