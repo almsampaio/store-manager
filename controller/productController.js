@@ -4,7 +4,7 @@ const productModel = require('../models/productModel');
 const INVALID_DATA = 422;
 const HTTP_INSERT_OK = 201;
 
-const addProduct = (req, res) => {
+const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
   const newProduct = ProductService.checkProduct(name, quantity);
   if (newProduct === 'error length') {
@@ -20,7 +20,7 @@ const addProduct = (req, res) => {
  return res.status(INVALID_DATA).send('Product already exists');
 }
 
-  const insertedProduct = productModel.create(name, quantity);
+  const insertedProduct = await productModel.create(name, quantity);
 
   return res.status(HTTP_INSERT_OK).json(insertedProduct);
 };

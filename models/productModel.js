@@ -21,10 +21,12 @@ const create = async (name, quantity) => {
 
   if (verifyProduct) return false;
 
-  const newProduct = await verifyProduct
-    .insertOne({ name, quantity });
+  const connectionDb = await connection();
 
-  return newProduct;
+  const newProduct = await connectionDb.collection('products')
+  .insertOne({ name, quantity });
+
+  return newProduct.ops[0];
 };
 
 module.exports = {
