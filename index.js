@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const productRoutes = require('./Routes/product');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -9,6 +11,8 @@ app.use(bodyParser.json());
 app.get('/', (_request, response) => {
   response.send();
 });
+
+app.use('/products', productRoutes);
 
 const PORT = process.env.PORT || 3000;
 
