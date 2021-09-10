@@ -41,7 +41,6 @@ async function quantityIsValid(quantity) {
   };
 }
 
-
 async function getAll() {
   const products = await productsModel.getAll();
   return products;
