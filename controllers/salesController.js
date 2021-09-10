@@ -6,15 +6,15 @@ const HTTP_422 = 422;
 
 const getAll = async (_req, res) => {
   const sales = await salesService.getAll();
-  return res.status(HTTP_200).json({sales: sales});
+  return res.status(HTTP_200).json({ sales });
 };
 
 const getById = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const sale = await salesService.getById(id);
-  if(!sale) {
+  if (!sale) {
     return res.status(HTTP_404).json({ err:
-      {code: 'not_found', message: 'Sale not found'}});
+      { code: 'not_found', message: 'Sale not found' } });
   }
   return res.status(HTTP_200).json(sale);
 };
@@ -35,11 +35,11 @@ const editById = async (req, res) => {
 };
 
 const deleteById = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const sale = await salesService.getById(id);
-  if(!sale) {
+  if (!sale) {
     return res.status(HTTP_422).json({ err:
-      {code: 'invalid_data', message: 'Wrong sale ID format'}});
+      { code: 'invalid_data', message: 'Wrong sale ID format' } });
   }
   await salesService.deleteById(id);
   return res.status(HTTP_200).json(sale);
@@ -50,5 +50,5 @@ module.exports = {
   getById,
   create,
   editById,
-  deleteById
+  deleteById,
 };

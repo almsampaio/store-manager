@@ -16,22 +16,22 @@ const getById = async (id) => {
 
 const create = async (itensSold) => {
   const db = await getConnection();
-  const result = await db.collection('sales').insertMany([{itensSold}]);
-  return { _id: Object.values(result.insertedIds).toString(), 'itensSold': itensSold};
+  const result = await db.collection('sales').insertMany([{ itensSold }]);
+  return { _id: Object.values(result.insertedIds).toString(), itensSold };
 };
 
 const editById = async (id, itensSold) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await getConnection();
-  const sale = await db.collection('sales')
-    .findOneAndUpdate({ _id: ObjectId(id)},{$set:{itensSold}});
-  return {_id: ObjectId(id),itensSold};
+  await db.collection('sales')
+    .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { itensSold } });
+  return { _id: ObjectId(id), itensSold };
 };
 
 const deleteById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await getConnection();
-  const sale = await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+  await db.collection('sales').deleteOne({ _id: ObjectId(id) });
 };
 
 module.exports = {
@@ -39,5 +39,5 @@ module.exports = {
   getById,
   create,
   editById,
-  deleteById
+  deleteById,
 };

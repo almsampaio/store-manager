@@ -1,6 +1,6 @@
 const salesModel = require('../models/salesModel');
 
-const getAll =  async () => {
+const getAll = async () => {
   const sales = salesModel.getAll();
   return sales;
 };
@@ -11,23 +11,23 @@ const getById = async (id) => {
 };
 
 const create = async (itensSold) => {
-  const [{quantity}] = itensSold;
+  const [{ quantity }] = itensSold;
   const minimumQuantity = 1;
 
   if (quantity < minimumQuantity) {
     return {
-      err:{
+      err: {
         code: 'invalid_data',
-        message: 'Wrong product ID or invalid quantity'
-      }};
+        message: 'Wrong product ID or invalid quantity',
+      } };
   }
 
-  if (typeof(quantity) === 'string') {
+  if (typeof (quantity) === 'string') {
     return {
-      err:{
+      err: {
         code: 'invalid_data',
-        message: 'Wrong product ID or invalid quantity'
-      }};
+        message: 'Wrong product ID or invalid quantity',
+      } };
   }
 
   const sale = await salesModel.create(itensSold);
@@ -35,26 +35,26 @@ const create = async (itensSold) => {
 };
 
 const editById = async (id, itensSold) => {
-  const [{quantity}] = itensSold;
+  const [{ quantity }] = itensSold;
   const minimumQuantity = 1;
 
   if (quantity < minimumQuantity) {
     return {
-      err:{
+      err: {
         code: 'invalid_data',
-        message: 'Wrong product ID or invalid quantity'
-      }};
+        message: 'Wrong product ID or invalid quantity',
+      } };
   }
 
-  if (typeof(quantity) === 'string') {
+  if (typeof (quantity) === 'string') {
     return {
-      err:{
+      err: {
         code: 'invalid_data',
-        message: 'Wrong product ID or invalid quantity'
-      }};
+        message: 'Wrong product ID or invalid quantity',
+      } };
   }
 
-  const sale = await salesModel.editById(id,itensSold);
+  const sale = await salesModel.editById(id, itensSold);
   return { sale };
 };
 
@@ -68,5 +68,5 @@ module.exports = {
   getById,
   create,
   editById,
-  deleteById
+  deleteById,
 };

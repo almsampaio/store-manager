@@ -6,15 +6,15 @@ const HTTP_422 = 422;
 
 const getAll = async (_req, res) => {
   const products = await productsService.getAll();
-  return res.status(HTTP_200).json({products: products});
+  return res.status(HTTP_200).json({ products });
 };
 
 const getById = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const product = await productsService.getById(id);
-  if(!product) {
+  if (!product) {
     return res.status(HTTP_422).json({ err:
-      {code: 'invalid_data', message: 'Wrong id format'}});
+      { code: 'invalid_data', message: 'Wrong id format' } });
   }
   return res.status(HTTP_200).json(product);
 };
@@ -35,11 +35,11 @@ const editById = async (req, res) => {
 };
 
 const deleteById = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const product = await productsService.getById(id);
-  if(!product) {
+  if (!product) {
     return res.status(HTTP_422).json({ err:
-      {code: 'invalid_data', message: 'Wrong id format'}});
+      { code: 'invalid_data', message: 'Wrong id format' } });
   }
   await productsService.deleteById(id);
   return res.status(HTTP_200).json(product);
@@ -50,5 +50,5 @@ module.exports = {
   getById,
   create,
   editById,
-  deleteById
+  deleteById,
 };
