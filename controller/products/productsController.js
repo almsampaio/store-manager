@@ -2,7 +2,6 @@ const {
   HTTP_UNPROCESSABLE_ENTITY,
   HTTP_CREATED,
   HTTP_OK_STATUS,
-  HTTP_INTERNAL_SERVER_ERROR,
 } = require('../../schemas/status');
 
 const {
@@ -10,6 +9,7 @@ const {
   readByAllServices,
   readByIdServices,
   updateServices,
+  deleteServices,
 } = require('../../services/products/productsServices');
 
 const createController = async (req, res) => {
@@ -29,16 +29,7 @@ const createController = async (req, res) => {
 };
 
 const readByAllController = async (_req, res) => {
-  const { code, message, data } = await readByAllServices();
-
-  if (!data) {
-    return res.status(HTTP_INTERNAL_SERVER_ERROR).json({
-      err: {
-        code,
-        message,
-      },
-    });
-  }
+  const { data } = await readByAllServices();
 
   return res.status(HTTP_OK_STATUS).json({
     products: data,
@@ -79,9 +70,26 @@ const updateControler = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(data);
 };
 
+const deleteController = async (req, res) => {
+  const { id } = req.params;
+  const { code, message, deletedData } = await deleteServices(id);
+
+  if (!deletedData) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code,
+        message,
+      },
+    });
+  }
+
+  return res.status(HTTP_OK_STATUS).json(deletedData);
+};
+
 module.exports = { 
   createController,
   readByAllController,
   readByIdController,
   updateControler,
+  deleteController,
 };

@@ -4,6 +4,7 @@ const {
   readByAllModel,
   readByIdModel,
   updateModel,
+  deleteModel,
 } = require('../../model/products/productsModel');
 
 const createServices = async (name, quantity) => {
@@ -23,15 +24,7 @@ const createServices = async (name, quantity) => {
 
 const readByAllServices = async () => {
   const data = await readByAllModel();
-  const Zero = 0;
-
-  if (data.length <= Zero) {
-    return {
-      code: 'server-error',
-      message: 'Internal Server Error',
-    };
-  }
-
+  
   return { data };
 };
 
@@ -62,9 +55,25 @@ const updateServices = async (id, name, quantity) => {
   return { data };
 };
 
+const deleteServices = async (id) => {
+  const deletedData = await readByIdModel(id);
+  
+  if (!deletedData) {
+    return {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    };
+  }
+
+  await deleteModel(id);
+
+  return { deletedData };
+};
+
 module.exports = { 
   createServices,
   readByAllServices,
   readByIdServices,
   updateServices,
+  deleteServices,
  };

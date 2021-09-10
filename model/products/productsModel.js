@@ -50,8 +50,17 @@ const updateModel = async (id, name, quantity) => {
         },
       },
     );
-    
+
   return result;
+};
+
+const deleteModel = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const db = await connection();
+  await db.collection('products').deleteOne({ _id: ObjectId(id) });
 };
 
 module.exports = { 
@@ -60,4 +69,5 @@ module.exports = {
   readByAllModel,
   readByIdModel,
   updateModel,
+  deleteModel,
 };

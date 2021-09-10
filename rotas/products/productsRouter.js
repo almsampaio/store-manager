@@ -4,6 +4,7 @@ const {
   readByAllController,
   readByIdController,
   updateControler,
+  deleteController,
 } = require('../../controller/products/productsController');
 
 const {
@@ -32,5 +33,7 @@ router.put(
   validateQuantity,
   updateControler,
 );
+
+router.delete('/:id', deleteController);
 
 module.exports = router;
