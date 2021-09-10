@@ -10,6 +10,7 @@ app.get('/', (_request, response) => {
 });
 
 require('./controllers/productController')(app);
+require('./controllers/saleController')(app);
 
 const PORT_DEFAULT = 3000;
 const PORT = process.env.PORT || PORT_DEFAULT;
