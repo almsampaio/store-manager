@@ -7,11 +7,15 @@ const validateNameMsg = { err: { err: { code: 'invalid_data',
 };
 
 const invalidQtdNumberMsg = { err: { err: { code: 'invalid_data',
-    message: '"quantity" must be larger than or equal to 1' } },
+  message: '"quantity" must be larger than or equal to 1' } },
 };
 
 const invalidQtdTypeMsg = { err: { err: { code: 'invalid_data',
   message: '"quantity" must be a number' } },
+};
+
+const invalidIdFormat = { err: { err: { code: 'invalid_data',
+  message: 'Wrong id fomrat' } },
 };
 
 module.exports = {
@@ -19,4 +23,5 @@ module.exports = {
   validateNameMsg,
   invalidQtdNumberMsg,
   invalidQtdTypeMsg,
+  invalidIdFormat,
 };

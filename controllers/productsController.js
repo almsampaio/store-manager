@@ -9,6 +9,17 @@ const create = async (req, res) => {
   res.status(httpStatus.HTTP_INVALID_DATA).json(result.err);
 };
 
+const getAll = async (_req, res) => {
+  const result = await productsService.getAll();
+  res.status(httpStatus.HTTP_OK).json(result);
+};
+
+const getById = async (req, res) => {
+
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };
