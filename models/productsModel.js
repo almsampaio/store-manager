@@ -9,7 +9,9 @@ const create = async (name, quantity) => {
 
 // const getAll = async () => {
 //   const db = await connect();
-//   return await db.collection('products').find().toArray();
+//   const products = await db.collection('products').find().toArray();
+
+//   return products;
 // };
 
 // const getById = async (id) => {
