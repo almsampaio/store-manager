@@ -9,6 +9,21 @@ const addNew = async (req, res, next) => {
   return res.status(201).json(newProduct);
 };
 
+const getById = async (req, res, next) => {
+  const { id } = req.params;
+  const product = await productService.getById(id);
+
+  if (product.message) return next(product);
+  return res.status(200).json(product);
+};
+
+const getAll = async (_req, res, _next) => {
+  const products = await productService.getAll();
+  return res.status(200).json(products);
+};
+
 module.exports = {
   addNew,
+  getById,
+  getAll,
 };
