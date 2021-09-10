@@ -19,3 +19,4 @@ app.listen(PORT, () => {
 app.post('/products', productsControllers.create);
 app.get('/products', productsControllers.getAll);
 app.get('/products/:id', productsControllers.getById);
+app.put('/products/:id', productsControllers.updateById);

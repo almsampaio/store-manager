@@ -31,14 +31,33 @@ const getAll = async () => {
 const getById = async (idParam) => {
   const isValid = ObjectId.isValid(idParam);
   if (!isValid) return null;
+
   const db = await mongoConnection.getConnection();
   const result = await db.collection('products').findOne({ _id: ObjectId(idParam) });
   if (!result) return null;
   return result;
 };
 
+const updateById = async (idParam, name, quantity) => {
+  const isValid = ObjectId.isValid(idParam);
+  if (!isValid) return null;
+
+  const db = await mongoConnection.getConnection();
+  await db.collection('products').update(
+    { _id: ObjectId(idParam) },
+    { name, quantity },
+  );
+
+  return {
+    _id: idParam,
+    name,
+    quantity,
+  };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  updateById,
 };
