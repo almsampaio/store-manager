@@ -12,7 +12,7 @@ async function getConnection() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    .then((conn) => conn.db('model_example'))
+    .then((conn) => conn.db('StoreManager'))
     .then((dbSchema) => {
       schema = dbSchema;
       return schema;
