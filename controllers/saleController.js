@@ -44,9 +44,9 @@ const findById = rescue(async (req, res) => {
 
 const updateById = rescue(async (req, res) => {
   const { id } = req.params;
-  const [{ productId, quantity }] = req.body;
+  const itensSold = req.body;
   // console.log(productId, quantity);
-  const updateSale = await service.updateById(id, productId, quantity);
+  const updateSale = await service.updateById(id, itensSold);
   if (updateSale.err) { 
     return res.status(HTTP_NO_BODY_STATUS)
     .json(updateSale);

@@ -58,9 +58,10 @@ const findById = async (id) => {
   return getSalesById;
 };
 
-const updateById = async (id, productId, quantity) => {
+const updateById = async (id, itensSold) => {
+  const [{ quantity }] = itensSold;
   const updateSalesById = await salesModel
-    .updateById(id, productId, quantity);
+    .updateById(id, itensSold);
   
   if (isLessThan(quantity, zero)) return returned;
   if (isNumber(quantity)) return returned;
