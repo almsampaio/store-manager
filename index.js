@@ -17,8 +17,8 @@ app.get('/products', Products.findAll);
 
 app.get('/products/:id', Products.findById);
 
+app.put('/products/:id', Products.updateOne);
+
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Ouvindo a porta ${PORT}`);
-});
+app.listen(PORT);

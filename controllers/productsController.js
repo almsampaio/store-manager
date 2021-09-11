@@ -27,8 +27,18 @@ const findById = async (req, res) => {
   return res.status(StatusCodes.OK).json(product);
 };
 
+const updateOne = async (req, res) => {
+  const { body: { name, quantity }, params: { id } } = req;
+  const product = await service.updateOne(id, name, quantity);
+
+  if (product.err) return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(product);
+
+  return res.status(StatusCodes.OK).json(product);
+};
+
 module.exports = {
   create,
   findAll,
   findById,
+  updateOne,
 };
