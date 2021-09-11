@@ -19,7 +19,7 @@ const createProducts = ('/', async (req, res) => {
     });
 }
 
-  return res.status(200).json({ _id: response.id, name, quantity });
+  return res.status(201).json({ _id: response.id, name, quantity });
 });
 
 module.exports = {

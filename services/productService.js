@@ -17,7 +17,7 @@ const validateName = (name) => {
 };
 
 const validateQuantity = (quantity) => {
-  if (typeof (qunatity) !== 'number') {
+  if (typeof (quantity) !== 'number') {
     return {
       code: 'invalid_data',
       message: '"quantity" must be a number',
@@ -26,7 +26,7 @@ const validateQuantity = (quantity) => {
   if (quantity < 1) {
     return {
       code: 'invalid_data',
-      message: '"quantity" length must be larger than or equal to 1',
+      message: '"quantity" must be larger than or equal to 1',
     };
   }
   return false;
