@@ -1,6 +1,15 @@
 const { ObjectID } = require('mongodb');
 // const salesModel = require('../models/salesModel');
 
+const validateOneId = (id) => {
+  try {
+    const result = ObjectID(id);
+    return result;
+  } catch (err) {
+    return false;
+  }
+};
+
 const validateAllIds = async (array) => {
   const result = await array.every((e) => {
     try {
@@ -24,6 +33,7 @@ const validateAllQtd = async (array) => {
 };
 
 module.exports = {
+  validateOneId,
   validateAllIds,
   validateAllQtd,
 };

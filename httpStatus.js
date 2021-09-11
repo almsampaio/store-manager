@@ -1,9 +1,11 @@
 const HTTP_OK = 200;
 const HTTP_CREATED_SUCCESS = 201;
+const HTTP_NOT_FOUND = 404;
 const HTTP_INVALID_DATA = 422;
 
 module.exports = {
   HTTP_OK,
   HTTP_CREATED_SUCCESS,
+  HTTP_NOT_FOUND,
   HTTP_INVALID_DATA,
 };
