@@ -24,7 +24,6 @@ const checkProductName = rescue(async (req, res, next) => {
 
 const checkProductQuantity = rescue((req, res, next) => {
   const { quantity } = req.body;
-  console.log(quantity);
   const MIN_QUANTITY = 0;
 
   if (quantity <= MIN_QUANTITY) {
@@ -42,7 +41,22 @@ const checkProductQuantity = rescue((req, res, next) => {
   next();
 });
 
+const checkId = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  // const findId = await productsServices.getProductService(id);
+  const idLength = 24;
+  // if (!findId) {
+    if (!id || id.length !== idLength) {
+    return res.status(status.status.unprocessable).json({
+      err: { code: code.code.invalidData, message: message.message.idNotFound },
+    });
+  }
+
+  next();
+});
+
 module.exports = {
   checkProductName,
   checkProductQuantity,
+  checkId,
 };

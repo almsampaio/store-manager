@@ -8,6 +8,19 @@ const createProduct = rescue(async (req, res) => {
   return res.status(status.status.created).json(create);
 });
 
+const getProducts = rescue(async (_req, res) => {
+  const products = await productsServices.getProductsService();
+  return res.status(status.status.ok).json({ products });
+});
+
+const getProduct = rescue(async (req, res) => {
+  const { id } = req.params;
+  const product = await productsServices.getProductService(id);
+  return res.status(status.status.ok).json(product);
+});
+
 module.exports = {
   createProduct,
+  getProducts,
+  getProduct,
  };

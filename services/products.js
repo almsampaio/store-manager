@@ -10,7 +10,19 @@ const findNameService = async (name) => {
   return search;
 };
 
+const getProductsService = async () => {
+  const products = await productsModels.getProducts();
+  return products;
+};
+
+const getProductService = async (id) => {
+  const product = await productsModels.getProduct(id);
+  return product;
+};
+
 module.exports = {
   createService,
   findNameService,
+  getProductsService,
+  getProductService,
 };

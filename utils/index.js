@@ -3,4 +3,9 @@ const { middlewaresProducts } = require('../middlewares');
 const createProducts = [middlewaresProducts.checkProductName,
   middlewaresProducts.checkProductQuantity];
 
-module.exports = { createProducts };
+const id = middlewaresProducts.checkId;
+
+module.exports = {
+  createProducts,
+  id,
+};
