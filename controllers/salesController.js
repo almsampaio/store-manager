@@ -20,8 +20,17 @@ const create = async (req, res) => {
   res.status(httpStatus.HTTP_OK).json(result);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const [{ productId, quantity }] = req.body;
+  const result = await salesService.update(id, productId, quantity);
+  if (result.err) return res.status(httpStatus.HTTP_INVALID_DATA).json(result.err);
+  res.status(result);
+};
+
 module.exports = {
   getById,
   getAll,
   create,
+  update,
 };

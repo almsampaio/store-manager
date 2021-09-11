@@ -24,6 +24,7 @@ const validateAllIds = async (array) => {
 
 const validateAllQtd = async (array) => {
   const result = await array.every(({ quantity }) => {
+    console.log('quantity valdateAll', quantity)
     if (typeof quantity !== 'number' || quantity < 1) {
       return false;
     }

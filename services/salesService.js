@@ -22,8 +22,19 @@ const create = async (sale) => {
   return result;
 };
 
+const update = async (id, prodId, qtd) => {
+  const validSaleId = await salesMidd.validateOneId(id);
+  if (!validSaleId) return errorMsg.saleNotFound;
+  const validQtd = await salesMidd.validateAllQtd([{ quantity: qtd }]);
+  console.log('valid qtd', validQtd)
+  if (!validQtd) return errorMsg.invalidQtdSale;
+  const result = await salesModel.update(id, prodId, qtd);
+  return result;
+};
+
 module.exports = {
   getById,
   getAll,
   create,
+  update,
 };
