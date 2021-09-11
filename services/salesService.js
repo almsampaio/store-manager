@@ -9,6 +9,11 @@ const getById = async (id) => {
   return result;
 };
 
+const getAll = async () => {
+  const result = await salesModel.getAll();
+  return result;
+};
+
 const create = async (sale) => {
   const validIds = await salesMidd.validateAllIds(sale);
   const validQtd = await salesMidd.validateAllQtd(sale);
@@ -19,5 +24,6 @@ const create = async (sale) => {
 
 module.exports = {
   getById,
+  getAll,
   create,
 };

@@ -8,6 +8,11 @@ const getById = async (req, res) => {
   res.status(httpStatus.HTTP_OK).json(result);
 };
 
+const getAll = async (_req, res) => {
+  const result = await salesService.getAll();
+  res.status(httpStatus.HTTP_OK).json({ sales: result });
+};
+
 const create = async (req, res) => {
   const sale = req.body;
   const result = await salesService.create(sale);
@@ -17,5 +22,6 @@ const create = async (req, res) => {
 
 module.exports = {
   getById,
+  getAll,
   create,
 };

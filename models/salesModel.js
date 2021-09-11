@@ -7,6 +7,12 @@ const getById = async (id) => {
   return result;
 };
 
+const getAll = async () => {
+  const db = await connection();
+  const result = db.collection('sales').find().toArray();
+  return result;
+};
+
 const create = async (sale) => {
   const itens = { itensSold: sale };
   const db = await connection();
@@ -16,5 +22,6 @@ const create = async (sale) => {
 
 module.exports = {
   getById,
+  getAll,
   create,
 };

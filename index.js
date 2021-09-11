@@ -22,6 +22,8 @@ app.post('/products', productsController.create);
 
 app.get('/sales/:id', salesController.getById);
 
+app.get('/sales', salesController.getAll);
+
 app.post('/sales', salesController.create);
 
 // não remova esse endpoint, e para o avaliador funcionar
