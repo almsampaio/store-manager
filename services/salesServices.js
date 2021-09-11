@@ -37,7 +37,18 @@ const getById = async (id) => {
   return result;
 };
 
+const updateById = async (id, productId, quantity) => {
+  if (!isNumber(quantity) || !validateQuantity(quantity)) {
+    return errorList.errQuantity;
+  }
+
+  const result = await salesModels.updateById(id, productId, quantity);
+  if (!result) return errorList.errWrongId;
+  return result;
+};
+
 module.exports = {
   create,
   getById,
+  updateById,
 };

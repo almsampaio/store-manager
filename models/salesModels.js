@@ -40,9 +40,29 @@ const getById = async (idParam) => {
   return result;
 };
 
+const updateById = async (idParam, productId, quantity) => {
+  const isValid = ObjectId.isValid(idParam);
+  if (!isValid) return null;
+
+  const db = await mongoConnection.getConnection();
+  await db.collection('sales').updateOne(
+    { 
+      _id: ObjectId(idParam), 
+      'itensSold.productId': productId, 
+      'itensSold.quantity': quantity,
+    },
+    { $set: { productId, quantity } },
+  );
+
+  return {
+    _id: idParam,
+    itensSold: [{ productId, quantity }],
+  };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
-
+  updateById,
 };
