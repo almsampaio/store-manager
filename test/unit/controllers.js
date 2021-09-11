@@ -21,6 +21,13 @@ const ERROR_MESSAGE_INVALID_REPEATED_NAME = {
   },
 }
 
+const ERROR_MESSAGE_INVALID_QUANTITY = {
+  err: {
+    code: 'invalid_data',
+    message: '"quantity" must be larger than or equal to 1',
+  },
+}
+
 
 
 
@@ -32,17 +39,19 @@ describe('Testes da camada Controller', () => {
 
       const response = {};
       const request = {};
-      const errorShortName = {
-        err: {
-          code: 'invalid_data',
-          message: '"name" length must be ate least 5 characters long',
-        },
-        status: 422,
-      };
+
 
 
 
       describe('Quando é inserido um "name" com menos de 5 caracteres', () => {
+        const errorShortName = {
+          err: {
+            code: 'invalid_data',
+            message: '"name" length must be ate least 5 characters long',
+          },
+          status: 422,
+        };
+
         before(() => {
           request.body = {
             name: "Pro",
@@ -75,6 +84,13 @@ describe('Testes da camada Controller', () => {
 
 
 
+
+
+
+
+      describe('Quando é inserido um "name" repetido', () => {
+
+
       const errorRepeatedName = {
         err: {
           code: 'invalid_data',
@@ -82,11 +98,6 @@ describe('Testes da camada Controller', () => {
         },
         status: 422,
       };
-
-
-
-
-      describe('Quando é inserido um "name" repetido', () => {
 
         before(() => {
           request.body = {
@@ -120,37 +131,44 @@ describe('Testes da camada Controller', () => {
 
 
 
-      // describe('Quando é inserido um "name" repetido', () => {
+      describe('Quando inserido um quantity menor ou igual a zero', () => {
+        const errorInvalidQuantity = {
+          err: {
+            code: 'invalid_data',
+            message: '"quantity" must be larger than or equal to 1',
+          },
+          status: 422,
+        };
 
-      //   before(() => {
-      //     request.body = {
-      //       name: "Produto do Batista",
-      //       quantity: 100,
-      //     };
+        before(() => {
+          request.body = {
+            name: "Produto do Batista",
+            quantity:-1,
+          };
 
-      //     response.status = sinon.stub()
-      //      .returns(response);
-      //     response.json = sinon.stub()
-      //      .returns();
+          response.status = sinon.stub()
+           .returns(response);
+          response.json = sinon.stub()
+           .returns();
 
-      //     sinon.stub(productsService, 'createProduct').resolves(errorRepeatedName);
-      //   })
+          sinon.stub(productsService, 'createProduct').resolves(errorInvalidQuantity);
+        })
 
-      //   after(async () => {
-      //     productsService.createProduct.restore();
-      //   });
+        after(async () => {
+          productsService.createProduct.restore();
+        });
 
 
-      //   it('é chamado o status com o código 422', async () => {
-      //     await productsController.createProduct(request, response);
-      //     expect(response.status.calledWith(422)).to.be.equal(true);
-      //   });
+        it('é chamado o status com o código 422', async () => {
+          await productsController.createProduct(request, response);
+          expect(response.status.calledWith(422)).to.be.equal(true);
+        });
 
-      //   it('é chamado o json com a mensagem de erro', async () => {
-      //     await productsController.createProduct(request, response);
-      //     expect(response.json.calledWith(ERROR_MESSAGE_INVALID_REPEATED_NAME)).to.be.equal(true);
-      //   });
-      // });
+        it('é chamado o json com a mensagem de erro', async () => {
+          await productsController.createProduct(request, response);
+          expect(response.json.calledWith(ERROR_MESSAGE_INVALID_QUANTITY)).to.be.equal(true);
+        });
+      });
 
 
 
