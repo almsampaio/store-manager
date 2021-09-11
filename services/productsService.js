@@ -63,9 +63,15 @@ const editProductById = async (id, name, quantity) => {
   return { product };
 };
 
+const deleteProductById = async (id) => {
+  const product = productsModel.deleteProductById(id);
+  return product;
+};
+
 module.exports = { 
   create,
   getAllProducts,
   getProductById,
   editProductById,
+  deleteProductById,
 };
