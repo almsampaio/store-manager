@@ -42,13 +42,9 @@ const deleteProductById = async (req, res) => {
   const product = await productsService.getProductById(id);
   if (!product) {
     return res.status(HTTP_UNPROCESSABLE).json({ err:
-      {
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    });
+      { code: 'invalid_data', message: 'Wrong id format' } });
   }
-  await productsService.deleteProductById(id);
+  await productsService.deleteById(id);
   return res.status(HTTP_OK).json(product);
 };
 
