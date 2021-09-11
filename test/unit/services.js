@@ -5,6 +5,7 @@ const productsService = require('../../services/productsService');
 const productsModel = require('../../models/productsModel');
 
 const salesService = require('../../services/salesService');
+const salesModel = require('../../models/salesModel');
 
 
 const INSERT_PRODUCT_WITH_INVALID_NAME = {
@@ -34,6 +35,24 @@ const SALE_INSERT_QUANTITY_ZERO = [
     quantity: 0
   }
 ]
+
+const SALE_INSERT_QUANTITY_STRING = [
+  {
+    productId: "5f43ba273200020b101fe49f",
+    quantity: '2'
+  } ,
+  {
+    productId: "5f43ba273200020b101fe49f",
+    quantity: 0
+  }
+]
+
+const SALE_INSERT_QUANTITY_ONLY_ONE_POSITION_OK = [
+  {
+    productId: "5f43ba273200020b101fe49f",
+    quantity: '2'
+  }
+]
 const SALE_INSERT_OK = [
   {
     productId: "5f43ba273200020b101fe49f",
@@ -41,7 +60,24 @@ const SALE_INSERT_OK = [
   }
 ]
 
+const SALE_ALL_TWO_POSITIONS_OK = [
+  {
+    productId: "5f43ba273200020b101fe49f",
+    quantity: 2,
+  },
+
+  {
+    productId: "5f43ba273233320b101fe45d",
+    quantity: 1
+  }
+]
+
 describe('Testes da camada Service', () => {
+
+
+
+
+
 
   describe('Testando as requisições com a coleção "Procucts"', () => {
     describe('Teste da Requisição POST - Inserindo um novo produto no BD', () => {
@@ -122,8 +158,16 @@ describe('Testes da camada Service', () => {
   describe('Testando as requisições com a coleção "Sales"', () => {
     describe('Teste da Requisição POST - Inserindo um novo "Sale" no BD', () => {
       describe('Será validado que não é possível cadastrar compras com campo quantidade menor que zero ou que seja escrita uma string nesse campo', () => {
-        it('retorna um objeto com contendo o erro e a mensagem sobre o erro', async () => {
+        it('Testando valor menor igual a zero. Deve retornar um objeto com contendo o erro e a mensagem sobre o erro', async () => {
           const response = await salesService.createSale(SALE_INSERT_QUANTITY_ZERO);
+          expect(response).to.be.a('object');
+        });
+        it('Testando quantity como string. Deve retornar um objeto com contendo o erro e a mensagem sobre o erro', async () => {
+          const response = await salesService.createSale(SALE_INSERT_QUANTITY_ONLY_ONE_POSITION_OK);
+          expect(response).to.be.a('object');
+        });
+        it('Testando se retorna um erro dos acima, para entrada com dois "sales", caso um sale esteja correto e o outro esteja com o quantity errado', async () => {
+          const response = await salesService.createSale(SALE_INSERT_QUANTITY_STRING);
           expect(response).to.be.a('object');
         });
         it('tal objeto possui a mensagem com o erro de "quantidade" inválida', async () => {
@@ -133,13 +177,42 @@ describe('Testes da camada Service', () => {
           expect(responseErr).to.have.a.property('code');
           expect(responseErr).to.have.a.property('message');
         });
-
       });
 
+
+        describe('Valida se é possível inserir um ou varios "sales" simultâneos no banco de dados', () => {
+
+
+          before(async () => {
+            const saleTwoProducts = {
+              "_id": "5f43ba333200020b101fe4a0",
+              "itensSold": [
+                {
+                  productId: "5f43ba273200020b101fe49f",
+                  quantity: 2,
+                },
+                {
+                  productId: "5f43ba273233320b101fe45d",
+                  quantity: 1
+                }
+
+              ]
+            }
+            sinon.stub(salesModel, 'createSale').resolves(saleTwoProducts);
+          });
+
+          after(async () => {
+            salesModel.createSale.restore();
+          });
+
+
+          describe('Caso insira um "Sale" onde os parâmetros seja válidos,', () => {
+            it('retorna um objeto contantendo o _id e o array itensSold', async () => {
+              const response = await salesService.createSale(SALE_ALL_TWO_POSITIONS_OK);
+              expect(response).to.be.a('object');
+            });
+          });
+      });
     });
   });
-
-
-
-
 });
