@@ -39,6 +39,18 @@ function quantityValidationProducts(quantity) {
   return false;
 }
 
+function quantityTypeValidationProducts(quantity) {
+  if (typeof quantity !== 'number') {
+    return {
+        err: {
+          code: 'invalid_data',
+          message: '"quantity" must be a number',
+        },
+      };
+  }
+  return false;
+}
+
 function quantityValidationSales(sale) {
   const invalidQuantity = sale
   .find(({ quantity }) => typeof quantity !== 'number' || quantity <= 0);
@@ -58,5 +70,6 @@ module.exports = {
   nameLengthValidation,
   isRepeated,
   quantityValidationProducts,
+  quantityTypeValidationProducts,
   quantityValidationSales,
 };

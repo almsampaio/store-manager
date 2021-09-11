@@ -23,6 +23,11 @@ const INSERT_PRODUCT_QUANTITY_SUB_ZERO = {
   quantity: -1,
 };
 
+const INSERT_PRODUCT_QUANTITY_STRING = {
+  name: "Produto do Batista",
+  quantity: '2',
+};
+
 const INSERT_PRODUCT_OK = {
   name: "Produto do Batista",
   quantity: 100
@@ -100,7 +105,7 @@ describe('Testes da camada Service', () => {
         sinon.stub(productsModel, 'getAllProdutcts').resolves(productAlreadyExists);
       });
 
-     
+
       describe('Verifica que não é possível criar um produto com um "name" ja existente', () => {
 
         it('Quando inserido um nome ja existente, retorna um objeto', async () => {
@@ -139,6 +144,26 @@ describe('Testes da camada Service', () => {
           expect(responseToSubzeroErr).to.have.a.property('message');
         });
       });
+
+      describe('quando é inserido uma string no "quantity"', () => {
+
+        it('retorna um objeto', async () => {
+          const responseToZero = await productsService.createProduct(INSERT_PRODUCT_QUANTITY_STRING);
+          expect(responseToZero ).to.be.a('object');
+        });
+        it('tal objeto possui a mensagem com o erro de "quantity" inválido', async () => {
+          const responseToZero  = await productsService.createProduct(INSERT_PRODUCT_QUANTITY_STRING);
+          const responseToZeroErr = responseToZero.err;
+          expect(responseToZero).to.have.a.property('err');
+          expect(responseToZeroErr).to.have.a.property('code');
+          expect(responseToZeroErr).to.have.a.property('message');
+        });
+      });
+
+
+
+
+
     });
   });
 
