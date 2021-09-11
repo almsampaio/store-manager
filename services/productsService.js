@@ -1,4 +1,5 @@
 // const productsControllers= require('../models/productsModel');
+// const salesControllers= require('../models/salesModel');
 const validations = require('./validations');
 
 const createProduct = async ({ name, quantity }) => {
@@ -11,6 +12,9 @@ const createProduct = async ({ name, quantity }) => {
   if (validationQuantity) return validationQuantity;
 };
 
+
+
 module.exports = {
   createProduct,
+  // createSale,
 };
