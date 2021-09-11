@@ -10,7 +10,8 @@ app.use(bodyParser.json());
 console.log('Hello, World!');
 
 app.get('/products', async (req, res) => {
-
+  const products = await productsModel.getAll();
+  res.status(200).json(products);
 });
 
 app.get('/products/:id', async (req, res) => {
@@ -18,7 +19,8 @@ app.get('/products/:id', async (req, res) => {
 });
 
 app.get('/sales', async (req, res) => {
-  
+  const sales = await salesModel.getAll();
+  res.status(200).json(sales);
 });
 
 app.get('/sales/:id', async (req, res) => {
@@ -37,13 +39,13 @@ app,put('/products/:id', async (req, res) => {
 app.post('/products', async (req, res) => {
   const { name, quantity } = req.body;
   const product = await productsModel.create(name, quantity);
-  res.status(200).json(product);
+  res.status(201).json(product);
 });
 
 app.post('/sales', async (req, res) => {
   const { itensSold, quantity } = req.body;
   const sale = await salesModel.create(itensSold, quantity);
-  res.status(200).json(sale);
+  res.status(201).json(sale);
 });
 
 // não remova esse endpoint, e para o avaliador funcionar
