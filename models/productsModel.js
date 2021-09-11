@@ -7,16 +7,16 @@ const getAll = async () => {
 }
 
 const getById = async (id) => {
-  if (!ObjectId.isValid(id)) {
-    return null;
-  }
+  // if (!ObjectId.isValid(id)) {
+  //   return null;
+  // }
 
   const product = await connection()
-  .then((db) => db.collection('products').find({ _id: new ObjectId(id) }));
+  .then((db) => db.collection('products').find({ _id: new ObjectId(id) }).toArray());
 
-  if (!product) {
-    return null;
-  }
+  // if (!product) {
+  //  return null;
+  //}
 
   return product;
 }
