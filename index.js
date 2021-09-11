@@ -13,7 +13,7 @@ const productsRouter = require('./routers/productsRouter');
 
 app.use('/products', productsRouter);
 
-const salesRouter = require('./routers/productsRouter');
+const salesRouter = require('./routers/salesRouter');
 
 app.use('/sales', salesRouter);
 
