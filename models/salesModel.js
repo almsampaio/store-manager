@@ -49,9 +49,21 @@ async function updateSales({ id, productId, quantity }) {
   };
 }
 
+async function deleteSales(id) {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await mongoConnection.getConnection();
+  const deletedSale = await db.collection('sales').deleteOne(
+    { _id: ObjectId(id) },
+  );
+
+  return deletedSale;
+}
+
 module.exports = {
   getAll,
   getById,
   addSales,
   updateSales,
+  deleteSales,
 };
