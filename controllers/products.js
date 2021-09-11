@@ -19,13 +19,35 @@ const createProduct = async (req, res) => {
   return res.status(201).json(createdProduct);
 };
 
-const getProducts = async (req, res) => {
+const getProductsById = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await productsService.getProductById(id);
+
+  if (product.message) {
+    const error = {
+      err: {
+        message: product.message,
+        code: 'invalid_data',
+      },
+    };
+
+    return res.status(422).json(error);
+  }
+
+  return res.status(200).json(product);
+};
+
+const getProducts = async (_req, res) => {
   const products = await productsService.getProducts();
 
-  return res.status(200).json(products);
+  console.log(products);
+
+  return res.status(200).json({ products });
 };
 
 module.exports = {
   createProduct,
   getProducts,
+  getProductsById,
 };

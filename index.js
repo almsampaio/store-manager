@@ -14,6 +14,9 @@ app.get('/', (_request, response) => {
 
 const productsController = require('./controllers/products');
 
+app.route('/products/:id')
+  .get(productsController.getProductsById);
+
 app.route('/products')
   .post(productsController.createProduct)
   .get(productsController.getProducts);
