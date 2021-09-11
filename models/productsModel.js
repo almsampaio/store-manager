@@ -15,7 +15,14 @@ const findByName = async (name) => {
 const getAllProducts = async () => {
   return connection()
     .then((db) => db.collection('products').find().toArray())
-    .then((products) => products)
+    .then((products) => products);
+}
+
+const findProductById = async(id) => {
+  return connection()
+    .then((db) => db.collection('products').find())
+    .then(result => result);
+
 }
 
 module.exports = {
