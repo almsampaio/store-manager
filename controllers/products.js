@@ -18,8 +18,15 @@ const findById = async (req, res) => {
   return res.status(200).json(findedId);
 };
 
+const deleteByid = async (req, res) => {
+  const { id } = req.params;
+  const deleted = await productService.deleteById(id);
+  return res.status(200).json(deleted);
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   findById,
+  deleteByid,
 };

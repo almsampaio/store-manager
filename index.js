@@ -2,7 +2,12 @@ const express = require('express');
 const bodyParse = require('body-parser');
 
 const validates = require('./middlewares');
-const { createProduct, getAllProducts, findById } = require('./controllers/products');
+const { 
+    createProduct, 
+    getAllProducts, 
+    findById,
+    deleteByid,
+  } = require('./controllers/products');
 
 const PORT = '3000';
 const app = express();
@@ -20,8 +25,9 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', validateProductName, validateProductQty, createProduct);
-app.get('/products/:id', validateId, findById);
 app.get('/products', getAllProducts);
+app.get('/products/:id', validateId, findById);
+app.delete('/products/:id', validateId, deleteByid);
 
 app.listen(PORT, () => {
   console.log('hello world');

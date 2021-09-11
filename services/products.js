@@ -15,8 +15,14 @@ const findById = async (id) => {
   return findId;
 };
 
+const deleteById = async (id) => {
+  const delId = await createModel.deleteById(id);
+  return delId;
+};
+
 module.exports = {
   create,
   listAll,
   findById,
+  deleteById,
 };

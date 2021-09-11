@@ -20,9 +20,13 @@ const getAll = () => connection()
 const findById = async (id) => connection()
   .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
 
+const deleteById = async (id) => connection()
+  .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+
 module.exports = {
   create,
   findByName,
   getAll,
   findById,
+  deleteById,
 };
