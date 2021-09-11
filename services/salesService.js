@@ -32,3 +32,11 @@ exports.update = async ({ id, sales }) => {
   await salesModel.updateOne({ _id: id }, { itensSold: sales });
   return salesModel.findById(id);
 };
+
+exports.delete = async ({ id }) => {
+  if (!isObjectId(id)) throw new InvalidDataError('Wrong sale ID format');
+  const sale = await salesModel.findById(id);
+  const { _id, itensSold } = sale;
+  await salesModel.deleteOne({ _id: id });
+  return { _id, itensSold };
+};
