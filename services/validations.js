@@ -10,36 +10,29 @@ const TYPE_MB_NUMBER = '"quantity" must be a number';
 const PRODUCT_ALREADY_EXISTS = 'Product already exists';
 const WRONG_ID_FORMAT = 'Wrong id format';
 
-const notValidId = () => {
-  const errorMessage = generateError(INVALID_DATA, WRONG_ID_FORMAT);
-  return errorMessage;
-};
+const notValidId = () => generateError(INVALID_DATA, WRONG_ID_FORMAT);
 
 const validateName = (name) => {
   if (!regexName.test(name)) {
-    const errorMessage = generateError(INVALID_DATA, CHARACTER_LONG);
-    return { errorMessage };
+    return generateError(INVALID_DATA, CHARACTER_LONG);
   }
 };
 
 const validateAlreadyExists = async (name) => {
   if (await productsModel.getProductByName(name)) {
-    const errorMessage = generateError(INVALID_DATA, PRODUCT_ALREADY_EXISTS);
-    return { errorMessage };
+    return generateError(INVALID_DATA, PRODUCT_ALREADY_EXISTS);
   }
 };
 
 const verifyTypeQuantity = (quantity) => {
   if (typeof quantity !== 'number') {
-    const errorMessage = generateError(INVALID_DATA, TYPE_MB_NUMBER);
-    return { errorMessage };
+    return generateError(INVALID_DATA, TYPE_MB_NUMBER);
   }
 };
 
 const verifyLengthQuantity = (quantity) => {
   if (quantity < 1) {
-    const errorMessage = generateError(INVALID_DATA, QUANTITY_GT_1);
-    return { errorMessage };
+    return generateError(INVALID_DATA, QUANTITY_GT_1);
   }
 };
 

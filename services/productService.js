@@ -20,7 +20,8 @@ const getById = async (id) => {
 const create = async (name, quantity) => {
   const errorMessage = await validations.validationToCreate(name, quantity);
 
-  if (errorMessage) return errorMessage;
+  console.log(errorMessage);
+  if (errorMessage) return { errorMessage };
 
   const createdProduct = await productsModel.createProduct(name, quantity);
   return { createdProduct };
@@ -29,7 +30,7 @@ const create = async (name, quantity) => {
 const update = async (id, name, quantity) => {
   const errorMessage = await validations.validateToUpdate(name, quantity);
 
-  if (errorMessage) return errorMessage;
+  if (errorMessage) return { errorMessage };
 
   await productsModel.updateProduct(id, name, quantity);
 };
