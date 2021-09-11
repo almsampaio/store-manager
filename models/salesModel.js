@@ -20,12 +20,12 @@ const create = async (sale) => {
   return { _id: insertedId, itensSold: sale };
 };
 
-const update = async (id, prodId, qtd) => {
-  const db = await connection();
-  const result = await db.collection('sales').updateOne({ _id: ObjectID(id) },
-    { $set: { productId: ObjectID(prodId), quantity: qtd } });
-  return result;
-};
+const update = async (id, prodId, qtd) => 
+  // const db = await connection();
+  // const result = await db.collection('sales').updateOne({ _id: ObjectID(id) },
+  //   { $set: { 'productId.$[quantity]': qtd } },
+  //   { multi: true, arrayFilters: [{ quantity: { $eq: prodId } }] });
+  ({ id, prodId, qtd });
 
 module.exports = {
   getById,
