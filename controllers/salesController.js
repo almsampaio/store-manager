@@ -18,13 +18,14 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
     const { id } = req.params;
     const sale = await salesModel.getById(id);
+    if (!sale) return res.status(FOUR_HUND_FOUR).json({ message: "not found"});
     res.status(TWO_HUND).json(sale);
 };
 
 const remove = async (req, res) => {
     const { id } = req.params;
     const sale = await salesModel.getById(id);
-    if (!sale) res.status(FOUR_HUND_FOUR).json({ message: "not found"});
+    if (!sale) return res.status(FOUR_HUND_FOUR).json({ message: "not found"});
     res.status(FOUR_HUND_TWO).end();
 }
 

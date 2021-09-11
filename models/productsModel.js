@@ -25,9 +25,15 @@ const remove = async (id) => {
     .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
 };
 
+const findByName = async (name) => {
+    return connection()
+    .then((db) => db.collection('products').findOne( { name }));
+};
+
 module.exports = {
 create,
 getAll,
 getById,
-remove
+remove,
+findByName,
 };
