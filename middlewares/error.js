@@ -1,3 +1,4 @@
-module.exports = async (err, _req, res, _next) => {
-res.status(422).json(err);
+module.exports = async (error, _req, res, _next) => {
+  const { statusCode, err } = error;
+  res.status(statusCode).json({ err });
 };
