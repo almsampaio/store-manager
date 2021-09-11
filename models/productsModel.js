@@ -12,6 +12,12 @@ const findByName = async (name) => {
     .then(result => result || null);
 }
 
+const getAllProducts = async () => {
+  return connection()
+    .then((db) => db.collection('products').find().toArray())
+    .then((products) => products)
+}
+
 module.exports = {
   create,
   findByName,
