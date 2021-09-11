@@ -13,5 +13,7 @@ routes.get('/products/:id', productsController.get);
 routes.put('/products/:id', productsController.update);
 routes.delete('/products/:id', productsController.delete);
 routes.post('/sales', salesController.create);
+routes.get('/sales', salesController.getAll);
+routes.get('/sales/:id', salesController.get);
 
 module.exports = routes;
