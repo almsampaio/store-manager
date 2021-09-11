@@ -11,15 +11,14 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', Products.create);
+app.route('/products')
+  .post(Products.create)
+  .get(Products.findAll);
 
-app.get('/products', Products.findAll);
-
-app.get('/products/:id', Products.findById);
-
-app.put('/products/:id', Products.updateOne);
-
-app.delete('/products/:id', Products.deleteOne);
+app.route('/products/:id')
+  .get(Products.findById)
+  .put(Products.updateOne)
+  .delete(Products.deleteOne);
 
 const PORT = process.env.PORT || 3000;
 
