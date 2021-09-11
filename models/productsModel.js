@@ -20,6 +20,7 @@ const getAllProducts = async () => {
 };
 
 const getById = async (id) => {
+    if (!ObjectId.isValid(id)) return null;
     const db = await connection.mongoDB();
     const product = await db.collection('products').findOne({ _id: ObjectId(id) });
     return product;

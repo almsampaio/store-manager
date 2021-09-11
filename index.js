@@ -18,6 +18,8 @@ validateNameNewProduct, validateQuantityNewProduct, productsControllers.createNe
 
 app.get('/products', productsControllers.getAllProducts);
 
+app.get('/products/:id', productsControllers.getById);
+
 const PORT = 3000;
 
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));

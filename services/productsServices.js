@@ -15,8 +15,15 @@ const verifyProductAlreadyExists = async (name) => {
     if (productName.length > 0) return true;
 };
 
+const getById = async (id) => {
+    const product = await productsModel.getById(id);
+    if (!product) return false;
+    return product;
+};
+
 module.exports = { 
     validateNewProductName, 
     validateNewQuantityName,
     verifyProductAlreadyExists,
+    getById,
 };
