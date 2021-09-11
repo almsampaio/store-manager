@@ -50,4 +50,14 @@ const update = async (id, product) => {
   return result;
 };
 
-module.exports = { create, getAll, getByID, update };
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+const exclude = async (id) => {
+  const result = await productModel.exclude(id);
+
+  if (!result) return error.invalidID;
+
+  return result;
+};
+
+module.exports = { create, getAll, getByID, update, exclude };

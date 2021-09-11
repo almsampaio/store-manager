@@ -1,14 +1,18 @@
 const productService = require('../services/productService');
 
+const OK = 200;
+const CREATED = 201;
+const UNPROCESSABLE_ENTITY = 422;
+
 // ----------------------------------------------------- || ----------------------------------------------------- //
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
   const result = await productService.create({ name, quantity });
 
-  if (result.err) return res.status(422).json(result);
+  const code = result.err ? UNPROCESSABLE_ENTITY : CREATED;
 
-  return res.status(201).json(result);
+  return res.status(code).json(result);
 };
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
@@ -17,9 +21,9 @@ const getByID = async (req, res) => {
   const { id } = req.params;
   const result = await productService.getByID(id);
 
-  if (result.err) return res.status(422).json(result);
+  const code = result.err ? UNPROCESSABLE_ENTITY : OK;
 
-  return res.status(200).json(result);
+  return res.status(code).json(result);
 };
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
@@ -39,9 +43,20 @@ const update = async (req, res) => {
 
   const result = await productService.update(id, product);
 
-  if (result.err) return res.status(422).json(result);
+  const code = result.err ? UNPROCESSABLE_ENTITY : OK;
 
-  return res.status(200).json(result);
+  return res.status(code).json(result);
 };
 
-module.exports = { create, getAll, getByID, update };
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  const result = await productService.exclude(id);
+
+  const code = result.err ? UNPROCESSABLE_ENTITY : OK;
+
+  return res.status(code).json(result);
+};
+
+module.exports = { create, getAll, getByID, update, exclude };

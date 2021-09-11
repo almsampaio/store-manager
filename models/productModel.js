@@ -1,16 +1,18 @@
 const { ObjectId } = require('mongodb');
 const { getConnection } = require('./connection');
 
+const isValidID = (id) => ObjectId.isValid(id);
+
 const PRODUCTS_COLLECTION = 'products';
 
 const create = async ({ name, quantity }) => {
-  const productCollection = await getConnection();
+  const connection = await getConnection();
 
-  const exists = await productCollection.collection(PRODUCTS_COLLECTION).findOne({ name });
+  const exists = await connection.collection(PRODUCTS_COLLECTION).findOne({ name });
 
   if (exists) return null;
 
-  const insertedProduct = await productCollection.collection('products')
+  const insertedProduct = await connection.collection('products')
     .insertOne({ name, quantity });
 
   return insertedProduct.ops[0];
@@ -19,11 +21,11 @@ const create = async ({ name, quantity }) => {
 // ----------------------------------------------------- || ----------------------------------------------------- //
 
 const getByID = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
+  if (!isValidID(id)) return null;
 
-  const productCollection = await getConnection();
+  const connection = await getConnection();
 
-  const product = await productCollection.collection(PRODUCTS_COLLECTION)
+  const product = await connection.collection(PRODUCTS_COLLECTION)
     .findOne({ _id: ObjectId(id) });
   return product;
 };
@@ -31,19 +33,17 @@ const getByID = async (id) => {
 // ----------------------------------------------------- || ----------------------------------------------------- //
 
 const getAll = async () => {
-  const productCollection = await getConnection();
+  const connection = await getConnection();
 
-  const products = await productCollection.collection(PRODUCTS_COLLECTION).find({}).toArray();
+  const products = await connection.collection(PRODUCTS_COLLECTION).find({}).toArray();
 
-  if (products.length > 0) return { products };
-
-  return products;
+  return { products };
 };
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
 
 const update = async (id, { name, quantity }) => {
-  if (!ObjectId.isValid(id)) return null;
+  if (!isValidID(id)) return null;
 
   const filter = { _id: ObjectId(id) };
 
@@ -51,12 +51,26 @@ const update = async (id, { name, quantity }) => {
 
   const options = { returnOriginal: false };
 
-  const products = await getConnection();
+  const connection = await getConnection();
 
-  const result = await products.collection(PRODUCTS_COLLECTION)
+  const result = await connection.collection(PRODUCTS_COLLECTION)
     .findOneAndUpdate(filter, document, options);
 
   return result.value;
 };
 
-module.exports = { create, getAll, getByID, update };
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+const exclude = async (id) => {
+  if (!isValidID(id)) return null;
+
+  const filter = { _id: ObjectId(id) };
+
+  const connection = await getConnection();
+
+  const result = await connection.collection(PRODUCTS_COLLECTION).findOneAndDelete(filter);
+
+  return result.value;
+};
+
+module.exports = { create, getAll, getByID, update, exclude };

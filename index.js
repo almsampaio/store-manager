@@ -26,6 +26,8 @@ app.put('/products/:id', [
   productController.update,
 ]);
 
+app.delete('/products/:id', productController.exclude);
+
 app.use((err, _req, res, _next) => {
   const { details } = err;
   const error = {
