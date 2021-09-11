@@ -19,7 +19,20 @@ const getAll = async (_req, res) => {
   return res.status(200).json({products});
 }
 
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+  const { product, message } = await productsService.getProductById(id);
+  if (message) return res.status(422).json({
+    err: {
+      code: "invalid_data",
+      message
+    }
+  })
+  return res.status(200).json(product)
+}
+
 module.exports = {
   create,
   getAll,
+  getProductById,
 };
