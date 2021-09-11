@@ -20,7 +20,6 @@ const getById = async (id) => {
 const create = async (name, quantity) => {
   const errorMessage = await validations.validationToCreate(name, quantity);
 
-  console.log(errorMessage);
   if (errorMessage) return { errorMessage };
 
   const createdProduct = await productsModel.createProduct(name, quantity);
@@ -35,9 +34,14 @@ const update = async (id, name, quantity) => {
   await productsModel.updateProduct(id, name, quantity);
 };
 
+const deleteProduct = async (id) => {
+  await productsModel.deleteProduct(id);
+};
+
 module.exports = {
   listProducts,
   getById,
   create,
   update,
+  deleteProduct,
 };
