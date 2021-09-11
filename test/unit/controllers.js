@@ -28,6 +28,13 @@ const ERROR_MESSAGE_INVALID_QUANTITY = {
   },
 }
 
+const ERROR_MESSAGE_INVALID_QUANTITY_TYPE = {
+  err: {
+    code: 'invalid_data',
+    message: '"quantity" must be a number',
+  },
+}
+
 
 
 
@@ -167,6 +174,46 @@ describe('Testes da camada Controller', () => {
         it('é chamado o json com a mensagem de erro', async () => {
           await productsController.createProduct(request, response);
           expect(response.json.calledWith(ERROR_MESSAGE_INVALID_QUANTITY)).to.be.equal(true);
+        });
+      });
+
+
+      describe('Quando inserido um quantity do tipo string', () => {
+        const errorInvalidQuantityType = {
+          err: {
+            code: 'invalid_data',
+            message: '"quantity" must be a number',
+          },
+          status: 422,
+        };
+
+        before(() => {
+          request.body = {
+            name: "Produto do Batista",
+            quantity: '2',
+          };
+
+          response.status = sinon.stub()
+           .returns(response);
+          response.json = sinon.stub()
+           .returns();
+
+          sinon.stub(productsService, 'createProduct').resolves(errorInvalidQuantityType);
+        })
+
+        after(async () => {
+          productsService.createProduct.restore();
+        });
+
+
+        it('é chamado o status com o código 422', async () => {
+          await productsController.createProduct(request, response);
+          expect(response.status.calledWith(422)).to.be.equal(true);
+        });
+
+        it('é chamado o json com a mensagem de erro', async () => {
+          await productsController.createProduct(request, response);
+          expect(response.json.calledWith(ERROR_MESSAGE_INVALID_QUANTITY_TYPE)).to.be.equal(true);
         });
       });
 
