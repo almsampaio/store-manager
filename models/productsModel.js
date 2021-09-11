@@ -29,6 +29,19 @@ const getProductById = async (id) => {
   return product;
 };
 
+// REQUISITO 3 ________________________________________________________________________//
+
+const editProduct = async (id, product) => {
+  const { name, quantity } = product;
+  const db = await connection();
+  await db.collection(COLLECTION_NAME).updateOne(
+    { _id: ObjectId(id) },
+    { $set: { name, quantity } },
+  );
+  const updateProduct = await db.collection(COLLECTION_NAME).findOne({ _id: ObjectId(id) });
+  return updateProduct;
+};
+
 // ____________________________________________________________________________________//
 
 module.exports = {
@@ -36,4 +49,5 @@ module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
+  editProduct,
 };

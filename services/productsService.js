@@ -41,10 +41,20 @@ const getProductById = async (id) => {
   return product;
 };
 
+// REQUISITO 3 __________________________________________________________________________//
+const editProduct = async (id, product) => {
+  const { name, quantity } = product;
+  if (!validateName(name)) return ERROR_NAME;
+  if (!validateQuantity(quantity)) return ERROR_QTD_NUMBER;
+  if (!validateTypeNumber(quantity)) return ERROR_QTD_NOT_NUMBER;
+  const products = await models.editProduct(id, product);
+  return products;
+};
 // ____________________________________________________________________________________ //
 
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
+  editProduct,
 };

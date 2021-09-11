@@ -27,10 +27,21 @@ const getProductById = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(product);
 };
 
+// REQUISITO 3 ______________________________________________________________________ //
+
+const editProduct = async (req, res) => {
+  const { id } = req.params;
+  const product = req.body;
+
+  const products = await service.produtsService.editProduct(id, product);
+  if (products.err) return res.status(HTTP_UNPROCESSABLE_STATUS).json(products);
+  return res.status(HTTP_OK_STATUS).json(products);
+};
 // ___________________________________________________________________________________ //
 
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
+  editProduct,
 };
