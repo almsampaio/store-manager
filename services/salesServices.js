@@ -14,6 +14,12 @@ const errorList = {
       message: 'Sale not found',
     },
   },
+  errWrongSaleId: {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong sale ID format',
+    },
+  },
 };
 
 const create = async (product) => {
@@ -47,8 +53,15 @@ const updateById = async (id, productId, quantity) => {
   return result;
 };
 
+const removeById = async (id) => {
+  const result = await salesModels.removeById(id);
+  if (!result) return errorList.errWrongSaleId;
+  return result;
+};
+
 module.exports = {
   create,
   getById,
   updateById,
+  removeById,
 };
