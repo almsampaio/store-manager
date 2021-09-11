@@ -138,7 +138,7 @@ describe.skip('1 - Crie um endpoint para o cadastro de produtos', () => {
   });
 });
 
-describe.skip('2 - Crie um endpoint para listar os produtos', () => {
+describe('2 - Crie um endpoint para listar os produtos', () => {
   let connection;
   let db;
 
@@ -192,7 +192,7 @@ describe.skip('2 - Crie um endpoint para listar os produtos', () => {
       });
   });
 
-  it('Será validado que não é possível listar um produto que não existe', async () => {
+  it.skip('Será validado que não é possível listar um produto que não existe', async () => {
     await frisby.get(`${url}/products/${invalidId}`)
       .expect('status', 422)
       .then((secondResponse) => {
@@ -204,7 +204,7 @@ describe.skip('2 - Crie um endpoint para listar os produtos', () => {
       });
   });
 
-  it('Será validado que é possível listar um determinado produto', async () => {
+  it.skip('Será validado que é possível listar um determinado produto', async () => {
     let result;
 
     await frisby

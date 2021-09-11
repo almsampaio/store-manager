@@ -8,7 +8,7 @@ const OPTIONS = {
 
 
 const connection = () => {
-  return mongoClient
+  return MongoClient
     .connect(process.env.DB_URL, OPTIONS)
     .then((conn) => conn.db(process.env.DB_NAME))
     .catch((err) => {
