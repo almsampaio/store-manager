@@ -52,8 +52,20 @@ const create = async (name, quantity) => {
   return { product };
 };
 
+const editProductById = async (id, name, quantity) => {
+  if (name.length < minNameLength) return nameErr;
+
+  if (quantity < minQuantity) return minQuantityErr;
+
+  if (typeof (quantity) === 'string') return quantityStringErr;
+
+  const product = await productsModel.editProductById(id, name, quantity);
+  return { product };
+};
+
 module.exports = { 
   create,
   getAllProducts,
   getProductById,
+  editProductById,
 };

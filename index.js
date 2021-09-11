@@ -16,6 +16,8 @@ app.get('/products/:id', productsController.getProductById);
 
 app.post('/products', productsController.create);
 
+app.put('products/:id', productsController.editProductById);
+
 const PORT = '3000';
 
 app.listen(PORT, () => {

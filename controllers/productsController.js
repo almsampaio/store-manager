@@ -29,8 +29,17 @@ const getProductById = async (req, res) => {
   return res.status(HTTP_OK).json(product);
 };
 
+const editProductById = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const { err, product } = await productsService.editProductById(id, name, quantity);
+  if (err) return res.status(HTTP_UNPROCESSABLE).json({ err });
+  return res.status(HTTP_OK).json(product);
+};
+
 module.exports = {
   create,
   getAllProducts,
   getProductById,
+  editProductById,
 };
