@@ -71,7 +71,6 @@ describe('Testes da camada Model', () => {
       describe('quando é inserido com sucesso', () => {
         it('retorna um objeto', async () => {
           const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          // console.log('meu teste   ',response)
           expect(response).to.be.a('object');
         });
         it('tal objeto possui um "_id" do novo produto inserido', async () => {

@@ -4,7 +4,7 @@ const { expect } = require('chai');
 const productsService = require('../../services/productsService');
 const salesService = require('../../models/salesModel');
 
-const VALIDATION_PRODUCT_INSERT_INVALID_NAME = {
+const INSERT_PRODUCT_WITH_INVALID_NAME = {
   name: "Pro",
   quantity: 100
 };
@@ -40,25 +40,20 @@ describe('Testes da camada Service', () => {
 
 
       describe('quando é inserido um "name" com menos de 5 caracteres', () => {
-        const name = VALIDATION_PRODUCT_INSERT_INVALID_NAME.name;
         it('retorna um objeto', async () => {
-          const response = await productsService.createProduct(name);
+          const response = await productsService.createProduct(INSERT_PRODUCT_WITH_INVALID_NAME);
           expect(response).to.be.a('object');
         });
         it('tal objeto possui a mensagem com o erro do "name" inválido', async () => {
-          const ERROR_NAME_MESSAGE = {
-            err: {
-              code: 'invalid_data',
-              message: '"name" length must be ate least 5 characters long',
-            },
-          };
-
-          const response = await productsService.createProduct(name);
-          expect(response).to.equals(ERROR_NAME_MESSAGE);
+          const response = await productsService.createProduct(INSERT_PRODUCT_WITH_INVALID_NAME);
+          const responseErr = response.err;
+          expect(response).to.have.a.property('err');
+          expect(responseErr).to.have.a.property('code');
+          expect(responseErr).to.have.a.property('message');
         });
       });
     });
   });
 
-  
+
 });
