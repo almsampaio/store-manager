@@ -8,6 +8,19 @@ async function getAll() {
   return sales;
 }
 
+async function addSales(salesList) {
+  const db = await mongoConnection.getConnection();
+  const { insertedId: _id } = await db.collection('sales').insertOne(
+    { itensSold: salesList },
+  );
+
+  return {
+    _id,
+    itensSold: salesList,
+  };
+}
+
 module.exports = {
   getAll,
+  addSales,
 };
