@@ -204,7 +204,7 @@ describe('2 - Crie um endpoint para listar os produtos', () => {
       });
   });
 
-  it.skip('Será validado que é possível listar um determinado produto', async () => {
+  it('Será validado que é possível listar um determinado produto', async () => {
     let result;
 
     await frisby
