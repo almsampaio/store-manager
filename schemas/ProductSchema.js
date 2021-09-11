@@ -4,7 +4,7 @@ const messageErrors = {
   nameLength: '"name" length must be at least 5 characters long',
   quantityLength: '"quantity" must be larger than or equal to 1',
   quantityNotString: '"quantity" must be a number',
-  productExists: '"Product" already exists',
+  productExists: 'Product already exists',
 };
 
 const codeErrors = {

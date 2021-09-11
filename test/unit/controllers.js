@@ -60,7 +60,7 @@ describe.only('Ao chamar o controller de create - controller', () => {
 
     it('é chamado o json com os dados do produto criado', async () => {
       await ProductController.create(request, response);
-      console.log(response.json);
+      // console.log(response.json);
       const product = { name: 'Produto Batista',
       quantity: 1 };
 

@@ -161,7 +161,7 @@ describe('Insere um novo produto no BD - camada services', () => {
         const response = await ProductService.create(payloadProduct);
         const { err: { message } } = response;
 
-        expect(message).to.equal('"Product" already exists');
+        expect(message).to.equal('Product already exists');
       });
 
       it('a chave "code" deste objeto possui o código correto', async () => {
