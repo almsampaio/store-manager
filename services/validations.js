@@ -31,7 +31,25 @@ const validateCreation = async (name, quantity) => {
   }
 };
 
+const validateUpdate = async (name, quantity) => {
+  if (!regexName.test(name)) {
+    const errorMessage = errorGenerator(errorMsg.invalidData, errorMsg.characterLength);
+    return { errorMessage };
+  }
+
+  if (typeof quantity !== 'number') {
+    const errorMessage = errorGenerator(errorMsg.invalidData, errorMsg.quantityType);
+    return { errorMessage };
+  }
+
+  if (quantity < 1) {
+    const errorMessage = errorGenerator(errorMsg.invalidData, errorMsg.quantity);
+    return { errorMessage };
+  }
+};
+
 module.exports = {
   validateId,
   validateCreation,
+  validateUpdate,
 };
