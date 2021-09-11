@@ -33,7 +33,6 @@ exports.idValidator = (req, _res, next) => {
 exports.idExists = async (req, _res, next) => {
   const { id } = req.params;
   const result = await productService.getProductById(id);
-  console.log(result);  
   if (!result) {
 return next({
       err: { code: 'invalid_data', message: 'Wrong id format' },

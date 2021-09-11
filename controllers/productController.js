@@ -59,7 +59,19 @@ exports.updateOneProduct = async (req, res, next) => {
       quantity,
     });
   } catch (e) {
-    console.log(e);
+    next(e);
+  }
+};
+
+// Requisito 4 - Deletar um pedido
+// https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndDelete
+
+exports.deleteOneProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await productService.deleteProduct(id);
+    res.status(OK).json(result.value);
+  } catch (e) {
     next(e);
   }
 };
