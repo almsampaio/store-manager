@@ -100,9 +100,7 @@ describe('Testes da camada Service', () => {
         sinon.stub(productsModel, 'getAllProdutcts').resolves(productAlreadyExists);
       });
 
-      after(async () => {
-        productsModel.getAllProdutcts.restore();
-      });
+     
       describe('Verifica que não é possível criar um produto com um "name" ja existente', () => {
 
         it('Quando inserido um nome ja existente, retorna um objeto', async () => {

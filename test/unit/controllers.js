@@ -14,6 +14,16 @@ const ERROR_MESSAGE_INVALID_NAME = {
   },
 }
 
+const ERROR_MESSAGE_INVALID_REPEATED_NAME = {
+  err: {
+    code: 'invalid_data',
+    message: 'Product already exists',
+  },
+}
+
+
+
+
 
 describe('Testes da camada Controller', () => {
 
@@ -22,7 +32,7 @@ describe('Testes da camada Controller', () => {
 
       const response = {};
       const request = {};
-      const error = {
+      const errorShortName = {
         err: {
           code: 'invalid_data',
           message: '"name" length must be ate least 5 characters long',
@@ -30,22 +40,29 @@ describe('Testes da camada Controller', () => {
         status: 422,
       };
 
-      before(() => {
-        request.body = {
-          name: "Pro",
-          quantity: 100,
-        };
 
-        response.status = sinon.stub()
-         .returns(response);
-        response.json = sinon.stub()
-         .returns();
 
-        sinon.stub(productsService, 'createProduct').resolves(error);
-      })
+      describe('Quando é inserido um "name" com menos de 5 caracteres', () => {
+        before(() => {
+          request.body = {
+            name: "Pro",
+            quantity: 100,
+          };
 
-      describe('quando é inserido um "name" com menos de 5 caracteres', () => {
-        it('é chamado o status com o código 400', async () => {
+          response.status = sinon.stub()
+           .returns(response);
+          response.json = sinon.stub()
+           .returns();
+
+          sinon.stub(productsService, 'createProduct').resolves(errorShortName);
+        })
+
+        after(async () => {
+          productsService.createProduct.restore();
+        });
+
+
+        it('é chamado o status com o código 422', async () => {
           await productsController.createProduct(request, response);
           expect(response.status.calledWith(422)).to.be.equal(true);
         });
@@ -54,8 +71,93 @@ describe('Testes da camada Controller', () => {
           await productsController.createProduct(request, response);
           expect(response.json.calledWith(ERROR_MESSAGE_INVALID_NAME)).to.be.equal(true);
         });
-
       });
+
+
+
+      const errorRepeatedName = {
+        err: {
+          code: 'invalid_data',
+          message: 'Product already exists',
+        },
+        status: 422,
+      };
+
+
+
+
+      describe('Quando é inserido um "name" repetido', () => {
+
+        before(() => {
+          request.body = {
+            name: "Produto do Batista",
+            quantity: 100,
+          };
+
+          response.status = sinon.stub()
+           .returns(response);
+          response.json = sinon.stub()
+           .returns();
+
+          sinon.stub(productsService, 'createProduct').resolves(errorRepeatedName);
+        })
+
+        after(async () => {
+          productsService.createProduct.restore();
+        });
+
+
+        it('é chamado o status com o código 422', async () => {
+          await productsController.createProduct(request, response);
+          expect(response.status.calledWith(422)).to.be.equal(true);
+        });
+
+        it('é chamado o json com a mensagem de erro', async () => {
+          await productsController.createProduct(request, response);
+          expect(response.json.calledWith(ERROR_MESSAGE_INVALID_REPEATED_NAME)).to.be.equal(true);
+        });
+      });
+
+
+
+      // describe('Quando é inserido um "name" repetido', () => {
+
+      //   before(() => {
+      //     request.body = {
+      //       name: "Produto do Batista",
+      //       quantity: 100,
+      //     };
+
+      //     response.status = sinon.stub()
+      //      .returns(response);
+      //     response.json = sinon.stub()
+      //      .returns();
+
+      //     sinon.stub(productsService, 'createProduct').resolves(errorRepeatedName);
+      //   })
+
+      //   after(async () => {
+      //     productsService.createProduct.restore();
+      //   });
+
+
+      //   it('é chamado o status com o código 422', async () => {
+      //     await productsController.createProduct(request, response);
+      //     expect(response.status.calledWith(422)).to.be.equal(true);
+      //   });
+
+      //   it('é chamado o json com a mensagem de erro', async () => {
+      //     await productsController.createProduct(request, response);
+      //     expect(response.json.calledWith(ERROR_MESSAGE_INVALID_REPEATED_NAME)).to.be.equal(true);
+      //   });
+      // });
+
+
+
+
+
+
+
     });
 
   });
