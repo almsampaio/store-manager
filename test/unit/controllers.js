@@ -7,6 +7,13 @@ const productsService = require('../../services/productsService');
 const salesController = require('../../controllers/sales.Controller');
 const salesService = require('../../services/salesService');
 
+const ERROR_MESSAGE_INVALID_NAME = {
+  err: {
+    code: 'invalid_data',
+    message: '"name" length must be ate least 5 characters long',
+  },
+}
+
 
 describe('Testes da camada Controller', () => {
 
@@ -20,26 +27,32 @@ describe('Testes da camada Controller', () => {
           code: 'invalid_data',
           message: '"name" length must be ate least 5 characters long',
         },
+        status: 422,
       };
 
       before(() => {
-      request.body = {
-        name: "Pro",
-        quantity: 100,
-       };
+        request.body = {
+          name: "Pro",
+          quantity: 100,
+        };
 
-       response.status = sinon.stub()
-        .returns(response);
-       response.json = sinon.stub()
+        response.status = sinon.stub()
+         .returns(response);
+        response.json = sinon.stub()
          .returns();
 
         sinon.stub(productsService, 'createProduct').resolves(error);
       })
 
       describe('quando é inserido um "name" com menos de 5 caracteres', () => {
-        it('retorna um objeto', async () => {
+        it('é chamado o status com o código 400', async () => {
           await productsController.createProduct(request, response);
-          expect(response).to.be.a('object');
+          expect(response.status.calledWith(422)).to.be.equal(true);
+        });
+
+        it('é chamado o json com a mensagem de erro', async () => {
+          await productsController.createProduct(request, response);
+          expect(response.json.calledWith(ERROR_MESSAGE_INVALID_NAME)).to.be.equal(true);
         });
 
       });
