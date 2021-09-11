@@ -9,7 +9,7 @@ const ProductModel = require('../../models/ProductModel');
 
 // CREATE PRODUCT
 
-describe('Insere um novo produto no BD', () => {
+describe('Insere um novo produto no BD - camada model', () => {
   let connectionMock;
 
   const payloadProduct = {

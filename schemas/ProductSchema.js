@@ -1,7 +1,10 @@
+const ProductModel = require('../models/ProductModel');
+
 const messageErrors = {
   nameLength: '"name" length must be at least 5 characters long',
   quantityLength: '"quantity" must be larger than or equal to 1',
   quantityNotString: '"quantity" must be a number',
+  productExists: '"Product" already exists',
 };
 
 const codeErrors = {
@@ -10,8 +13,16 @@ const codeErrors = {
 
 const nameLength = (name) => name.length < 5;
 const nameIsNotString = (name) => typeof name !== 'string';
-const quantityLength = (quantity) => quantity.length <= 0;
+const quantityLength = (quantity) => quantity <= 0;
 const quantityIsNotNumber = (quantity) => typeof quantity !== 'number';
+const productExists = async (name) => {
+  if (await ProductModel.isName(name)) {
+    return {
+      err: { code: codeErrors.invalidData, message: messageErrors.productExists },
+    };
+  } 
+    return {};
+};
 
 const validate = (name, quantity) => {
   switch (true) {
@@ -30,5 +41,6 @@ module.exports = {
   nameIsNotString,
   quantityLength,
   quantityIsNotNumber,
+  productExists,
   validate,
 };

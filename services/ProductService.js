@@ -7,6 +7,8 @@ const create = async ({ name, quantity }) => {
   if (ProductSchema.validate(name, quantity).err) {
     return ProductSchema.validate(name, quantity);
   }
+  const productNameExists = await ProductSchema.productExists(name);
+  if (productNameExists.err) return productNameExists;
 
   const product = await ProductModel.create({ name, quantity });
 
@@ -17,4 +19,4 @@ module.exports = {
   create,
 };
 
-// console.log(create({ name: 'coaac', quantity: 1 }).then((data) => console.log(data)));
+// console.log(create({ name: 'thyago 1', quantity: 1 }).then((data) => console.log(data)));

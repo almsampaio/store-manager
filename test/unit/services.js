@@ -7,7 +7,7 @@ const mongoConnection = require('../../models/connection');
 
 const ProductService = require('../../services/ProductService');
 
-describe('Insere um novo produto no BD', () => {
+describe('Insere um novo produto no BD - camada services', () => {
   let connectionMock;
 
   before(async () => {
@@ -30,45 +30,47 @@ describe('Insere um novo produto no BD', () => {
   });
 
   describe('quando o payload informado não é válido', () => {
-    let payloadProduct = {};
 
     describe('pois o nome não atente aos requisitos', () => {
-      payloadProduct = {
+      const payloadProduct = {
         name: 'abc',
-        quantity: 1,
+        quantity: 10,
       }
 
       it('retorna um objeto', async () => {
         const response = await ProductService.create(payloadProduct);
-        console.log(response);
 
         expect(response).to.be.a('object');
       });
 
-      it.only('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
-        const response = await ProductService.create(payloadProduct);
-        const { err } = response;
+      it('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const { err } = await ProductService.create(payloadProduct);
 
-        expect(response).to.have.property(err, code);
-        expect(response).to.have.property(err, message);
-      });
-
-      it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await ProductService.create(payloadProduct);
-        const { err: { code } } = response;
-
-        expect(code).to.equal('"name" length must be at least 5 characters long');
+        expect(err).to.have.property('message');
+        expect(err).to.have.property('code');
       });
 
       it('a chave "message" possui a mensagem correta', async () => {
         const response = await ProductService.create(payloadProduct);
         const { err: { message } } = response;
 
-        expect(message).to.equal('invalid_data');
+        expect(message).to.equal('"name" length must be at least 5 characters long');
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await ProductService.create(payloadProduct);
+        const { err: { code } } = response;
+
+        expect(code).to.equal('invalid_data');
       });
     });
 
     describe('pois a quantidade é um valor menor ou igual a 0', async () => {
+      const payloadProduct = {
+        name: 'abcde',
+        quantity: 0,
+      }
+
       it('retorna um objeto', async () => {
         const response = await ProductService.create(payloadProduct);
 
@@ -76,29 +78,32 @@ describe('Insere um novo produto no BD', () => {
       });
 
       it('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
-        const response = await ProductService.create(payloadProduct);
-        const { err } = response;
+        const { err } = await ProductService.create(payloadProduct);
 
-        expect(response).to.have.property(err, code);
-        expect(response).to.have.property(err, message);
-      });
-
-      it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await ProductService.create(payloadProduct);
-        const { err: { code } } = response;
-
-        expect(code).to.equal('"quantity" must be at larger than or equal to 1');
+        expect(err).to.have.property('code');
+        expect(err).to.have.property('message');
       });
 
       it('a chave "message" possui a mensagem correta', async () => {
         const response = await ProductService.create(payloadProduct);
         const { err: { message } } = response;
 
-        expect(message).to.equal('invalid_data');
+        expect(message).to.equal('"quantity" must be larger than or equal to 1');
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await ProductService.create(payloadProduct);
+        const { err: { code } } = response;
+
+        expect(code).to.equal('invalid_data');
       });
     });
 
     describe('pois a quantidade não é um número', () => {
+      const payloadProduct = {
+        name: 'abcdef',
+        quantity: '1',
+      }
       it('retorna um objeto', async () => {
         const response = await ProductService.create(payloadProduct);
 
@@ -109,26 +114,35 @@ describe('Insere um novo produto no BD', () => {
         const response = await ProductService.create(payloadProduct);
         const { err } = response;
 
-        expect(response).to.have.property(err, code);
-        expect(response).to.have.property(err, message);
-      });
-
-      it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await ProductService.create(payloadProduct);
-        const { err: { code } } = response;
-
-        expect(code).to.equal('"quantity" must be a number');
+        expect(err).to.have.property('code');
+        expect(err).to.have.property('message');
       });
 
       it('a chave "message" possui a mensagem correta', async () => {
         const response = await ProductService.create(payloadProduct);
         const { err: { message } } = response;
 
-        expect(message).to.equal('invalid_data');
+        expect(message).to.equal('"quantity" must be a number');
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await ProductService.create(payloadProduct);
+        const { err: { code } } = response;
+
+        expect(code).to.equal('invalid_data');
       });
     });
 
     describe('pois o produto já foi cadastrado', () => {
+      const payloadProduct = {
+        name: 'abcdefg',
+        quantity: 1,
+      }
+
+      before(async () => {
+        await ProductService.create(payloadProduct);
+      });
+
       it('retorna um objeto', async () => {
         const response = await ProductService.create(payloadProduct);
 
@@ -139,27 +153,33 @@ describe('Insere um novo produto no BD', () => {
         const response = await ProductService.create(payloadProduct);
         const { err } = response;
 
-        expect(response).to.have.property(err, code);
-        expect(response).to.have.property(err, message);
-      });
-
-      it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await ProductService.create(payloadProduct);
-        const { err: { code } } = response;
-
-        expect(code).to.equal('"Product" already exists');
+        expect(err).to.have.property('code');
+        expect(err).to.have.property('message');
       });
 
       it('a chave "message" possui a mensagem correta', async () => {
         const response = await ProductService.create(payloadProduct);
         const { err: { message } } = response;
 
-        expect(message).to.equal('invalid_data');
+        expect(message).to.equal('"Product" already exists');
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await ProductService.create(payloadProduct);
+        const { err: { code } } = response;
+
+        expect(code).to.equal('invalid_data');
       });
     });
   });
 
   describe('quando é inserido com sucesso', () => {
+
+    const payloadProduct = {
+      name: 'abcdefgh',
+      quantity: 1,
+    }
+
     it('retorna um objeto', async () => {
       const response = await ProductService.create(payloadProduct);
 
@@ -167,6 +187,10 @@ describe('Insere um novo produto no BD', () => {
     });
 
     it('tal objeto possui o "id" do novo filme inserido', async () => {
+      const payloadProduct = {
+        name: 'abcdefghi',
+        quantity: 1,
+      }
       const response = await ProductService.create(payloadProduct);
 
       expect(response).to.have.a.property('_id');
