@@ -53,3 +53,40 @@ describe('Insere um novo produto no Banco de dados', () => {
     });
   });
 });
+
+describe('Testa o metodo findOneByName', () => {
+  let connectionMock;
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+
+    connectionMock = await MongoClient
+        .connect(URLMock, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+        })
+        .then((conn) => conn.db('StoreManager'));
+
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock)
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });  
+  it('Testa se o metodo findOneByName retorna corretamente quando nao encontra ', async () => {
+    const response = await ProductsModel.findOneByName('nome nao existente');
+
+    expect(response).to.be.equal(null);
+  });
+  it('Testa se o metodo findOneByName retorna corretamente quando encontra', async () => {
+    const produto = {
+      name: 'produtoExemplo',
+      quantity: 999,
+    };
+    await ProductsModel.create(produto);
+    const response = await ProductsModel.findOneByName('produtoExemplo');
+
+    expect(response.name).to.be.equal(produto.name);
+    expect(response.quantity).to.be.equal(produto.quantity);
+  });
+})
