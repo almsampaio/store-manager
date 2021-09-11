@@ -5,6 +5,7 @@ const productsController = require('./controllers/productsControler');
 const app = express();
 app.use(bodyParser.json());
 
+app.get('/products/:id', productsController.getProductById);
 app.post('/products', productsController.create);
 app.get('/products', productsController.getAll);
 
