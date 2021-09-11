@@ -28,9 +28,17 @@ const update = async (req, res) => {
   res.status(result);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const result = await salesService.remove(id);
+  if (result.err) return res.status(httpStatus.HTTP_INVALID_DATA).json(result.err);
+  res.status(httpStatus.HTTP_OK).json(result);
+};
+
 module.exports = {
   getById,
   getAll,
   create,
   update,
+  remove,
 };

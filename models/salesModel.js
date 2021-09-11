@@ -27,9 +27,16 @@ const update = async (id, prodId, qtd) =>
   //   { multi: true, arrayFilters: [{ quantity: { $eq: prodId } }] });
   ({ id, prodId, qtd });
 
+const remove = async (id) => {
+  const db = await connection();
+  const result = await db.collection('sales').deleteOne({ _id: ObjectID(id) });
+  return result;
+};
+
 module.exports = {
   getById,
   getAll,
   create,
   update,
+  remove,
 };

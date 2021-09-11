@@ -31,9 +31,17 @@ const update = async (id, prodId, qtd) => {
   return result;
 };
 
+const remove = async (id) => {
+  const validId = await salesMidd.validateOneId(id);
+  if (!validId) return errorMsg.invalidIdFormat;
+  const result = await salesModel.remove(id);
+  return result;
+};
+
 module.exports = {
   getById,
   getAll,
   create,
   update,
+  remove,
 };
