@@ -28,7 +28,7 @@ app.get('/', (_request, response) => {
 app.post('/products', validateProductName, validateProductQty, createProduct);
 app.get('/products', getAllProducts);
 app.get('/products/:id', validateId, findById);
-app.put('/products/:id', validateProductName, validateProductQty, editProduct);
+app.put('/products/:id', validateProductQty, validateProductName, editProduct);
 app.delete('/products/:id', validateId, deleteByid);
 
 app.listen(PORT, () => {
