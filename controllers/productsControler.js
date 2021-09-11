@@ -14,6 +14,11 @@ const create = async (req, res) => {
   return res.status(201).json({...product});
 };
 
+const getAll = async (_req, res) => {
+  const products = await productsService.getAllProducts();
+  return res.status(200).json({products});
+}
+
 module.exports = {
   create,
   getAll,
