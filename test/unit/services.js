@@ -26,7 +26,14 @@ const INSERT_PRODUCT_OK = {
   quantity: 100
 };
 
-const VALIDATION_SALE_INSERT = [
+
+const SALE_INSERT_QUANTITY_ZERO = [
+  {
+    productId: "5f43ba273200020b101fe49f",
+    quantity: 2
+  }
+]
+const SALE_INSERT_OK = [
   {
     productId: "5f43ba273200020b101fe49f",
     quantity: 2
@@ -37,8 +44,6 @@ describe('Testes da camada Service', () => {
 
   describe('Testando as requisições com a coleção "Procucts"', () => {
     describe('Teste da Requisição POST - Inserindo um novo produto no BD', () => {
-
-
       describe('quando é inserido um "name" com menos de 5 caracteres', () => {
         it('retorna um objeto', async () => {
           const response = await productsService.createProduct(INSERT_PRODUCT_WITH_INVALID_NAME);
@@ -104,12 +109,29 @@ describe('Testes da camada Service', () => {
           expect(responseToSubzeroErr).to.have.a.property('message');
         });
       });
-
-
-
-
     });
   });
+
+
+
+
+
+
+
+  // describe('Testando as requisições com a coleção "Sales"', () => {
+  //   describe('Teste da Requisição POST - Inserindo um novo "Sale" no BD', () => {
+  //     describe('Será validado que não é possível cadastrar compras com quantidade menor que zero', () => {
+  //       it('retorna um objeto', async () => {
+  //         const response = await productsService.createProduct(INSERT_PRODUCT_WITH_INVALID_NAME);
+  //         expect(response).to.be.a('object');
+  //       });
+
+  //     });
+
+  //   });
+  // });
+
+
 
 
 });

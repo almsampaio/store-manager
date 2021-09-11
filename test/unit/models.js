@@ -21,6 +21,19 @@ const VALIDATION_SALE_INSERT = [
   }
 ]
 
+const VALIDATION_SALE_INSERT_WHIT_TWO_PRODUCTS = [
+  {
+    productId: "5f43ba273200020b101fe49f",
+    quantity: 2
+  },
+  {
+    productId: "5f43ba273212220b101fr46g",
+    quantity: 7
+  }
+]
+
+
+
 describe('Testes da camada Model', () => {
 
 
@@ -70,10 +83,10 @@ describe('Testes da camada Model', () => {
 
       describe('quando é inserido com sucesso', () => {
         it('retorna um objeto', async () => {
-          const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
+          const response = await salesModel.createSale(VALIDATION_SALE_INSERT_WHIT_TWO_PRODUCTS);
           expect(response).to.be.a('object');
         });
-        it('tal objeto possui um "_id" do novo produto inserido', async () => {
+        it('tal objeto possui um "_id" da venda inserida', async () => {
           const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
           expect(response).to.have.a.property('_id');
         });

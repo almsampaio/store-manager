@@ -26,7 +26,7 @@ async function isRepeated(name) {
   return false;
 }
 
-function quantityValidation(quantity) {
+function quantityValidationProducts(quantity) {
   if (quantity <= 0) {
     return {
         err: {
@@ -38,8 +38,24 @@ function quantityValidation(quantity) {
   return false;
 }
 
+function quantityValidationSales(sale) {
+  const invalidQuantity = sale
+  .find(({ quantity }) => typeof quantity !== 'number' || quantity <= 0);
+
+  if (invalidQuantity) {
+    return {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+      };
+  }
+  return false;
+}
+
 module.exports = {
   nameLengthValidation,
   isRepeated,
-  quantityValidation,
+  quantityValidationProducts,
+  quantityValidationSales,
 };

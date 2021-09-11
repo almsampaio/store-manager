@@ -7,7 +7,7 @@ const createProduct = async ({ name, quantity }) => {
   const isNameRepeat = await validations.isRepeated(name);
   if (isNameRepeat) return isNameRepeat;
 
-  const validationQuantity = validations.quantityValidation(quantity);
+  const validationQuantity = validations.quantityValidationProducts(quantity);
   if (validationQuantity) return validationQuantity;
 };
 
