@@ -1,11 +1,9 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const ProductController = {
-  create: () => {}
-}
+const ProductController = require('../../controllers/ProductController');
 
-describe('Ao chamar o controller de create - controller', () => {
+describe.only('Ao chamar o controller de create - controller', () => {
   describe('quando o payload informado não é válido', () => {
     const response = {};
     const request = {};
@@ -44,7 +42,7 @@ describe('Ao chamar o controller de create - controller', () => {
 
     before(() => {
       request.body = {
-        name: 'Produto Batista',
+        name: 'Produto Batista 2',
         quantity: 1,
       };
   
@@ -62,6 +60,7 @@ describe('Ao chamar o controller de create - controller', () => {
 
     it('é chamado o json com os dados do produto criado', async () => {
       await ProductController.create(request, response);
+      console.log(response.json);
       const product = { name: 'Produto Batista',
       quantity: 1 };
 
