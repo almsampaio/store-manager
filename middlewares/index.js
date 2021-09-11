@@ -7,7 +7,10 @@ const validateName = (name) => {
 
 const validateTypeNumber = (quantity) => typeof (quantity) === 'number';
 
-const validateQuantity = (quantity) => quantity >= 1;
+const validateQuantity = (quantity) => {
+  const minQuant = 1;
+  if (quantity >= minQuant) return true;
+};
 
 const validateId = (id) => (ObjectId.isValid(id));
 
