@@ -31,6 +31,10 @@ app.post('/products', productsController.create);
 
 app.post('/sales', salesController.create);
 
+app.delete('/products/:id', productsController.remove);
+
+app.delete('/sales/:id', salesController.remove);
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();

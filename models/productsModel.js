@@ -5,7 +5,7 @@ const getAll = async () => {
     const db = await connection();
     const products = await db.collection('products').find({}).toArray();
     return products;
-}
+};
 
 const create = async (name, quantity) => {
     connection()
@@ -17,10 +17,17 @@ const getById = async (id) => {
     if (!ObjectId.isValid(id)) return null;
     return connnection()
     .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
-}
+};
+
+const remove = async (id) => {
+    if (!ObjectId.isValid(id)) return null;
+    return connnection()
+    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+};
 
 module.exports = {
 create,
 getAll,
-getById
+getById,
+remove
 };
