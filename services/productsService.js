@@ -12,9 +12,6 @@ const createProduct = async ({ name, quantity }) => {
   if (validationQuantity) return validationQuantity;
 };
 
-
-
 module.exports = {
   createProduct,
-  // createSale,
 };

@@ -4,8 +4,8 @@ const { expect } = require('chai');
 const productsService = require('../../services/productsService');
 const productsModel = require('../../models/productsModel');
 
-// const salesService = require('../../services/salesService');
-const createSale = async (sale) => "a";
+const salesService = require('../../services/salesService');
+
 
 const INSERT_PRODUCT_WITH_INVALID_NAME = {
   name: "Pro",
@@ -123,11 +123,11 @@ describe('Testes da camada Service', () => {
     describe('Teste da Requisição POST - Inserindo um novo "Sale" no BD', () => {
       describe('Será validado que não é possível cadastrar compras com campo quantidade menor que zero ou que seja escrita uma string nesse campo', () => {
         it('retorna um objeto com contendo o erro e a mensagem sobre o erro', async () => {
-          const response = await createSale(SALE_INSERT_QUANTITY_ZERO);
+          const response = await salesService.createSale(SALE_INSERT_QUANTITY_ZERO);
           expect(response).to.be.a('object');
         });
         it('tal objeto possui a mensagem com o erro de "quantidade" inválida', async () => {
-          const response = await productsService.createProduct(INSERT_PRODUCT_WITH_INVALID_NAME);
+          const response = await salesService.createSale(SALE_INSERT_QUANTITY_ZERO);
           const responseErr = response.err;
           expect(response).to.have.a.property('err');
           expect(responseErr).to.have.a.property('code');
