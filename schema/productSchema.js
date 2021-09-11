@@ -28,9 +28,15 @@ const validateQuantity = (quantity) => {
 };
 
 const findValueInArrayOfObjects = (array, value, key) => {
-  const result = array.find((object) => object[key] === value);
-  if (result) return true;
-  return false;
+  const result = array.find((object) => {
+    console.log('key');
+    console.log(object[key]);
+    console.log('value');
+    console.log(value);
+    if (object[key] === value) return object;
+    return false;
+  });
+  return result;
 };
 
 module.exports = {

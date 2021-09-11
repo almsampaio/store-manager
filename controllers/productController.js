@@ -1,5 +1,6 @@
 const express = require('express');
 const productService = require('../services/productService');
+const productModel = require('../models/productModel');
 // const { validateName, validateQuantity } = require('../middlewares/productMiddleware');
 
 const HTTP_UNPROCESSABLE_ENTITY = 422;
@@ -8,10 +9,25 @@ const HTTP_CREATED_STATUS = 201;
 
 const route = express.Router();
 
-route.get('/', (_req, res) => {
-  const frase = 'Hello World';
+route.get('/', async (_req, res) => {
+  const response = await productModel.getAll();
 
-  return res.status(HTTP_OK_STATUS).end(frase);
+  return res.status(HTTP_OK_STATUS).json({ products: response });
+});
+
+route.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const response = await productService.findById(id);
+  if (response.code) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: response.code,
+        message: response.message,
+      },
+    });
+  }
+
+  return res.status(HTTP_OK_STATUS).json(response);
 });
 
 route.post('/', async (req, res) => {
