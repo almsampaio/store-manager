@@ -16,6 +16,8 @@ app.get('/', (_request, response) => {
 app.post('/products', 
 validateNameNewProduct, validateQuantityNewProduct, productsControllers.createNewProduct);
 
+app.get('/products', productsControllers.getAllProducts);
+
 const PORT = 3000;
 
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
