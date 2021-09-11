@@ -74,11 +74,6 @@ const SALE_ALL_TWO_POSITIONS_OK = [
 
 describe('Testes da camada Service', () => {
 
-
-
-
-
-
   describe('Testando as requisições com a coleção "Procucts"', () => {
     describe('Teste da Requisição POST - Inserindo um novo produto no BD', () => {
       describe('quando é inserido um "name" com menos de 5 caracteres', () => {
@@ -148,12 +143,6 @@ describe('Testes da camada Service', () => {
       });
     });
   });
-
-
-
-
-
-
 
   describe('Testando as requisições com a coleção "Sales"', () => {
     describe('Teste da Requisição POST - Inserindo um novo "Sale" no BD', () => {

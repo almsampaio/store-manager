@@ -1,4 +1,3 @@
-// const salesController= require('../models/salesController');
 const salesModel = require('../models/salesModel');
 const validations = require('./validations');
 
