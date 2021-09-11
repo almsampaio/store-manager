@@ -2,6 +2,8 @@ const express = require('express');
 const products = require('./routes/products');
 const sales = require('./routes/sales');
 
+require('dotenv').config();
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
