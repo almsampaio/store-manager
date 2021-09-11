@@ -1,7 +1,20 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-// função para verificar se o produto já existe. seu retorno influenciará na criação de um novo produto, barrando essa criação caso o produto exista.
-const findOneProduct = async ({ name }) => {
+const findById = async (id) => {
+  const db = await connection();
+  const result = await db.collection('products').findOne(new ObjectId(id));
+
+  return result;
+};
+
+const getAll = async () => {
+  const db = await connection();
+  const result = await db.collection('products').find().toArray();
+  return { products: result };
+};
+
+const findOneByName = async ({ name }) => {
   const db = await connection();
   const result = await db.collection('products').findOne({ name });
 
@@ -9,8 +22,8 @@ const findOneProduct = async ({ name }) => {
 };
 
 const create = async ({ name, quantity }) => {
-  const alreadyExists = await findOneProduct({ name });
-  
+  const alreadyExists = await findOneByName({ name });
+
   if (alreadyExists) return null;
 
   const db = await connection();
@@ -20,4 +33,6 @@ const create = async ({ name, quantity }) => {
 
 module.exports = {
   create,
+  getAll,
+  findById,
 };
