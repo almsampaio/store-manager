@@ -12,11 +12,9 @@ exports.postNewProduct = async (req, res, next) => {
     if (result) {
       return res.status(CREATED).json(result);
     }
-    return res
-      .status(UNPROCESSABLE_ENTITY)
-      .json({
-        err: { code: 'invalid_data', message: 'Product already exists' },
-      });
+    return res.status(UNPROCESSABLE_ENTITY).json({
+      err: { code: 'invalid_data', message: 'Product already exists' },
+    });
   } catch (e) {
     next(e);
   }
@@ -41,6 +39,27 @@ exports.getById = async (req, res, next) => {
     const result = await productService.getProductById(id);
     return res.status(OK).json(result);
   } catch (e) {
+    next(e);
+  }
+};
+
+// Requisito 3 - Atualizar um produto
+
+exports.updateOneProduct = async (req, res, next) => {
+  try {
+    const { params: { id }, body: { name, quantity } } = req;
+      await productService.updateProduct({
+      id,
+      name,
+      quantity,
+    });
+  return res.status(OK).json({
+      _id: id,
+      name,
+      quantity,
+    });
+  } catch (e) {
+    console.log(e);
     next(e);
   }
 };
