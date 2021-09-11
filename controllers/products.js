@@ -41,13 +41,33 @@ const getProductsById = async (req, res) => {
 const getProducts = async (_req, res) => {
   const products = await productsService.getProducts();
 
-  console.log(products);
-
   return res.status(200).json({ products });
+};
+
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  
+  console.log('chegamos');
+  const updatedProduct = await productsService.updateProduct(id, name, quantity);
+
+  if (updatedProduct.message) {
+    const error = {
+      err: {
+        message: updatedProduct.message,
+        code: 'invalid_data',
+      },
+    };
+
+    return res.status(422).json(error);
+  }
+
+  return res.status(200).json(updatedProduct);
 };
 
 module.exports = {
   createProduct,
   getProducts,
   getProductsById,
+  updateProduct,
 };

@@ -1,12 +1,13 @@
 const productsModel = require('../models/products');
 
-const validName = async (name) => {
-  const findProductWithTheName = await productsModel.getProductByName(name);
-  
+const checkNameLength = (name) => {
   if (name.length < 5) return { message: '"name" length must be at least 5 characters long' };
-  if (findProductWithTheName) return { message: 'Product already exists' };
+};
 
-  return false;
+const checkNameExists = async (name) => {
+  const findProductWithTheName = await productsModel.getProductByName(name);
+
+  if (findProductWithTheName) return { message: 'Product already exists' };
 };
 
 const validQuantity = (quantity) => {
@@ -16,13 +17,20 @@ const validQuantity = (quantity) => {
   return false;
 };
 
-const validId = (id) => id.length !== 24;
+const validId = (id) => {
+  if (id.length !== 24) return { message: 'Wrong id format' };
+
+  return false;
+};
 
 const createProduct = async (name, quantity) => {
-  const invalidName = await validName(name);
-  const invalidQuantity = await validQuantity(quantity);
+  const invalidLength = checkNameLength(name);
+  if (invalidLength) return invalidLength;
 
+  const invalidName = await checkNameExists(name);
   if (invalidName) return invalidName;
+
+  const invalidQuantity = await validQuantity(quantity);
   if (invalidQuantity) return invalidQuantity;
 
   const product = await productsModel.createProduct(name, quantity);
@@ -33,7 +41,7 @@ const createProduct = async (name, quantity) => {
 const getProductById = async (id) => {
   const invalidId = validId(id);
 
-  if (invalidId) return { message: 'Wrong id format' };
+  if (invalidId) return invalidId;
 
   const product = await productsModel.getProductById(id);
 
@@ -48,8 +56,24 @@ const getProducts = async () => {
   return products;
 };
 
+const updateProduct = async (id, name, quantity) => {
+  const invalidId = validId(id);
+  if (invalidId) return invalidId;
+
+  const invalidLength = await checkNameLength(name);
+  if (invalidLength) return invalidLength;
+
+  const invalidQuantity = validQuantity(quantity);
+  if (invalidQuantity) return invalidQuantity;
+
+  const updatedProduct = await productsModel.updateProduct(id, name, quantity);
+
+  return updatedProduct;
+};
+
 module.exports = {
   createProduct,
   getProductById,
   getProducts,
+  updateProduct,
 };

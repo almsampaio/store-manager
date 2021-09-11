@@ -15,7 +15,8 @@ app.get('/', (_request, response) => {
 const productsController = require('./controllers/products');
 
 app.route('/products/:id')
-  .get(productsController.getProductsById);
+  .get(productsController.getProductsById)
+  .put(productsController.updateProduct);
 
 app.route('/products')
   .post(productsController.createProduct)
