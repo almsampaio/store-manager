@@ -1,4 +1,4 @@
-/* const { ObjectId } = require('bson'); */
+const { ObjectId } = require('bson');
 const getConnection = require('./connection');
 
 const create = async (name, quantity) => {
@@ -13,4 +13,23 @@ const findByName = async (name) => {
   return product;
 };
 
-module.exports = { create, findByName };
+const getAllProducts = async () => {
+  const db = await getConnection();
+  const products = await db.collection('products').find({}).toArray();
+  console.log('cu aqui', products);
+  return products;
+};
+
+const getProductById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getConnection();
+  const product = await db.collection('products').findOne({ _id: ObjectId(id) });
+  return product;
+};
+
+module.exports = { 
+  create, 
+  findByName,
+  getAllProducts,
+  getProductById,
+};

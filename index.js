@@ -11,6 +11,9 @@ app.get('/', (_request, response) => {
 
 const productsController = require('./controllers/productsController');
 
+app.get('/products', productsController.getAllProducts);
+app.get('/products/:id', productsController.getProductById);
+
 app.post('/products', productsController.create);
 
 const PORT = '3000';

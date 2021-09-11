@@ -21,6 +21,16 @@ const quantityStringErr = {
   },
 };
 
+const getAllProducts = async () => {
+  const products = productsModel.getAllProducts();
+  return products;
+};
+
+const getProductById = async (id) => {
+  const product = productsModel.getProductById(id);
+  return product;
+};
+
 const create = async (name, quantity) => {
   if (name.length < minNameLength) return nameErr;
 
@@ -42,4 +52,8 @@ const create = async (name, quantity) => {
   return { product };
 };
 
-module.exports = { create };
+module.exports = { 
+  create,
+  getAllProducts,
+  getProductById,
+};
