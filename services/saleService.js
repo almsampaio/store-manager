@@ -10,10 +10,19 @@ const {
 const zero = 0;
 const code = 'invalid_data';
 const message = 'Wrong product ID or invalid quantity';
+const message2 = 'Such amount is not permited to sell';
+
 const returned = {
   err: {
     code, 
     message,
+  },
+};
+
+const returned2 = {
+  err: {
+    code, 
+    message2,
   },
 };
 
@@ -25,6 +34,8 @@ const create = async (itensSold) => {
   if (isNumber(quantity)) return returned;
   
   const saleService = await salesModel.create(itensSold);
+
+  if (saleService === null) return returned2;
 
   return saleService;
 }; 
