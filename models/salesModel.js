@@ -1,10 +1,16 @@
 const mongoConnection = require('./connection');
 
-const createSale = async (inputSale) => {
-  const productsCollection = await mongoConnection.getConnection()
+const salesCollection = async () => mongoConnection.getConnection()
     .then((db) => db.collection('sales'));
 
-    const ret = await productsCollection
+const getAllSales = async () => {
+  return salesCollection().collection('sales').find().toArray();
+};
+
+const createSale = async (inputSale) => {
+  const SalesCollection = await salesCollection();
+
+    const ret = await SalesCollection
     .insertOne({ itensSold: inputSale }).then((r) => r.ops[0]);
 
   return ret;
@@ -12,4 +18,5 @@ const createSale = async (inputSale) => {
 
 module.exports = {
   createSale,
+  getAllSales,
 };

@@ -1,10 +1,10 @@
 const mongoConnection = require('./connection');
 
-const getAllProdutcts = async () => {
-  const productsCollection = await mongoConnection.getConnection()
+const productsCollection = async () => mongoConnection.getConnection()
     .then((db) => db.collection('products'));
 
-  const products = await productsCollection.collection('products').find().toArray();
+const getAllProdutcts = async () => {
+  const products = await productsCollection().collection('products').find().toArray();
   return products.map(({ _id, name, quantity }) => ({
     _id,
     name,
@@ -13,10 +13,9 @@ const getAllProdutcts = async () => {
 };
 
 const createProduct = async ({ name, quantity }) => {
-  const productsCollection = await mongoConnection.getConnection()
-    .then((db) => db.collection('products'));
+  const prodsCollection = await productsCollection();
 
-  const { insertedId: id } = await productsCollection
+  const { insertedId: id } = await prodsCollection
     .insertOne({ name, quantity });
 
   return {
