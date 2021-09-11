@@ -2,26 +2,31 @@ const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
 const productModels = require('./productModels');
 
-// const productModels = require('./productModels');
-
-// const idProductIsValid = async (arrayParam) => {
-//   let invalidProducts = 0;
-//   arrayParam.forEach(async (obj) => {
-//     const product = await productModels.getById(obj.productId);
-//     if (!product) invalidProducts += 1;
-//   });
-//   if (invalidProducts > 0) return false;
-//   return true;
-// };
+const idProductIsValid = async (arrayParam) => {
+  let invalidProducts = 0;
+  Promise.all(arrayParam.map(async (obj) => {
+    const product = await productModels.getById(obj.productId);
+    if (!product) invalidProducts += 1;
+  }));
+  if (invalidProducts > 0) return false;
+  return true;
+};
 
 const create = async (products) => {
-  // const exists = idProductIsValid(products);
-  // if (!exists) return null;
+  const exists = idProductIsValid(products);
+  if (!exists) return null;
+
   const db = await mongoConnection.getConnection();
+  
+  let check = 0;
+  await Promise.all(products.map(async (obj) => {
+    check += await productModels.updateQuantity(obj.productId, obj.quantity);
+  }));
+
+  if (check > 0) return null;
+
   const { insertedId: id } = await db.collection('sales').insertOne({ itensSold: products });
-  products.forEach(async (obj) => {
-    await productModels.updateQuantity(obj.productId, obj.quantity);
-  });
+
   return {
     _id: id,
     itensSold: products,

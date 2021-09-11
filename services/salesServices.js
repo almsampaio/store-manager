@@ -20,9 +20,15 @@ const errorList = {
       message: 'Wrong sale ID format',
     },
   },
+  errQuantityLimit: {
+    err: {
+      code: 'stock_problem',
+      message: 'Such amount is not permitted to sell',
+    },
+  },
 };
 
-const create = async (product) => {
+const productIsValid = (product) => {
   if (!product.length) return null;
 
   let invalidFields = 0;
@@ -33,7 +39,13 @@ const create = async (product) => {
   });
 
   if (invalidFields > 0) return errorList.errQuantity;
+  return true;
+};
+
+const create = async (product) => {
+  if (productIsValid(product) !== true) return productIsValid(product);
   const result = await salesModels.create(product);
+  if (!result) return errorList.errQuantityLimit;
   return result;
 };
 

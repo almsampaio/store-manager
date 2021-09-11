@@ -43,12 +43,16 @@ const updateQuantity = async (idParam, qtd) => {
   if (!isValid) return null;
 
   const db = await mongoConnection.getConnection();
+  const check = await getById(idParam);
+
+  if (parseInt(check.quantity, 10) < parseInt(qtd, 10)) return 1;
+
   await db.collection('products').updateOne(
     { _id: ObjectId(idParam) },
     { $inc: { quantity: -qtd } },
   );
   
-  return true;
+  return 0;
 };
 
 const cancelSale = async (idParam, qtd) => {

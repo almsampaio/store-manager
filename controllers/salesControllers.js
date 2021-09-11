@@ -3,6 +3,7 @@ const salesModels = require('../models/salesModels');
 
 const create = async (req, res) => {
   const result = await salesServices.create(req.body);
+  if (result.err && result.err.code === 'stock_problem') return res.status(404).json(result);
   if (result.err) return res.status(422).json(result);
   res.status(200).json(result);
 };
