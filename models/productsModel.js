@@ -22,7 +22,8 @@ const getAllProducts = async () => {
 const findProductById = async(id) => {
   return connection()
     .then((db) => db.collection('products').findOne(new ObjectId(id)))
-    .then(result => result || null);
+    .then(result => result || null)
+    .catch(() => null);
 }
 
 module.exports = {
