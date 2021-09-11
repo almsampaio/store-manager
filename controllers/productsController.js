@@ -36,9 +36,19 @@ const updateOne = async (req, res) => {
   return res.status(StatusCodes.OK).json(product);
 };
 
+const deleteOne = async (req, res) => {
+  const { id } = req.params;
+  const product = await service.deleteOne(id);
+
+  if (product.err) return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(product);
+
+  return res.status(StatusCodes.OK).json(product);
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   updateOne,
+  deleteOne,
 };

@@ -19,6 +19,8 @@ app.get('/products/:id', Products.findById);
 
 app.put('/products/:id', Products.updateOne);
 
+app.delete('/products/:id', Products.deleteOne);
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT);

@@ -64,9 +64,18 @@ const updateOne = async (id, name, quantity) => {
   return product;
 };
 
+const deleteOne = async (id) => {
+  const product = await model.deleteOne(id);
+
+  if (!product) return ({ err: { code: invalidData, message: wrongId } });
+
+  return product;
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   updateOne,
+  deleteOne,
 };
