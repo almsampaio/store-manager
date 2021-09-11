@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const getById = async (id) => {
   const db = await connection();
-  const result = await db.collection('sales').find({ _id: ObjectID(id) });
+  const result = await db.collection('sales').findOne({ _id: ObjectID(id) });
   return result;
 };
 

@@ -4,7 +4,7 @@ const salesService = require('../services/salesService');
 const getById = async (req, res) => {
   const { id } = req.params;
   const result = await salesService.getById(id);
-  res.status(httpStatus.HTTP_OK).json(result);
+  res.status(httpStatus.HTTP_OK).json({ sales: result });
 };
 
 const create = async (req, res) => {
