@@ -5,8 +5,17 @@ const getAll = async () => {
     .then((db) => db.collection('products').find().toArray());
 }
 
-const crea
+
+
+const create = async (name, quantity) => {
+  return connection
+    .then((db) => db.collection('products').insertOne({
+      name,
+      quantity,
+    }));
+};
 
 module.exports = {
   getAll,
+  create,
 };
