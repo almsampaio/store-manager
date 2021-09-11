@@ -13,7 +13,7 @@ app.get('/products/:id', productsController.getById);
 
 app.put('/products/:id', productsController.update);
 
-app.delete('/products/:id');
+app.delete('/products/:id', productsController.remove);
 
 app.get('/products', productsController.getAll);
 
