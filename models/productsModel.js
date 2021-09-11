@@ -8,7 +8,7 @@ const createProduct = async ({ name, quantity }) => {
     .insertOne({ name, quantity });
 
   return {
-    id,
+    _id: id,
     name,
     quantity,
   };

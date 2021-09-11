@@ -21,8 +21,6 @@ const VALIDATION_SALE_INSERT = [
   }
 ]
 
-
-
 describe('Testes da camada Model', () => {
 
 
@@ -50,9 +48,9 @@ describe('Testes da camada Model', () => {
           const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
           expect(response).to.be.a('object');
         });
-        it('tal objeto possui o "id" do novo produto inserido', async () => {
+        it('tal objeto possui o "_id" do novo produto inserido', async () => {
           const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
-          expect(response).to.have.a.property('id');
+          expect(response).to.have.a.property('_id');
         });
         it('tal objeto possui o "name" do novo produto inserido', async () => {
           const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
@@ -73,7 +71,7 @@ describe('Testes da camada Model', () => {
       describe('quando é inserido com sucesso', () => {
         it('retorna um objeto', async () => {
           const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          console.log('meu teste   ',response)
+          // console.log('meu teste   ',response)
           expect(response).to.be.a('object');
         });
         it('tal objeto possui um "_id" do novo produto inserido', async () => {
@@ -97,18 +95,6 @@ describe('Testes da camada Model', () => {
       });
     });
   });
-
-
-
-
-
-
-
-
-
-
-
-
 });
 
 
