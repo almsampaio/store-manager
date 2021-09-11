@@ -18,10 +18,15 @@ const invalidIdFormat = { err: { err: { code: 'invalid_data',
   message: 'Wrong id format' } },
 };
 
+const invalidQtdSale = { err: { err: { code: 'invalid_data',
+  message: 'Wrong product ID or invalid quantity' } },
+};
+
 module.exports = {
   duplicatedProductMsg,
   validateNameMsg,
   invalidQtdNumberMsg,
   invalidQtdTypeMsg,
   invalidIdFormat,
+  invalidQtdSale,
 };
