@@ -7,6 +7,7 @@ function nameLengthValidation(name) {
           code: 'invalid_data',
           message: '"name" length must be ate least 5 characters long',
         },
+        status: 422,
       };
   }
   return false;
