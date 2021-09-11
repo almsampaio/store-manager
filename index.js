@@ -1,31 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const productsModel = require('./models/productsModel');
-const salesModel = require('./models/salesModel');
+const { PORT } = require('./controllers/consts');
+const productsController = require('./controllers/productsController');
+const salesController = require('./controllers/salesController');
 
 const app = express();
 app.use(bodyParser.json());
 
 console.log('Hello, World!');
 
-app.get('/products', async (req, res) => {
-  const products = await productsModel.getAll();
-  res.status(200).json(products);
-});
+app.get('/products', productsController.getAll);
 
-app.get('/products/:id', async (req, res) => {
-  const { id } = req.params;
-});
+app.get('/products/:id', productsController.getById);
 
-app.get('/sales', async (req, res) => {
-  const sales = await salesModel.getAll();
-  res.status(200).json(sales);
-});
+app.get('/sales', salesController.getAll);
 
-app.get('/sales/:id', async (req, res) => {
-  const { id } = req.params;
-});
+app.get('/sales/:id', salesController.getById);
 
 app.put('/sales/:id', async (req, res) => {
   const { id } = req.params;
@@ -36,21 +27,13 @@ app,put('/products/:id', async (req, res) => {
 
 });
 
-app.post('/products', async (req, res) => {
-  const { name, quantity } = req.body;
-  const product = await productsModel.create(name, quantity);
-  res.status(201).json(product);
-});
+app.post('/products', productsController.create);
 
-app.post('/sales', async (req, res) => {
-  const { itensSold, quantity } = req.body;
-  const sale = await salesModel.create(itensSold, quantity);
-  res.status(201).json(sale);
-});
+app.post('/sales', salesController.create);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
-app.listen(3001, () => console.log('We are live!'));
+app.listen(PORT, () => console.log('We are live!'));
