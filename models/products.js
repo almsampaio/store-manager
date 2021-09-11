@@ -20,6 +20,17 @@ const getAll = () => connection()
 const findById = async (id) => connection()
   .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
 
+const editProduct = async (id, name, quantity) => {
+  await connection()
+  .then((db) => db.collection('products')
+  .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
+  return {
+    id,
+    name,
+    quantity,
+  };
+};
+
 const deleteById = async (id) => connection()
   .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
 
@@ -28,5 +39,6 @@ module.exports = {
   findByName,
   getAll,
   findById,
+  editProduct,
   deleteById,
 };

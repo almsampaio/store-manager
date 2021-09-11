@@ -7,6 +7,7 @@ const {
     getAllProducts, 
     findById,
     deleteByid,
+    editProduct,
   } = require('./controllers/products');
 
 const PORT = '3000';
@@ -27,6 +28,7 @@ app.get('/', (_request, response) => {
 app.post('/products', validateProductName, validateProductQty, createProduct);
 app.get('/products', getAllProducts);
 app.get('/products/:id', validateId, findById);
+app.put('/products/:id', validateProductName, validateProductQty, editProduct);
 app.delete('/products/:id', validateId, deleteByid);
 
 app.listen(PORT, () => {
