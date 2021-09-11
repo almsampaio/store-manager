@@ -16,6 +16,8 @@ const create = async ({ name, quantity }) => {
   return insertedProduct.ops[0];
 };
 
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
 const getByID = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
@@ -25,6 +27,8 @@ const getByID = async (id) => {
     .findOne({ _id: ObjectId(id) });
   return product;
 };
+
+// ----------------------------------------------------- || ----------------------------------------------------- //
 
 const getAll = async () => {
   const productCollection = await getConnection();
@@ -36,4 +40,23 @@ const getAll = async () => {
   return products;
 };
 
-module.exports = { create, getAll, getByID };
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+const update = async (id, { name, quantity }) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const filter = { _id: ObjectId(id) };
+
+  const document = { $set: { quantity, name } };
+
+  const options = { returnOriginal: false };
+
+  const products = await getConnection();
+
+  const result = await products.collection(PRODUCTS_COLLECTION)
+    .findOneAndUpdate(filter, document, options);
+
+  return result.value;
+};
+
+module.exports = { create, getAll, getByID, update };

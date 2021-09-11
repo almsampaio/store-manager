@@ -1,6 +1,6 @@
 const joi = require('@hapi/joi');
 
-const validateCreate = (req, res, next) => {
+const validateProductInput = (req, _res, next) => {
   const { name, quantity } = req.body;
 
   const schema = joi.object({
@@ -21,4 +21,4 @@ const validateCreate = (req, res, next) => {
   next();
 };
 
-module.exports = { validateCreate };
+module.exports = { validateProductInput };
