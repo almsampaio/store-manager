@@ -2,6 +2,11 @@ const salesModel = require('../models/salesModel');
 const salesMidd = require('../middlewares/salesMidd');
 const errorMsg = require('../returnMsg');
 
+const getById = async (id) => {
+  const result = await salesModel.getById(id);
+  return result;
+};
+
 const create = async (sale) => {
   const validIds = await salesMidd.validateAllIds(sale);
   const validQtd = await salesMidd.validateAllQtd(sale);
@@ -11,5 +16,6 @@ const create = async (sale) => {
 };
 
 module.exports = {
+  getById,
   create,
 };

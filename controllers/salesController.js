@@ -1,6 +1,12 @@
 const httpStatus = require('../httpStatus');
 const salesService = require('../services/salesService');
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const result = await salesService.getById(id);
+  res.status(httpStatus.HTTP_OK).json(result);
+};
+
 const create = async (req, res) => {
   const sale = req.body;
   const result = await salesService.create(sale);
@@ -9,5 +15,6 @@ const create = async (req, res) => {
 };
 
 module.exports = {
+  getById,
   create,
 };
