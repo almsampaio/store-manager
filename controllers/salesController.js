@@ -46,3 +46,18 @@ exports.get = async (req, res) => {
     );
   }
 };
+
+exports.update = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const sales = await salesService.update({ id, sales: req.body });
+    return res.status(StatusCodes.OK).json(sales);
+  } catch (e) {
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+      { err: {
+        code: e.name,
+        message: e.message,
+      } },
+    );
+  }
+};

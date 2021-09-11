@@ -23,3 +23,12 @@ exports.get = async ({ id }) => {
   if (!sale) throw new NotFoundError('Sale not found');
   return sale;
 };
+
+exports.update = async ({ id, sales }) => {
+  const { error } = salesSchema.validate(sales);
+  if (error) {
+    throw new InvalidDataError('Wrong product ID or invalid quantity');
+  }
+  await salesModel.updateOne({ _id: id }, { itensSold: sales });
+  return salesModel.findById(id);
+};
