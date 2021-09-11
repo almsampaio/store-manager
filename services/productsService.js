@@ -45,8 +45,8 @@ const getProductById = async (id) => {
 const editProduct = async (id, product) => {
   const { name, quantity } = product;
   if (!validateName(name)) return ERROR_NAME;
-  if (!validateQuantity(quantity)) return ERROR_QTD_NUMBER;
   if (!validateTypeNumber(quantity)) return ERROR_QTD_NOT_NUMBER;
+  if (!validateQuantity(quantity)) return ERROR_QTD_NUMBER;
   const products = await models.editProduct(id, product);
   return products;
 };
