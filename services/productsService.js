@@ -34,9 +34,17 @@ const update = async (id, name, quantity) => {
   return result;
 };
 
+const remove = async (id) => {
+  const result = await productModel.remove(id);
+
+  if (!result) return errorMsg.invalidIdFormat;
+  return result;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };
