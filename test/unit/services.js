@@ -159,11 +159,6 @@ describe('Testes da camada Service', () => {
           expect(responseToZeroErr).to.have.a.property('message');
         });
       });
-
-
-
-
-
     });
   });
 
