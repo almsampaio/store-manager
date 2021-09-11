@@ -26,11 +26,12 @@ const create = async (name, quantity) => {
   return { _id: insertedId, name, quantity };
 };
 
-const update = async (id) => {
+const update = async (id, namee, quantityy) => {
   const db = await connection();
   if (!ObjectID.isValid(id)) return false;
-  const result = await db.collection('products').updateOne({ _id: ObjectID(id) });
-  return result;
+  await db.collection('products').updateOne({ _id: ObjectID(id) },
+    { $set: { name: namee, quantity: quantityy } });
+  return { _id: id, name: namee, quantity: quantityy };
 };
 
 module.exports = {

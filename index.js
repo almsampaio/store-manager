@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 app.get('/products/:id', productsController.getById);
 
-app.put('/products/:id');
+app.put('/products/:id', productsController.update);
 
 app.get('/products', productsController.getAll);
 
