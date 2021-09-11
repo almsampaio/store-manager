@@ -1,5 +1,5 @@
-const produtsService = require('./productsService');
+const productsService = require('./productsService');
 
 module.exports = {
-  produtsService,
+  productsService,
 };

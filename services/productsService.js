@@ -50,6 +50,16 @@ const editProduct = async (id, product) => {
   const products = await models.editProduct(id, product);
   return products;
 };
+
+// REQUISITO 4 __________________________________________________________________________//
+
+const deleteProduct = async (id) => {
+  if (!validateId(id)) return ERROR_ID;
+  const deleteExist = await models.getProductById(id);
+  if (!deleteExist) return ERROR_ID;
+  const { deleteId, productDelete } = await models.deleteProduct(id);
+  if (!productDelete) return deleteId;
+};
 // ____________________________________________________________________________________ //
 
 module.exports = {
@@ -57,4 +67,5 @@ module.exports = {
   getAllProducts,
   getProductById,
   editProduct,
+  deleteProduct,
 };
