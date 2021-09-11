@@ -2,7 +2,9 @@ const salesModel = require('../models/salesModel');
 const productsModel = require('../models/productsModel');
 
 const invalidErrorMsg = 'Wrong product ID or invalid quantity';
-const code = 'invalid_data';
+const notFoundErrorMsg = 'Sale not found';
+const invalidCode = 'invalid_data';
+const notFoundCode = 'not_found';
 
 function quantityIsValid(quantity) {
   const isNumber = typeof quantity === 'number';
@@ -24,14 +26,22 @@ async function getAll() {
   return sales;
 }
 
+async function getById(id) {
+  const saleById = await salesModel.getById(id);
+
+  if (!saleById) return { code: notFoundCode, message: notFoundErrorMsg };
+
+  return saleById;
+}
+
 async function addSales(salesList) {
   const isSaleQtyValid = await salesList.map((sale) => sale.quantity).every(quantityIsValid);
-  if (!isSaleQtyValid) return { code, message: invalidErrorMsg };
+  if (!isSaleQtyValid) return { code: invalidCode, message: invalidErrorMsg };
 
   const isSaleProductValid = await Promise.all(
     salesList.map((sale) => productIsValid(sale.productId)),
   );
-  if (!isSaleProductValid.every((e) => e)) return { code, message: invalidErrorMsg };
+  if (!isSaleProductValid.every((e) => e)) return { code: invalidCode, message: invalidErrorMsg };
 
   const addedSales = await salesModel.addSales(salesList);
   return addedSales;
@@ -39,5 +49,6 @@ async function addSales(salesList) {
 
 module.exports = {
   getAll,
+  getById,
   addSales,
 };
