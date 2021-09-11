@@ -12,5 +12,5 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-const PORT = process.env.PORT;
+const { env: { PORT } } = process;
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
