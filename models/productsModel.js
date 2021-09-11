@@ -22,11 +22,12 @@ const getById = async (id) => {
 }
 
 const create = async (name, quantity) => {
-  return connection
+  return connection()
     .then((db) => db.collection('products').insertOne({
       name,
       quantity,
-    }));
+    }))
+    .then((result) => result.ops);
 };
 
 module.exports = {

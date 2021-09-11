@@ -5,7 +5,7 @@ const mongoDbUrl = 'mongodb://localhost:27017';
 const url = 'http://localhost:3000';
 const invalidId = 99999;
 
-describe.skip('1 - Crie um endpoint para o cadastro de produtos', () => {
+describe('1 - Crie um endpoint para o cadastro de produtos', () => {
   let connection;
   let db;
 
@@ -34,7 +34,7 @@ describe.skip('1 - Crie um endpoint para o cadastro de produtos', () => {
     await connection.close();
   });
 
-  it('Será validado que não é possível criar um produto com o nome menor que 5 caracteres', async () => {
+  it.skip('Será validado que não é possível criar um produto com o nome menor que 5 caracteres', async () => {
     await frisby
       .post(`${url}/products/`, {
         name: 'Rai',
@@ -51,7 +51,7 @@ describe.skip('1 - Crie um endpoint para o cadastro de produtos', () => {
       });
   });
 
-  it('Será validado que não é possível criar um produto com o mesmo nomede outro já existente', async () => {
+  it.skip('Será validado que não é possível criar um produto com o mesmo nomede outro já existente', async () => {
     await frisby
       .post(`${url}/products/`, {
         name: 'Martelo de Thor',
@@ -68,7 +68,7 @@ describe.skip('1 - Crie um endpoint para o cadastro de produtos', () => {
       });
   });
 
-  it('Será validado que não é possível criar um produto com quantidade menor que zero', async () => {
+  it.skip('Será validado que não é possível criar um produto com quantidade menor que zero', async () => {
     await frisby
       .post(`${url}/products`, {
         name: 'Produto do Batista',
@@ -85,7 +85,7 @@ describe.skip('1 - Crie um endpoint para o cadastro de produtos', () => {
       });
   });
 
-  it('Será validado que não é possível criar um produto com quantidade igual a zero', async () => {
+  it.skip('Será validado que não é possível criar um produto com quantidade igual a zero', async () => {
     await frisby
       .post(`${url}/products`, {
         name: 'Produto do Batista',
@@ -102,7 +102,7 @@ describe.skip('1 - Crie um endpoint para o cadastro de produtos', () => {
       });
   });
 
-  it('Será validado que não é possível criar um produto com uma string no campo quantidade', async () => {
+  it.skip('Será validado que não é possível criar um produto com uma string no campo quantidade', async () => {
     await frisby
       .post(`${url}/products`, {
         name: 'Produto do Batista',
