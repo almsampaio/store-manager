@@ -8,13 +8,13 @@ app.use(bodyParser.json());
 
 const Products = require('./controllers/products');
 
+app.get('/products', Products.getAll);
+app.get('/products/:id', Products.getById);
 app.post('/products', Products.create);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
-
-// app.post('/products', null);
 
 app.listen(PORT, () => console.log('Ouvindo na porta 3000'));

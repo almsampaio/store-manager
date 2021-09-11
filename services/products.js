@@ -1,8 +1,27 @@
 const ProductsModel = require('../models/products');
 const validation = require('./validations');
 
+const getAll = async () => {
+  const products = await ProductsModel.getAll();
+  return {
+    products,
+  };
+};
+
+const getById = async (id) => {
+  const product = await ProductsModel.getById(id);
+  if (!product) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return product;
+};
+
 const create = async (name, quantity) => {
-  // const { name, quantity } = product;
   const validName = validation.validateNameLength(name);
   if (validName) return validName;
 
@@ -18,4 +37,6 @@ const create = async (name, quantity) => {
 
 module.exports = {
   create,
+  getAll,
+  getById,
 };
