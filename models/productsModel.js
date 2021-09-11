@@ -35,10 +35,11 @@ const update = async (id, namee, quantityy) => {
 };
 
 const remove = async (id) => {
-  const db = connection();
+  const db = await connection();
   if (!ObjectID.isValid(id)) return false;
+  const result = await getById(id);
   await db.collection('products').removeOne({ _id: ObjectID(id) });
-  return true;
+  return result;
 };
 
 module.exports = {
