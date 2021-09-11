@@ -1,4 +1,6 @@
+const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
+
 // const productModels = require('./productModels');
 
 // const idProductIsValid = async (arrayParam) => {
@@ -22,6 +24,25 @@ const create = async (products) => {
   };
 };
 
+const getAll = async () => {
+  const db = await mongoConnection.getConnection();
+  const result = await db.collection('sales').find().toArray();
+  return { sales: result };
+};
+
+const getById = async (idParam) => {
+  const isValid = ObjectId.isValid(idParam);
+  if (!isValid) return null;
+
+  const db = await mongoConnection.getConnection();
+  const result = await db.collection('sales').findOne({ _id: ObjectId(idParam) });
+  if (!result) return null;
+  return result;
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
+
 };

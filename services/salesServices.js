@@ -8,6 +8,12 @@ const errorList = {
       message: 'Wrong product ID or invalid quantity',
     },
   },
+  errNotFound: {
+    err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    },
+  },
 };
 
 const create = async (product) => {
@@ -25,6 +31,13 @@ const create = async (product) => {
   return result;
 };
 
+const getById = async (id) => {
+  const result = await salesModels.getById(id);
+  if (!result) return errorList.errNotFound;
+  return result;
+};
+
 module.exports = {
   create,
+  getById,
 };
