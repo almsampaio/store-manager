@@ -26,9 +26,6 @@ const INSERT_PRODUCT_OK = {
   quantity: 100
 };
 
-
-
-
 const VALIDATION_SALE_INSERT = [
   {
     productId: "5f43ba273200020b101fe49f",
@@ -37,9 +34,6 @@ const VALIDATION_SALE_INSERT = [
 ]
 
 describe('Testes da camada Service', () => {
-
-
-
 
   describe('Testando as requisições com a coleção "Procucts"', () => {
     describe('Teste da Requisição POST - Inserindo um novo produto no BD', () => {
@@ -59,25 +53,28 @@ describe('Testes da camada Service', () => {
         });
       });
 
-      describe('Verifica que não é possível cria um produto com um "name" ja existente', () => {
+      before(async () => {
+        const productAlreadyExists = [{
+          _id: "f43ba273200020b101fe49f",
+          name: "Produto do Batista",
+          quantity: 334
+        }];
 
-        before(async () => {
+        sinon.stub(productsModel, 'getAllProdutcts').resolves(productAlreadyExists);
+      });
 
-        });
+      after(async () => {
+        productsModel.getAllProdutcts.restore();
+      });
+      describe('Verifica que não é possível criar um produto com um "name" ja existente', () => {
 
-        after(async () => {
+        it('Quando inserido um nome ja existente, retorna um objeto', async () => {
+          const response = await productsService.createProduct(INSERT_PRODUCT_OK);
 
-        });
-
-
-
-
-        it('Quando inserido, retorna um objeto', async () => {
-          const response = await productsService.createProduct(INSERT_PRODUCT_WITH_INVALID_NAME);
           expect(response).to.be.a('object');
         });
-        it('tal objeto possui a mensagem com o erro de "name" inválido', async () => {
-          const response = await productsService.createProduct(INSERT_PRODUCT_WITH_INVALID_NAME);
+        it('tal objeto possui um objeto json com a mensagem com o erro de "name" inválido', async () => {
+          const response = await productsService.createProduct(INSERT_PRODUCT_OK);
           const responseErr = response.err;
           expect(response).to.have.a.property('err');
           expect(responseErr).to.have.a.property('code');
@@ -86,10 +83,10 @@ describe('Testes da camada Service', () => {
       });
 
       describe('quando é inserido um "quantity" menor ou igual a zero', () => {
+
         it('retorna um objeto', async () => {
           const responseToZero = await productsService.createProduct(INSERT_PRODUCT_QUANTITY_EQUAL_ZERO);
           expect(responseToZero ).to.be.a('object');
-
           const responseToSubzero = await productsService.createProduct(INSERT_PRODUCT_QUANTITY_SUB_ZERO);
           expect(responseToSubzero).to.be.a('object');
         });

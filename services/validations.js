@@ -13,7 +13,7 @@ function nameLengthValidation(name) {
 }
 
 async function isRepeated(name) {
-  const products = await productsModel.isRepeated(name);
+  const products = await productsModel.getAllProdutcts();
   const isUsed = products.find((product) => product.name === name);
   if (isUsed) {
     return {
@@ -40,5 +40,6 @@ function quantityValidation(quantity) {
 
 module.exports = {
   nameLengthValidation,
+  isRepeated,
   quantityValidation,
 };
