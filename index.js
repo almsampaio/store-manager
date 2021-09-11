@@ -16,7 +16,8 @@ const productsController = require('./controllers/products');
 
 app.route('/products/:id')
   .get(productsController.getProductsById)
-  .put(productsController.updateProduct);
+  .put(productsController.updateProduct)
+  .delete(productsController.deleteById);
 
 app.route('/products')
   .post(productsController.createProduct)

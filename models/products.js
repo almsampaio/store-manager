@@ -38,6 +38,8 @@ const getProducts = async () => {
 const updateProduct = async (id, name, quantity) => {
   const productsCollection = await accessProducts();
 
+  if (!ObjectId.isValid(id)) return null;
+
   await productsCollection.updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
 
   return {
@@ -47,10 +49,19 @@ const updateProduct = async (id, name, quantity) => {
   };
 };
 
+const deleteById = async (id) => {
+  const productsCollection = await accessProducts();
+
+  const { value } = await productsCollection.findOneAndDelete({ _id: ObjectId(id) });
+
+  return value;
+};
+
 module.exports = {
   createProduct,
   getProductByName,
   getProductById,
   getProducts,
   updateProduct,
+  deleteById,
 };
