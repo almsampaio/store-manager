@@ -38,7 +38,7 @@ const editProductById = async (req, res) => {
 };
 
 const deleteProductById = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const product = await productsService.getProductById(id);
   if (!product) {
     return res.status(HTTP_UNPROCESSABLE).json({ err:
