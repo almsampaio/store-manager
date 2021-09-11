@@ -38,6 +38,32 @@ const getById = async (idParam) => {
   return result;
 };
 
+const updateQuantity = async (idParam, qtd) => {
+  const isValid = ObjectId.isValid(idParam);
+  if (!isValid) return null;
+
+  const db = await mongoConnection.getConnection();
+  await db.collection('products').updateOne(
+    { _id: ObjectId(idParam) },
+    { $inc: { quantity: -qtd } },
+  );
+  
+  return true;
+};
+
+const cancelSale = async (idParam, qtd) => {
+  const isValid = ObjectId.isValid(idParam);
+  if (!isValid) return null;
+
+  const db = await mongoConnection.getConnection();
+  await db.collection('products').updateOne(
+    { _id: ObjectId(idParam) },
+    { $inc: { quantity: +qtd } },
+  );
+  
+  return true;
+};
+
 const updateById = async (idParam, name, quantity) => {
   const isValid = ObjectId.isValid(idParam);
   if (!isValid) return null;
@@ -69,4 +95,6 @@ module.exports = {
   getById,
   updateById,
   removeById,
+  updateQuantity,
+  cancelSale,
 };

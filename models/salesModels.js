@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
+const productModels = require('./productModels');
 
 // const productModels = require('./productModels');
 
@@ -18,6 +19,9 @@ const create = async (products) => {
   // if (!exists) return null;
   const db = await mongoConnection.getConnection();
   const { insertedId: id } = await db.collection('sales').insertOne({ itensSold: products });
+  products.forEach(async (obj) => {
+    await productModels.updateQuantity(obj.productId, obj.quantity);
+  });
   return {
     _id: id,
     itensSold: products,
@@ -64,6 +68,11 @@ const removeById = async (idParam) => {
   const sale = await getById(idParam);
   if (!sale) return null;
   const db = await mongoConnection.getConnection();
+  const getSale = await getById(idParam);
+  getSale.itensSold.forEach(async (obj) => {
+    await productModels.cancelSale(obj.productId, obj.quantity);
+  });
+
   await db.collection('sales').deleteOne({ _id: ObjectId(idParam) });
   return sale;
 };
