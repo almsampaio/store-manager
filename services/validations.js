@@ -1,3 +1,5 @@
+const productsModel = require('../models/productsModel');
+
 function nameLengthValidation(name) {
   if (name.length < 5) {
     return {
@@ -6,6 +8,20 @@ function nameLengthValidation(name) {
           message: '"name" length must be ate least 5 characters long',
         },
       };
+  }
+  return false;
+}
+
+async function isRepeated(name) {
+  const products = await productsModel.isRepeated(name);
+  const isUsed = products.find((product) => product.name === name);
+  if (isUsed) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Product already exists',
+      },
+    };
   }
   return false;
 }
