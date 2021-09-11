@@ -1,15 +1,20 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-
-
-const productsService = require('../../models/productsModel');
+const productsService = require('../../services/productsService');
 const salesService = require('../../models/salesModel');
+
+const VALIDATION_PRODUCT_INSERT_INVALID_NAME = {
+  name: "Pro",
+  quantity: 100
+};
 
 const VALIDATION_PRODUCT_INSERT = {
   name: "Produto do Batista",
   quantity: 100
 };
+
+
 
 
 const VALIDATION_SALE_INSERT = [
@@ -34,56 +39,26 @@ describe('Testes da camada Service', () => {
     describe('Teste da Requisição POST - Inserindo um novo produto no BD', () => {
 
 
-      describe('quando é inserido com sucesso', () => {
+      describe('quando é inserido um "name" com menos de 5 caracteres', () => {
+        const name = VALIDATION_PRODUCT_INSERT_INVALID_NAME.name;
         it('retorna um objeto', async () => {
-          const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
+          const response = await productsService.createProduct(name);
           expect(response).to.be.a('object');
         });
-        it('tal objeto possui o "id" do novo produto inserido', async () => {
-          const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
-          expect(response).to.have.a.property('id');
-        });
-        it('tal objeto possui o "name" do novo produto inserido', async () => {
-          const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
-          expect(response).to.have.a.property('name');
-        });
-        it('tal objeto possui o "quantity" do novo produto inserido', async () => {
-          const response = await productsModel.createProduct(VALIDATION_PRODUCT_INSERT);
-          expect(response).to.have.a.property('quantity');
+        it('tal objeto possui a mensagem com o erro do "name" inválido', async () => {
+          const ERROR_NAME_MESSAGE = {
+            err: {
+              code: 'invalid_data',
+              message: '"name" length must be ate least 5 characters long',
+            },
+          };
+
+          const response = await productsService.createProduct(name);
+          expect(response).to.equals(ERROR_NAME_MESSAGE);
         });
       });
     });
   });
 
-  describe('Testando as requisições com a coleção "Sales"', () => {
-    describe('Teste da Requisição POST - Inserindo uma nova venda no BD', () => {
-
-
-      describe('quando é inserido com sucesso', () => {
-        it('retorna um objeto', async () => {
-          const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          console.log('meu teste   ',response)
-          expect(response).to.be.a('object');
-        });
-        it('tal objeto possui um "_id" do novo produto inserido', async () => {
-          const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          expect(response).to.have.a.property('_id');
-        });
-        it('tal objeto possui a propriedade "itensSold" que é um array', async () => {
-          const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          expect(response).to.have.a.property('itensSold');
-        });
-        it('"itensSold" possui possui a propriedade "productId"', async () => {
-          const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          const respItensSold = response.itensSold[0];
-          expect(respItensSold).to.have.a.property('productId');
-        });
-        it('"itensSold" possui possui a propriedade "quantity"', async () => {
-          const response = await salesModel.createSale(VALIDATION_SALE_INSERT);
-          const respItensSold = response.itensSold[0];
-          expect(respItensSold).to.have.a.property('quantity');
-        });
-      });
-    });
-  });
+  
 });

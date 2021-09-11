@@ -1,6 +1,13 @@
-function nameValidation(name) {
-  if (name.length < 5 || name.includes(' ')) return false;
-  return true;
+function nameLengthValidation(name) {
+  if (name.length < 5) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: '"name" length must be ate least 5 characters long',
+      },
+    };
+  }
+  return false;
 }
 
-module.exports = nameValidation;
+module.exports = nameLengthValidation;
