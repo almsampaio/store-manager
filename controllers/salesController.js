@@ -7,7 +7,9 @@ exports.create = async (req, res) => {
     const newSales = await salesService.create({ sales });
     return res.status(StatusCodes.OK).json(newSales);
   } catch (e) {
-    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+    const statusCode = e.name === 'stock_problem'
+      ? StatusCodes.NOT_FOUND : StatusCodes.UNPROCESSABLE_ENTITY;
+    return res.status(statusCode).json(
       { err: {
         code: e.name,
         message: e.message,
