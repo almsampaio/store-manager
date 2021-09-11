@@ -2,32 +2,32 @@ const { ObjectId } = require('mongodb');
 const GetProductByIdModel = require('../../models/products/GetProductByIdModel');
 
 class GetProductByIdService {
-  async handle(id) {
-    if (!ObjectId.isValid(id)) {
-      const message = {
+  constructor(id) {
+    this.id = id;
+
+    this.errorWrongIdFormat = {
         err: {
-          code: 'invalid_data',
+          code: 'invalidData',
           message: 'Wrong id format',
         },
       };
 
-      return message;
-    }
+    this.errorProductAlreadyExists = {
+      err: {
+        code: 'invalidData',
+        message: 'Product already exists',
+      },
+    };
+  }
+
+  async handle() {
+    if (!ObjectId.isValid(this.id)) return this.errorWrongIdFormat;
 
     const getProductByIdModel = new GetProductByIdModel();
 
-    const productById = await getProductByIdModel.handle(id);
+    const productById = await getProductByIdModel.handle(this.id);
 
-    if (!productById) {
-      const message = {
-        err: {
-          code: 'invalid_data',
-          message: 'Product already exists',
-        },
-      };
-
-      return message;
-    }
+    if (!productById) return this.errorProductAlreadyExists;
 
     return productById;
   }

@@ -7,9 +7,13 @@ class UpdateProductController {
 
     const { name, quantity } = req.body;
 
-    const updateProductService = new UpdateProductService();
+    const updateProductService = new UpdateProductService({
+      id,
+      name,
+      quantity,
+    });
 
-    const updatedProduct = await updateProductService.handle({ id, name, quantity });
+    const updatedProduct = await updateProductService.handle();
 
     res.status(httpStatus.ok).json(updatedProduct);
   }

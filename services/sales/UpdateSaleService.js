@@ -1,10 +1,15 @@
 const UpdateSaleModel = require('../../models/sales/UpdateSaleModel');
 
 class UpdateSaleService {
-  async handle(id, sales) {
-    const updateSaleModel = new UpdateSaleModel();
+  constructor(id, sales) {
+    this.id = id;
+    this.sales = sales;
+  }
 
-    const updatedSale = await updateSaleModel.handle(id, sales);
+  async handle() {
+    const updateSaleModel = new UpdateSaleModel(this.id, this.sales);
+
+    const updatedSale = await updateSaleModel.handle();
 
     return updatedSale;
   }

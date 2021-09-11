@@ -1,17 +1,17 @@
 const UpdateSaleService = require('../../services/sales/UpdateSaleService');
-const http_status = require('../../utils/http_status');
+const httpStatus = require('../../utils/http_status');
 
 class UpdateSaleController {
-  async handle(req, res) {
+  static async handle(req, res) {
     const { id } = req.params;
 
     const sales = req.body;
 
-    const updateSaleService = new UpdateSaleService();
+    const updateSaleService = new UpdateSaleService(id, sales);
 
-    const updatedSale = await updateSaleService.handle(id, sales);
+    const updatedSale = await updateSaleService.handle();
 
-    res.status(http_status.ok).json(updatedSale);
+    res.status(httpStatus.ok).json(updatedSale);
   }
 }
 

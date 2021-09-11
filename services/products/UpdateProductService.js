@@ -1,10 +1,20 @@
 const UpdateProductModel = require('../../models/products/UpdateProductModel');
 
 class UpdateProductService {
-  async handle({ id, name, quantity }) {
-    const updateProductModel = new UpdateProductModel();
+  constructor({ id, name, quantity }) {
+    this.id = id;
+    this.name = name;
+    this.quantity = quantity;
+  }
 
-    const updatedProductModel = await updateProductModel.handle({ id, name, quantity });
+  async handle() {
+    const updateProductModel = new UpdateProductModel({
+      id: this.id,
+      name: this.name,
+      quantity: this.quantity,
+    });
+
+    const updatedProductModel = await updateProductModel.handle();
 
     return updatedProductModel;
   }

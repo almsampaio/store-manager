@@ -1,9 +1,9 @@
-const http_status = {
+const httpStatus = {
   ok: 200,
   created: 201,
-  invalid_data: 422,
-  not_found: 404,
-  stock_problem: 404,
+  invalidData: 422,
+  notFound: 404,
+  stockProblem: 404,
 };
 
-module.exports = http_status;
+module.exports = httpStatus;

@@ -1,17 +1,17 @@
 const DeleteSaleService = require('../../services/sales/DeleteSaleService');
-const http_status = require('../../utils/http_status');
+const httpStatus = require('../../utils/http_status');
 
 class DeleteSaleController {
-  async handle(req, res, next) {
+  static async handle(req, res, next) {
     const { id } = req.params;
 
-    const deleteSaleService = new DeleteSaleService();
+    const deleteSaleService = new DeleteSaleService(id);
 
-    const deletedSale = await deleteSaleService.handle(id);
+    const deletedSale = await deleteSaleService.handle();
 
-    if (deletedSale.err) next(deletedSale.err);
+    if (deletedSale.err) return next(deletedSale.err);
 
-    res.status(http_status.ok).json(deletedSale);
+    res.status(httpStatus.ok).json(deletedSale);
   }
 }
 

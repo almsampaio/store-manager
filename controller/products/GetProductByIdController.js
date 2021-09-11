@@ -5,11 +5,11 @@ class GetProductByIdController {
   static async handle(req, res, next) {
     const { id } = req.params;
 
-    const getByIdService = new GetProductByIdService();
+    const getByIdService = new GetProductByIdService(id);
 
-    const product = await getByIdService.handle(id);
+    const product = await getByIdService.handle();
 
-    if (product.err) next(product.err);
+    if (product.err) return next(product.err);
 
     res.status(httpStatus.ok).json(product);
   }

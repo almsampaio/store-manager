@@ -1,14 +1,22 @@
 const connection = require('../connection');
 
 class RegisterProductModel {
-  async handle({ name, quantity }) {
+  constructor({ name, quantity }) {
+    this.name = name;
+    this.quantity = quantity;
+  }
+
+  async handle() {
     const db = await connection();
 
     const productsCollection = await db.collection('products');
 
-    const { insertedId } = await productsCollection.insertOne({ name, quantity });
+    const { insertedId } = await productsCollection.insertOne({
+      name: this.name,
+      quantity: this.quantity,
+    });
 
-    return { _id: insertedId, name, quantity };
+    return { _id: insertedId, name: this.name, quantity: this.quantity };
   }
 }
 

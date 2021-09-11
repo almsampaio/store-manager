@@ -1,12 +1,16 @@
 const connection = require('../connection');
 
 class GetProductByName {
-  async handle(name) {
+  constructor(name) {
+    this.name = name;
+  }
+
+  async handle() {
     const db = await connection();
 
     const productsCollection = await db.collection('products');
 
-    const product = productsCollection.findOne({ name });
+    const product = productsCollection.findOne({ name: this.name });
 
     if (!product) return null;
 

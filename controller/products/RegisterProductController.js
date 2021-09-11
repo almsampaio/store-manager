@@ -5,11 +5,14 @@ class RegisterProductController {
   static async handle(req, res, next) {
     const { name, quantity } = req.body;
 
-    const registerProductService = new RegisterProductService();
+    const registerProductService = new RegisterProductService({
+      name,
+      quantity,
+    });
 
-    const product = await registerProductService.handle({ name, quantity });
+    const product = await registerProductService.handle();
 
-    if (product.err) next(product.err);
+    if (product.err) return next(product.err);
 
     res.status(httpStatus.created).json(product);
   }

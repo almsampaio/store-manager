@@ -1,36 +1,43 @@
 const { ObjectId } = require('mongodb');
 const DeleteSaleModel = require('../../models/sales/DeleteSaleModel');
-const GetSaleModel = require('../../models/sales/GetSaleModel');
 const UpdateProductBySaleModel = require('../../models/sales/UpdateProductBySaleModel');
 
 class DeleteSaleService {
-  async updateSaleModel({ itensSold }) {
-    const upgradeProductBySaleModel = new UpdateProductBySaleModel();
-
-    for (const sale of itensSold) {
-      await upgradeProductBySaleModel.handle(sale, false);
-    }
+  constructor(id) {
+    this.id = id;
   }
 
-  async handle(id) {
+  async updateSaleModel() {
+    const { itensSold } = this.deletedSale;
+
+    await Promise.all(
+      itensSold.map((sale) => {
+        const upgradeProductBySaleModel = new UpdateProductBySaleModel(sale);
+
+        return upgradeProductBySaleModel.handle(false);
+      }),
+    );
+  }
+
+  async handle() {
     const message = {
       err: {
-        code: 'invalid_data',
+        code: 'invalidData',
         message: 'Wrong sale ID format',
       },
     };
 
-    if (!ObjectId.isValid(id)) return message;
+    if (!ObjectId.isValid(this.id)) return message;
 
-    const deleteSaleModel = new DeleteSaleModel();
+    const deleteSaleModel = new DeleteSaleModel(this.id);
 
-    const deletedSale = await deleteSaleModel.handle(id);
+    this.deletedSale = await deleteSaleModel.handle();
 
-    if (!deletedSale) return message;
+    if (!this.deletedSale) return message;
 
-    await this.updateSaleModel(deletedSale);
+    await this.updateSaleModel(this.deletedSale);
 
-    return deletedSale;
+    return this.deletedSale;
   }
 }
 

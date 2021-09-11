@@ -1,10 +1,8 @@
 const GetAllSalesModel = require('../../models/sales/GetAllSalesModel');
 
 class GetAllSalesService {
-  async handle() {
-    const getAllSalesModel = new GetAllSalesModel();
-
-    const allProducts = await getAllSalesModel.handle();
+  static async handle() {
+    const allProducts = await GetAllSalesModel.handle();
 
     return { sales: allProducts };
   }

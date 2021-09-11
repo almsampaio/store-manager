@@ -1,14 +1,18 @@
 const connection = require('../connection');
 
 class CreateSalesModel {
-  async handle(sale) {
+  constructor(sale) {
+    this.sale = sale;
+  }
+
+  async handle() {
     const db = await connection();
 
     const salesCollection = await db.collection('sales');
 
-    const { insertedId } = await salesCollection.insertOne(sale);
+    const { insertedId } = await salesCollection.insertOne(this.sale);
 
-    return { _id: insertedId, ...sale };
+    return { _id: insertedId, ...this.sale };
   }
 }
 

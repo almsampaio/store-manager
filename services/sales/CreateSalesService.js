@@ -3,31 +3,49 @@ const UpdateProductBySaleModel = require('../../models/sales/UpdateProductBySale
 const GetProductByIdModel = require('../../models/products/GetProductByIdModel');
 
 class CreateSalesService {
-  async updateSaleModel(productsSale) {
-    const upateProductBySaleModel = new UpdateProductBySaleModel();
-
-    for (const sale of productsSale) {
-      await upateProductBySaleModel.handle(sale);
-    }
+  constructor(productsSale) {
+    this.productsSale = productsSale;
   }
 
-  async checkQuantityStock({ itensSold }) {
+  async updateSaleModel() {
+    await Promise.all(
+      this.productsSale.map((sale) => {
+        const upateProductBySaleModel = new UpdateProductBySaleModel(sale);
+
+        return upateProductBySaleModel.handle();
+      }),
+    );
+  }
+
+  async getStocksResult() {
+    const { itensSold } = this.sales;
+
     let biggerThenStock = false;
 
-    for (const item of itensSold) {
+    const checkStock = async (item) => {
       const getProductByIdModel = new GetProductByIdModel();
 
       const { quantity } = await getProductByIdModel.handle(item.productId);
 
       if (item.quantity > quantity) {
         biggerThenStock = true;
-        break;
       }
-    }
+    };
 
-    if (biggerThenStock) {
+    await Promise.all(itensSold.map((item) => checkStock(item)));
+
+    this.biggerThenStock = biggerThenStock;
+  }
+
+  async checkQuantityStock() {
+    await this.getStocksResult();
+
+    if (this.biggerThenStock) {
       const message = {
-        err: { code: 'stock_problem', message: 'Such amount is not permitted to sell' },
+        err: {
+          code: 'stockProblem',
+          message: 'Such amount is not permitted to sell',
+        },
       };
 
       return message;
@@ -36,20 +54,20 @@ class CreateSalesService {
     return { message: 'ok' };
   }
 
-  async handle(productsSale) {
-    const createSalesModel = new CreateSalesModel();
-
-    const sales = {
-      itensSold: productsSale,
+  async handle() {
+    this.sales = {
+      itensSold: this.productsSale,
     };
 
-    const result = await this.checkQuantityStock(sales);
+    const result = await this.checkQuantityStock();
 
     if (result.err) return result;
 
-    const results = await createSalesModel.handle(sales);
+    const createSalesModel = new CreateSalesModel(this.sales);
 
-    await this.updateSaleModel(productsSale);
+    const results = await createSalesModel.handle();
+
+    await this.updateSaleModel(this.productsSale);
 
     return results;
   }

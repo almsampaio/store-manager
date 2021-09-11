@@ -12,7 +12,7 @@ const authSales = async (req, _res, next) => {
         error.details[0].message = 'Wrong product ID or invalid quantity';
       }
 
-      next(error);
+      return next(error);
     }
   });
 

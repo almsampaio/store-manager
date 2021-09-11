@@ -2,19 +2,23 @@ const { ObjectId } = require('mongodb');
 const GetSaleModel = require('../../models/sales/GetSaleModel');
 
 class GetSaleService {
-  async handle(id) {
+  constructor(id) {
+    this.id = id;
+  }
+
+  async handle() {
     const message = {
       err: {
-        code: 'not_found',
+        code: 'notFound',
         message: 'Sale not found',
       },
     };
 
-    if (!ObjectId.isValid(id)) return message;
+    if (!ObjectId.isValid(this.id)) return message;
 
-    const getSaleModel = new GetSaleModel();
+    const getSaleModel = new GetSaleModel(this.id);
 
-    const sale = await getSaleModel.handle(id);
+    const sale = await getSaleModel.handle();
 
     if (!sale) return message;
 

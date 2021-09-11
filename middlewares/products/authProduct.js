@@ -6,7 +6,7 @@ const authProduct = rescue(async (req, _res, next) => {
 
   const { error } = productSchema.validate({ name, quantity });
 
-  if (error) next(error);
+  if (error) return next(error);
 
   next();
 });

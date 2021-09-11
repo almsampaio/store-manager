@@ -2,7 +2,13 @@ const { ObjectId } = require('mongodb');
 const connection = require('../connection');
 
 class UpdateProductBySaleModel {
-  async handle({ productId, quantity: quantitySold }, dec = true) {
+  constructor(sale) {
+    this.sale = sale;
+  }
+
+  async handle(dec = true) {
+    const { productId, quantity: quantitySold } = this.sale;
+
     const OPTION_UPDATE = dec
       ? { $inc: { quantity: -Number(quantitySold) } }
       : { $inc: { quantity: Number(quantitySold) } };

@@ -2,16 +2,20 @@ const GetProductByName = require('../../models/products/GetProductByName');
 const RegisterProductModel = require('../../models/products/RegisterProductModel');
 
 class RegisterProductService {
-  async handle({ name, quantity }) {
-    const registerProductModel = new RegisterProductModel();
-    const getProductByName = new GetProductByName();
+  constructor({ name, quantity }) {
+    this.name = name;
+    this.quantity = quantity;
+  }
 
-    const alreadyExistsProduct = await getProductByName.handle(name);
+  async handle() {
+    const getProductByName = new GetProductByName(this.name);
+
+    const alreadyExistsProduct = await getProductByName.handle();
 
     if (alreadyExistsProduct) {
       const message = {
         err: {
-          code: 'invalid_data',
+          code: 'invalidData',
           message: 'Product already exists',
         },
       };
@@ -19,7 +23,12 @@ class RegisterProductService {
       return message;
     }
 
-    const registeredProduct = await registerProductModel.handle({ name, quantity });
+    const registerProductModel = new RegisterProductModel({
+      name: this.name,
+      quantity: this.quantity,
+    });
+
+    const registeredProduct = await registerProductModel.handle();
 
     return registeredProduct;
   }

@@ -2,12 +2,16 @@ const { ObjectId } = require('mongodb');
 const connection = require('../connection');
 
 class GetSaleModel {
-  async handle(id) {
+  constructor(id) {
+    this.id = id;
+  }
+
+  async handle() {
     const db = await connection();
 
     const saleCollection = await db.collection('sales');
 
-    const sale = await saleCollection.findOne(new ObjectId(id));
+    const sale = await saleCollection.findOne(new ObjectId(this.id));
 
     if (!sale) return null;
 

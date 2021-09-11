@@ -1,10 +1,8 @@
 const GetAllProductsModel = require('../../models/products/GetAllProductsModel');
 
 class GetAllProdutsService {
-  async handle() {
-    const getAllProductsModel = new GetAllProductsModel();
-
-    const allProducts = await getAllProductsModel.handle();
+  static async handle() {
+    const allProducts = await GetAllProductsModel.handle();
 
     return { products: allProducts };
   }

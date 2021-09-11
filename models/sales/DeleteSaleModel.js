@@ -2,10 +2,14 @@ const { ObjectId } = require('mongodb');
 const connection = require('../connection');
 
 class DeleteSaleModel {
-  async handle(id) {
+  constructor(id) {
+    this.id = id;
+  }
+
+  async handle() {
     const db = await connection();
 
-    const saleId = new ObjectId(id);
+    const saleId = new ObjectId(this.id);
 
     const salesCollection = await db.collection('sales');
 

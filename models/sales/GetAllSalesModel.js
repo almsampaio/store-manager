@@ -1,7 +1,7 @@
 const connection = require('../connection');
 
 class GetAllSalesModel {
-  async handle() {
+  static async handle() {
     const db = await connection();
 
     const salesCollection = await db.collection('sales');

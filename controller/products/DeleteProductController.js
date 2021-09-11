@@ -5,11 +5,11 @@ class DeleteProductController {
   static async handle(req, res, next) {
     const { id } = req.params;
 
-    const deleteProductService = new DeleteProductService();
+    const deleteProductService = new DeleteProductService(id);
 
-    const deletedProduct = await deleteProductService.handle(id);
+    const deletedProduct = await deleteProductService.handle();
 
-    if (deletedProduct.err) next(deletedProduct.err);
+    if (deletedProduct.err) return next(deletedProduct.err);
 
     res.status(httpStatus.ok).json(deletedProduct);
   }
