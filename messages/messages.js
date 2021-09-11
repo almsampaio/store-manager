@@ -7,6 +7,8 @@ const messages = {
   productNameLength: '"name" length must be at least 5 characters long',
   quantityLarger: '"quantity" must be larger than or equal to 1',
   beANumber: '"quantity" must be a number',
+  noData: 'There are no data',
+  wrongId: 'Wrong id format',
 };
 
 module.exports = {

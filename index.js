@@ -13,6 +13,10 @@ app.get('/', (_request, response) => {
 
 app.post('/products', Products.create);
 
+app.get('/products', Products.findAll);
+
+app.get('/products/:id', Products.findById);
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
