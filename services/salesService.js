@@ -47,8 +47,23 @@ async function addSales(salesList) {
   return addedSales;
 }
 
+async function updateSales({ id, productId, quantity }) {
+  const validQuantity = quantityIsValid(quantity);
+  if (!validQuantity) return { code: invalidCode, message: invalidErrorMsg };
+
+  const validProduct = await productIsValid(productId);
+  if (!validProduct) return { code: invalidCode, message: invalidErrorMsg };
+
+  const validSale = await getById(id);
+  if (validSale.message) return { code: invalidCode, message: invalidErrorMsg };
+
+  const updatedSales = await salesModel.updateSales({ id, productId, quantity });
+  return updatedSales;
+}
+
 module.exports = {
   getAll,
   getById,
   addSales,
+  updateSales,
 };
