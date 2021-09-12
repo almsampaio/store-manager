@@ -21,6 +21,17 @@ const getById = async (id) => {
   return product;
 };
 
+const update = async (id, name, quantity) => {
+  const validName = validation.validateNameLength(name);
+  if (validName) return validName;
+
+  const validQuantity = validation.validateQuantity(quantity);
+  if (validQuantity) return validQuantity;
+
+  const newProduct = await ProductsModel.update(id, name, quantity);
+  return newProduct;
+};
+
 const create = async (name, quantity) => {
   const validName = validation.validateNameLength(name);
   if (validName) return validName;
@@ -39,4 +50,5 @@ module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

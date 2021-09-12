@@ -11,6 +11,7 @@ const Products = require('./controllers/products');
 app.get('/products', Products.getAll);
 app.get('/products/:id', Products.getById);
 app.post('/products', Products.create);
+app.put('/products/:id', Products.update);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
