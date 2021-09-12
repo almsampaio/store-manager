@@ -1,11 +1,16 @@
-const productsModel = require('../models/productsModel');
+const ProductsModel = require('../models/ProductsModel');
+const ProductSchema = require('../schemas/ProductSchema');
 
 // AQUI É ONDE FICAM AS VALIDAÇÕES!!!
 
 const create = async (name, quantity) => {
-  const product = await productsModel.create(name, quantity);
+  const validations = ProductSchema.validate(name, quantity);
+
+  if (validations.message) return validations;
+
+  const product = await ProductsModel.create(name, quantity);
   
-  return product;
+  return { code: 201, product };
 };
 
 // const getAll = async () => {

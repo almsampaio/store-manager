@@ -1,11 +1,13 @@
-const productsService = require('../services/productsService');
+const ProductsService = require('../services/ProductsService');
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const product = await productsService.create(name, quantity);
+  const { code, message, product } = await ProductsService.create(name, quantity);
 
-  res.status(201).json({ message: 'Cadastrado com sucesso!', product });
+  if (!product) return res.status(code).json({ message });
+
+  res.status(code).json(product);
 };
 
 // const getAll = async (_req, res) => {
