@@ -9,8 +9,11 @@ const QUANTITY_GT_1 = '"quantity" must be larger than or equal to 1';
 const TYPE_MB_NUMBER = '"quantity" must be a number';
 const PRODUCT_ALREADY_EXISTS = 'Product already exists';
 const WRONG_ID_FORMAT = 'Wrong id format';
+const INVALID_ID_OR_QUANTITY = 'Wrong product ID or invalid quantity';
 
 const notValidId = () => generateError(INVALID_DATA, WRONG_ID_FORMAT);
+
+const notValidIdOrQuantity = () => generateError(INVALID_DATA, INVALID_ID_OR_QUANTITY);
 
 const validateName = (name) => {
   if (!regexName.test(name)) {
@@ -18,7 +21,15 @@ const validateName = (name) => {
   }
 };
 
-const validateAlreadyExists = async (name) => {
+const validateSale = async (id, quantity) => {
+  const product = await productsModel.getProductById(id);
+  if (!product || quantity < 1 || (typeof quantity !== 'number')) {
+    return notValidIdOrQuantity();
+  }
+  return null;
+};
+
+const validateIfNameAlreadyExists = async (name) => {
   if (await productsModel.getProductByName(name)) {
     return generateError(INVALID_DATA, PRODUCT_ALREADY_EXISTS);
   }
@@ -38,7 +49,7 @@ const verifyLengthQuantity = (quantity) => {
 
 const validationToCreate = async (name, quantity) => {
   if (validateName(name)) return validateName(name);
-  const result = await validateAlreadyExists(name);
+  const result = await validateIfNameAlreadyExists(name);
   if (result) return result;
   if (verifyTypeQuantity(quantity)) return verifyTypeQuantity(quantity);
   if (verifyLengthQuantity(quantity)) return verifyLengthQuantity(quantity);
@@ -54,4 +65,5 @@ module.exports = {
   notValidId,
   validationToCreate,
   validateToUpdate,
+  validateSale,
 };
