@@ -9,6 +9,7 @@ const messages = {
   beANumber: '"quantity" must be a number',
   noData: 'There are no data',
   wrongId: 'Wrong id format',
+  invalidQuantity: 'Wrong product ID or invalid quantity',
 };
 
 module.exports = {
