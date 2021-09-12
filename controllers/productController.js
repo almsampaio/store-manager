@@ -58,13 +58,13 @@ const updateById = rescue(async (req, res) => {
 
 const deleteById = rescue(async (req, res) => {
   const { id } = req.params;
-  const sale = await service.getById(id);
-  if (!sale) {
-    return res.status(HTTP_NO_BODY_STATUS).json({ err:
-      { code: 'invalid_data', message: 'Wrong sale ID format' } });
+
+  const deleteProduct = await service.deleteById(id);
+  if (deleteProduct.err) {
+    return res.status(HTTP_NO_BODY_STATUS)
+    .json(deleteProduct);
   }
-  await service.deleteById(id);
-  return res.status(HTTP_OK_STATUS).json(sale);
+  return res.status(HTTP_OK_STATUS).json(deleteProduct);
 });
 
 module.exports = {
