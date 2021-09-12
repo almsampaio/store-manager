@@ -39,10 +39,6 @@ const createProduct = async (name, quantity) => {
 };
 
 const getProductById = async (id) => {
-  const invalidId = validId(id);
-
-  if (invalidId) return invalidId;
-
   const product = await productsModel.getProductById(id);
 
   if (!product) return { message: 'Wrong id format' };
@@ -57,9 +53,6 @@ const getProducts = async () => {
 };
 
 const updateProduct = async (id, name, quantity) => {
-  const invalidId = validId(id);
-  if (invalidId) return invalidId;
-
   const invalidLength = await checkNameLength(name);
   if (invalidLength) return invalidLength;
 
@@ -67,6 +60,8 @@ const updateProduct = async (id, name, quantity) => {
   if (invalidQuantity) return invalidQuantity;
 
   const updatedProduct = await productsModel.updateProduct(id, name, quantity);
+
+  if (!updatedProduct) return { message: 'Wrong id format' };
 
   return updatedProduct;
 };

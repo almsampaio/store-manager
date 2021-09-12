@@ -20,6 +20,8 @@ const getProductByName = async (name) => {
 };
 
 const getProductById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  
   const productsCollection = await accessProducts();
 
   const product = await productsCollection.findOne(ObjectId(id));
@@ -36,9 +38,9 @@ const getProducts = async () => {
 };
 
 const updateProduct = async (id, name, quantity) => {
-  const productsCollection = await accessProducts();
-
   if (!ObjectId.isValid(id)) return null;
+  
+  const productsCollection = await accessProducts();
 
   await productsCollection.updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
 
@@ -50,6 +52,8 @@ const updateProduct = async (id, name, quantity) => {
 };
 
 const deleteById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  
   const productsCollection = await accessProducts();
 
   const { value } = await productsCollection.findOneAndDelete({ _id: ObjectId(id) });
