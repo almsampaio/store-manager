@@ -23,8 +23,18 @@ const getProductById = async (id) => {
   return { product };
 }
 
+const modifyProduct = async (id, name, quantity) => {
+  if (!name || name.length < 5) return { message: "\"name\" length must be at leat 5 characters long" };
+  if (quantity <= 0 ) return { message: "\"quantity\" must be larger than or equal to 1" };
+  if (typeof quantity !== 'number') return { message: "\"quantity\" must be a number" };
+
+  const changedProduct = await productsModel.changeProductInfo(id, name, quantity);
+  return { changedProduct };
+}
+
 module.exports = {
   create,
   getAllProducts,
   getProductById,
+  modifyProduct,
 };
