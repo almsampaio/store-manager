@@ -31,8 +31,22 @@ const getProductById = async (req, res) => {
   return res.status(200).json(product)
 }
 
+const editProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const { changedProduct, message } = await productsService.modifyProduct(id, name, quantity);
+  if (message) return res.status(422).json({
+    err: {
+      code: "invalid_data",
+      message
+    }
+  });
+  return res.status(200).json(changedProduct);
+}
+
 module.exports = {
   create,
   getAll,
   getProductById,
+  editProduct,
 };
