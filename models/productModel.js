@@ -9,12 +9,10 @@ const create = async ({ name, quantity }) => {
   const connection = await getConnection();
 
   const exists = await connection.collection(PRODUCTS_COLLECTION).findOne({ name });
-
   if (exists) return null;
 
   const insertedProduct = await connection.collection('products')
     .insertOne({ name, quantity });
-
   return insertedProduct.ops[0];
 };
 
@@ -49,7 +47,7 @@ const update = async (id, { name, quantity }) => {
 
   const document = { $set: { quantity, name } };
 
-  const options = { returnOriginal: false };
+  const options = { returnDocument: 'after' };
 
   const connection = await getConnection();
 
