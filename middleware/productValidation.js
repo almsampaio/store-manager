@@ -1,4 +1,5 @@
 const validate = require('../schemas/productSchema');
+const productsServices = require('../services/productsServices');
 require('dotenv').config();
 
 const { env: { STATUS_422_UNPROCESSABLE } } = process;
@@ -22,7 +23,6 @@ const idValidate = (req, _res, next) => {
   const { error } = validate.idValidate.validate(id);
 
   if (error) {
-    console.log(STATUS_422_UNPROCESSABLE);
     return next({
       err: { code: 'invalid_data', message: 'Wrong id format' },
       statusCode: STATUS_422_UNPROCESSABLE,
@@ -32,7 +32,23 @@ const idValidate = (req, _res, next) => {
   next();
 };
 
+const alreadyExistsName = async (req, _res, next) => {
+  const { name } = req.body;
+  const products = await productsServices.getAll();
+  const verifyProducts = products.filter((ele) => ele.name === name);
+  console.log(verifyProducts);
+  if (verifyProducts.length > 0) {
+    return next({
+      err: { code: 'invalid_data', message: 'Product already exists' },
+      statusCode: STATUS_422_UNPROCESSABLE,
+    });
+  }
+
+  next();
+}
+
 module.exports = {
   productValidate,
   idValidate,
+  alreadyExistsName,
 };

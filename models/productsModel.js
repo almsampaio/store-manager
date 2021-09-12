@@ -16,7 +16,7 @@ const create = async (name, quantity) => connection()
     name,
     quantity,
   }))
-  .then((result) => result.ops);
+  .then((result) => result.ops[0]);
 
 module.exports = {
   getAll,

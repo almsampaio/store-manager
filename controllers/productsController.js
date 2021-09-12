@@ -24,6 +24,7 @@ const create = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
     const createdProduct = await productsServices.create(name, quantity);
+    console.log(createdProduct);
     return res.status(process.env.STATUS_201_CREATED).json(createdProduct);
   } catch (e) {
     next(e);
