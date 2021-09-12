@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productsControllers = require('./controllers/productsControllers');
-const { validateNameNewProduct,
-  validateQuantityNewProduct } = require('./middlewares/productsMiddlewares');
+const { validateNameProduct,
+  validateQuantityProduct } = require('./middlewares/productsMiddlewares');
 
 const app = express();
 
@@ -14,11 +14,14 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', 
-validateNameNewProduct, validateQuantityNewProduct, productsControllers.createNewProduct);
+validateNameProduct, validateQuantityProduct, productsControllers.createNewProduct);
 
 app.get('/products', productsControllers.getAllProducts);
 
 app.get('/products/:id', productsControllers.getById);
+
+app.put('/products/:id', 
+validateNameProduct, validateQuantityProduct, productsControllers.UpdateProductById);
 
 const PORT = 3000;
 
