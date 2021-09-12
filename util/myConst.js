@@ -1,0 +1,10 @@
+// constantes
+const STATUS_200_OK = 200;
+const STATUS_201_CREATED = 201;
+const STATUS_422_UNPROCESSABLE = 422;
+
+module.exports = {
+  STATUS_200_OK,
+  STATUS_201_CREATED,
+  STATUS_422_UNPROCESSABLE,
+};
