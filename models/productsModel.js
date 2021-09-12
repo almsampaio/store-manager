@@ -27,9 +27,11 @@ const findProductById = async (id) => {
 }
 
 const changeProductInfo = async (id, name, quantity) => {
+  const product = await findProductById(id);
+
   return connection()
     .then((db) => db.collection('products').updateOne({ _id: new ObjectId(id) }, { $set : {name, quantity}}))
-    .then(result => result);
+    .then(() => product);
 }
 
 const remove = async (id) => {
