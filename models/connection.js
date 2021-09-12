@@ -12,7 +12,7 @@ const OPTIONS = {
 
 let db = null;
 
-const connection = () => (db
+const connection = async () => (db
     ? Promise.resolve(db)
     : MongoClient.connect(MONGO_DB_URL, OPTIONS).then((conn) => {
         db = conn.db(DB_NAME);

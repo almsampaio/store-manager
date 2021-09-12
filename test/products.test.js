@@ -16,7 +16,7 @@ describe('1 - Crie um endpoint para o cadastro de produtos', () => {
     });
     db = connection.db('StoreManager');
     await db.collection('products').deleteMany({});
-    await StoreManager.collection('sales').deleteMany({});
+    await db.collection('sales').deleteMany({});
   });
 
   beforeEach(async () => {
