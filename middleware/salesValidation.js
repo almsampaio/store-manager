@@ -1,6 +1,6 @@
 const STATUS = require('../util/myConst');
 const validade = require('../schemas/salesSchema');
-const validade2 = require('../schemas/productSchema');
+const validate = require('../schemas/productSchema');
 const salesService = require('../services/salesServices');
 
 const SalesValidate = (req, _res, next) => {
@@ -21,7 +21,7 @@ const SalesValidate = (req, _res, next) => {
 
 const idValidate = (req, _res, next) => {
   const { id } = req.params;
-  const { error } = validade2.idValidate.validade(id);
+  const { error } = validate.idValidate.validate(id);
 
   if (error) {
     console.log(error);
