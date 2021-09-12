@@ -1,5 +1,11 @@
 const getConnection = require('./connection');
 
+const getAll = async () => {
+  const db = await getConnection();
+  const result = await db.collection('sales').find({}).toArray();
+  return result;
+};
+
 const registerSales = async (sales) => {
   const db = await getConnection();
   const addOrder = await db.collection('sales').insertOne({ itensSold: sales });
@@ -8,5 +14,6 @@ const registerSales = async (sales) => {
 };
 
 module.exports = {
+  getAll,
   registerSales,
 };
