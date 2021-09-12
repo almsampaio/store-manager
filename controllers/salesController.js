@@ -11,6 +11,25 @@ const create = async (req, res) => {
   return res.status(StatusCodes.OK).json(newSale);
 };
 
+const findAll = async (_req, res) => {
+  const sales = await service.findAll();
+
+  // console.log(sales);
+
+  return res.status(StatusCodes.OK).send(sales);
+};
+
+const findById = async (req, res) => {
+  const { id } = req.params;
+  const sale = await service.findById(id);
+
+  if (sale.err) return res.status(StatusCodes.NOT_FOUND).json(sale);
+
+  return res.status(StatusCodes.OK).json(sale);
+};
+
 module.exports = {
   create,
+  findAll,
+  findById,
 };

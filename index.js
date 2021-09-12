@@ -22,7 +22,11 @@ app.route('/products/:id')
   .delete(Products.deleteOne);
 
 app.route('/sales')
-  .post(Sales.create);
+  .post(Sales.create)
+  .get(Sales.findAll);
+
+app.route('/sales/:id')
+  .get(Sales.findById);
 
 const PORT = process.env.PORT || 3000;
 
