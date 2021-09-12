@@ -32,9 +32,16 @@ const modifyProduct = async (id, name, quantity) => {
   return { changedProduct };
 }
 
+const remove = async (id) => {
+  const product = await productsModel.remove(id);
+  if (!product) return { message: "Wrong id format" }
+  return { product }
+}
+
 module.exports = {
   create,
   getAllProducts,
   getProductById,
   modifyProduct,
+  remove,
 };
