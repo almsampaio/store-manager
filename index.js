@@ -17,4 +17,4 @@ const { env: { PORT } } = process;
 
 const PORT_N = PORT || 3000;
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT_N}`));
+app.listen(PORT_N, () => console.log(`Server listening on port ${PORT_N}`));
