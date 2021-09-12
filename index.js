@@ -9,24 +9,11 @@ app.listen(3000, () => {
   console.log('Server rodando na porta 3000');
 });
 
-const { validateProductInput } = require('./middlewares/validate');
-const productController = require('./controllers/productController');
+// ----------------------------------------------------- PRODUCT ----------------------------------------------------- //
 
-app.post('/products', [
-  validateProductInput,
-  productController.create,
-]);
+const productsRouter = require('./router/productsRouter');
 
-app.get('/products/:id', productController.getByID);
-
-app.get('/products', productController.getAll);
-
-app.put('/products/:id', [
-  validateProductInput,
-  productController.update,
-]);
-
-app.delete('/products/:id', productController.exclude);
+app.use('/products', productsRouter);
 
 app.use((err, _req, res, _next) => {
   const { details } = err;
