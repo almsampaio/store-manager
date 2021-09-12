@@ -8,4 +8,9 @@ exports.product = Joi.object({
 
 // exports.id = Joi.string().length(24).alphanum().required();
 // semelhante ao usar o  ObjectId.isValid(algumacoisa) - Anotações para fins didáticos
-exports.id = Joi.objectId();
+exports.id = Joi.objectId(); // verifica se é um ID válido de MongoDB e não se existe no banco de dados
+
+exports.sale = Joi.array().items({
+  productId: Joi.objectId(),
+  quantity: Joi.number().min(1).required(),
+});
