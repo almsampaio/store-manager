@@ -1,6 +1,7 @@
 const codes = {
   invalidData: 'invalid_data',
   notFound: 'not_found',
+  stockProblem: 'stock_problem',
 };
 
 const messages = {
@@ -13,6 +14,7 @@ const messages = {
   invalidQuantity: 'Wrong product ID or invalid quantity',
   saleNotFound: 'Sale not found',
   wrongSaleId: 'Wrong sale ID format',
+  amountNotPermited: 'Such amount is not permitted to sell',
 };
 
 module.exports = {

@@ -10,6 +10,8 @@ const create = async (itensSold) => {
 
   const updateQuantity = currentProduct.quantity - quantity;
 
+  if (updateQuantity <= 0) return null;
+
   await productsModel.updateOne(productId, currentProduct.name, updateQuantity);
 
   return connection()

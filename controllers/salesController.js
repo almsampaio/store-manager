@@ -1,10 +1,19 @@
 const { StatusCodes } = require('http-status-codes');
 const service = require('../services/salesService');
+const {
+  codes: { stockProblem }, messages: { amountNotPermited },
+} = require('../messages/messages');
 
 const create = async (req, res) => {
   const sale = req.body;
 
   const newSale = await service.create(sale);
+
+  if (!newSale) {
+    return res.status(StatusCodes.NOT_FOUND).json({
+      err: { code: stockProblem, message: amountNotPermited },
+    });
+  }
 
   if (newSale.err) return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(newSale);
 
