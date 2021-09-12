@@ -20,17 +20,20 @@ const create = async (sale) => {
   return { _id: insertedId, itensSold: sale };
 };
 
-const update = async (id, prodId, qtd) => 
-  // const db = await connection();
-  // const result = await db.collection('sales').updateOne({ _id: ObjectID(id) },
-  //   { $set: { 'productId.$[quantity]': qtd } },
-  //   { multi: true, arrayFilters: [{ quantity: { $eq: prodId } }] });
-  ({ id, prodId, qtd });
+const update = async (id, prodId, qtd) => {
+  const db = await connection();
+  await db.collection('sales').updateOne({ _id: ObjectID(id) },
+    { $set: { itensSold: [{ productId: prodId, quantity: qtd }] } });
+  const result = await getById(ObjectID(id));
+  return result;
+};
 
 const remove = async (id) => {
   const db = await connection();
-  const result = await db.collection('sales').deleteOne({ _id: ObjectID(id) });
-  return result;
+  const sale = await getById(ObjectID(id));
+  if (!sale) return false;
+  await db.collection('sales').deleteOne({ _id: ObjectID(id) });
+  return sale;
 };
 
 module.exports = {

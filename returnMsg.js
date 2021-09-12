@@ -26,6 +26,10 @@ const saleNotFound = { err: { err: { code: 'not_found',
   message: 'Sale not found' } },
 };
 
+const saleIdInvalid = { err: { err: { code: 'invalid_data',
+  message: 'Wrong sale ID format' } },
+};
+
 module.exports = {
   duplicatedProductMsg,
   validateNameMsg,
@@ -34,4 +38,5 @@ module.exports = {
   invalidIdFormat,
   invalidQtdSale,
   saleNotFound,
+  saleIdInvalid,
 };

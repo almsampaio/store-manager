@@ -33,8 +33,9 @@ const update = async (id, prodId, qtd) => {
 
 const remove = async (id) => {
   const validId = await salesMidd.validateOneId(id);
-  if (!validId) return errorMsg.invalidIdFormat;
+  if (!validId) return errorMsg.saleIdInvalid;
   const result = await salesModel.remove(id);
+  if (!result) return errorMsg.saleIdInvalid;
   return result;
 };
 
