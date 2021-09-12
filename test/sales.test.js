@@ -5,7 +5,7 @@ const mongoDbUrl = 'mongodb://localhost:27017';
 const url = 'http://localhost:3000';
 const invalidId = 99999;
 
-describe.skip('5 - Crie um endpoint para cadastrar vendas', () => {
+describe('5 - Crie um endpoint para cadastrar vendas', () => {
   let connection;
   let db;
 
@@ -39,7 +39,7 @@ describe.skip('5 - Crie um endpoint para cadastrar vendas', () => {
     await connection.close();
   });
 
-  it('Será validado que não é possível cadastrar compras com quantidade menor que zero', async () => {
+  it.skip('Será validado que não é possível cadastrar compras com quantidade menor que zero', async () => {
     let result;
     let resultProductId;
 
@@ -67,7 +67,7 @@ describe.skip('5 - Crie um endpoint para cadastrar vendas', () => {
       });
   });
 
-  it('Será validado que não é possível cadastrar compras com quantidade igual a zero', async () => {
+  it.skip('Será validado que não é possível cadastrar compras com quantidade igual a zero', async () => {
     let result;
     let resultProductId;
 
@@ -95,7 +95,7 @@ describe.skip('5 - Crie um endpoint para cadastrar vendas', () => {
       });
   });
 
-  it('Será validado que não é possível cadastrar compras com uma string no campo quantidade', async () => {
+  it.skip('Será validado que não é possível cadastrar compras com uma string no campo quantidade', async () => {
     let result;
     let resultProductId;
 
@@ -194,7 +194,7 @@ describe.skip('5 - Crie um endpoint para cadastrar vendas', () => {
   });
 });
 
-describe.skip('6 - Crie um endpoint para listar as vendas', () => {
+describe('6 - Crie um endpoint para listar as vendas', () => {
   let connection;
   let db;
 
@@ -332,7 +332,7 @@ describe.skip('6 - Crie um endpoint para listar as vendas', () => {
       });
   });
 
-  it('Será validado que não é possível listar uma venda inexistente', async () => {
+  it.skip('Será validado que não é possível listar uma venda inexistente', async () => {
     await frisby
       .get(`${url}/sales/9999`)
       .expect('status', 404)

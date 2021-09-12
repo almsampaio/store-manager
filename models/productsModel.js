@@ -21,7 +21,6 @@ const create = async (name, quantity) => connection()
     name,
     quantity,
   }))
-  .then()
   .then((result) => result.ops[0]);
 
 const deleteById = async (id) => connection()
