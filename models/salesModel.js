@@ -30,10 +30,8 @@ const update = async (id, prodId, qtd) => {
 
 const remove = async (id) => {
   const db = await connection();
-  const sale = await getById(ObjectID(id));
-  if (!sale) return false;
   await db.collection('sales').deleteOne({ _id: ObjectID(id) });
-  return sale;
+  return true;
 };
 
 module.exports = {

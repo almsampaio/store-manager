@@ -1,5 +1,6 @@
 const httpStatus = require('../httpStatus');
 const salesService = require('../services/salesService');
+const error = require('../returnMsg');
 
 const getById = async (req, res) => {
   const { id } = req.params;
@@ -31,6 +32,7 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   const { id } = req.params;
   const result = await salesService.remove(id);
+  if (result === null) return res.status(httpStatus.HTTP_NOT_FOUND).json(error.saleNotFound.err);
   if (result.err) return res.status(httpStatus.HTTP_INVALID_DATA).json(result.err);
   res.status(httpStatus.HTTP_OK).json(result);
 };

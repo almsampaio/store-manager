@@ -32,8 +32,13 @@ const validateAllQtd = async (array) => {
   return result;
 };
 
+const verifyMsg = async (msg) => {
+  console.log(msg);
+};
+
 module.exports = {
   validateOneId,
   validateAllIds,
   validateAllQtd,
+  verifyMsg,
 };
