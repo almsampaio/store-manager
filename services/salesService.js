@@ -1,9 +1,17 @@
 const salesModel = require('../models/salesModel');
 const validations = require('./validations');
 
-const listSales = async () => {
-  const sales = await salesModel.getAll();
-  return sales;
+const listSales = () => salesModel.getAll();
+
+const getById = async (id) => {
+  const sale = await salesModel.getSaleById(id);
+
+  if (!sale) {
+    const errorMessage = validations.saleNotFound();
+    return { errorMessage };
+  }
+
+  return { sale };
 };
 
 const registerSales = async (sales) => {
@@ -23,5 +31,6 @@ const registerSales = async (sales) => {
 
 module.exports = {
   listSales,
+  getById,
   registerSales,
 };

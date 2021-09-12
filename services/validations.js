@@ -10,10 +10,14 @@ const TYPE_MB_NUMBER = '"quantity" must be a number';
 const PRODUCT_ALREADY_EXISTS = 'Product already exists';
 const WRONG_ID_FORMAT = 'Wrong id format';
 const INVALID_ID_OR_QUANTITY = 'Wrong product ID or invalid quantity';
+const NOT_FOUND = 'not_found';
+const SALE_NOT_FOUND = 'Sale not found';
 
 const notValidId = () => generateError(INVALID_DATA, WRONG_ID_FORMAT);
 
 const notValidIdOrQuantity = () => generateError(INVALID_DATA, INVALID_ID_OR_QUANTITY);
+
+const saleNotFound = () => generateError(NOT_FOUND, SALE_NOT_FOUND);
 
 const validateName = (name) => {
   if (!regexName.test(name)) {
@@ -66,4 +70,5 @@ module.exports = {
   validationToCreate,
   validateToUpdate,
   validateSale,
+  saleNotFound,
 };
