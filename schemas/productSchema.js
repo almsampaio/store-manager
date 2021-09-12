@@ -13,4 +13,4 @@ const idValidate = Joi.objectId();
 module.exports = {
   productValidate,
   idValidate,
-}
+};

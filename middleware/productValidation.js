@@ -1,4 +1,5 @@
 const validate = require('../schemas/productSchema');
+require('dotenv').config();
 
 const { env: { STATUS_422_UNPROCESSABLE } } = process;
 
@@ -20,7 +21,8 @@ const idValidate = (req, _res, next) => {
   const { id } = req.params;
   const { error } = validate.idValidate.validate(id);
 
-  if(error) {
+  if (error) {
+    console.log(STATUS_422_UNPROCESSABLE);
     return next({
       err: { code: 'invalid_data', message: 'Wrong id format' },
       statusCode: STATUS_422_UNPROCESSABLE,
@@ -33,4 +35,4 @@ const idValidate = (req, _res, next) => {
 module.exports = {
   productValidate,
   idValidate,
-}
+};
