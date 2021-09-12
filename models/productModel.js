@@ -1,3 +1,4 @@
+const { ObjectId } = require('bson');
 const mongoConnection = require('./connection');
 
 const create = async ({ name, quantity }) => {
@@ -21,7 +22,31 @@ const getAll = async () => {
   return response;
 };
 
+const getById = async (id) => {
+  const productCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection('products'));
+
+  const response = await productCollection.find({ _id: new ObjectId(id) }).toArray();
+
+  return response;
+};
+
+const update = async (id, { name, quantity }) => {
+  const productCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection('products'));
+
+  const response = await productCollection.updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { name, quantity } },
+  );
+
+  console.log(response);
+  return response;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
+  update,
 };

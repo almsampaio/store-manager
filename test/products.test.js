@@ -138,7 +138,7 @@ describe('1 - Crie um endpoint para o cadastro de produtos', () => {
   });
 });
 
-describe.only('2 - Crie um endpoint para listar os produtos', () => {
+describe('2 - Crie um endpoint para listar os produtos', () => {
   let connection;
   let db;
 
@@ -231,7 +231,7 @@ describe.only('2 - Crie um endpoint para listar os produtos', () => {
   });
 });
 
-describe('3 - Crie um endpoint para atualizar um produto', () => {
+describe.only('3 - Crie um endpoint para atualizar um produto', () => {
   let connection;
   let db;
 
