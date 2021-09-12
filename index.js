@@ -5,6 +5,7 @@ const productsController = require('./controllers/productsControler');
 const app = express();
 app.use(bodyParser.json());
 
+app.delete('/products/:id', productsController.remove);
 app.put('/products/:id', productsController.editProduct)
 app.get('/products/:id', productsController.getProductById);
 app.post('/products', productsController.create);
