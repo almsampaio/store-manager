@@ -39,13 +39,12 @@ const editProduct = async (req, res) => {
 };
 
 // REQUISITO 4 ______________________________________________________________________ //
+
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
 
   const product = await service.productsService.deleteProduct(id);
-
   if (product.err) return res.status(HTTP_UNPROCESSABLE_STATUS).json(product);
-
   res.status(HTTP_OK_STATUS).json(product);
 };
 // ___________________________________________________________________________________ //
