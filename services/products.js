@@ -21,6 +21,19 @@ const getById = async (id) => {
   return product;
 };
 
+const exclude = async (id) => {
+  const product = await ProductsModel.exclude(id);
+  if (!product) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return product;
+};
+
 const update = async (id, name, quantity) => {
   const validName = validation.validateNameLength(name);
   if (validName) return validName;
@@ -51,4 +64,5 @@ module.exports = {
   getAll,
   getById,
   update,
+  exclude,
 };

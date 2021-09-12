@@ -26,6 +26,20 @@ const isAvailable = async (name) => {
   return false;
 };
 
+const canExclude = async (name) => {
+  const products = await ProductsModel.getAll();
+  const canDelete = products.find((product) => product.name === name);
+  if (!canDelete) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return canDelete;
+};
+
 const validateQuantity = (quantity) => {
   let message = '';
   if (quantity <= 0) message = '"quantity" must be larger than or equal to 1';
@@ -45,4 +59,5 @@ module.exports = {
   validateNameLength,
   isAvailable,
   validateQuantity,
+  canExclude,
 };

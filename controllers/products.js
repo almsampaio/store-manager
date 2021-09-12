@@ -28,9 +28,17 @@ const create = rescue(async (req, res) => {
   res.status(201).json(product);
 });
 
+const exclude = rescue(async (req, res) => {
+  const { id } = req.params;
+  const product = await ProductsServices.exclude(id);
+  if (product.err) return res.status(422).json(product);
+  res.status(200).json(product);
+});
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  exclude,
 };

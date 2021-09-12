@@ -38,6 +38,14 @@ const update = async (id, name, quantity) => {
   };
 };
 
+const exclude = async (id) => {
+  const db = await connection();
+  if (!ObjectId.isValid(id)) return null;
+  const product = await getById(id);
+  await db.collection('products').deleteOne({ _id: ObjectId(id) });
+  return product;
+};
+
 const create = async (name, quantity) => {
   const db = await connection();
   const product = await db.collection('products').insertOne({ name, quantity });
@@ -49,4 +57,5 @@ module.exports = {
   getAll,
   getById,
   update,
+  exclude,
 };
