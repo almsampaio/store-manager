@@ -13,7 +13,7 @@ const getById = async (id) => {
 
 const update = async (name, quantity, id) => connection()
   .then((db) => db.collection('products').updateOne(
-    { _id: ObjectId(id) }, { $set: { name: name, quantity: quantity } }
+    { _id: ObjectId(id) }, { $set: { name, quantity } },
   ));
 
 const create = async (name, quantity) => connection()
@@ -32,5 +32,5 @@ module.exports = {
   getById,
   create,
   update,
-  deleteById
+  deleteById,
 };

@@ -16,4 +16,6 @@ router.post('/', productValidate, alreadyExistsName, productsController.create);
 
 router.put('/:id', ...allValidations, productsController.update);
 
+router.delete('/:id', idValidate, productsController.deleteById);
+
 module.exports = router;

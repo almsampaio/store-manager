@@ -35,14 +35,13 @@ const update = async (req, res, next) => {
     const { name, quantity } = req.body;
     const { id } = req.params;
     const updatedProdutct = await productsServices.update(name, quantity, id);
-    console.log(updatedProdutct);
     return res.status(process.env.STATUS_200_OK).json(...updatedProdutct);
   } catch (e) {
     next(e);
   }
-}
+};
 
-const deleteById = (req, res, next) => {
+const deleteById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deleteOne = await productsServices.deleteById(id);
@@ -56,5 +55,6 @@ module.exports = {
   getAll,
   getById,
   create,
-  update
+  update,
+  deleteById,
 };
