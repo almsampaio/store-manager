@@ -41,9 +41,25 @@ const createProduct = async (name, quantity) => {
   return product;
 };
 
+const editProduct = async (name, quantity, id) => {
+  const editedProduct = connection()
+    .then((db) =>
+      db
+        .collection('products')
+        .findOneAndUpdate(
+          { _id: ObjectId(id) },
+          { $set: { name, quantity } },
+          { returnDocument: 'after' },
+        ))
+    .then((product) => product.value);
+
+  return editedProduct;
+};
+
 module.exports = {
   createProduct,
   findProduct,
   getProductById,
   getAll,
+  editProduct,
 };

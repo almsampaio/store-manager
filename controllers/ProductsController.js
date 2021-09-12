@@ -17,6 +17,15 @@ router.get('/:id', async (req, res) => {
   res.status(200).json(product);
 });
 
+router.use('/:id', validateProduct, async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const product = await Products.editProduct(name, quantity, id);
+
+  res.status(200).json(product);
+});
+
 router.get('/', async (_req, res) => {
   const products = await Products.getAll();
 

@@ -21,4 +21,16 @@ const createProduct = async (name, quantity) => {
   return product;
 };
 
-module.exports = { createProduct, findProduct, getProductById, getAll };
+const editProduct = async (name, quantity, id) => {
+  const product = await Products.editProduct(name, quantity, id);
+
+  return product;
+};
+
+module.exports = {
+  createProduct,
+  findProduct,
+  getProductById,
+  getAll,
+  editProduct,
+};
