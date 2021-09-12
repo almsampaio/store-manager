@@ -19,7 +19,7 @@ const getAllProducts = async () => {
     .then((products) => products);
 }
 
-const findProductById = async(id) => {
+const findProductById = async (id) => {
   return connection()
     .then((db) => db.collection('products').findOne(new ObjectId(id)))
     .then(result => result || null)
@@ -29,7 +29,16 @@ const findProductById = async(id) => {
 const changeProductInfo = async (id, name, quantity) => {
   return connection()
     .then((db) => db.collection('products').updateOne({ _id: new ObjectId(id) }, { $set : {name, quantity}}))
-    .then(result => result)
+    .then(result => result);
+}
+
+const remove = async (id) => {
+  const productInfo = await findProductById(id);
+
+  return connection()
+    .then((db) => db.collection('products').deleteOne({_id: new ObjectId(id)}))
+    .then(() => productInfo)
+    .catch(() => null);
 }
 
 module.exports = {
@@ -38,4 +47,5 @@ module.exports = {
   getAllProducts,
   findProductById,
   changeProductInfo,
+  remove,
 };
