@@ -25,7 +25,11 @@ app.route('/products')
 
 const salesController = require('./controllers/sales');
 
+app.route('/sales/:id')
+  .get(salesController.getSalesById);
+
 app.route('/sales')
-  .post(salesController.createSales);
+  .post(salesController.createSales)
+  .get(salesController.getSales);
 
 app.listen(PORT, () => console.log(`Running at ${PORT} port`));

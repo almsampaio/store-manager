@@ -8,6 +8,13 @@ const INVALID_DATA = {
   },
 };
 
+const NOT_FOUND = {
+  err: {
+    code: 'not_found',
+    message: 'Sale not found',
+  },
+};
+
 const validateSales = Joi.array().items(
   Joi.object()
     .keys({
@@ -27,6 +34,22 @@ const createSales = async (itensSold) => {
   return { result };
 };
 
+const getSales = async () => {
+  const sales = await salesModel.getSales();
+
+  return { sales };
+};
+
+const getSalesById = async (id) => {
+  const sales = await salesModel.getSalesById(id);
+
+  if (!sales) return { error: NOT_FOUND };
+
+  return { sales };
+}; 
+
 module.exports = {
   createSales,
+  getSales,
+  getSalesById,
 };
