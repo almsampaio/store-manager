@@ -58,3 +58,7 @@ describe('Insere um novo produto no BD - camada model', () => {
     });
   });
 });
+
+
+// getAll PRODUCT
+
