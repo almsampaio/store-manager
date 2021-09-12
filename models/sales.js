@@ -29,8 +29,23 @@ const getSalesById = async (id) => {
   return result;
 };
 
+const updateSale = async (id, itensSold) => {
+  const sales = await accessSales();
+
+  if (!ObjectId.isValid(id)) return null;
+
+  const { value } = await sales.findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { itensSold } },
+    { returnOriginal: false },
+  );
+
+  return value;
+};
+
 module.exports = {
   createSales,
   getSales,
   getSalesById,
+  updateSale,
 };
