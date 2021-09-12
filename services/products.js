@@ -17,12 +17,6 @@ const validQuantity = (quantity) => {
   return false;
 };
 
-const validId = (id) => {
-  if (id.length !== 24) return { message: 'Wrong id format' };
-
-  return false;
-};
-
 const createProduct = async (name, quantity) => {
   const invalidLength = checkNameLength(name);
   if (invalidLength) return invalidLength;
