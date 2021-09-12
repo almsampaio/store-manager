@@ -26,6 +26,7 @@ const getSalesById = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(sales);
 };
 
+// REQUISITO 7 ______________________________________________________________________ //
 const updateSales = async (req, res) => {
   const { id } = req.params;
   const sales = req.body;
@@ -35,6 +36,14 @@ const updateSales = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(newSale);
 };
 
+// REQUISITO 8 ______________________________________________________________________ //
+const deleteSales = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await service.salesService.deleteSales(id);
+  if (product.err) return res.status(HTTP_UNPROCESSABLE_STATUS).json(product);
+  res.status(HTTP_OK_STATUS).json(product);
+};
 // ___________________________________________________________________________________ //
 
 module.exports = {
@@ -42,4 +51,5 @@ module.exports = {
   getAllSales,
   getSalesById,
   updateSales,
+  deleteSales,
 };

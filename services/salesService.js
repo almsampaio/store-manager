@@ -2,6 +2,7 @@ const models = require('../models');
 const {
   ERROR_ID_OR_QTD,
   ERROR_SALE_NOT_FOUND,
+  ERROR_SALE_ID,
  } = require('../helpers');
 const {
   validateQuantity,
@@ -50,6 +51,16 @@ const updateSale = async (id, sales) => {
   return newSale;
 };
 
+// REQUISITO 8 ________________________________________________________________________//
+
+const deleteSales = async (id) => {
+  if (!validateId(id)) return ERROR_SALE_ID;
+  const deleteExist = await models.salesModel.getSaleById(id);
+  if (!deleteExist) return ERROR_SALE_ID;
+  const { deleteId, salesDelete } = await models.salesModel.deleteSales(id);
+  if (!salesDelete) return deleteId;
+};
+
 // ____________________________________________________________________________________//
 
 module.exports = {
@@ -57,4 +68,5 @@ module.exports = {
   getAllSales,
   getSalesById,
   updateSale,
+  deleteSales,
 };

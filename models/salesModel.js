@@ -38,6 +38,16 @@ const updateSales = async (id, sale) => {
   return updatedSales;
 };
 
+// REQUISITO 8 _______________________________________________________________________//
+
+const deleteSales = async (id) => {
+  const db = await connection();
+  const deleteId = await getSaleById(id);
+  await db.collection(COLLECTION_NAME).deleteOne({ _id: ObjectId(id) });
+  const salesDelete = await db.collection(COLLECTION_NAME).findOne({ _id: ObjectId(id) });
+  return { deleteId, salesDelete };
+};
+
 // __________________________________________________________________________________//
 
 module.exports = {
@@ -45,4 +55,5 @@ module.exports = {
   getAllSales,
   getSaleById,
   updateSales,
+  deleteSales,
 };
