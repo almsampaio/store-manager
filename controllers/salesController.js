@@ -5,14 +5,13 @@ const create = async (req, res, next) => {
   try {
     const { body } = req;
     const createdSales = await salesService.create(body);
-    console.log(createdSales);
     return res.status(STATUS.STATUS_200_OK).json(createdSales)
   } catch (e) {
     next(e);
   }
 };
 
-const getAll = async (req, res, next) => {
+const getAll = async (_req, res, next) => {
   try {
     const sales = await salesService.getAll();
     return res.status(STATUS.STATUS_200_OK).json({ sales });

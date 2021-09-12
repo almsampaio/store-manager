@@ -8,8 +8,12 @@ const create = async (sales) => connection()
 const getAll = async () => connection()
   .then((db) => db.collection('sales').find().toArray());
 
-const getById = async (id) => connection()
-  .then((db) => db.collection('sales').find({ _id: new ObjectId(id) }).toArray())
+const getById = async (id) => {
+  const sales = await connection()
+    .then((db) => db.collection('sales').find({ _id: new ObjectId(id) }).toArray());
+
+  return sales;
+}
 
 module.exports = {
   create,

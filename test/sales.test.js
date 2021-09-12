@@ -39,7 +39,7 @@ describe('5 - Crie um endpoint para cadastrar vendas', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que não é possível cadastrar compras com quantidade menor que zero', async () => {
+  it('Será validado que não é possível cadastrar compras com quantidade menor que zero', async () => {
     let result;
     let resultProductId;
 
@@ -67,7 +67,7 @@ describe('5 - Crie um endpoint para cadastrar vendas', () => {
       });
   });
 
-  it.skip('Será validado que não é possível cadastrar compras com quantidade igual a zero', async () => {
+  it('Será validado que não é possível cadastrar compras com quantidade igual a zero', async () => {
     let result;
     let resultProductId;
 
@@ -95,7 +95,7 @@ describe('5 - Crie um endpoint para cadastrar vendas', () => {
       });
   });
 
-  it.skip('Será validado que não é possível cadastrar compras com uma string no campo quantidade', async () => {
+  it('Será validado que não é possível cadastrar compras com uma string no campo quantidade', async () => {
     let result;
     let resultProductId;
 
@@ -332,7 +332,7 @@ describe('6 - Crie um endpoint para listar as vendas', () => {
       });
   });
 
-  it.skip('Será validado que não é possível listar uma venda inexistente', async () => {
+  it('Será validado que não é possível listar uma venda inexistente', async () => {
     await frisby
       .get(`${url}/sales/9999`)
       .expect('status', 404)
