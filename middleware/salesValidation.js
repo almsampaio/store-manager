@@ -17,7 +17,7 @@ const SalesValidate = (req, _res, next) => {
   }
 
   next();
-}
+};
 
 const idValidate = (req, _res, next) => {
   const { id } = req.params;
@@ -37,7 +37,7 @@ const idValidate = (req, _res, next) => {
 const salesAlreadyExists = async (req, _res, next) => {
   const { id } = req.params;
   const sales = await salesService.getAll();
-  const sale = sales.filter((ele) => ele._id === id);
+  const sale = sales.filter((ele) => ele.id === id);
   if (!sale) {
     return next({
       err: { code: 'not_found', message: 'Sale not found' },
@@ -45,7 +45,7 @@ const salesAlreadyExists = async (req, _res, next) => {
     });
   }
   next();
-}
+};
 
 module.exports = {
   SalesValidate,

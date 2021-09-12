@@ -5,7 +5,7 @@ const create = async (req, res, next) => {
   try {
     const { body } = req;
     const createdSales = await salesService.create(body);
-    return res.status(STATUS.STATUS_200_OK).json(createdSales)
+    return res.status(STATUS.STATUS_200_OK).json(createdSales);
   } catch (e) {
     next(e);
   }
@@ -28,7 +28,7 @@ const getById = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-}
+};
 
 module.exports = {
   create,

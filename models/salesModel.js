@@ -13,7 +13,7 @@ const getById = async (id) => {
     .then((db) => db.collection('sales').find({ _id: new ObjectId(id) }).toArray());
 
   return sales;
-}
+};
 
 module.exports = {
   create,
