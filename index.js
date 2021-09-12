@@ -17,8 +17,8 @@ app.post('/products', ProductsController.create);
 app.get('/products', ProductsController.getAll);
 app.get('/products/:id', ProductsController.getById);
 
-// atualizar produto /products/:id
-// app.put('/products/:id', null);
+// atualizar produto
+app.put('/products/:id', ProductsController.update);
 
 // deletar produto /products/:id
 // app.delete('/products/:id', null);

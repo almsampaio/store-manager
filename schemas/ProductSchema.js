@@ -35,7 +35,18 @@ const validateGetById = (id) => {
   return {};
 };
 
+const validatePut = (name, quantity) => {
+  const code = 'invalid_data';
+  switch (true) {
+    case isLengthLetterThan(name, 5): return { err: { code, message: errors.name_lenght } };
+    case isNumberGreaterThan(quantity, 1): return { err: { code, message: errors.quantity_amount } };
+    case typeOf(quantity): return { err: { code, message: errors.typeof_quantity } };
+    default: return {};
+  }
+};
+
 module.exports = {
   validatePost,
   validateGetById,
+  validatePut,
 };

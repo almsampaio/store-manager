@@ -23,15 +23,15 @@ const getById = async (id) => {
   return product;
 };
 
-// const update = async (id, name, quantity) => {
-//   if (!ObjectId.isValid(id)) return null;
+const update = async (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) return null;
 
-//   const db = await connect();
-//   await db.collection('products')
-//     .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+  const db = await connect();
+  await db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
   
-//     return { id, name, quantity };
-// };
+    return { id, name, quantity };
+};
 
 // const exclude = async (id) => {
 //   if (!ObjectId.isValid(id)) return null;
@@ -44,4 +44,5 @@ module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

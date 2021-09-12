@@ -25,11 +25,14 @@ const getById = async (id) => {
   return { code: 200, product };
 };
 
-// const update = async (name, quantity) => {
-//   const product = await ProductsModel.update(name, quantity);
+const update = async (id, name, quantity) => {
+  const validations = ProductSchema.validatePut(name, quantity);
+  if (validations.message) return validations;
+
+  const product = await ProductsModel.update(id, name, quantity);
   
-//   return product;
-// };
+  return { code: 200, product };
+};
 
 // const exclude = async (id) => {
 //   await ProductsModel.exclude(id);
@@ -39,4 +42,5 @@ module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
