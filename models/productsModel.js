@@ -26,4 +26,18 @@ const getById = async (id) => {
     return product;
 };
 
-module.exports = { createNewProduct, searchProductByName, getAllProducts, getById };
+const updateProductById = async (id, name, quantity) => {
+    const db = await connection.mongoDB();
+    const updateProduct = await db.collection('products')
+    .findOneAndUpdate({ _id: ObjectId(id) },
+     { $set: { name, quantity } }, { returnDocument: 'after' });
+      return updateProduct.value;
+};
+
+module.exports = { 
+    createNewProduct,
+     searchProductByName, 
+     getAllProducts, 
+     getById,
+     updateProductById, 
+    };
