@@ -25,10 +25,24 @@ const getSaleById = async (id) => {
   return sale;
 };
 
+// REQUISITO 7 _______________________________________________________________________//
+
+const updateSales = async (id, sale) => {
+  const { productId, quantity } = sale[0];
+  const db = await connection();
+  await db.collection('sales').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { itensSold: { productId, quantity } } },
+  );
+  const updatedSales = await db.collection('sales').findOne({ _id: ObjectId(id) });
+  return updatedSales;
+};
+
 // __________________________________________________________________________________//
 
 module.exports = {
   createSale,
   getAllSales,
   getSaleById,
+  updateSales,
 };

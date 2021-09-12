@@ -1,6 +1,13 @@
 const models = require('../models');
-const { ERROR_ID_OR_QTD, ERROR_SALE_NOT_FOUND } = require('../helpers');
-const { validateQuantity, validateTypeNumber, validateId } = require('../middlewares');
+const {
+  ERROR_ID_OR_QTD,
+  ERROR_SALE_NOT_FOUND,
+ } = require('../helpers');
+const {
+  validateQuantity,
+  validateTypeNumber,
+  validateId,
+} = require('../middlewares');
 
 // REQUISITO 5 ________________________________________________________________________//
 
@@ -29,10 +36,25 @@ const getSalesById = async (id) => {
   return sales;
 };
 
+// REQUISITO 7 ________________________________________________________________________//
+
+const updateSale = async (id, sales) => {
+  const { quantity } = sales[0];
+  if (!validateId(id)) return ERROR_SALE_NOT_FOUND;
+  if (!validateTypeNumber(quantity) || !validateQuantity(quantity)) return ERROR_ID_OR_QTD;
+
+  const itensSold = [];
+  const { _id, itensSold: sold } = await models.salesModel.updateSales(id, sales);
+  itensSold.push(sold);
+  const newSale = { _id, itensSold };
+  return newSale;
+};
+
 // ____________________________________________________________________________________//
 
 module.exports = {
   createSale,
   getAllSales,
   getSalesById,
+  updateSale,
 };
