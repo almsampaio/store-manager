@@ -1,3 +1,4 @@
+// fonte: course - 27.1
 const { MongoClient } = require('mongodb');
 
 const OPTIONS = {
@@ -8,13 +9,14 @@ const OPTIONS = {
 const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
 const DB_NAME = 'StoreManager';
 
-let dbcon = null;
+let db = null;
 
-const connection = () => (dbcon
-     ? Promise.resolve(dbcon) : MongoClient.connect(MONGO_DB_URL, OPTIONS)
-.then((connect) => {
-    dbcon = connect.db_state(DB_NAME);
-    return dbcon;
-}));
+const connection = () => (db
+    ? Promise.resolve(db)
+    : MongoClient.connect(MONGO_DB_URL, OPTIONS)
+    .then((conn) => {
+      db = conn.db(DB_NAME);
+      return db;
+    }));
 
 module.exports = connection;
