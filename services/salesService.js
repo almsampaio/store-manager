@@ -1,16 +1,19 @@
 const salesModel = require('../models/salesModel');
+const productsModel = require('../models/productsModel');
 
 const minimumQuantity = 1;
-const minQuantityError = {
+
+const quantityError = {
   err: {
     code: 'invalid_data',
     message: 'Wrong product ID or invalid quantity',
   },
 };
-const quantityStringError = {
+
+const stockError = {
   err: {
-    code: 'invalid_data',
-    message: 'Wrong product ID or invalid quantity',
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell',
   },
 };
 
@@ -24,12 +27,20 @@ const getById = async (id) => {
   return sale;
 };
 
+const productAvailable = async (productId) => {
+  const product = await productsModel.getById(productId);
+  return (product.quantity);
+};
+
 const create = async (itensSold) => {
-  const [{ quantity }] = itensSold;
+  const [{ quantity, productId }] = itensSold;
 
-  if (quantity < minimumQuantity) return minQuantityError;
+  const productQty = await productAvailable(productId);
+  if (productQty < quantity) return { error: stockError };
 
-  if (typeof (quantity) === 'string') return quantityStringError;
+  if (quantity < minimumQuantity) return quantityError;
+
+  if (typeof (quantity) === 'string') return quantityError;
 
   const sale = await salesModel.create(itensSold);
   return { sale };
@@ -38,9 +49,9 @@ const create = async (itensSold) => {
 const editById = async (id, itensSold) => {
   const [{ quantity }] = itensSold;
 
-  if (quantity < minimumQuantity) return minQuantityError;
+  if (quantity < minimumQuantity) return quantityError;
 
-  if (typeof (quantity) === 'string') return quantityStringError;
+  if (typeof (quantity) === 'string') return quantityError;
 
   const sale = await salesModel.editById(id, itensSold);
   return { sale };

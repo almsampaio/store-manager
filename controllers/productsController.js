@@ -22,6 +22,7 @@ const getById = async (req, res) => {
 const create = async (req, res) => {
   const { name, quantity } = req.body;
   const { err, product } = await productsService.create(name, quantity);
+  console.log(err);
   if (err) return res.status(HTTP_422).json({ err });
   return res.status(HTTP_201).json(product);
 };
