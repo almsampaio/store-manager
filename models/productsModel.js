@@ -42,6 +42,8 @@ const editProduct = async (id, product) => {
   return updateProduct;
 };
 
+// REQUISITO 4 ________________________________________________________________________//
+
 const deleteProduct = async (id) => {
   const db = await connection();
   const deleteId = await getProductById(id);
