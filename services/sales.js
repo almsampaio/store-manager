@@ -1,10 +1,17 @@
 const Joi = require('joi');
 const salesModel = require('../models/sales');
 
-const INVALID_DATA = {
+const INVALID_PRODUCT_DATA = {
   err: {
     code: 'invalid_data',
     message: 'Wrong product ID or invalid quantity',
+  },
+};
+
+const INVALID_SALE_DATA = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format',
   },
 };
 
@@ -27,7 +34,7 @@ const validateSaleArray = Joi.array().items(validateSaleObject);
 const createSales = async (itensSold) => {
   const { error, value } = validateSaleArray.validate(itensSold);
 
-  if (error) return { error: INVALID_DATA };
+  if (error) return { error: INVALID_PRODUCT_DATA };
 
   const [result] = await salesModel.createSales(value);
 
@@ -51,11 +58,19 @@ const getSalesById = async (id) => {
 const updateSale = async (id, itensSold) => {
   const { error, value } = validateSaleArray.validate(itensSold);
 
-  if (error) return { error: INVALID_DATA };
+  if (error) return { error: INVALID_PRODUCT_DATA };
 
   const result = await salesModel.updateSale(id, value);
 
-  if (!result) return { error: INVALID_DATA };
+  if (!result) return { error: INVALID_PRODUCT_DATA };
+
+  return { result };
+};
+
+const deleteSale = async (id) => {
+  const result = await salesModel.deleteSale(id);
+
+  if (!result) return { error: INVALID_SALE_DATA };
 
   return { result };
 };
@@ -65,4 +80,5 @@ module.exports = {
   getSales,
   getSalesById,
   updateSale,
+  deleteSale,
 };

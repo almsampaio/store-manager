@@ -27,7 +27,8 @@ const salesController = require('./controllers/sales');
 
 app.route('/sales/:id')
   .get(salesController.getSalesById)
-  .put(salesController.updateSale);
+  .put(salesController.updateSale)
+  .delete(salesController.deleteSale);
 
 app.route('/sales')
   .post(salesController.createSales)

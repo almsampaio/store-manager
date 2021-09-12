@@ -34,9 +34,15 @@ const updateSale = async (req, res) => {
 
   const { result, error } = await salesServices.updateSale(id, itensSold);
 
-  console.log('itensSold', itensSold);
+  if (error) return res.status(422).json(error);
 
-  console.log('result', result);
+  return res.status(200).json(result);
+};
+
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+
+  const { result, error } = await salesServices.deleteSale(id);
 
   if (error) return res.status(422).json(error);
 
@@ -48,4 +54,5 @@ module.exports = {
   getSales,
   getSalesById,
   updateSale,
+  deleteSale,
 };
