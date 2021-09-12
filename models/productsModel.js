@@ -11,15 +11,22 @@ const getById = async (id) => {
   return product;
 };
 
+const update = async (name, quantity, id) => connection()
+  .then((db) => db.collection('products').updateOne(
+    { _id: ObjectId(id) }, { $set: { name: name, quantity: quantity } }
+  ));
+
 const create = async (name, quantity) => connection()
   .then((db) => db.collection('products').insertOne({
     name,
     quantity,
   }))
+  .then()
   .then((result) => result.ops[0]);
 
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };

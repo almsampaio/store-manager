@@ -24,15 +24,27 @@ const create = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
     const createdProduct = await productsServices.create(name, quantity);
-    console.log(createdProduct);
     return res.status(process.env.STATUS_201_CREATED).json(createdProduct);
   } catch (e) {
     next(e);
   }
 };
 
+const update = async (req, res, next) => {
+  try {
+    const { name, quantity } = req.body;
+    const { id } = req.params;
+    const updatedProdutct = await productsServices.update(name, quantity, id);
+    console.log(updatedProdutct);
+    return res.status(process.env.STATUS_200_OK).json(...updatedProdutct);
+  } catch (e) {
+    next(e);
+  }
+}
+
 module.exports = {
   getAll,
   getById,
   create,
+  update
 };

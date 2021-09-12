@@ -6,10 +6,14 @@ const {
 const router = express.Router();
 const productsController = require('../controllers/productsController');
 
+const allValidations = [idValidate, productValidate, alreadyExistsName];
+
 router.get('/', productsController.getAll);
 
 router.get('/:id', idValidate, productsController.getById);
 
 router.post('/', productValidate, alreadyExistsName, productsController.create);
+
+router.put('/:id', ...allValidations, productsController.update);
 
 module.exports = router;

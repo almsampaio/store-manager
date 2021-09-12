@@ -36,7 +36,6 @@ const alreadyExistsName = async (req, _res, next) => {
   const { name } = req.body;
   const products = await productsServices.getAll();
   const verifyProducts = products.filter((ele) => ele.name === name);
-  console.log(verifyProducts);
   if (verifyProducts.length > 0) {
     return next({
       err: { code: 'invalid_data', message: 'Product already exists' },
@@ -45,7 +44,7 @@ const alreadyExistsName = async (req, _res, next) => {
   }
 
   next();
-}
+};
 
 module.exports = {
   productValidate,
