@@ -30,9 +30,17 @@ const findById = async (req, res) => {
 
 const updateOne = async (req, res) => {
   const { productId, quantity } = req.body[0];
-  // console.log(body.productId);
 
   const sale = await service.updateOne(productId, quantity);
+
+  if (sale.err) return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(sale);
+
+  return res.status(StatusCodes.OK).json(sale);
+};
+
+const deleteOne = async (req, res) => {
+  const { id } = req.params;
+  const sale = await service.deleteOne(id);
 
   if (sale.err) return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(sale);
 
@@ -44,4 +52,5 @@ module.exports = {
   findAll,
   findById,
   updateOne,
+  deleteOne,
 };

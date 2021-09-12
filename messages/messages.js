@@ -12,6 +12,7 @@ const messages = {
   wrongId: 'Wrong id format',
   invalidQuantity: 'Wrong product ID or invalid quantity',
   saleNotFound: 'Sale not found',
+  wrongSaleId: 'Wrong sale ID format',
 };
 
 module.exports = {

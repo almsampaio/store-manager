@@ -4,7 +4,7 @@ const { largerThan } = require('../schemas/numbers');
 const { isString } = require('../schemas/strings');
 const {
   codes: { invalidData, notFound },
-  messages: { invalidQuantity, saleNotFound },
+  messages: { invalidQuantity, saleNotFound, wrongSaleId },
 } = require('../messages/messages');
 
 const create = async (sale) => {
@@ -56,9 +56,18 @@ const updateOne = async (productId, quantity) => {
   return sales;
 };
 
+const deleteOne = async (id) => {
+  const sale = await model.deleteOne(id);
+
+  if (!sale) return ({ err: { code: invalidData, message: wrongSaleId } });
+
+  return sale;
+};
+
 module.exports = {
   create,
   findAll,
   findById,
   updateOne,
+  deleteOne,
 };

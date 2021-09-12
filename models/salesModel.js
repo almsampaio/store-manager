@@ -27,9 +27,24 @@ const updateOne = async (productId, quantity) => connection()
       { $set: { 'itensSold.quantity': quantity } },
     ]).toArray());
 
+  const deleteOne = async (id) => {
+    if (!ObjectId.isValid(id)) return null;
+
+    const saleRemoved = await findById(id);
+
+    if (!saleRemoved) return null;
+
+    const sale = await connection()
+      .then((db) => db.collection('sales').deleteOne({ _id: new ObjectId(id) }))
+      .then(() => saleRemoved);
+
+    return sale;
+  };
+
 module.exports = {
   create,
   findAll,
   findById,
   updateOne,
+  deleteOne,
 };
