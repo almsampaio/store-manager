@@ -10,7 +10,7 @@ app.get('/', (_request, response) => {
 });
 
 const productsController = require('./controllers/productsController');
-const salesController = require('./controllers/salesController')
+const salesController = require('./controllers/salesController');
 
 app.get('/products', productsController.getAllProducts);
 app.get('/products/:id', productsController.getProductById);
