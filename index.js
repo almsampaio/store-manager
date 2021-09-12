@@ -8,10 +8,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/products', productsRouter, errorHandler);
 
-// não remova esse endpoint, e para o avaliador funcionar
+// não remova esse endpoint, e para o  avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
 const { env: { PORT } } = process;
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+
+const PORT_N = PORT || 3000;
+
+app.listen(PORT, () => console.log(`Server listening on port ${PORT_N}`));
