@@ -1,0 +1,3 @@
+Controler tudo que é enviado do front/postman chega no controller e ele chama o service,
+exp: ao tentar criar um usuario o controler chama os service, caso já exista o service
+ retorna para o controler e nem tenta cria, caso não, o service manda criar.
