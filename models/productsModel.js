@@ -24,9 +24,13 @@ const create = async (name, quantity) => connection()
   .then()
   .then((result) => result.ops[0]);
 
+const deleteById = async (id) => connection()
+.then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  deleteById
 };

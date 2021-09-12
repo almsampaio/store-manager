@@ -42,6 +42,16 @@ const update = async (req, res, next) => {
   }
 }
 
+const deleteById = (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const deleteOne = await productsServices.deleteById(id);
+    return res.status(process.env.STATUS_200_OK).json(deleteOne);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
