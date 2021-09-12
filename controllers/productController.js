@@ -63,4 +63,20 @@ route.put('/:id', async (req, res) => {
   return res.status(HTTP_OK_STATUS).json({ id, name, quantity });
 });
 
+route.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const response = await productService.deleteProduct(id);
+
+  if (response.code) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: response.code,
+        message: response.message,
+      },
+    });
+}
+
+  return res.status(HTTP_OK_STATUS).json(response.product);
+});
+
 module.exports = route;
