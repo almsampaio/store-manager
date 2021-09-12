@@ -1,23 +1,19 @@
 const { ObjectID } = require('mongodb');
 const connection = require('./connection');
 
-const findProductById = require('./productModel');
+// const findProductById = require('./productModel');
 
-const findProduct = findProductById.findById;
+// const findProduct = findProductById.findById;
 
 const create = async (itensSold) => {
-  const [{ productId, quantity }] = itensSold;
-  console.log(quantity);
-  const verify = findProduct(productId);
-  const { quantity: quantityFromProduct } = verify;
-  if (quantity > quantityFromProduct) {
-    return null;
-  }
+  const db = await connection();
+  const sale = await db.collection('sales').insertMany([{ itensSold }]);
 
-  const sale = await connection()
-    .then((db) => db.collection('sales').insertMany([{
-      itensSold,
-    }]));
+  itensSold.forEach(async ({ productId, quantity }) => {
+    await db.collection('products')
+      .findOneAndUpdate({ _id: ObjectID(productId) },
+        { $inc: { quantity: -quantity } });
+  });
 
   return {
     _id: Object.values(sale.insertedIds).toString(),
