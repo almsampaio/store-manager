@@ -7,13 +7,6 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const product = await productModel.getById(id);
-  if (product.message) {
-    const { message } = product;
-    return {
-      message,
-      code: 'invalid_data',
-    };
-  }
   return product;
 };
 

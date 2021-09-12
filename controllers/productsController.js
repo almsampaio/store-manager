@@ -9,10 +9,6 @@ const getAll = async (_req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
   const product = await productsServices.getById(id);
-  if (product.message) {
-    const err = { ...product };
-    return res.status(process.env.STATUS_422_UNPROCESSABLE).json({ err });
-  }
   return res.status(process.env.STATUS_200_OK).json(...product);
 };
 
