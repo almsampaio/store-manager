@@ -57,9 +57,18 @@ const updateProductById = async (id, name, quantity) => {
   return updatedProduct;
 };
 
+const deleteProduct = async (id) => {
+  const idExist = await getProductById(id);
+  if (idExist.err) return idExist;
+
+  const deletedProduct = await productsModel.deleteProduct(id);
+  return deletedProduct;
+};
+
 module.exports = {
   createdProducts,
   getAllProducts,
   getProductById,
   updateProductById,
+  deleteProduct,
 };
