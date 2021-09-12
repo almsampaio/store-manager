@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const productsController = require('./controllers/ProductsController');
+const ProductsController = require('./controllers/ProductsController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,12 +10,12 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-// cadastro de produtos /products
-app.post('/products', productsController.create);
+// cadastro de produtos
+app.post('/products', ProductsController.create);
 
-// listar produtos /products ou /products/:id
-// app.get('/products', productsController.getAll);
-// app.get('/products/:id', null);
+// listar produtos
+app.get('/products', ProductsController.getAll);
+app.get('/products/:id', ProductsController.getById);
 
 // atualizar produto /products/:id
 // app.put('/products/:id', null);
@@ -23,4 +23,4 @@ app.post('/products', productsController.create);
 // deletar produto /products/:id
 // app.delete('/products/:id', null);
 
-app.listen(3000, () => console.log('REST, here we go!'));
+app.listen(3000, () => console.log('WoPhi!'));

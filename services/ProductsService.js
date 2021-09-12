@@ -1,40 +1,42 @@
 const ProductsModel = require('../models/ProductsModel');
 const ProductSchema = require('../schemas/ProductSchema');
 
-// AQUI É ONDE FICAM AS VALIDAÇÕES!!!
+// AQUI É ONDE CHAMA AS VALIDAÇÕES!!!
 
 const create = async (name, quantity) => {
-  const validations = ProductSchema.validate(name, quantity);
-
+  const validations = ProductSchema.validatePost(name, quantity);
   if (validations.message) return validations;
 
   const product = await ProductsModel.create(name, quantity);
-  
   return { code: 201, product };
 };
 
-// const getAll = async () => {
-//   const products = await productsModel.getAll();
+const getAll = async () => {
+  const products = await ProductsModel.getAll();
 
-//   return products;
-// };
+  return { code: 200, products };
+};
 
-// const getById = async (id) => {
-//   const product = await productsModel.getById(id);
-  
-//   return product;
-// };
+const getById = async (id) => {
+  const validations = ProductSchema.validateGetById(id);
+  if (validations.message) return validations;
+
+  const product = await ProductsModel.getById(id);
+  return { code: 200, product };
+};
 
 // const update = async (name, quantity) => {
-//   const product = await productsModel.update(name, quantity);
+//   const product = await ProductsModel.update(name, quantity);
   
 //   return product;
 // };
 
 // const exclude = async (id) => {
-//   await productsModel.exclude(id);
+//   await ProductsModel.exclude(id);
 // };
 
 module.exports = {
   create,
+  getAll,
+  getById,
 };

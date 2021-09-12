@@ -7,19 +7,21 @@ const create = async (name, quantity) => {
   return { id: product.insertedId, name, quantity };
 };
 
-// const getAll = async () => {
-//   const db = await connect();
-//   const products = await db.collection('products').find().toArray();
+const getAll = async () => {
+  const db = await connect();
+  const products = await db.collection('products').find().toArray();
 
-//   return products;
-// };
+  return products;
+};
 
-// const getById = async (id) => {
-//   if (!ObjectId.isValid(id)) return null;
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
   
-//   const db = await connect();
-//   return await db.collection('products').findOne(ObjectId(id));
-// };
+  const db = await connect();
+  const product = await db.collection('products').findOne(ObjectId(id));
+
+  return product;
+};
 
 // const update = async (id, name, quantity) => {
 //   if (!ObjectId.isValid(id)) return null;
@@ -40,4 +42,6 @@ const create = async (name, quantity) => {
 
 module.exports = {
   create,
+  getAll,
+  getById,
 };
