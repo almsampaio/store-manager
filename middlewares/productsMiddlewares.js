@@ -1,6 +1,6 @@
 const productsServices = require('../services/productsServices');
 
-const validateNameNewProduct = (req, res, next) => {
+const validateNameProduct = (req, res, next) => {
     const { name } = req.body;
     const validateName = productsServices.validateNewProductName(name);
     if (validateName) {
@@ -10,7 +10,7 @@ const validateNameNewProduct = (req, res, next) => {
     next();
 };
 
-const validateQuantityNewProduct = (req, res, next) => {
+const validateQuantityProduct = (req, res, next) => {
     const { quantity } = req.body;
     const validateQuantity = productsServices.validateNewQuantityName(quantity);
     if (validateQuantity) {
@@ -20,4 +20,4 @@ const validateQuantityNewProduct = (req, res, next) => {
        next();
 };
 
-module.exports = { validateNameNewProduct, validateQuantityNewProduct };
+module.exports = { validateNameProduct, validateQuantityProduct };
