@@ -1,9 +1,11 @@
 const { Router } = require('express');
 const salesController = require('../controllers/salesController');
-const { saleVerifier } = require('../middlewares/salesValidation');
+const { saleVerifier, saleIdCheck } = require('../middlewares/salesValidation');
 
 const router = Router();
 
 router.post('/', saleVerifier, salesController.postNewSale);
+router.get('/:id', saleIdCheck, salesController.getById);
+router.get('/', salesController.getAllSales);
 
 module.exports = router;
