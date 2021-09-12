@@ -20,8 +20,16 @@ const findById = async (id) => {
   return sale;
 };
 
+const updateOne = async (productId, quantity) => connection()
+    .then((db) => db.collection('sales').aggregate([
+      { $unwind: '$itensSold' },
+      { $match: { 'itensSold.productId': productId } },
+      { $set: { 'itensSold.quantity': quantity } },
+    ]).toArray());
+
 module.exports = {
   create,
   findAll,
   findById,
+  updateOne,
 };

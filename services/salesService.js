@@ -1,11 +1,11 @@
 const model = require('../models/salesModel');
 const productsModel = require('../models/productsModel');
 const { largerThan } = require('../schemas/numbers');
+const { isString } = require('../schemas/strings');
 const {
   codes: { invalidData, notFound },
   messages: { invalidQuantity, saleNotFound },
 } = require('../messages/messages');
-const { isString } = require('../schemas/strings');
 
 const create = async (sale) => {
   const { productId, quantity } = sale[0];
@@ -27,8 +27,6 @@ const create = async (sale) => {
 const findAll = async () => {
   const sales = await model.findAll();
 
-  // console.log(sales);
-
   return sales;
 };
 
@@ -40,8 +38,27 @@ const findById = async (id) => {
   return sale;
 };
 
+const updateOne = async (productId, quantity) => {
+  if (largerThan(quantity, 0)) {
+    return ({ err: { code: invalidData, message: invalidQuantity } });
+  }
+
+  if (isString(quantity)) {
+    return ({ err: { code: invalidData, message: invalidQuantity } });
+  }
+
+  const sales = await model.updateOne(productId, quantity)
+    .then(([sale]) => ({ ...sale, itensSold: [sale.itensSold] }));
+    // Implementação do then baseada na lógica de Matheus Martino: https://github.com/tryber/sd-09-store-manager/pull/40/
+
+  if (!sales) return ({ err: { code: invalidData, message: invalidQuantity } });
+
+  return sales;
+};
+
 module.exports = {
   create,
   findAll,
   findById,
+  updateOne,
 };

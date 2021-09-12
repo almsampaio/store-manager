@@ -26,7 +26,8 @@ app.route('/sales')
   .get(Sales.findAll);
 
 app.route('/sales/:id')
-  .get(Sales.findById);
+  .get(Sales.findById)
+  .put(Sales.updateOne);
 
 const PORT = process.env.PORT || 3000;
 
