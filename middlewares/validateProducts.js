@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const productsModel = require('./models/products');
+const productsModel = require('../models/products');
 
 const validateProductName = async (req, res, next) => {
   const { name } = req.body;
