@@ -1,5 +1,5 @@
 const service = require('../services');
-const { HTTP_UNPROCESSABLE_STATUS, HTTP_OK_STATUS } = require('../helpers');
+const { HTTP_UNPROCESSABLE_STATUS, HTTP_OK_STATUS, HTTP_NOT_FOUND_STATUS } = require('../helpers');
 
 // REQUISITO 5 ______________________________________________________________________ //
 
@@ -13,8 +13,23 @@ const createSales = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(products);
 };
 
+// REQUISITO 6 ______________________________________________________________________ //
+const getAllSales = async (_req, res) => {
+  const sales = await service.salesService.getAllSales();
+  return res.status(HTTP_OK_STATUS).json(sales);
+};
+
+const getSalesById = async (req, res) => {
+  const { id } = req.params;
+  const sales = await service.salesService.getSalesById(id);
+  if (sales.err) return res.status(HTTP_NOT_FOUND_STATUS).json(sales);
+  return res.status(HTTP_OK_STATUS).json(sales);
+};
+
 // ___________________________________________________________________________________ //
 
 module.exports = {
   createSales,
+  getAllSales,
+  getSalesById,
 };
