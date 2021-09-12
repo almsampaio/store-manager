@@ -123,7 +123,7 @@ describe('5 - Crie um endpoint para cadastrar vendas', () => {
       });
   });
 
-  it.only('Será validado que é possível criar uma compra com sucesso', async () => {
+  it('Será validado que é possível criar uma compra com sucesso', async () => {
     let result;
     let resultProductId;
 
