@@ -17,8 +17,7 @@ const validateQuantityNewProduct = (req, res, next) => {
         return res.status(422)
         .json({ err: { code: 'invalid_data', message: validateQuantity.details[0].message } });
     }
-
-    if (!validateQuantity) next();
+       next();
 };
 
 module.exports = { validateNameNewProduct, validateQuantityNewProduct };
