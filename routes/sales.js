@@ -8,6 +8,7 @@ const salesErrorMiddleware = require('../middlewares/salesErrors');
 salesRouter.post('/', createSaleValidation, salesControllers.createSale);
 salesRouter.get('/', salesControllers.getAllSales);
 salesRouter.get('/:id', salesControllers.getSaleById);
+salesRouter.put('/:id', createSaleValidation, salesControllers.updateSale);
 
 salesRouter.use(salesErrorMiddleware);
 module.exports = salesRouter;
