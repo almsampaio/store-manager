@@ -16,7 +16,21 @@ const getAll = async (_req, res) => {
   return res.status(HTTP_200).json({ products });
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const product = await productsService.getById(id);
+  if (!product) {
+    return res.status(HTTP_422).json({ 
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      } });
+  }
+  return res.status(HTTP_200).json(product);
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };
