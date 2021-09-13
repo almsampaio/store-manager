@@ -13,6 +13,8 @@ productsRouter.post(
 
 productsRouter.get('/', productsControllers.getAllProducts);
 
+productsRouter.get('/:id', productsControllers.getProductById);
+
 productsRouter.use(errorMiddleware);
 
 module.exports = productsRouter;
