@@ -9,16 +9,17 @@ describe('Insere um novo produto no Banco de dados', () => {
   describe('quando o produto é vazio', () => {
     const produto = {};
 
-    it('retorna um boolean', async() => {
+    it('retorna um object', async() => {
       const response = await ProductService.create(produto);
 
-      expect(response).to.be.a('boolean');
+      expect(response).to.be.a('object');
     });
 
-    it('o boolean contém "false"', async() => {
+    it('o object contém "err"', async() => {
       const response = await ProductService.create(produto);
 
-      expect(response).to.be.equal(false);
+      expect(response).to.be.equal({ err: { code: 'invalid_data',
+      message: '"\quantity\" must be a number' } });
     });
   });
   describe('quando a quantidade eh invalida', () => {
@@ -37,16 +38,18 @@ describe('Insere um novo produto no Banco de dados', () => {
       }
       const response = await ProductService.create(produto);
 
-      expect(response).to.be.equal(false);
+      expect(response).to.be.equal({ err: { code: 'invalid_data',
+      message: '"\quantity\" must be a number' } });
     });
     it('quando a quantidade eh menor ou igual a 0', async () => {
       const produto = {
         name: 'nome produto',
-        quantity: 0,
+        quantity: -1,
       }
       const response = await ProductService.create(produto);
 
-      expect(response).to.be.equal(false);
+      expect(response).to.be.equal({ err: { code: 'invalid_data',
+      message: '"\quantity\" must be larger than or equal to 1' } });
     });
   });
   describe('quando o nome eh invalido', () => {
@@ -65,7 +68,8 @@ describe('Insere um novo produto no Banco de dados', () => {
       };
     const response = await ProductService.create(produto);
 
-    expect(response).to.be.equal(false);
+    expect(response).to.be.equal({ err: { code: 'invalid_data',
+    message: '\"name\"  must be a string' } });
     });
   
     it('quando o nome tem menos de 6 caracteres', async () => {
@@ -75,7 +79,8 @@ describe('Insere um novo produto no Banco de dados', () => {
       }
     const response = await ProductService.create(produto);
 
-    expect(response).to.be.equal(false);
+    expect(response).to.be.equal({ err: { code: 'invalid_data',
+    message: '\"name\" must be at least 5 characters long' } });
     });
     it('quando o produto ja existe', async () => {
       const produto = {
@@ -85,8 +90,8 @@ describe('Insere um novo produto no Banco de dados', () => {
       await ProductService.create(produto);
 
       const response = await ProductService.create(produto);
-      
-      expect(response).to.be.equal(false);
+      expect(response).to.be.equal({ err: { code: 'invalid_data',
+      message: 'Product already exists' } });
     })
   });
   describe('quando é inserido com sucesso', () => {
