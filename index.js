@@ -32,4 +32,8 @@ app.put('/products/:id', [
 
 app.delete('/products/:id', Products.deleteProduct);
 
-app.post('/sales/', Validation.salesValidation, Sales.createSales);
+app.post('/sales', Validation.salesValidation, Sales.createSales);
+
+app.get('/sales', Sales.getAllSales);
+
+app.get('/sales/:id', Sales.getSalesById);
