@@ -6,7 +6,7 @@ const ProductService = require('../../services/ProductService');
 
 // CREATE PRODUCT
 
-describe('Ao chamar o controller de create - controller', () => {
+describe('Testando a função `create` do controller ProductController', () => {
   describe('quando o payload informado não é válido', () => {
     const response = {};
     const request = {};
@@ -34,13 +34,13 @@ describe('Ao chamar o controller de create - controller', () => {
       ProductService.create.restore();
     });
 
-    it('é chamado o status com o código 422', async () => {
+    it('é chamado o método `status` passando o código 422 como parâmetro', async () => {
       await ProductController.create(request, response);
 
       expect(response.status.calledWith(422)).to.be.equal(true);
     });
 
-    it('é chamado o json com o objeto "err"', async () => {
+    it('é chamado o método `json` passando o objeto "err" como parâmetro', async () => {
       await ProductController.create(request, response);
       const err = {
         err: { code: 'invalid_data', message: '"quantity" must be a number' }
@@ -74,13 +74,13 @@ describe('Ao chamar o controller de create - controller', () => {
       ProductService.create.restore();
     });
 
-    it('é chamado o status com o código 201', async () => {
+    it('é chamado o método `status` passando o código 201 como parâmetro', async () => {
       await ProductController.create(request, response);
 
       expect(response.status.calledWith(201)).to.be.equal(true);
     });
 
-    it('é chamado o json com os dados do produto criado', async () => {
+    it('é chamado o método `json` passando os dados do produto criado como parâmetro', async () => {
       await ProductController.create(request, response);
       const product = { name: 'Produto Batista',
       quantity: 1 };
@@ -92,7 +92,7 @@ describe('Ao chamar o controller de create - controller', () => {
 
 // getAll Product
 
-describe('Ao chamar o controller de getAll', () => {
+describe('Testando a função getAll do controller ProductController', () => {
   describe('quando não existe produtos no banco de dados', () => {
     const request = {};
     const response = {};
@@ -110,19 +110,19 @@ describe('Ao chamar o controller de getAll', () => {
       ProductService.getAll.restore();
     });
 
-    it('é chamado o método status passando o código 200', async () => {
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
       await ProductController.getAll(request, response);
 
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
-    it('é chamado o json passando um objeto', async () => {
+    it('é chamado o método `json` passando um objeto como parâmetro', async () => {
       await ProductController.getAll(request, response);
 
       expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
     });
 
-    it('é chamado o método json passando o objeto "products" com um array vazia', async () => {
+    it('é chamado o método `json` passando o objeto "products", com um array vazia, como parâmetro', async () => {
       await ProductController.getAll(request, response);
 
       expect(response.json.calledWith({ products: [] })).to.be.equal(true);
@@ -156,22 +156,25 @@ describe('Ao chamar o controller de getAll', () => {
       ProductService.getAll.restore();
     });
 
-    it('é chamado o métodos status passando o código 200', async () => {
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
       await ProductController.getAll(request, response);
 
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
-    it('é chamado o json passando um objeto', async () => {
+    it('é chamado o método `json` passando um objeto como parâmetro', async () => {
       await ProductController.getAll(request, response);
 
       expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
     });
 
-    it('é chamado o método json com a lista de produtos', async () => {
+    it('é chamado o método `json` passando o objeto products como parâmetro, contendo a lista de produtos', async () => {
       await ProductController.getAll(request, response);
 
       expect(response.json.calledWith(products)).to.be.equal(true);
     });
   });
 });
+
+// getById Product
+

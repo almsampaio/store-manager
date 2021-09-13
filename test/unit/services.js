@@ -210,7 +210,7 @@ describe('Insere um novo produto no BD - camada services', () => {
 
 // getAll PRODUCT
 
-describe('Busca todos os produtos no BD - service - service' ,() => {
+describe('Busca todos os produtos no BD - service' ,() => {
   describe('quanto não existe nenhum produto cadastrado' ,() => {
     before(() => {
       sinon.stub(ProductModel, 'getAll')
@@ -281,3 +281,5 @@ describe('Busca todos os produtos no BD - service - service' ,() => {
     });
   });
 });
+
+// getById Product
