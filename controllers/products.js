@@ -24,7 +24,8 @@ const insertOne = async (req, res, next) => {
 
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const product = await productService.updateOne(id);
+  const { name, quantity } = req.body;
+  const product = await productService.updateOne(id, name, quantity);
   return res.status(httpStatus.ok).json(product);
 };
 

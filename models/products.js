@@ -26,4 +26,21 @@ const insertNewProduct = async (name, quantity) => {
   return ({ _id: newProduct.insertedId, name, quantity });
 };
 
-module.exports = { insertNewProduct, existsProduct, findProductById, getAllProducts };
+const updateProductById = async (id, name, quantity) => {
+  const db = await connection();
+  const product = await db.collection('products').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { name, quantity } },
+    { returnOriginal: false },
+  );
+
+  return product.value;
+};
+
+module.exports = {
+  insertNewProduct,
+  existsProduct,
+  findProductById,
+  getAllProducts,
+  updateProductById,
+};
