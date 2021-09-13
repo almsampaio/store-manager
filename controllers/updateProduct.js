@@ -1,6 +1,6 @@
 const rescue = require('express-rescue');
-const { updateProduct } = require('../models/ProductsModel');
 const { validateProduct } = require('../services/ProductServices');
+const { updateProduct } = require('../models/ProductsModel');
 
 module.exports = [
   (req, _res, next) => {

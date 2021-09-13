@@ -1,12 +1,14 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
+const errMessage = 'Wrong id format';
+
 const updateProduct = async (req) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
 
   if (!ObjectId.isValid(id)) {
-    throw new Error('Wrong id format');
+    throw new Error(errMessage);
   }
 
   const update = await connection()
@@ -18,7 +20,7 @@ const updateProduct = async (req) => {
           .then((result) => result.value);
     });
 
-    if (!update) throw new Error('Wrong id format');
+    if (!update) throw new Error(errMessage);
 
     const updatedProduct = await connection().then((db) => db.collection('products')
       .findOne(new ObjectId(id)));
@@ -34,15 +36,31 @@ const getProducts = async () => {
 
 const getProductById = async (id) => {
   if (!ObjectId.isValid(id)) {
-    throw new Error('Wrong id format');
+    throw new Error(errMessage);
   }
 
   const product = await connection()
   .then((db) => db.collection('products').findOne(new ObjectId(id)));
 
-  if (!product) throw new Error('Wrong id format');
+  if (!product) throw new Error(errMessage);
 
   return product;
+};
+
+const deleteProduct = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    throw new Error(errMessage);
+  }
+
+  const deleteItem = await connection()
+    .then((db) => db.collection('products')
+      .deleteOne({ _id: new ObjectId(id) }));
+
+    if (!deleteItem) throw new Error(errMessage);
+
+    const products = await getProducts();
+
+    return products;
 };
 
 const addProduct = async (name, quantity) => {
@@ -63,4 +81,5 @@ module.exports = {
   getProducts,
   getProductById,
   updateProduct,
+  deleteProduct,
 };
