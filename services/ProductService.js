@@ -3,7 +3,15 @@ const ProductSchema = require('../schemas/ProductSchema');
 
 const getAll = async () => ProductModel.getAll();
 
-const getById = async () => {};
+const getById = async (id) => {
+  const product = await ProductModel.getById(id);
+
+  if (ProductSchema.productNotFound(product).err) {
+    return ProductSchema.productNotFound(product);
+  }
+
+  return product;
+};
 
 const create = async ({ name, quantity }) => {
   if (ProductSchema.validate(name, quantity).err) {

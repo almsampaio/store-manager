@@ -307,7 +307,7 @@ describe.only('Testando a função `getById` do service ProductService', () => {
       const response = await ProductService.getById(ID_EXAMPLE);
       const { err } = response;
 
-      expect(err).to.include.all.keys('_id', 'code', 'message');
+      expect(err).to.include.all.keys('code', 'message');
     });
 
     it('a key `code` do objeto retornado é uma string', async () => {
@@ -328,7 +328,7 @@ describe.only('Testando a função `getById` do service ProductService', () => {
       const response = await ProductService.getById(ID_EXAMPLE);
       const { err: { message } } = response;
 
-      expect(code).to.be.a('string');
+      expect(message).to.be.a('string');
     });
 
     it('a string da key `message` é `Wrong id format`', async () => {

@@ -5,10 +5,23 @@ const messageErrors = {
   quantityLength: '"quantity" must be larger than or equal to 1',
   quantityNotString: '"quantity" must be a number',
   productExists: 'Product already exists',
+  idNotValid: 'Wrong id format',
 };
 
 const codeErrors = {
   invalidData: 'invalid_data',
+};
+
+const productNotFound = (product) => {
+  if (!product) {
+    return {
+      err: {
+        code: codeErrors.invalidData,
+        message: messageErrors.idNotValid,
+      },
+    };
+  }
+  return {};
 };
 
 const nameLength = (name) => name.length < 5;
@@ -43,4 +56,5 @@ module.exports = {
   quantityIsNotNumber,
   productExists,
   validate,
+  productNotFound,
 };
