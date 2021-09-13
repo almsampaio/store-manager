@@ -7,7 +7,8 @@ const getAllProducts = async (req, res) => {
 };
 
 const getProductById = async (req, res) => {
-  const { product } = req.product;
+  const { product } = req;
+  console.log(product);
   return res.status(httpStatus.ok).json(product);
 };
 

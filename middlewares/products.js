@@ -15,6 +15,7 @@ const isValidPayload = (req, _res, next) => {
 const existId = async (req, _res, next) => {
   const { id } = req.params;
   const product = await productService.findProductById(id);
+  // console.log(product);
   if (product.err) {
     return next(product);
   }
