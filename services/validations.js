@@ -5,7 +5,7 @@ function nameLengthValidation(name) {
     return {
         err: {
           code: 'invalid_data',
-          message: '"name" length must be ate least 5 characters long',
+          message: '"name" length must be at least 5 characters long',
         },
         status: 422,
       };
@@ -22,6 +22,7 @@ async function isRepeated(name) {
         code: 'invalid_data',
         message: 'Product already exists',
       },
+      status: 422,
     };
   }
   return false;
@@ -34,6 +35,7 @@ function quantityValidationProducts(quantity) {
           code: 'invalid_data',
           message: '"quantity" must be larger than or equal to 1',
         },
+        status: 422,
       };
   }
   return false;
@@ -46,6 +48,7 @@ function quantityTypeValidationProducts(quantity) {
           code: 'invalid_data',
           message: '"quantity" must be a number',
         },
+        status: 422,
       };
   }
   return false;
@@ -61,6 +64,7 @@ function quantityValidationSales(sale) {
           code: 'invalid_data',
           message: 'Wrong product ID or invalid quantity',
         },
+        status: 422,
       };
   }
   return false;
