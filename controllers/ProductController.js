@@ -6,7 +6,15 @@ const getAll = async (_req, res) => {
   res.status(200).json(products);
 };
 
-const getById = async (req, res) => {};
+const getById = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await ProductService.getById(id);
+
+  if (product.err) return res.status(442).json(product);
+
+  res.status(200).json(product);
+};
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
