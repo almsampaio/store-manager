@@ -1,5 +1,6 @@
 const { ObjectID } = require('mongodb');
 const connection = require('./connection');
+const dbProducts = require('./productsModel'); 
 
 const getById = async (id) => {
   const db = await connection();
@@ -13,20 +14,24 @@ const getAll = async () => {
   return result;
 };
 
-// const updateProductQuantity = async (prodId, qtd) => {
-//   const db = await connection();
-//   const { quantity } = getById(ObjectID(id));
-//   await db.collection('sales').updateOne({ _id: ObjectID(id) },
-//    { $set: { quantity: quantity - qtd } },
-//   console.log(result);
-// }; 
+const updateProductQuantityOnSale = async (prodId, qtd) => {
+  const { quantity, name } = await dbProducts.getById(ObjectID(prodId));
+  const newQtd = quantity - qtd;
+  await dbProducts.update(prodId, name, newQtd);
+};
+
+const updateProductQuantityOnCancelSale = async (prodId, qtd) => {
+  const { quantity, name } = await dbProducts.getById(ObjectID(prodId));
+  const newQtd = quantity + qtd;
+  await dbProducts.update(prodId, name, newQtd);
+};
 
 const create = async (sale) => {
   const itens = { itensSold: sale };
-  // const { productId, quantity } = sale;
+  const [{ productId, quantity }] = sale;
   const db = await connection();
   const { insertedId } = await db.collection('sales').insertOne(itens);
-  // await updateProductQuantity(productId, quantity);
+  await updateProductQuantityOnSale(productId, quantity);
   return { _id: insertedId, itensSold: sale };
 };
 
@@ -41,6 +46,10 @@ const update = async (id, prodId, qtd) => {
 
 const remove = async (id) => {
   const db = await connection();
+  const { itensSold } = await getById(id);
+  itensSold.forEach((e) => {
+    updateProductQuantityOnCancelSale(e.productId, e.quantity);
+  });
   await db.collection('sales').deleteOne({ _id: ObjectID(id) });
   return true;
 };
