@@ -4,6 +4,7 @@ const errors = require('../services/errors');
 
 const INVALID_DATA = 422;
 const HTTP_INSERT_OK = 201;
+const HTTP_OK = 200;
 
 const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
@@ -28,6 +29,22 @@ return res.status(INVALID_DATA).json({ err: { code: 'invalid_data', message: err
   return res.status(HTTP_INSERT_OK).json(insertedProduct);
 };
 
+const getProducts = async (req, res) => {
+  const allProducts = await productModel.getAll();
+  return res.status(HTTP_OK).json({ products: allProducts });
+};
+
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+  const product = await productModel.getProductById(id);
+  if (!product) {
+ return res.status(422).json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
+}
+  return res.status(HTTP_OK).json(product);
+};
+
 module.exports = {
   addProduct,
+  getProducts,
+  getProductById,
 };
