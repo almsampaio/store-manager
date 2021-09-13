@@ -1,5 +1,5 @@
 const salesModel = require('../models/salesModel');
-// const productModel = require('../models/productModel');
+const productModel = require('../models/productModel');
 const productSchema = require('../schema/productSchema');
 
 // const checkQuantity = async (productId, quantity) => {
@@ -10,16 +10,21 @@ const productSchema = require('../schema/productSchema');
 // };
 
 const createSale = async (soldItems) => {
-  let errorLog;
-  soldItems.forEach(({ quantity }) => {
-    const isQuantityValid = productSchema.validateQuantity(quantity);
-    if (isQuantityValid) { 
-      errorLog = { code: isQuantityValid.code, message: 'Wrong product ID or invalid quantity' };
+  const errorLog = await Promise.allSettled( // Lógica de utilizar Promisse.allSettled inspirada pelo código do Rafael medeiros (rafaelmg)
+    soldItems.map(async ({ productId, quantity }) => {
+      const isQuantityValid = productSchema.validateQuantity(quantity);
+      if (isQuantityValid) { 
+        return { code: isQuantityValid.code, message: 'Wrong product ID or invalid quantity' };
+      }
+      const findById = await productModel.getById(productId);
+    if (findById[0].quantity < quantity) {
+      return { code: 'stock_problem', message: 'Such amount is not permitted to sell' };
     }
-  });
-if (errorLog !== undefined) return (errorLog);
-const response = await salesModel.create(soldItems);
-return { _id: response.id, itensSold: soldItems };
+    }),
+  );
+  if (errorLog[0].value !== undefined) return (errorLog[0].value);
+  const response = await salesModel.create(soldItems);
+  return { _id: response.id, itensSold: soldItems };
 };
 
 const findById = async (id) => {

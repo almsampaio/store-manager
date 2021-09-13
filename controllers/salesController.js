@@ -34,16 +34,20 @@ route.get('/:id', async (req, res) => {
 route.post('/', async (req, res) => {
   const arr = req.body;
   const response = await salesService.createSale(arr);
+  let error = false;
+  let code = HTTP_OK_STATUS;
+  if (response.code === 'invalid_data') { error = true; code = HTTP_UNPROCESSABLE_ENTITY; }
+  if (response.code === 'stock_problem') { error = true; code = HTTP_NOT_FOUND; }
 
-  if (response.code === 'invalid_data') {
-    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
+  if (error) {
+    return res.status(code).json({
       err: {
         code: response.code,
         message: response.message,
       },
     });
   }
-  return res.status(HTTP_OK_STATUS).json(response);
+  return res.status(code).json(response);
 });
 
 route.put('/:id', async (req, res) => {
