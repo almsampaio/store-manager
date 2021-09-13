@@ -4,6 +4,7 @@ const validateId = require('../middlewares/validateId');
 const {
   validateSale,
   checkSaleExists,
+  validateInventory,
 } = require('../middlewares/validateSale');
 
 const Sales = require('../services/Sales');
@@ -22,6 +23,7 @@ router.put(
   '/:id',
   checkSaleExists,
   validateSale,
+  validateInventory,
   rescue(async (req, res) => {
     const { id } = req.params;
     const products = req.body;
@@ -46,7 +48,7 @@ router.get('/', async (_req, res) => {
   res.status(200).json({ sales });
 });
 
-router.post('/', validateSale, async (req, res) => {
+router.post('/', validateInventory, validateSale, async (req, res) => {
   const itensSold = req.body;
 
   const sale = await Sales.registerSale(itensSold);

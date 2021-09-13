@@ -20,6 +20,23 @@ const validateSale = async (req, res, next) => {
   });
 };
 
+const validateInventory = (req, res, next) => {
+  const itensSale = req.body;
+
+  itensSale.forEach(async ({ productId, quantity: quantToSale }) => {
+    const { quantity } = await getProductById(productId);
+    const lastQuantity = quantity - quantToSale;
+
+    if (lastQuantity < 0) {
+      return res.status(404).json({ err: {
+        code: 'stock_problem',
+        message: 'Such amount is not permitted to sell',
+      } });
+    }
+    return next();
+  });
+};
+
 const checkSaleExists = async (req, res, next) => {
   const { id } = req.params;
 
@@ -36,4 +53,4 @@ const checkSaleExists = async (req, res, next) => {
   next();
 };
 
-module.exports = { validateSale, checkSaleExists };
+module.exports = { validateSale, checkSaleExists, validateInventory };
