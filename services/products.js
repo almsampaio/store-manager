@@ -29,4 +29,9 @@ const findProductById = async (id) => {
   return product;
 };
 
+const getAllProducts = async () => {
+  const products = await productModel.getAllProducts();
+  return products;
+};
+
 module.exports = { insertOne, findProductById };
