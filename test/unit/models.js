@@ -62,7 +62,7 @@ describe('Testando a função `create` do model ProductModel', () => {
 
 // getAll PRODUCT
 
-describe('Busca todos os produtos no BD - model', () => {
+describe('Testando a função `getAll` do model ProductModel', () => {
   let connectionMock; 
   const DBServer = new MongoMemoryServer();
   const DB_NAME = 'StoreManager';
@@ -215,3 +215,6 @@ describe('Testando a função `getById` do model ProductModel', () => {
 
 // update Product
 
+describe('Testando a função `getById` do model ProductModel', () => {
+  
+});
