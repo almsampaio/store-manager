@@ -11,6 +11,8 @@ productsRouter.post(
   productsControllers.createProduct,
 );
 
+productsRouter.get('/', productsControllers.getAllProducts);
+
 productsRouter.use(errorMiddleware);
 
 module.exports = productsRouter;
