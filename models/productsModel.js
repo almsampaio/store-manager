@@ -12,7 +12,14 @@ const create = async (name, quantity) => {
   return { _id: result.insertedId, name, quantity };
 };
 
+const findByName = async (name) => {
+  const db = await getConnection();
+  const product = await db.collection('products').findOne({ name });
+  return product;
+};
+
 module.exports = {
   create,
   getAll,
+  findByName,
 };
