@@ -2,17 +2,16 @@ const productModel = require('../models/productModel');
 
 // const songModel = require('../models/songModel');
 
-// const getAll = async () => {
-//   const songs = await songModel.getAll();
+const getAll = async () => {
+  const products = await productModel.getAllProducts();
+  return products;
+};
 
-//   return songs;
-// };
+const getById = async (id) => {
+  const song = await productModel.getById(id);
 
-// const getById = async (id) => {
-//   const song = await songModel.getById(id);
-
-//   return song;
-// };
+  return song;
+};
 
 const register = async (name, quantity) => {
   if (!name) return { errorMessage: 'Name is required!' };
@@ -27,6 +26,11 @@ const register = async (name, quantity) => {
 
   return createdProduct;
 };
+const update = async (id, name, quantity) => {
+    const person = await productModel.update(id, name, quantity);
+  
+    return person;
+  };
 
 function validateName(req, res, next) {
     const { name } = req.body;
@@ -77,5 +81,8 @@ module.exports = {
     register,
     validateName,
     validateQuantity,
+    getAll,
+    getById,
+    update,
 
 }; 
