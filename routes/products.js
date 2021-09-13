@@ -10,5 +10,7 @@ const Products = require('../controllers/products');
 route.post('/', isValidPayload, rescue(Products.insertOne));
 route.get('/:id', isValidId, rescue(Products.getProductById));
 route.get('/', rescue(Products.getAllProducts));
+route.put('/:id', rescue(Products.updateProduct));
 route.use(error);
+
 module.exports = route;
