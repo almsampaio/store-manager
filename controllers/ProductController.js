@@ -6,6 +6,8 @@ const getAll = async (_req, res) => {
   res.status(200).json(products);
 };
 
+const getById = async (req, res) => {};
+
 const create = async (req, res) => {
   const { name, quantity } = req.body;
   const product = { name, quantity };
@@ -18,6 +20,7 @@ const create = async (req, res) => {
 };
 
 module.exports = { 
-  create,
   getAll,
+  getById,
+  create,
 };
