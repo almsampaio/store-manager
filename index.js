@@ -2,6 +2,7 @@ const express = require('express');
 const BodyParser = require('body-parser');
 const Validation = require('./middlewares/validation');
 const Products = require('./controllers/Products');
+const Sales = require('./controllers/Sales');
 
 const PORT = 3000;
 
@@ -30,3 +31,5 @@ app.put('/products/:id', [
   ]);
 
 app.delete('/products/:id', Products.deleteProduct);
+
+app.post('/sales/', Validation.salesValidation, Sales.createSales);

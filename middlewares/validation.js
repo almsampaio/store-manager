@@ -40,7 +40,21 @@ const quantityValidation = (req, res, next) => {
   next();
 };
 
+const salesValidation = async (req, res, next) => {
+  const allSales = req.body;
+  if (allSales.some((e) => typeof e.quantity !== 'number' || e.quantity <= 0)) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  } 
+  next();
+};
+
 module.exports = {
   nameValidation,
   quantityValidation,
+  salesValidation,
 };
