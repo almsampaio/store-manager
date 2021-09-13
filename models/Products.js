@@ -22,7 +22,7 @@ const create = async (name, quantity) => {
   const db = await connection();
   const created = await db.collection('products').insertOne({ name, quantity });
   return { _id: created.insertedId, name, quantity };
-}
+};
   // connection()
   //   .then((db) => db.collection('products').insertOne({ name, quantity }))
   //   .then((result) => getNewProduct({ _id: result.insertedId, name, quantity }));
