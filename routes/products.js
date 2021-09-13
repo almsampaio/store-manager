@@ -9,6 +9,6 @@ const Products = require('../controllers/products');
 
 route.post('/', isValidPayload, rescue(Products.insertOne));
 route.get('/:id', existId, rescue(Products.getProductById));
-route.get('/', rescue(Products.getProducts));
+route.get('/', rescue(Products.getAllProducts));
 route.use(error);
 module.exports = route;
