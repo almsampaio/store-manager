@@ -35,4 +35,10 @@ const getAll = async () => saleModel.getAll();
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
 
-module.exports = { create, getByID, getAll };
+const update = async (id, sale) => {
+  const result = await saleModel.update(id, sale);
+
+  return result || error.wrongIdOrQuantity;
+};
+
+module.exports = { create, getByID, getAll, update };

@@ -31,4 +31,17 @@ const getAll = async (_req, res) => {
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
 
-module.exports = { create, getByID, getAll };
+const update = async (req, res) => {
+  const { id } = req.params;
+  const sale = req.body;
+
+  const result = await saleService.update(id, sale);
+
+  const code = result.err ? UNPROCESSABLE_ENTITY : OK;
+
+  return res.status(code).json(result);
+};
+
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+module.exports = { create, getByID, getAll, update };

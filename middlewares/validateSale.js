@@ -2,7 +2,6 @@ const joi = require('@hapi/joi');
 
 const validateSaleInput = async (req, res, next) => {
   const sale = req.body;
-  console.log(req.body);
 
   const schema = joi.array().items(
     joi.object({

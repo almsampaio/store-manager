@@ -14,6 +14,11 @@ router.get('/:id', saleController.getByID);
 
 router.get('/', saleController.getAll);
 
+router.put('/:id', [
+  validateSaleInput,
+  saleController.update,
+]);
+
 router.use((_err, _req, res, _next) => {
   const error = {
     err: {

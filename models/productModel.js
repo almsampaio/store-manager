@@ -49,9 +49,9 @@ const update = async (id, { name, quantity }) => {
 
   const options = { returnDocument: 'after' };
 
-  const connection = await getConnection();
+  const db = await getConnection();
 
-  const result = await connection.collection(PRODUCTS_COLLECTION)
+  const result = await db.collection(PRODUCTS_COLLECTION)
     .findOneAndUpdate(filter, document, options);
 
   return result.value;

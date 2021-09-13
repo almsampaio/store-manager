@@ -39,4 +39,21 @@ const getAll = async () => {
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
 
-module.exports = { create, getByID, getAll };
+const update = async (id, sale) => {
+  if (!isValidID(id)) return null;
+
+  const filter = { _id: ObjectId(id) };
+
+  const document = { $set: { itensSold: sale } };
+
+  const options = { returnDocument: 'after' };
+
+  const db = await getConnection();
+
+  const result = await db.collection(SALES_COLLECTION)
+    .findOneAndUpdate(filter, document, options);
+
+  return result.value;
+};
+
+module.exports = { create, getByID, getAll, update };
