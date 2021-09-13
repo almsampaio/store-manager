@@ -13,6 +13,10 @@ class AppError extends Error {
     this.err = err;
     this.codeStatus = codeStatus;
   }
+
+  getError() {
+    return this;
+  }
 }
 
 module.exports = AppError;
