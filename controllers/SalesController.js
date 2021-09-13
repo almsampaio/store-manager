@@ -1,5 +1,6 @@
 const express = require('express');
 const rescue = require('express-rescue');
+const validateId = require('../middlewares/validateId');
 const {
   validateSale,
   checkSaleExists,
@@ -30,6 +31,14 @@ router.put(
     res.status(200).json(sale);
   }),
 );
+
+router.delete('/:id', validateId, checkSaleExists, async (req, res) => {
+  const { id } = req.params;
+
+  const sale = await Sales.deleteSale(id);
+
+  res.status(200).json(sale);
+});
 
 router.get('/', async (_req, res) => {
   const sales = await Sales.getAll();
