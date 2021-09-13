@@ -1,5 +1,6 @@
 const productModel = require('../models/ProductsModel');
 
+const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
 const HTTP_UNPROCESSABLE_STATUS = 422;
 
@@ -30,9 +31,19 @@ const updateProduct = async (id, name, quantity) => {
   return product;
 };
 
+const deleteProduct = async (id) => {
+  const product = await productModel.getById(id);
+  const deletedProduct = await productModel.deleteProduct(id);
+
+  if (!product) return { status: HTTP_UNPROCESSABLE_STATUS, message: 'Wrong id format' };
+
+  return { status: HTTP_OK_STATUS, result: deletedProduct };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateProduct,
+  deleteProduct,
 };

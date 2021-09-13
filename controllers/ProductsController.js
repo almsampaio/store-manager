@@ -35,9 +35,19 @@ const updateProduct = async (req, res) => {
   res.status(HTTP_OK_STATUS).json(product);
 };
 
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const { status, message, result } = await productService.deleteProduct(id);
+
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
+
+  res.status(HTTP_OK_STATUS).json(result);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateProduct,
+  deleteProduct,
 };
