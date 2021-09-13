@@ -30,3 +30,15 @@ exports.saleIdCheck = (req, _res, next) => {
   }
   next();
 };
+
+exports.checkDeletedId = (req, _res, next) => {
+  const { id } = req.params;
+  const { error } = checkingIf.id.validate(id);
+  if (error) {
+    return next({
+      err: { code: 'invalid_data', message: 'Wrong sale ID format' },
+      statusCode: UNPROCESSABLE_ENTITY,
+    });
+  }
+  next();
+};

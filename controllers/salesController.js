@@ -45,9 +45,22 @@ exports.updateOneSale = async (req, res, next) => {
   try {
     const { id } = req.params;
     const itensSold = req.body;
-    console.log('LOG CONTROLLER', 'ID: ', id, 'itensSold: ', itensSold);
+    // console.log('LOG CONTROLLER', 'ID: ', id, 'itensSold: ', itensSold);
     await saleService.updateSale(id, itensSold);
     res.status(OK).json({ _id: id, itensSold });
+  } catch (e) {
+    next(e);
+  }
+};
+
+// Requisito 8
+
+exports.deleteOnesale = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await saleService.deleteSale(id);
+    console.log('LOG CONTROLLER', result);
+    res.status(OK).json(result.value);
   } catch (e) {
     next(e);
   }

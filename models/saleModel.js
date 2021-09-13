@@ -20,12 +20,19 @@ const findById = async (id) => {
 };
 
 const update = async (id, itensSold) => {
-  console.log(id, itensSold);
+  // console.log(id, itensSold);
   const db = await connection();
   const result = await db
     .collection('sales')
-    .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { itensSold } }, { returnOriginal: false });
-    console.log('LOG MODEL', result);
+    .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { itensSold } });
+    // console.log('LOG MODEL', result);
+  return result;
+};
+
+const remove = async (id) => {
+  const db = await connection();
+  const result = await db.collection('sales').findOneAndDelete({ _id: ObjectId(id) });
+  console.log('LOG MODEL', result);
   return result;
 };
 
@@ -34,4 +41,5 @@ module.exports = {
   getAll,
   findById,
   update,
+  remove,
 };
