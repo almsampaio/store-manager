@@ -25,10 +25,13 @@ const create = async ({ name, quantity }) => {
     };
 };
 
+const getAll = async () => {};
+
 // console.log(create({ name: 'anderson', quantity: 1 }).then((data) => console.log(data)));
 // console.log(isName('tu').then((data) => console.log(data)));
 
 module.exports = {
   create,
+  getAll,
   isName,
 };

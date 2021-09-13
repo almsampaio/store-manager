@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const ProductController = require('../../controllers/ProductController');
 
-describe.only('Ao chamar o controller de create - controller', () => {
+describe('Ao chamar o controller de create - controller', () => {
   describe('quando o payload informado não é válido', () => {
     const response = {};
     const request = {};

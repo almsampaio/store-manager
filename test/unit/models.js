@@ -62,3 +62,85 @@ describe('Insere um novo produto no BD - camada model', () => {
 
 // getAll PRODUCT
 
+describe.only('Busca todos os produtos no BD', () => {
+  let connectionMock; 
+  const DBServer = new MongoMemoryServer();
+  const DB_NAME = 'StoreManager';
+
+  before( async () => {
+    const URLMock = await DBServer.getUri();
+    connectionMock = await MongoClient.connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then((conn) => conn.db(DB_NAME));
+
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quanto não existe nenhum produto cadastrado', () => {
+    it('retorna um array', async () => {
+      const products = await ProductModel.getAll();
+
+      expect(products).to.be.an('array');
+    });
+
+    it('o array está vazio', async () => {
+      const products = await ProductModel.getAll();
+      
+      expect(products).to.be.empty;
+    });
+  });
+
+  describe('quanto existem produtos cadastrados', () => {
+    const expectedProduct = {
+      _id: '604cb554311d68f491ba5781',
+      name: 'Produto Silva',
+      quantity: 1,
+    };
+
+    const collection = 'products';
+
+    before(async () => {
+      await connectionMock.collection(collection).insertOne({ ...expectedProduct });
+    });
+
+    after(async () => {
+      await connectionMock.collection(collection).drop();
+    });
+
+    it('retorna um array', async () => {
+      const products = await ProductModel.getAll();
+
+      expect(products).to.be.an('array');
+    });
+
+    it('retorna um array não vazio', async () => {
+      const products = await ProductModel.getAll();
+
+      expect(products).to.not.be.empty;
+    });
+
+    it('o array retornado possui dados do tipo objeto', async () => {
+      const [ product ] = await ProductModel.getAll();
+
+      expect(product).to.be.an('object');
+    });
+
+    it('todos os objetos possuem os atributos "id", "name" e "quantity"', async () => {
+      const [ product ] = await ProductModel.getAll();
+
+      expect(product).to.include.all.keys(['_id', 'name', 'quantity'])
+    });
+
+    it('o produto cadastrado está no array', async () => {
+      const [ { _id, name, quantity } ] = await ProductModel.getAll();
+
+      expect({ _id, name, quantity }).to.deep.equal(expectedProduct);
+    });
+  });
+});
