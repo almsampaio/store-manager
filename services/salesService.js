@@ -12,8 +12,6 @@ const createSale = async (sale) => {
 
   if (validationProductId) return validationProductId;
 
-  // console.log(salesModel.createSale(sale));
-
   return salesModel.createSale(sale);
 };
 

@@ -7,6 +7,9 @@ const productsModel = require('../../models/productsModel');
 const salesService = require('../../services/salesService');
 const salesModel = require('../../models/salesModel');
 
+const PRODUCT_INSERT_INVALID_FORMAT = {
+  wrongKey: "teste"
+}
 
 const INSERT_PRODUCT_WITH_INVALID_NAME = {
   name: "Pro",
@@ -95,6 +98,13 @@ describe('Testes da camada Service', () => {
 
   describe('Testando as requisições com a coleção "Procucts"', () => {
     describe('Teste da Requisição POST - Inserindo um novo produto no BD', () => {
+
+      describe('Será validado o correto formato do input', () => {
+        it('Se a entrada for diferente de um objeto, as chaves "name" e "quantity", retorna a um json com a messagem de erro', async () => {
+          const response = await salesService.createSale(PRODUCT_INSERT_INVALID_FORMAT);
+          expect(response).to.be.a('object');
+        });
+      });
       describe('quando é inserido um "name" com menos de 5 caracteres', () => {
         it('retorna um objeto', async () => {
           const response = await productsService.createProduct(INSERT_PRODUCT_WITH_INVALID_NAME);
