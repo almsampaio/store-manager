@@ -15,6 +15,12 @@ productsRouter.get('/', productsControllers.getAllProducts);
 
 productsRouter.get('/:id', productsControllers.getProductById);
 
+productsRouter.put(
+  '/:id',
+  productsMiddlewares.createProductValidation,
+  productsControllers.updateProduct,
+);
+
 productsRouter.use(errorMiddleware);
 
 module.exports = productsRouter;
