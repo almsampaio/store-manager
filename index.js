@@ -7,13 +7,13 @@ const PORT = 3000;
 
 app.use(bodyParser.json());
 
-app.listen(PORT, () => {
-  console.log('Online: ', PORT);
-});
-
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
 app.post('/products', validName, validQuantity, createProductController);
+
+app.listen(PORT, () => {
+  console.log('Online: ', PORT);
+});
