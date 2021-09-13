@@ -12,6 +12,17 @@ const isName = async (name) => {
   return false;
 };
 
+const getAll = async () => {
+  const productsCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection(COLLECTION_PRODUCT));
+
+  const products = await productsCollection.find().toArray() || [];
+
+  return { products };
+};
+
+const getById = async () => {};
+
 const create = async ({ name, quantity }) => {
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection(COLLECTION_PRODUCT));
@@ -24,17 +35,9 @@ const create = async ({ name, quantity }) => {
     };
 };
 
-const getAll = async () => {
-  const productsCollection = await mongoConnection.getConnection()
-  .then((db) => db.collection(COLLECTION_PRODUCT));
-
-  const products = await productsCollection.find().toArray() || [];
-
-  return { products };
-};
-
 module.exports = {
   create,
   getAll,
   isName,
+  getById,
 };

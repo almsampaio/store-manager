@@ -1,6 +1,6 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const mongoConnection = require('../../models/connection');
@@ -149,3 +149,99 @@ describe('Busca todos os produtos no BD - model', () => {
 });
 
 // getById Product
+
+describe.only('Testando a função `getById` do model ProductModel', () => {
+  const DBServer = new MongoMemoryServer();
+  let connectionMock;
+  const DB_NAME = 'StoreManager';
+
+  const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+  // const payloadProduct = {
+  //   name: 'Example Product',
+  //   quantity: 1,
+  // };
+
+  before(async () => {
+    const URLMock = await DBServer.getUri();
+    connectionMock = await MongoClient
+     .connect(URLMock, {
+       useNewUrlParser: true,
+       useUnifiedTopology: true
+     })
+     .then((conn) => conn.db(DB_NAME));
+
+     sinon.stub(mongoConnection, 'getConnection')
+     .resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quando não existe um produto para o ID informado', () => {
+    it('retorna um objeto', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui as keys `code` e `message`', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE);
+      const { err } = response;
+
+      expect(err).to.include.all.keys('_id', 'code', 'message');
+    });
+
+    it('a key `code` do objeto retornado é uma string', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE);
+      const { err: { code } } = response;
+
+      expect(code).to.be.a('string');
+    });
+
+    it('a `string` da key `code` é `invalid_data`', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE);
+      const { err: { code } } = response;
+
+      expect(code).to.equal('invalid_data');
+    });
+
+    it('a key `message` do objeto retornado é uma string', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE);
+      const { err: { message } } = response;
+
+      expect(code).to.be.a('string');
+    });
+
+    it('a string da key `message` é `Wrong id format`', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE);
+      const { err: { message } } = response;
+
+      expect(message).to.equal('Wrong id format');
+    });
+  });
+
+  describe('quando existe um produto para o ID informado', () => {
+    before(async () => {
+      const moviesCollection = await connectionMock.collection('products');
+      await moviesCollection.insertOne({
+        _id: ObjectId(ID_EXAMPLE),
+        name: 'Example Product',
+        quantity: 1,
+      });
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui as keys `_id`, `name` e `quantity`', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE);
+
+      expect(response).to.include.all.keys('_id', 'name', 'quantity');
+    });
+  });
+});
