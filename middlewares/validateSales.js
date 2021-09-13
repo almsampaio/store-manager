@@ -1,5 +1,5 @@
 const validateItensSold = (req, res, next) => {
-  const { itensSold: [{ quantity }] } = req.body;
+  const [{ quantity }] = req.body;
   if (typeof quantity !== 'number') {
     return res.status(422).json({ err: {
       code: 'invalid_data',

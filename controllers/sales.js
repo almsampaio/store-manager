@@ -1,10 +1,10 @@
 const salesService = require('../services/sales');
 
 const createSale = async (req, res) => {
-  const { itensSold } = req.body;
+  const itensSold = req.body;
 
   const newSale = await salesService.create(itensSold);
-  return res.status(201).json(newSale);
+  return res.status(200).json(newSale);
 };
 
 module.exports = {
