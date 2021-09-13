@@ -55,8 +55,8 @@ const deleteProduct = async (id) => {
   if (!ObjectId.isValid(id)) return false;
 
   const db = await getConnection();
-  const response = await db.collection('products').deleteOne({ _id: ObjectId(id) });
-  return response;
+  const { value } = await db.collection('products').findOneAndDelete({ _id: ObjectId(id) });
+  return value;
 };
 
 module.exports = {
