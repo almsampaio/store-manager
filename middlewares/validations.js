@@ -102,8 +102,8 @@ const validateSoldProductQuantity = (req, res, next) => {
   const sales = req.body;
   const ZERO = 0;
 
-  sales.forEach((sale) => {
-    if (sale.quantity <= ZERO || typeof sale.quantity !== 'number') {
+  sales.forEach(({ quantity }) => {
+    if (quantity <= ZERO || typeof quantity !== 'number') {
       return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
         err: {
           code: 'invalid_data',
@@ -112,6 +112,7 @@ const validateSoldProductQuantity = (req, res, next) => {
       });
     }
   });
+
   // return res.status(httpStatus.HTTP_OK_STATUS).json({ message: 'ok' });
   next();
 };

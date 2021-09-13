@@ -1,6 +1,6 @@
 const { ObjectId } = require('bson');
 const connection = require('./connection');
-const productModel = require('./productModel');
+// const productModel = require('./productModel');
 
 const getAll = async () => {
   const sales = await connection().then((db) => db
@@ -20,26 +20,32 @@ const getById = async (id) => {
   return sale;
 };
 
-const updateProductStock = async (productId, quantity) => {
-  const db = await connection();
-  
-  await db.collection('products').findOneAndUpdate({
-    _id: ObjectId(productId) }, { $inc: { quantity: -quantity } });
-};
-
-// const updateProductStockOnSaleDelete = async (productId, quantity) => {
+// 1 forma de atualizar o estoque de produtos
+// const updateProductStock = async (productId, amount) => {
 //   const db = await connection();
-//   await db.collection('products').findOneAndUpdate({
-//     _id: ObjectId(productId) }, { $inc: { quantity: +quantity } });
+//   await db.collection('products').findOneAndUpdate({ _id: ObjectId(productId) }, {
+//    $inc: { quantity: -amount },
+//   });
 // };
 
+// Outra forma de atualizar o estoque de produtos
+// const updateStock = async (productId, amount) => {
+//   const { quantity, name } = await productModel.getById(productId);
+//   const newQuantity = quantity + amount;
+//   await productModel.update(productId, name, newQuantity);
+// };
+
+// Para a função create, foi consultado o PR do colega Luan Ramalho:
+// https://github.com/tryber/sd-010-a-store-manager/pull/59
 const create = async (items) => {
-  console.log(items, 'salesModel');
+  console.log(items, 'salesModel create');
 
   const db = await connection();
   const newSale = await db.collection('sales').insertMany([{ itensSold: items }]);
-  items.forEach(async ({ productId, quantity }) => {
-    await updateProductStock(productId, quantity);
+  await items.forEach(async ({ productId, quantity }) => {
+     await db.collection('products').findOneAndUpdate({ _id: ObjectId(productId) }, {
+      $inc: { quantity: -quantity },
+  });
   });
 
   return {
@@ -62,12 +68,6 @@ const update = async (id, itensSold) => {
   return getItemsById;
 };
 
-const updateStock = async (productId, amount) => {
-  const { quantity, name } = await productModel.getById(productId);
-  const newQuantity = quantity + amount;
-  await productModel.update(productId, name, newQuantity);
-};
-
 const exclude = async (id) => {
   if (!ObjectId.isValid(id)) {
     return null;
@@ -76,9 +76,10 @@ const exclude = async (id) => {
   const db = await connection();
   const { itensSold } = await getById(id);
 
-  itensSold.forEach(async ({ productId, quantity }) => {
-    // updateStock(productId, quantity);
-    await updateStock(productId, quantity);
+  await itensSold.forEach(async ({ productId, quantity }) => {
+   await db.collection('products').findOneAndUpdate({ _id: ObjectId(productId) }, {
+      $inc: { quantity: +quantity },
+  });
   });
 
   const removeSale = await db.collection('sales').deleteOne({ _id: ObjectId(id) });
