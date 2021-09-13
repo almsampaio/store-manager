@@ -1,27 +1,21 @@
 const productsModel = require('../models/productsModel');
 
 const checkProductInfo = (name, quantity) => {
-  const testResult = { errorInfo: {}, flag: false };
-  if (name.length < 5) {
-    testResult.errorInfo = { err: {
-        code: 'invalid_data',
-        message: '"name" length must be at least 5 characters long',
-      },
-    };
+  const testResult = { 
+    errorInfo: { err: { code: 'invalid_data', message: '' } },
+    flag: false, 
+  };
+  if (name.length < 5) { 
+    testResult.errorInfo.err.message = '"name" length must be at least 5 characters long';
   }
   if (quantity < 1) {
-    testResult.errorInfo = { err: { 
-        code: 'invalid_data',
-        message: '"quantity" must be larger than or equal to 1',
-      },
-    };
+    testResult.errorInfo.err.message = '"quantity" must be larger than or equal to 1';
   }
   if (!Number.isInteger(quantity)) {
-    testResult.errorInfo = { err: { 
-        code: 'invalid_data',
-        message: '"quantity" must be a number',
-      },
-    };
+    testResult.errorInfo.err.message = '"quantity" must be a number';
+  }
+  if (testResult.errorInfo.err.message !== '') {
+    testResult.errorInfo.flag = true; 
   }
   return testResult;
 };
