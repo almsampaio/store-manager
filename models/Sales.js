@@ -26,4 +26,22 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-module.exports = { registerSale, getAll, getSaleById };
+const editSale = async (id, products) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const sale = connection().then((db) =>
+    db.collection('sales').findOneAndUpdate(
+      { _id: ObjectId(id) },
+      {
+        $set: {
+          itensSold: products,
+        },
+      },
+      { returnDocument: 'after' },
+    )).then((data) => data.value);
+  if (!sale) return null;
+  return sale;
+};
+
+module.exports = { registerSale, getAll, getSaleById, editSale };

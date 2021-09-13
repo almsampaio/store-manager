@@ -15,10 +15,9 @@ const validateSale = async (req, res, next) => {
     const validations = [quantity < 1, typeof quantity === 'string', !product];
     if (validations.includes(true)) {
       return res.status(422).json({ err });
-      // return next(err);
     }
+    return next();
   });
-  next();
 };
 
 const checkSaleExists = async (req, res, next) => {

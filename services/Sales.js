@@ -18,4 +18,10 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-module.exports = { registerSale, getAll, getSaleById };
+const editSale = async (id, products) => {
+  const sale = await Sales.editSale(id, products);
+
+  return sale;
+};
+
+module.exports = { registerSale, getAll, getSaleById, editSale };

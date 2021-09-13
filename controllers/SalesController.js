@@ -1,4 +1,5 @@
 const express = require('express');
+const rescue = require('express-rescue');
 const {
   validateSale,
   checkSaleExists,
@@ -15,6 +16,20 @@ router.get('/:id', checkSaleExists, async (req, res) => {
 
   res.status(200).json(sale);
 });
+
+router.put(
+  '/:id',
+  checkSaleExists,
+  validateSale,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const products = req.body;
+
+    const sale = await Sales.editSale(id, products);
+
+    res.status(200).json(sale);
+  }),
+);
 
 router.get('/', async (_req, res) => {
   const sales = await Sales.getAll();
