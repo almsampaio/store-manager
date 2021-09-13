@@ -2,7 +2,7 @@ const { getConnection } = require('./connection');
 
 const createSale = async (sales) => {
   const db = await getConnection();
-  const { insertedId: _id } = await db.collection('sales').insertOne({ sales });
+  const { insertedId: _id } = await db.collection('sales').insertOne({ itensSold: sales });
 
   return {
     _id,
@@ -12,8 +12,10 @@ const createSale = async (sales) => {
 
 const getAllSales = async () => {
   const db = await getConnection();
-  const sales = await db.collection('sales').find();
-  return sales;
+  const sales = await db.collection('sales').find().toArray();
+  return {
+    sales,
+  };
 };
 
 module.exports = {
