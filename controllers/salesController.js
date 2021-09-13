@@ -46,22 +46,22 @@ route.post('/', async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(response);
 });
 
-// route.put('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const { name, quantity } = req.body;
-//   const response = await productService.updateProduct(id, name, quantity);
+route.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const soldItems = req.body;
+  const response = await salesService.updateSale(id, soldItems);
 
-//   if (response.code) {
-//     return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
-//       err: {
-//         code: response.code,
-//         message: response.message,
-//       },
-//     });
-// }
+  if (response.code) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: response.code,
+        message: response.message,
+      },
+    });
+}
 
-//   return res.status(HTTP_OK_STATUS).json({ id, name, quantity });
-// });
+  return res.status(HTTP_OK_STATUS).json(response);
+});
 
 // route.delete('/:id', async (req, res) => {
 //   const { id } = req.params;

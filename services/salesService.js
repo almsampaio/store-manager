@@ -32,17 +32,18 @@ const findById = async (id) => {
   return ({ code: 'not_found', message: 'Sale not found' });
 };
 
-// const updateProduct = async (id, name, quantity) => {
-//   const isNameValid = productSchema.validateName(name);
-//   const isQuantityValid = productSchema.validateQuantity(quantity);
-//   const isIdValid = productSchema.validateId(id);
-//   if (isNameValid) return ({ code: isNameValid.code, message: isNameValid.message });
-//   if (isQuantityValid) return ({ code: isQuantityValid.code, message: isQuantityValid.message });
-//   if (isIdValid !== true) return ({ code: isIdValid.code, message: isIdValid.message });
-
-//   const response = await productModel.update(id, { name, quantity });
-//   return response;
-// };
+const updateSale = async (id, soldItems) => {
+  let errorLog;
+  soldItems.forEach(({ quantity }) => {
+    const isQuantityValid = productSchema.validateQuantity(quantity);
+    if (isQuantityValid) { 
+      errorLog = { code: isQuantityValid.code, message: 'Wrong product ID or invalid quantity' };
+    }
+  });
+if (errorLog !== undefined) return (errorLog);
+const response = await salesModel.update(id, soldItems);
+if (response.result.ok === 1) return { _id: id, itensSold: soldItems };
+};
 
 // const deleteProduct = async (id) => {
 //   const isIdValid = productSchema.validateId(id);
@@ -57,6 +58,6 @@ const findById = async (id) => {
 module.exports = {
   createSale,
   findById,
-  // updateProduct,
+  updateSale,
   // deleteProduct,
 };
