@@ -52,9 +52,9 @@ describe('Testando a função `create` do model ProductModel', () => {
     it('deve existir um produto com o nome e a quantidade cadastrada', async () => {
       await ProductModel.create(payloadProduct);
 
-      const movieCreated = await connectionMock.collection('products').findOne({name: payloadProduct.name, quantity: payloadProduct.quantity});
+      const createdProduct = await connectionMock.collection('products').findOne({name: payloadProduct.name, quantity: payloadProduct.quantity});
 
-      expect(movieCreated).to.deep.include(payloadProduct);
+      expect(createdProduct).to.deep.include(payloadProduct);
     });
   });
 });
@@ -215,6 +215,64 @@ describe('Testando a função `getById` do model ProductModel', () => {
 
 // update Product
 
-describe('Testando a função `getById` do model ProductModel', () => {
+describe.only('Testando a função `update` do model ProductModel', () => {
+  let connectionMock;
+  let id;
+
+  const payloadProduct = {
+    "name": "Produto do Batista",
+    "quantity": 100,
+  }
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+    const DB_NAME = 'StoreManager';
+
+    connectionMock = await MongoClient
+    .connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then((conn) => conn.db(DB_NAME));
   
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quando é atualizado com sucesso', () => {
+
+    before(async () => {
+      const { insertedId } = await connectionMock.collection('products').insertOne(payloadProduct);
+      id = insertedId;
+    });
+
+    after(async () => {
+      await connectionMock.collection('products').drop();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await ProductModel.update(id,payloadProduct);
+
+      expect(response).to.be.a('object');
+    });
+
+    it('o objeto possui as keys `_id`, `name` e `quantity`', async () => {
+      const response = await ProductModel.update(id,payloadProduct);
+
+      expect(response).to.include.all.keys('_id', 'name', 'quantity');
+    });
+
+    it('deve existir um produto com o nome e a quantidade atualizada', async () => {
+      await ProductModel.update(payloadProduct);
+
+      const updateProduct = await connectionMock.collection('products').findOne({ name: payloadProduct.name, quantity: payloadProduct.quantity });
+
+      expect(updateProduct).to.deep.include(payloadProduct);
+    });
+  });
+
 });
