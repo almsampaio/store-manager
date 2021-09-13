@@ -20,8 +20,25 @@ const createSale = async (itensSold) => {
   return { _id: Object.values(createdSale.insertedIds).toString(), itensSold };
 };
 
+const updateSale = async (id, itensSold) => {
+  if (!ObjectID.isValid(id)) return null;
+  const db = await connection();
+  const updatedSale = await db.collection('sales')
+  .updateOne({ _id: ObjectID(id) }, { $set: { itensSold } });
+return updatedSale;
+};
+
+const deleteSale = async (id) => {
+  if (!ObjectID.isValid(id)) return null;
+  const db = await connection();
+  const deletedSale = await db.collection('sales').deleteOne({ _id: ObjectID(id) });
+  return deletedSale;
+};
+
 module.exports = {
   getAllSales,
   getSaleById,
   createSale,
+  updateSale,
+  deleteSale,
 };

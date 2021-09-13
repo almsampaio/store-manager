@@ -28,8 +28,20 @@ const createSale = async (itensSold) => {
   return { createdSale };
 };
 
+const updateSale = async (id, itensSold) => {
+  const updatedSale = await salesModel.updateSale(id, itensSold);
+  return updatedSale;
+};
+
+const deleteSale = async (id) => {
+  const deletedSale = await salesModel.deleteSale(id);
+  return deletedSale;
+};
+
 module.exports = {
   getAllSales,
   getSaleById,
   createSale,
+  updateSale,
+  deleteSale,
 };
