@@ -5,6 +5,7 @@ const errorMessages = {
   quantityType: '"quantity" must be a number',
   productExists: 'Product already exists',
   wrongIdFormat: 'Wrong id format',
+  invalidIdOrQtd: 'Wrong product ID or invalid quantity',
 };
 
 module.exports = errorMessages;

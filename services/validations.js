@@ -48,8 +48,19 @@ const validateUpdate = async (name, quantity) => {
   }
 };
 
+const validateSale = async (id, quantity) => {
+  const product = await productsModel.getById(id);
+  
+  if (!product || quantity < 1 || (typeof quantity !== 'number')) {
+    const errorMessage = errorGenerator(errorMsg.invalidData, errorMsg.invalidIdOrQtd);
+    return { errorMessage };
+  }
+  return null;
+};
+
 module.exports = {
   validateId,
   validateCreation,
   validateUpdate,
+  validateSale,
 };
