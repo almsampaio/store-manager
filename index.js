@@ -14,12 +14,9 @@ const salesController = require('./controllers/salesController');
 
 app.get('/products', productsController.getAllProducts);
 app.get('/products/:id', productsController.getProductById);
-
 app.post('/products', productsController.create);
-
-app.put('products/:id', productsController.editProductById);
-
-app.delete('products/:id', productsController.deleteProductById);
+app.put('/products/:id', productsController.editProductById);
+app.delete('/products/:id', productsController.deleteProductById);
 
 app.get('/sales', salesController.create);
 
