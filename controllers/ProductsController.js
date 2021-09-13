@@ -1,27 +1,29 @@
 const express = require('express');
-const { validateProduct } = require('../middlewares/validateProduct');
+const { validateProduct, checkProductExists } = require('../middlewares/validateProduct');
 const Products = require('../services/Products');
 
 const router = express.Router();
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', checkProductExists, async (req, res) => {
   const { id } = req.params;
   const product = await Products.getProductById(id);
-
-  if (!product) {
-    return res
-      .status(422)
-      .json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
-  }
 
   res.status(200).json(product);
 });
 
-router.use('/:id', validateProduct, async (req, res) => {
+router.put('/:id', validateProduct, async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
 
   const product = await Products.editProduct(name, quantity, id);
+
+  res.status(200).json(product);
+});
+
+router.delete('/:id', checkProductExists, async (req, res) => {
+  const { id } = req.params;
+
+  const product = await Products.deleteProduct(id);
 
   res.status(200).json(product);
 });
