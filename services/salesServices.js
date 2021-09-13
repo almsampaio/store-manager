@@ -1,6 +1,22 @@
 const salesModel = require('../models/salesModel');
 const validations = require('./validations');
 
+const getAllSales = async () => {
+  const sales = await salesModel.getAllSales();
+  return sales;
+};
+
+const getSalesById = async (id) => {
+  const sale = await salesModel.getSalesById(id);
+
+  if (!sale) {
+    const errorMessage = validations.validateSaleNotFound();
+    return { errorMessage };
+  }
+
+  return { sale };
+};
+
 const createSale = async (sales) => {
   let newProd = null;
 
@@ -26,5 +42,7 @@ const createSale = async (sales) => {
 };
 
 module.exports = {
+  getAllSales,
+  getSalesById,
   createSale,
 };

@@ -6,6 +6,8 @@ const errorMessages = {
   productExists: 'Product already exists',
   wrongIdFormat: 'Wrong id format',
   invalidIdOrQtd: 'Wrong product ID or invalid quantity',
+  notFound: 'not_found',
+  saleNotFound: 'Sale not found',
 };
 
 module.exports = errorMessages;

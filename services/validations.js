@@ -58,9 +58,15 @@ const validateSale = async (id, quantity) => {
   return null;
 };
 
+const validateSaleNotFound = () => {
+  const errorMessage = errorGenerator(errorMsg.notFound, errorMsg.saleNotFound);
+  return errorMessage;
+};
+
 module.exports = {
   validateId,
   validateCreation,
   validateUpdate,
   validateSale,
+  validateSaleNotFound,
 };
