@@ -16,4 +16,27 @@ const create = async (itensSold) => {
   return { solded };
 };
 
-module.exports = { create };
+const getAllSales = async () => {
+  const sales = salesModel.getAllSales();
+  return sales;
+};
+
+const getSaleById = async (id) => {
+  const sale = salesModel.getSaleById(id);
+  return sale;
+};
+
+const editById = async (id, itensSold) => {
+  const [{ quantity }] = itensSold;
+  if (quantity < minQuantity) return errMessage;
+  if (typeof (quantity) === 'string') return errMessage;
+  const solded = await salesModel.editById(id, itensSold);
+  return { solded };
+};
+
+module.exports = {
+  create,
+  getAllSales,
+  getSaleById,
+  editById,
+};
