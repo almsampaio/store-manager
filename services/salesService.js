@@ -26,10 +26,10 @@ const findById = async (id) => {
  const idExists = productSchema.validateId(id);
   if (idExists === true) {
     const response = await salesModel.getById(id);
-    if (response.length === 0) return ({ code: 'not_found', message: 'sale not found' });
+    if (response.length === 0) return ({ code: 'not_found', message: 'Sale not found' });
     return response[0];
   }
-  return ({ code: 'not_found', message: 'sale not found' });
+  return ({ code: 'not_found', message: 'Sale not found' });
 };
 
 // const updateProduct = async (id, name, quantity) => {
