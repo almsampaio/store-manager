@@ -1,4 +1,5 @@
 const { getProductById } = require('../services/Products');
+const { getSaleById } = require('../services/Sales');
 
 const err = {
   // status: 422,
@@ -20,4 +21,20 @@ const validateSale = async (req, res, next) => {
   next();
 };
 
-module.exports = validateSale;
+const checkSaleExists = async (req, res, next) => {
+  const { id } = req.params;
+
+  const sale = await getSaleById(id);
+
+  if (!sale) {
+    return res.status(404).json({
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    });
+  }
+  next();
+};
+
+module.exports = { validateSale, checkSaleExists };

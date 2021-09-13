@@ -6,4 +6,16 @@ const registerSale = async (products) => {
   return sale;
 };
 
-module.exports = { registerSale };
+const getAll = async () => {
+  const sales = await Sales.getAll();
+
+  return sales;
+};
+
+const getSaleById = async (id) => {
+  const sale = await Sales.getSaleById(id);
+
+  return sale;
+};
+
+module.exports = { registerSale, getAll, getSaleById };
