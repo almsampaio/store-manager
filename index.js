@@ -13,6 +13,7 @@ app.get('/', (_request, response) => {
 app.get('/products', productController.listProduct);
 app.get('/products/:id', productController.listProductId);
 app.put('/products/:id', productController.updateProduct);
+app.delete('/products/:id', productController.excludeProduct);
 app.post('/products', productController.addProduct);
 
 app.listen(3000, () => console.log('Project Store Manager'));

@@ -13,7 +13,8 @@ const listProduct = async (req, res) => {
 };
 
 const listProductId = async (req, res) => {
-  const productId = await productService.listProductId();
+  const { id } = req.params;
+  const productId = await productService.listProductId(id);
   res.status(200).json(productId);
 };
 
@@ -26,9 +27,18 @@ const updateProduct = async (req, res) => {
   res.status(200).json(product);
 };
 
+const excludeProduct = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await productService.excludeProduct(id);
+
+  res.status(200).json(product);
+};
+
 module.exports = {
   addProduct,
   listProduct,
   listProductId,
   updateProduct,
+  excludeProduct,
 };

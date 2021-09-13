@@ -14,8 +14,9 @@ const listProduct = async () => {
 };
 
 const listProductId = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
   const db = await connect();
-  const productId = await db.collection('products').findOne(id);
+  const productId = await db.collection('products').findOne(ObjectId(id));
   return productId;
 };
 
@@ -25,9 +26,15 @@ const updateProduct = async (id, name, quantity) => {
   return { id, name, quantity };
 };
 
+const excludeProduct = async (id) => {
+  const db = await connect();
+  await db.collection('products').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   addProduct,
   listProduct,
   listProductId,
   updateProduct,
+  excludeProduct,
 };
