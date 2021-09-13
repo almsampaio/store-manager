@@ -11,8 +11,6 @@ const getById = async (req, res) => {
 
   const product = await ProductService.getById(id);
 
-  console.log(product);
-
   if (product.err) return res.status(422).json(product);
 
   res.status(200).json(product);

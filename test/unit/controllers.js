@@ -178,7 +178,7 @@ describe('Testando a função getAll do controller ProductController', () => {
 
 // getById Product
 
-describe.only('Testando a função `getById` do controller ProductController', () => {
+describe('Testando a função `getById` do controller ProductController', () => {
   describe('quando não existem produtos no banco de dados', () => {
     const request = {};
     const response = {};
@@ -274,3 +274,6 @@ describe.only('Testando a função `getById` do controller ProductController', (
     });
   });
 });
+
+// update Product
+

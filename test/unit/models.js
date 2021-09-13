@@ -9,12 +9,12 @@ const ProductModel = require('../../models/ProductModel');
 
 // CREATE PRODUCT
 
-describe('Insere um novo produto no BD - camada model', () => {
+describe('Testando a função `create` do model ProductModel', () => {
   let connectionMock;
 
   const payloadProduct = {
     "name": "Produto do Batista",
-    "quantity": 100
+    "quantity": 100,
   }
 
   before(async () => {
@@ -212,3 +212,6 @@ describe('Testando a função `getById` do model ProductModel', () => {
     });
   });
 });
+
+// update Product
+
