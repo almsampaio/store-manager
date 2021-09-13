@@ -17,6 +17,7 @@ app.get('/', (_request, response) => {
 app.post('/products', validateName, validateQuantity, productController.create);
 app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getById);
+app.put('/products/:id', validateName, validateQuantity, productController.update);
 
 app.listen(3000, () => {
   console.log('#vqv app rodando na 3000');
