@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 app.get('/products', productsController.getAll);
 app.get('/products/:id', productsController.getById);
 app.post('/products', productsController.create);
+app.put('/products/:id', productsController.update);
 
 const PORT = process.env.PORT || 3000;
 

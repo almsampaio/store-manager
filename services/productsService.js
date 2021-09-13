@@ -30,8 +30,23 @@ const getById = async (id) => {
     return listedProduct;
 };
 
+const update = async (id, name, quantity) => {
+    const productLength = productSchema.validateProductLength(name);
+    const quantityMoreZero = productSchema.validateQuantityMoreZero(quantity);
+    const quantityIsNumber = productSchema.validateQuantityIsNumber(quantity);
+
+    if (productLength) { return productLength; }
+    if (quantityMoreZero) { return quantityMoreZero; }
+    if (quantityIsNumber) { return quantityIsNumber; }
+
+    const updatedProduct = await productsModel.update(id, name, quantity);
+  //  console.log(updatedProduct);
+    return updatedProduct;
+};
+
 module.exports = {
     create,
     getById,
     getAll,
+    update,
 };
