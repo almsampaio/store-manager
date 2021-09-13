@@ -68,13 +68,13 @@ const create = async (name, quantity) => {
 };
 
 const getAll = async () => {
-  const productsList = await ProductsModel.getAll();
+  const productsList = await ProductsModel.getAll(); // Interação com o Model
 
   return productsList;
 };
 
 const getById = async (id) => {
-  const product = await ProductsModel.getById(id);
+  const product = await ProductsModel.getById(id); // Interação com o Model
 
   if (!product) {
     return {
@@ -88,8 +88,36 @@ const getById = async (id) => {
   return product;
 };
 
+const update = async (id, name, quantity) => {
+  const updatedProduct = await ProductsModel.update(id, name, quantity); // Interação com o Model
+  const nameValid = isNameValid(name);
+  const quantityValid = isQuantityValid(quantity);
+
+  if (nameValid.err) return nameValid;
+  if (quantityValid.err) return quantityValid;
+
+  return updatedProduct;
+};
+
+const remove = async (id) => {
+  const removedProduct = await ProductsModel.remove(id);
+
+  if (!removedProduct) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+
+  return removedProduct;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
+  remove,
 };

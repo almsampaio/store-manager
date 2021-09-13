@@ -14,6 +14,12 @@ app.post('/products', ProductsController.create);
 app.get('/products/', ProductsController.getAll);
 app.get('/products/:id', ProductsController.getById);
 
+// Requisito 03
+app.put('/products/:id', ProductsController.update);
+
+// Requisito 03
+app.delete('/products/:id', ProductsController.remove);
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
