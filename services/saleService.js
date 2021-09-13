@@ -1,16 +1,38 @@
 const saleModel = require('../models/saleModel');
 
-const create = async (sale) => {
-  const error = {
+const error = {
+  wrongIdOrQuantity: {
     err: {
       code: 'invalid_data',
       message: 'Wrong product ID or invalid quantity',
     },
-  };
-
-  const result = await saleModel.create(sale);
-
-  return result || error;
+  },
+  saleNotFound: {
+    err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    },
+  },
 };
 
-module.exports = { create };
+const create = async (sale) => {
+  const result = await saleModel.create(sale);
+
+  return result || error.wrongIdOrQuantity;
+};
+
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+const getByID = async (id) => {
+  const result = await saleModel.getByID(id);
+
+  return result || error.saleNotFound;
+};
+
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+const getAll = async () => saleModel.getAll();
+
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+module.exports = { create, getByID, getAll };

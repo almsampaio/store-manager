@@ -10,6 +10,10 @@ router.post('/', [
   saleController.create,
 ]);
 
+router.get('/:id', saleController.getByID);
+
+router.get('/', saleController.getAll);
+
 router.use((_err, _req, res, _next) => {
   const error = {
     err: {
