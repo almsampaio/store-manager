@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { builtError } = require('../services/products');
 
 const schemaNewSale = Joi.object({
   productId: Joi.string().required(),
@@ -6,9 +7,13 @@ const schemaNewSale = Joi.object({
 });
 
 const validateNewSale = (req, _res, next) => {
-    const check = schemaNewSale.validate(req.body);
+  req.body.forEach((sale) => {
+    const check = schemaNewSale.validate(sale);
+    if (check.error) {
+      return next(builtError(422, 'invalid_data', 'Wrong product ID or invalid quantity'));
+    }
+  });
 
-    if (check.error) next(check.error);
     next();
 };
 

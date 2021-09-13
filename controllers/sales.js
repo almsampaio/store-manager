@@ -1,10 +1,7 @@
 const salesService = require('../services/sales');
 
 const addNew = async (req, res, _next) => {
-  const { productId, quantity } = req.body;
-  const payload = { productId, quantity };
-
-  const result = await salesService.addNew(payload);
+  const result = await salesService.addNew(req.body);
   return res.status(200).json(result);
 };
 
