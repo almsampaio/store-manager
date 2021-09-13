@@ -17,21 +17,9 @@ const insertOne = async (name, quantity) => {
 
 const findProductById = async (id) => {
   const product = await productModel.findProductById(id);
-  if (!product) {
-    return ({
-      err: {
-        statusCode: StatusCodes.invalidData,
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    });
-  }
   return product;
 };
 
-const getAllProducts = async () => {
-  const products = await productModel.getAllProducts();
-  return products;
-};
+const getAllProducts = async () => productModel.getAllProducts();
 
 module.exports = { insertOne, findProductById, getAllProducts };

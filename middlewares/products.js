@@ -1,6 +1,5 @@
 // const { StatusCodes } = require('http-status-codes');
-const productSchema = require('../schemas/products');
-const productService = require('../services/products');
+const { productIdSchema, productSchema } = require('../schemas/products');
 
 const isValidPayload = (req, _res, next) => {
   const { name, quantity } = req.body;
@@ -11,15 +10,13 @@ const isValidPayload = (req, _res, next) => {
   return next();
 };
 
-const existId = async (req, _res, next) => {
+const isValidId = async (req, _res, next) => {
   const { id } = req.params;
-  const product = await productService.findProductById(id);
-  // console.log(product);
-  if (product.err) {
-    return next(product);
+  const { error } = productIdSchema.validate({ id });
+  if (error) {
+    return next(error);
   }
-  req.product = product;
   return next();
 };
 
-module.exports = { isValidPayload, existId };
+module.exports = { isValidPayload, isValidId };

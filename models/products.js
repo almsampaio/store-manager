@@ -10,12 +10,14 @@ const existsProduct = async (name) => {
 
 const findProductById = async (id) => {
   const db = await connection();
-  return db.collection('products').findOne({ _id: ObjectId(id) });
+  const product = await db.collection('products').findOne({ _id: ObjectId(id) });
+  return product;
 };
 
 const getAllProducts = async () => {
   const db = await connection();
-  return db.collection('products').find({});
+  const products = await db.collection('products').find({}).toArray();
+  return products;
 };
 
 const insertNewProduct = async (name, quantity) => {
