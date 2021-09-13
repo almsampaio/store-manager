@@ -19,11 +19,13 @@ const deleteById = async (id) => (
     .then((db) => db.collection(collectionName).deleteOne(new ObjectId(id)))
 );
 
-const create = async (name, quantity) => (
-  connection()
-    .then((db) => db.collection(collectionName).insertOne({ name, quantity }))
+const create = async (name, quantity) => {
+  const db = await connection();
+  const productCreated = await db.collection(collectionName).insertOne({ name, quantity })
     .then((result) => ({ _id: result.insertedId, name, quantity }))
-);
+    .catch((err) => console.log(err));
+  return productCreated;
+};
 
 const update = async (id, name, quantity) => (
   connection()
