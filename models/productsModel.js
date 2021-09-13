@@ -14,10 +14,11 @@ const findById = async (id) => (
     .then((db) => db.collection(collectionName).findOne(new ObjectId(id)).toArray())
 );
 
-const findByName = async (nameProduct) => (
-  connection()
-    .then((db) => db.collection(collectionName).findOne({ name: { $eq: nameProduct } }).toArray())
-);
+const findByName = async (nameProduct) => {
+  const resultSearch = await connection()
+    .then((db) => db.collection(collectionName).findOne({ name: { $eq: nameProduct } }));
+  return resultSearch;
+};
 
 const deleteById = async (id) => (
   connection()
