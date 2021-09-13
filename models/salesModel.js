@@ -14,7 +14,14 @@ const getSaleById = async (id) => {
   return getSalesById;
 };
 
+const createSale = async (itensSold) => {
+  const db = await connection();
+  const createdSale = await db.collection('sales').insertMany([{ itensSold }]);
+  return { _id: Object.values(createdSale.insertedIds).toString(), itensSold };
+};
+
 module.exports = {
   getAllSales,
   getSaleById,
+  createSale,
 };

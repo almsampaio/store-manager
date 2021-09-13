@@ -14,7 +14,20 @@ const getSaleById = async (req, res) => {
   return res.status(200).json(idSale); 
 };
 
+const HTTP_200 = 200;
+const HTTP_404 = 404;
+const HTTP_422 = 422;
+
+const createSale = async (req, res) => {
+  const itensSold = req.body;
+  const { error, err, createdSale } = await salesService.createSale(itensSold);
+  if (error) return res.status(HTTP_404).json(error);
+  if (err) return res.status(HTTP_422).json({ err });
+  return res.status(HTTP_200).json(createdSale);
+};
+
 module.exports = {
   getAllSales,
   getSaleById,
+  createSale,
 };
