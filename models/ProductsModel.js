@@ -1,4 +1,24 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
+
+const getProducts = async () => {
+  const data = await connection().then((db) => db.collection('products')
+    .find().toArray());
+  return data;
+};
+
+const getProductById = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    throw new Error('Wrong id format');
+  }
+
+  const product = await connection()
+  .then((db) => db.collection('products').findOne(new ObjectId(id)));
+
+  if (!product) throw new Error('Wrong id format');
+
+  return product;
+};
 
 const addProduct = async (name, quantity) => {
   const data = await connection().then((db) => db.collection('products'));
@@ -15,4 +35,6 @@ const addProduct = async (name, quantity) => {
 
 module.exports = {
   addProduct,
+  getProducts,
+  getProductById,
 };
