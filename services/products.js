@@ -15,4 +15,18 @@ const insertOne = async (name, quantity) => {
   return productModel.insertNewProduct(name, quantity);
 };
 
-module.exports = { insertOne };
+const findProductById = async (id) => {
+  const product = await productModel.findProductById(id);
+  if (!product) {
+    return ({
+      err: {
+        statusCode: StatusCodes.invalidData,
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+  return product;
+};
+
+module.exports = { insertOne, findProductById };

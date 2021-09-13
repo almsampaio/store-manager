@@ -7,8 +7,7 @@ const getAllProducts = async (req, res) => {
 };
 
 const getProductById = async (req, res) => {
-  const { id } = req.params;
-  const product = await productService.getProductById(id);
+  const { product } = req.product;
   return res.status(httpStatus.ok).json(product);
 };
 
