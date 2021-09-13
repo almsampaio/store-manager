@@ -11,6 +11,9 @@ const create = async (req, res) => {
   res.status(201).json(newProduct);
 };
 
+const getAll = async (_req, _res) => {};
+
 module.exports = { 
   create,
+  getAll,
 };
