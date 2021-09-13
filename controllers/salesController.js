@@ -31,8 +31,21 @@ const registerSales = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(productSales);
 };
 
+const updateSales = async (req, res) => {
+  const { id } = req.params;
+  const sale = req.body;
+  const { saleUpdated, errorMessage } = await salesServices.updateSales(id, sale);
+
+  if (errorMessage) {
+    return res.status(HTTP_UNPR_ENTRY_STATUS).json(errorMessage);
+  }
+
+  return res.status(HTTP_OK_STATUS).json(saleUpdated);
+};
+
 module.exports = {
   getAll,
   getById,
   registerSales,
+  updateSales,
 };

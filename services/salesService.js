@@ -29,8 +29,18 @@ const registerSales = async (sales) => {
   return { productSales };
 };
 
+const updateSales = async (id, sale) => {
+  const [{ productId, quantity }] = sale;
+  const errorMessage = await validations.validateSale(productId, quantity);
+  if (errorMessage) return { errorMessage };
+  await salesModel.updateSale(id, sale);
+  const saleUpdated = await salesModel.getSaleById(id);
+  return { saleUpdated };
+};
+
 module.exports = {
   listSales,
   getById,
   registerSales,
+  updateSales,
 };
