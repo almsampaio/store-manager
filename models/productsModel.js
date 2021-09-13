@@ -59,6 +59,21 @@ async function updateProduct({ id, name, quantity }) {
   };
 }
 
+async function updateProductQty(id, quantity) {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await mongoConnection.getConnection();
+  await db.collection('products').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { quantity } },
+  );
+
+  return {
+    _id: id,
+    quantity,
+  };
+}
+
 async function deleteProduct(id) {
   if (!ObjectId.isValid(id)) return null;
 
@@ -76,5 +91,6 @@ module.exports = {
   getById,
   addProduct,
   updateProduct,
+  updateProductQty,
   deleteProduct,
 };
