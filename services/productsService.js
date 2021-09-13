@@ -1,6 +1,8 @@
 const productsModel = require('../models/productsModel');
 const schemas = require('../schemas/validationsSchemas');
 
+const errWrongId = { code: 'invalid_data', message: 'Wrong id format' };
+
 const getAll = async () => {
   const products = await productsModel.getAll();
   return products;
@@ -9,7 +11,7 @@ const getAll = async () => {
 const getById = async (id) => {
   const product = await productsModel.getById(id);
 
-  if (!product) return { err: { code: 'invalid_data', message: 'Wrong id format' } };
+  if (!product) return { err: errWrongId };
 
   return product;
 };
@@ -35,4 +37,12 @@ const update = async (id, name, quantity) => {
   return { product: updateProduct };
 };
 
-module.exports = { getAll, getById, create, update };
+const exclude = async (id, name, quantity) => {
+  const product = await productsModel.exclude(id);
+
+  if (!product) return { err: errWrongId };
+
+  return { id, name, quantity };
+};
+
+module.exports = { getAll, getById, create, update, exclude };

@@ -20,6 +20,8 @@ app.post('/products', productsController.create);
 
 app.put('/products/:id', productsController.update);
 
+app.delete('/products/:id', productsController.exclude);
+
 app.listen(PORT, () => {
   console.log('Aplicação tá on');
 });
