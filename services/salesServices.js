@@ -24,9 +24,9 @@ const updateSale = async (id, newSale) => {
 };
 
 const deleteSale = async (id) => {
-  const response = await salesModels.updateSale(id);
+  const response = await salesModels.deleteSale(id);
 
-  if (!response) return { code: 'invalid_data', type: 422, message: 'Wrong id format' };
+  if (!response) return { code: 'invalid_data', type: 422, message: 'Wrong sale ID format' };
 
   return response;
 };
