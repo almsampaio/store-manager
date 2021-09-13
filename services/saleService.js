@@ -15,8 +15,16 @@ const getSaleById = async (id) => {
   return result;
 };
 
+const updateSale = async (id, itensSold) => {
+  console.log('LOG SERVICE', id, itensSold);
+  const result = await saleModel.update(id, itensSold);
+  
+  return result;
+};
+
 module.exports = {
   createNewSale,
   getAllSales,
   getSaleById,
+  updateSale,
 };
