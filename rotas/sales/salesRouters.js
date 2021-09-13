@@ -4,6 +4,7 @@ const {
   createController,
   readByAllController,
   readByIdController,
+  updateController,
 } = require('../../controller/sales/salesController');
 
 const {
@@ -22,5 +23,12 @@ router.post(
 
 router.get('/', readByAllController);
 router.get('/:id', readByIdController);
+
+router.put(
+  '/:id',
+  validateTypeQuantitySales,
+  validateQuantitySales,
+  updateController,
+);
 
 module.exports = router;

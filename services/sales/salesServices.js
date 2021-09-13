@@ -2,6 +2,7 @@ const {
   createModel,
   readByAllModel,
   readByIdModel,
+  updateModel,
 } = require('../../model/sales/salesModel');
 
 const createServices = async (products) => {
@@ -29,8 +30,23 @@ const readByIdServices = async (id) => {
   return { data };
 };
 
+const updateServices = async (id, itensSold) => {
+  const dataIsValid = await updateModel(id, itensSold);
+
+  if (!dataIsValid) {
+    return {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    };
+  }
+
+  const data = await readByIdModel(id);
+  return { data };
+};
+
 module.exports = { 
   createServices,
   readByAllServices,
   readByIdServices,
+  updateServices,
 };
