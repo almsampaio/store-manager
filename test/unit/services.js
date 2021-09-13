@@ -210,7 +210,7 @@ describe('Insere um novo produto no BD - camada services', () => {
 
 // getAll PRODUCT
 
-describe.only('Busca todos os produtos no BD - service - service' ,() => {
+describe('Busca todos os produtos no BD - service - service' ,() => {
   describe('quanto não existe nenhum produto cadastrado' ,() => {
     before(() => {
       sinon.stub(ProductModel, 'getAll')
@@ -247,8 +247,8 @@ describe.only('Busca todos os produtos no BD - service - service' ,() => {
               quantity: 1,
             }
           ]
-      })
-    })
+      });
+    });
 
     it('retorna o object "products" contento um array', async () => {
       const response = await ProductService.getAll();

@@ -15,7 +15,7 @@ const create = async ({ name, quantity }) => {
   return product;
 };
 
-const getAll = async () => {};
+const getAll = async () => ProductModel.getAll();
 
 module.exports = {
   create,
