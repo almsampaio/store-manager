@@ -9,12 +9,10 @@ const get = async (req, res, next) => {
   const { id } = req.params;
   if (id) {
     const result = await salesService.get({});
-    return result.itensSold
-      ? res.status(200).json(result)
-      : next(result);
+    return result.message ? next(result) : res.status(200).json(result);
   }
   const result = await salesService.get({ id }, id);
-  return res.status(200).json(result);
+  return result.message ? next(result) : res.status(200).json(result);
 };
 
 module.exports = {
