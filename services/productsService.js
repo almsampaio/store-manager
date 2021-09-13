@@ -15,7 +15,7 @@ const checkProductInfo = (name, quantity) => {
     testResult.errorInfo.err.message = '"quantity" must be a number';
   }
   if (testResult.errorInfo.err.message !== '') {
-    testResult.errorInfo.flag = true; 
+    testResult.flag = true; 
   }
   return testResult;
 };
@@ -23,10 +23,10 @@ const checkProductInfo = (name, quantity) => {
 const checkProductExists = async (name) => {
   const product = await productsModel.findByName(name);
   const testResult = { errorInfo: {}, flag: false };
-  if (product !== []) {
+  if (product) {
     testResult.errorInfo = { err: {
       code: 'invalid_data',
-      message: 'product already exists',
+      message: 'Product already exists',
     },
   };
   testResult.flag = true;
