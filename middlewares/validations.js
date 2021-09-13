@@ -80,10 +80,45 @@ const validateProductIdExists = async (req, res, next) => {
   next();
 };
 
+const validateSoldProductQuantity = (req, res, next) => {
+  const sales = req.body;
+  const ZERO = 0;
+
+  sales.forEach((sale) => {
+    if (sale.quantity <= ZERO || typeof sale.quantity !== 'number') {
+      return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+      });
+    }
+  });
+  // return res.status(httpStatus.HTTP_OK_STATUS).json({ message: 'ok' });
+  next();
+};
+
+const validateItemsSoldArray = (req, res, next) => {
+  const sales = req.body;
+
+  if (!sales || sales === null || sales === undefined) {
+    return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Invalid data. ItensSold cannot be empty',
+      },
+    });
+  }
+  next();
+};
+// Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+
 module.exports = {
   validateName,
   validateProductExists,
   validateQuantityGreaterThanZero,
   validateQuantityisNumber,
   validateProductIdExists,
+  validateSoldProductQuantity,
+  validateItemsSoldArray,
 };
