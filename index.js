@@ -28,3 +28,5 @@ app.put('/products/:id', [
   Validation.quantityValidation,
   Products.updateProduct,
   ]);
+
+app.delete('/products/:id', Products.deleteProduct);
