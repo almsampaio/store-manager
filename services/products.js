@@ -1,4 +1,15 @@
+const { ObjectId } = require('mongodb');
 const productModel = require('../models/products');
+
+const validateId = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return { 
+      err1: { err: 
+        { code: 'invalid_data', message: 'Wrong id format' } },
+      err2: { errCode: 422 } };
+  }
+  return {};
+};
 
 const validateQuantity = (quantity) => {
   if (typeof quantity === 'string') {
@@ -58,7 +69,24 @@ const create = async (name, quantity) => {
     name,
     quantity,
   };
-}; 
+};
+
+const getAll = async () => {
+ const getAllProducts = await productModel.getAll();
+ return getAllProducts;
+};
+
+const getById = async (id) => {
+  const verifyId = await validateId(id);
+  if (verifyId.err1) return verifyId;
+ 
+ const getProductById = await productModel.getById(id);
+ console.log(getProductById);
+ return getProductById;
+};
 
 module.exports = { 
-  create };
+  create,
+  getAll,
+  getById,
+};

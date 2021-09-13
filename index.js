@@ -6,16 +6,28 @@ const SERVER_PORT = 3000;
 
 app.use(bodyParse.json());
 
-const serviceCreate = require('./services/products');
+const serviceProducts = require('./services/products');
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
+app.get('/products', async (req, res) => {
+  const allProducts = await serviceProducts.getAll();
+  return res.status(200).json({ products: allProducts });
+});
+
+app.get('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await serviceProducts.getById(id);
+  if (product.err1) return res.status(product.err2.errCode).json(product.err1);
+  return res.status(200).json(product);
+});
+
 app.post('/products', async (req, res) => {
   const { name, quantity } = req.body;
-  const newProduct = await serviceCreate.create(name, quantity);
+  const newProduct = await serviceProducts.create(name, quantity);
   
   if (newProduct.err1) {
  return res.status(newProduct.err2.errCode)
