@@ -16,6 +16,8 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', validateName, validateQuantity, productController.create);
+app.get('/products', productController.getAll);
+app.get('/products/:id', productController.getById);
 
 app.listen(PORT, () => {
   console.log(`Ouvindo a porta ${PORT}`);
