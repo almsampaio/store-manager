@@ -10,6 +10,13 @@ const createSale = async (sales) => {
   };
 };
 
+const getAllSales = async () => {
+  const db = await getConnection();
+  const sales = await db.collection('sales').find();
+  return sales;
+};
+
 module.exports = {
   createSale,
+  getAllSales,
 };
