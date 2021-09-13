@@ -4,7 +4,6 @@ const rescue = require('express-rescue');
 
 const ProductModel = require('../models/ProductModel');
 const { existsProductById } = require('../services/productService');
-// const { ObjectId } = require('mongodb');
 const {
   isValidName,
   isValidQuantity,
@@ -78,19 +77,9 @@ route.delete('/:id', isValidId, rescue(async (req, res) => {
   throw new WrongIdFormat();
 }));
 
-route.use(
-  /**
-   * 
-   * @param {AppError} err 
-   * @param {request} req 
-   * @param {response} res 
-   * @param {} next 
-   * @returns 
-   */
-  (err, _req, res, _next) => {
-    console.log(err.message);
-    return res.status(err.codeStatus).json(err.err);
-  },
-);
+route.use((err, _req, res, _next) => {
+  console.log(err.message);
+  return res.status(err.codeStatus).json(err.err);
+});
 
 module.exports = (app) => app.use('/products', route);

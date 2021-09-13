@@ -71,19 +71,10 @@ const saleSubtractProductsQuantity = rescue(async (req, res, next) => {
   return next();
 });
 
-// const saleAddProductsQuantity = rescue(async (req, res, next) => {
-//   const sale = req.body;
-
-//   await addProductsQuantity(sale);
-
-//   return next();
-// });
-
 module.exports = {
   allIdsExists,
   allqtyGTEOne,
   isValidId,
   saleIdNotFound,
   saleSubtractProductsQuantity,
-  // saleAddProductsQuantity,
 };
