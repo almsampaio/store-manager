@@ -15,8 +15,9 @@ const getAll = async () => {
 
 // const updateProductQuantity = async (prodId, qtd) => {
 //   const db = await connection();
-//   const { result } = await db.collection('products').updateOne({ _id: ObjectID(prodId) },
-//     { $set: { quantity: ('$quantity' - qtd) } });
+//   const { quantity } = getById(ObjectID(id));
+//   await db.collection('sales').updateOne({ _id: ObjectID(id) },
+//    { $set: { quantity: quantity - qtd } },
 //   console.log(result);
 // }; 
 

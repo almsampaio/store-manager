@@ -3,9 +3,10 @@ const salesMidd = require('../middlewares/salesMidd');
 const errorMsg = require('../returnMsg');
 
 const getById = async (id) => {
-  const validId = await salesMidd.validateOneId(id);
+  const validId = salesMidd.validateOneId(id);
   if (!validId) return errorMsg.saleNotFound;
   const result = await salesModel.getById(id);
+  if (!result) return errorMsg.saleNotFound;
   return result;
 };
 
