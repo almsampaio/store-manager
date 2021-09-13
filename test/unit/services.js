@@ -284,42 +284,123 @@ describe('Testando a função getAll do service ProductService' ,() => {
 
 // getById Product
 
-describe('Testando a função `getById` do service ProductService', () => {
-  
+describe.only('Testando a função `getById` do service ProductService', () => {
+  const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+  describe('quanto não é encontrado um produto para o ID', () => {
+    before(() => {
+      sinon.stub(ProductModel, 'getById')
+        .resolves(null);
+    });
+
+    after(() => {
+      ProductModel.getById.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await ProductService.getById(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui as keys `code` e `message`', async () => {
+      const response = await ProductService.getById(ID_EXAMPLE);
+      const { err } = response;
+
+      expect(err).to.include.all.keys('_id', 'code', 'message');
+    });
+
+    it('a key `code` do objeto retornado é uma string', async () => {
+      const response = await ProductService.getById(ID_EXAMPLE);
+      const { err: { code } } = response;
+
+      expect(code).to.be.a('string');
+    });
+
+    it('a `string` da key `code` é `invalid_data`', async () => {
+      const response = await ProductService.getById(ID_EXAMPLE);
+      const { err: { code } } = response;
+
+      expect(code).to.equal('invalid_data');
+    });
+
+    it('a key `message` do objeto retornado é uma string', async () => {
+      const response = await ProductService.getById(ID_EXAMPLE);
+      const { err: { message } } = response;
+
+      expect(code).to.be.a('string');
+    });
+
+    it('a string da key `message` é `Wrong id format`', async () => {
+      const response = await ProductService.getById(ID_EXAMPLE);
+      const { err: { message } } = response;
+
+      expect(message).to.equal('Wrong id format');
+    });
+  });
+
+  describe('quanto é encontrado um produto para o ID', () => {
+    const ProductPayload = {
+      _id: '604cb554311d68f491ba5781',
+      name: 'Example Product',
+      quantity: 1,
+    }
+
+    before(() => {
+      sinon.stub(ProductModel, 'getById')
+        .resolves(ProductPayload);
+    });
+
+    after(() => {
+      ProductModel.getById.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await ProductService.getById(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto possui as keys `_id`, `name`, e `quantity`', async () => {
+      const response = await ProductService.getById(ID_EXAMPLE);
+
+      expect(response).to.include.all.keys('_id', 'name', 'quantity');
+    });
+  });
 });
 
 
-//   it('o objeto retornado possui as keys `code` e `message`', async () => {
+  // it('o objeto retornado possui as keys `code` e `message`', async () => {
   //     const response = await ProductModel.getById(ID_EXAMPLE);
   //     const { err } = response;
 
   //     expect(err).to.include.all.keys('_id', 'code', 'message');
   //   });
 
-  //   it('a key `code` do objeto retornado é uma string', async () => {
-  //     const response = await ProductModel.getById(ID_EXAMPLE);
-  //     const { err: { code } } = response;
+    // it('a key `code` do objeto retornado é uma string', async () => {
+    //   const response = await ProductModel.getById(ID_EXAMPLE);
+    //   const { err: { code } } = response;
 
-  //     expect(code).to.be.a('string');
-  //   });
+    //   expect(code).to.be.a('string');
+    // });
 
-  //   it('a `string` da key `code` é `invalid_data`', async () => {
-  //     const response = await ProductModel.getById(ID_EXAMPLE);
-  //     const { err: { code } } = response;
+    // it('a `string` da key `code` é `invalid_data`', async () => {
+    //   const response = await ProductModel.getById(ID_EXAMPLE);
+    //   const { err: { code } } = response;
 
-  //     expect(code).to.equal('invalid_data');
-  //   });
+    //   expect(code).to.equal('invalid_data');
+    // });
 
-  //   it('a key `message` do objeto retornado é uma string', async () => {
-  //     const response = await ProductModel.getById(ID_EXAMPLE);
-  //     const { err: { message } } = response;
+    // it('a key `message` do objeto retornado é uma string', async () => {
+    //   const response = await ProductModel.getById(ID_EXAMPLE);
+    //   const { err: { message } } = response;
 
-  //     expect(code).to.be.a('string');
-  //   });
+    //   expect(code).to.be.a('string');
+    // });
 
-  //   it('a string da key `message` é `Wrong id format`', async () => {
-  //     const response = await ProductModel.getById(ID_EXAMPLE);
-  //     const { err: { message } } = response;
+    // it('a string da key `message` é `Wrong id format`', async () => {
+    //   const response = await ProductModel.getById(ID_EXAMPLE);
+    //   const { err: { message } } = response;
 
-  //     expect(message).to.equal('Wrong id format');
-  //   });
+    //   expect(message).to.equal('Wrong id format');
+    // });

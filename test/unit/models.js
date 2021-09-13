@@ -150,7 +150,7 @@ describe('Busca todos os produtos no BD - model', () => {
 
 // getById Product
 
-describe.only('Testando a função `getById` do model ProductModel', () => {
+describe('Testando a função `getById` do model ProductModel', () => {
   const DBServer = new MongoMemoryServer();
   let connectionMock;
   const DB_NAME = 'StoreManager';

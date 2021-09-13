@@ -1,6 +1,10 @@
 const ProductModel = require('../models/ProductModel');
 const ProductSchema = require('../schemas/ProductSchema');
 
+const getAll = async () => ProductModel.getAll();
+
+const getById = async () => {};
+
 const create = async ({ name, quantity }) => {
   if (ProductSchema.validate(name, quantity).err) {
     return ProductSchema.validate(name, quantity);
@@ -13,9 +17,8 @@ const create = async ({ name, quantity }) => {
   return product;
 };
 
-const getAll = async () => ProductModel.getAll();
-
 module.exports = {
-  create,
   getAll,
+  getById,
+  create,
 };
