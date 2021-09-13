@@ -283,3 +283,43 @@ describe('Busca todos os produtos no BD - service' ,() => {
 });
 
 // getById Product
+
+describe('Testando a função `getById` do model ProductModel', () => {
+
+});
+
+
+//   it('o objeto retornado possui as keys `code` e `message`', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err } = response;
+
+  //     expect(err).to.include.all.keys('_id', 'code', 'message');
+  //   });
+
+  //   it('a key `code` do objeto retornado é uma string', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err: { code } } = response;
+
+  //     expect(code).to.be.a('string');
+  //   });
+
+  //   it('a `string` da key `code` é `invalid_data`', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err: { code } } = response;
+
+  //     expect(code).to.equal('invalid_data');
+  //   });
+
+  //   it('a key `message` do objeto retornado é uma string', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err: { message } } = response;
+
+  //     expect(code).to.be.a('string');
+  //   });
+
+  //   it('a string da key `message` é `Wrong id format`', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err: { message } } = response;
+
+  //     expect(message).to.equal('Wrong id format');
+  //   });
