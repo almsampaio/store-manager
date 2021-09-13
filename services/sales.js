@@ -1,6 +1,11 @@
-// const salesModel = require('../models/sales');
+const salesModel = require('../models/sales');
 // const { builtError } = require('./products');
 
-module.exports = {
+const addNew = async (payload) => {
+  const results = await salesModel.salesCrud('addNew', payload);
+  return results;
+};
 
+module.exports = {
+  addNew,
 };

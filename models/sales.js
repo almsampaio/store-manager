@@ -6,7 +6,7 @@ const salesCrud = async (operation, payload) => {
     .then((db) => db.collection('sales'));
 
   if (operation === 'addNew') {
-    const result = await salesCollection.insertMany(payload);
+    const result = await salesCollection.insertOne(payload);
     return { _id: result.insertedId, itensSold: payload };
   }
 };
