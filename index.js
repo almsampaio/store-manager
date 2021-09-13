@@ -1,7 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productController = require('./controllers/productController');
-const { validateName, validateQuantity } = require('./middlewares/productsMiddlewares');
+const {
+  validateName,
+  validateQuantity,
+} = require('./middlewares/productsMiddlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,6 +15,8 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', validateName, validateQuantity, productController.create);
+app.get('/products', productController.getAll);
+app.get('/products/:id', productController.getById);
 
 app.listen(3000, () => {
   console.log('#vqv app rodando na 3000');
