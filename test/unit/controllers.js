@@ -208,16 +208,22 @@ describe.only('Testando a função `getById` do controller ProductController', (
       ProductService.getById.restore();
     });
 
-    it('é chamado o método `status` passando 442 com o parâmetro', async () => {
+    it('é chamado o método `status` passando 422 com o parâmetro', async () => {
       await ProductController.getById(request, response);
 
-      expect(response.status.calledWith(442)).to.be.equal(true);
+      expect(response.status.calledWith(422)).to.be.equal(true);
     });
 
     it('é chamado o método `json` passando um objeto',async () => {
       await ProductController.getById(request, response);
 
       expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+
+    it('o objeto passado como parâmetro para o método `json` possui as keys `message` e `code`',async () => {
+      await ProductController.getById(request, response);
+
+      expect(response.json.calledWith(ProductServicePayload)).to.be.equal(true);
     });
   });
 
@@ -226,7 +232,7 @@ describe.only('Testando a função `getById` do controller ProductController', (
     const request = {};
 
     const ProductServicePayload = {
-      id: '604cb554311d68f491ba5781',
+      _id: '604cb554311d68f491ba5781',
       name: 'Example Product',
       quantity: 1,
     }
@@ -259,6 +265,12 @@ describe.only('Testando a função `getById` do controller ProductController', (
       await ProductController.getById(request, response);
 
       expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+
+    it('o objeto passado como parâmetro para o método json possui as keys _id, name e quantity', async () => {
+      await ProductController.getById(request, response);
+
+      expect(response.json.calledWith(ProductServicePayload)).to.be.equal(true);
     });
   });
 });
