@@ -1,4 +1,4 @@
-// const { ObjectId } = require('bson');
+const { ObjectId } = require('bson');
 const mongoConnection = require('./connection');
 
 const create = async (soldItems) => {
@@ -13,23 +13,23 @@ const create = async (soldItems) => {
   };
 };
 
-// const getAll = async () => {
-//   const productCollection = await mongoConnection.getConnection()
-//   .then((db) => db.collection('products'));
+const getAll = async () => {
+  const productCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection('sales'));
 
-//   const response = await productCollection.find().toArray();
+  const response = await productCollection.find().toArray();
 
-//   return response;
-// };
+  return response;
+};
 
-// const getById = async (id) => {
-//   const productCollection = await mongoConnection.getConnection()
-//   .then((db) => db.collection('products'));
+const getById = async (id) => {
+  const productCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection('sales'));
 
-//   const response = await productCollection.find({ _id: new ObjectId(id) }).toArray();
+  const response = await productCollection.find({ _id: new ObjectId(id) }).toArray();
 
-//   return response;
-// };
+  return response;
+};
 
 // const update = async (id, { name, quantity }) => {
 //   const productCollection = await mongoConnection.getConnection()
@@ -54,8 +54,8 @@ const create = async (soldItems) => {
 
 module.exports = {
   create,
-  // getAll,
-  // getById,
+  getAll,
+  getById,
   // update,
   // deleteById,
 };

@@ -2,16 +2,6 @@ const salesModel = require('../models/salesModel');
 // const productModel = require('../models/productModel');
 const productSchema = require('../schema/productSchema');
 
-// const findById = async (id) => {
-//  const idExists = productSchema.validateId(id);
-//   if (idExists === true) {
-//     const response = await productModel.getById(id);
-//     if (response.length === 0) return ({ code: 'invalid_data', message: 'Wrong id format' });
-//     return response[0];
-//   }
-//   return (idExists);
-// };
-
 // const checkQuantity = async (productId, quantity) => {
 //   const findById = await productModel.getById(productId);
 //   if (findById[0].quantity < quantity) {
@@ -30,6 +20,16 @@ const createSale = async (soldItems) => {
 if (errorLog !== undefined) return (errorLog);
 const response = await salesModel.create(soldItems);
 return { _id: response.id, itensSold: soldItems };
+};
+
+const findById = async (id) => {
+ const idExists = productSchema.validateId(id);
+  if (idExists === true) {
+    const response = await salesModel.getById(id);
+    if (response.length === 0) return ({ code: 'not_found', message: 'sale not found' });
+    return response[0];
+  }
+  return ({ code: 'not_found', message: 'sale not found' });
 };
 
 // const updateProduct = async (id, name, quantity) => {
@@ -56,7 +56,7 @@ return { _id: response.id, itensSold: soldItems };
 
 module.exports = {
   createSale,
-  // findById,
+  findById,
   // updateProduct,
   // deleteProduct,
 };
