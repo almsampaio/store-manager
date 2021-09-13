@@ -40,9 +40,20 @@ const updateOne = async (payload, id) => {
   return result.value;
 };
 
+const deleteOne = async (id) => {
+  const salesCollection = await connection.getConnection()
+    .then((db) => db.collection('sales'));
+
+  if (!ObjectID.isValid(id)) return { message: 'id invalido' };
+  const result = await salesCollection.findOneAndDelete({ _id: ObjectID(id) });
+
+  return result.value;
+};
+
 module.exports = {
   addNew,
   getAll,
   getById,
   updateOne,
+  deleteOne,
 };
