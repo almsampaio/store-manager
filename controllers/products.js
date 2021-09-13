@@ -22,8 +22,15 @@ const getProduct = rescue(async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
-  await productsServices.updateService(id, name, quantity);
+  await productsServices.updateProductService(id, name, quantity);
   return res.status(status.status.ok).json({ _id: id, name, quantity });
+};
+
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const findProduct = await productsServices.getProductService(id);
+  await productsServices.deleteProductService(id);
+  return res.status(status.status.ok).json(findProduct);
 };
 
 module.exports = {
@@ -31,4 +38,5 @@ module.exports = {
   getProducts,
   getProduct,
   updateProduct,
+  deleteProduct,
  };

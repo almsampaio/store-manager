@@ -20,9 +20,14 @@ const getProductService = async (id) => {
   return product;
 };
 
-const updateService = async (id, name, quantity) => {
+const updateProductService = async (id, name, quantity) => {
   const update = await productsModels.updateProduct(id, name, quantity);
   return update;
+};
+
+const deleteProductService = async (id) => {
+  const erase = await productsModels.deleteProduct(id);
+  return erase;
 };
 
 module.exports = {
@@ -30,5 +35,6 @@ module.exports = {
   findNameService,
   getProductsService,
   getProductService,
-  updateService,
+  updateProductService,
+  deleteProductService,
 };
