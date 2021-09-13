@@ -23,9 +23,10 @@ const createSale = async (itensSold) => {
 const updateSale = async (id, itensSold) => {
   if (!ObjectID.isValid(id)) return null;
   const db = await connection();
-  const updatedSale = await db.collection('sales')
-  .updateOne({ _id: ObjectID(id) }, { $set: { itensSold } });
-return updatedSale;
+  await db.collection('sales')
+  .updateOne({ _id: ObjectID(id) }, { $set: { itensSold } }, { upsert: true });
+  const updatedSale = await getSaleById(id);
+  return updatedSale;
 };
 
 const deleteSale = async (id) => {

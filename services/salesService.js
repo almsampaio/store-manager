@@ -1,4 +1,5 @@
 const salesModel = require('../models/salesModel');
+const productModel = require('../models/productModel');
 
 const getAllSales = async () => {
   const allSales = await salesModel.getAllSales();
@@ -19,8 +20,22 @@ const ERROR_QUANTITY = {
   },
 };
 
+const PROD_QUANT_ERROR = {
+  err: {
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell',
+  },
+};
+
+const productCheck = async (productId) => {
+  const product = await productModel.getProductById(productId);
+  return (product.quantity);
+};
+
 const createSale = async (itensSold) => {
-  const [{ quantity }] = itensSold;
+  const [{ quantity, productId }] = itensSold;
+  const productQuantity = await productCheck(productId);
+  if (productQuantity < quantity) return { error: PROD_QUANT_ERROR };
   if (quantity < minQuantity) return ERROR_QUANTITY;
   if (typeof (quantity) === 'string') return ERROR_QUANTITY;
 

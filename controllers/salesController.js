@@ -20,7 +20,8 @@ const getSaleById = async (req, res) => {
 
 const createSale = async (req, res) => {
   const itensSold = req.body;
-  const { err, createdSale } = await salesService.createSale(itensSold);
+  const { error, err, createdSale } = await salesService.createSale(itensSold);
+  if (error) return res.status(HTTP_404).json(error);
   if (err) return res.status(HTTP_422).json({ err });
   return res.status(HTTP_200).json(createdSale);
 };
