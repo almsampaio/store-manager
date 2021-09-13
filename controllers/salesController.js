@@ -1,6 +1,6 @@
 const salesService = require('../services/salesService');
 
-const VALID_NAME_STATUS_201 = 201;
+const VALID_NAME_STATUS_200 = 200;
 const INVALID_NAME_STATUS_422 = 422;
 
 const createSale = async (req, res) => {
@@ -12,7 +12,7 @@ const createSale = async (req, res) => {
       return res.status(INVALID_NAME_STATUS_422).json(MESSAGE_ERROR_JSON);
     }
   }
-  return res.status(VALID_NAME_STATUS_201).json(sale);
+  return res.status(VALID_NAME_STATUS_200).json(sale);
  };
 
  module.exports = {

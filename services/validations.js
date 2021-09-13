@@ -70,10 +70,39 @@ function quantityValidationSales(sale) {
   return false;
 }
 
+function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
+  let find = false;
+  arraySaleIdTypeds.forEach((idTyped) => {
+      arrayProductIdDB.forEach((idDB) => {
+        if (idDB === idTyped) find = true;
+      });
+  });
+  return find;
+}
+
+async function productIdValidationSales(sale) {
+  // console.log('entroooooooooooooooooooooou no teste de repetido');
+  const productsDB = await productsModel.getAllProdutcts();
+  const arrayProductIdDB = productsDB.map(({ _id }) => _id.toString());
+  const arraySaleIdTypeds = sale.map(({ productId }) => productId);
+  const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
+  if (!find) {
+    return {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+        status: 422,
+      };
+  }
+  return false;
+}
+
 module.exports = {
   nameLengthValidation,
   isRepeated,
   quantityValidationProducts,
   quantityTypeValidationProducts,
   quantityValidationSales,
+  productIdValidationSales,
 };
