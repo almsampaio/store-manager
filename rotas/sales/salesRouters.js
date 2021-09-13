@@ -5,6 +5,7 @@ const {
   readByAllController,
   readByIdController,
   updateController,
+  deleteController,
 } = require('../../controller/sales/salesController');
 
 const {
@@ -30,5 +31,7 @@ router.put(
   validateQuantitySales,
   updateController,
 );
+
+router.delete('/:id', deleteController);
 
 module.exports = router;

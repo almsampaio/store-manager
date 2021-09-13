@@ -52,9 +52,19 @@ const updateModel = async (id, itensSold) => {
   return result;
 };
 
+const deleteModel = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const db = await connection();
+  await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = { 
   createModel,
   readByAllModel,
   readByIdModel,
   updateModel,
+  deleteModel,
 };

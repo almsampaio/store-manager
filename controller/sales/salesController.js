@@ -9,6 +9,7 @@ const {
   readByAllServices,
   readByIdServices,
   updateServices,
+  deleteServices,
 } = require('../../services/sales/salesServices');
 
 const createController = async (req, res) => {
@@ -61,9 +62,26 @@ const updateController = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(data);
 };
 
+const deleteController = async (req, res) => {
+  const { id } = req.params;
+  const { code, message, deletedData } = await deleteServices(id);
+
+  if (!deletedData) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code,
+        message,
+      },
+    });
+  }
+
+  return res.status(HTTP_OK_STATUS).json(deletedData);
+};
+
 module.exports = { 
   createController,
   readByAllController,
   readByIdController,
   updateController,
+  deleteController,
 };

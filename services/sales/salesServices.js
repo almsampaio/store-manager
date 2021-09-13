@@ -3,6 +3,7 @@ const {
   readByAllModel,
   readByIdModel,
   updateModel,
+  deleteModel,
 } = require('../../model/sales/salesModel');
 
 const createServices = async (products) => {
@@ -44,9 +45,25 @@ const updateServices = async (id, itensSold) => {
   return { data };
 };
 
+const deleteServices = async (id) => {
+  const deletedData = await readByIdModel(id);
+
+  if (!deletedData) {
+    return {
+      code: 'invalid_data',
+      message: 'Wrong sale ID format',
+    };
+  }
+
+  await deleteModel(id);
+
+  return { deletedData };
+};
+
 module.exports = { 
   createServices,
   readByAllServices,
   readByIdServices,
   updateServices,
+  deleteServices,
 };
