@@ -35,6 +35,36 @@ async function getById(id) {
   return saleById;
 }
 
+async function checkProductStock(productId) {
+  const product = await productsModel.getById(productId);
+
+  if (!product) return 0;
+  return product.quantity;
+}
+
+async function saleHasStock(salesList) {
+  const productsStock = await Promise.all(
+    salesList.map((sale) => checkProductStock(sale.productId)),
+  );
+
+  if (!salesList.every((sale, index) => sale.quantity <= productsStock[index])) {
+    return false;
+  }
+  return true;
+}
+
+async function updateStock(salesList) {
+  const hasStock = await saleHasStock(salesList);
+  if (!hasStock) return { code: stockCode, message: stockProblemMsg };
+
+  salesList.forEach(async (sale) => {
+    const { productId, quantity } = sale;
+    const currentStock = await checkProductStock(productId);
+    await productsModel.updateProductQty(productId, (currentStock - quantity));
+  });
+  return {};
+}
+
 async function addSales(salesList) {
   const isSaleQtyValid = await salesList.map((sale) => sale.quantity).every(quantityIsValid);
   if (!isSaleQtyValid) return { code: invalidCode, message: invalidErrorMsg };
