@@ -14,6 +14,11 @@ const findById = async (id) => (
     .then((db) => db.collection(collectionName).findOne(new ObjectId(id)).toArray())
 );
 
+const findByName = async (nameProduct) => (
+  connection()
+    .then((db) => db.collection(collectionName).findOne({ name: { $eq: nameProduct } }).toArray())
+);
+
 const deleteById = async (id) => (
   connection()
     .then((db) => db.collection(collectionName).deleteOne(new ObjectId(id)))
@@ -34,4 +39,4 @@ const update = async (id, name, quantity) => (
     .then(() => ({ _id: id, name, quantity }))
 );
 
-module.exports = { getAll, findById, deleteById, create, update }; 
+module.exports = { getAll, findById, deleteById, create, update, findByName }; 
