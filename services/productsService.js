@@ -73,6 +73,10 @@ const create = async (name, quantity) => {
 };
 
 const update = async (id, name, quantity) => {
+  const infoValidation = checkProductInfo(name, quantity);
+  if (infoValidation.flag) {
+    return { response: infoValidation.errorInfo, status: 422 };
+  }
   const productUpdated = await productsModel.update(id, name, quantity);
   return {
     response: productUpdated,
