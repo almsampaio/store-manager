@@ -51,10 +51,16 @@ const updateById = async (id, itensSold) => {
 };
 
 const deleteById = async (id) => {
-  if (!ObjectID.isValid(id)) {
-    return null;
-  }
+  if (!ObjectID.isValid(id)) return null;
   const db = await connection();
+  const { itensSold } = await db.collection('sales').findOne({ _id: ObjectID(id) });
+  itensSold.forEach(async ({ productId, quantity }) => {
+    await db.collection('products')
+    .findOneAndUpdate({ _id: ObjectID(productId) },
+        { $inc: { quantity } });
+        return db.collection('sales').deleteOne({ _id: ObjectID(id) });
+  });
+  // acesso ao banco products dentro de outra query feito com ajuda da Marília ~Mendonça~ Cegalla
   const sales = await db.collection('sales')
     .deleteOne({ _id: ObjectID(id) });
   return sales;
