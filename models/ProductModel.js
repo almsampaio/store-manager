@@ -1,8 +1,5 @@
 const mongoConnection = require('./connection');
 
-// const productCollection = async () => mongoConnection.getConnection()
-//   .then((db) => db.collection('products'));
-
 const COLLECTION_PRODUCT = 'products';
 
 const isName = async (name) => {
@@ -35,11 +32,6 @@ const getAll = async () => {
 
   return { products };
 };
-
-// console.log(create({ name: 'anderson', quantity: 1 }).then((data) => console.log(data)));
-// console.log(create({ name: 'anderson', quantity: 1 }).then((data) => console.log(data)));
-// console.log(isName('tu').then((data) => console.log(data)));
-// console.log(getAll().then((data) => console.log(data)));
 
 module.exports = {
   create,
