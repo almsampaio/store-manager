@@ -2,11 +2,10 @@ const { ObjectId } = require('mongodb');
 const connection = require('../connection');
 
 const createProductsModel = async (name, quantity) => {
-    const productData = connection()
-        .then((db) => db.collection('products').insertOne({ name, quantity }))
-        .then((result) => result.ops[0]);
+    const db = await connection();
+    const productData = await db.collection('products').insertOne({ name, quantity });
 
-    return productData;
+    return productData.ops[0];
 };
 
 const findProductName = async (name) => {
@@ -34,18 +33,22 @@ const getProductByIdModel = async (id) => {
 };
 
 const updateProductModel = async (id, name, quantity) => {
-    if (!ObjectId.isValid(id)) {
-        return 'ID_NOT_EXISTS';
+    const db = await connection();
+    const getProdutcById = await getProductByIdModel(id);
+    
+    if (getProdutcById === 'ID_NOT_EXISTS') {
+        return getProdutcById;
     }
 
-    const db = await connection();
-    const getId = await getProductByIdModel(id);
-    const updatedProduct = await db.collection('products')
+    const { _id } = getProdutcById;
+
+    const updated = await db.collection('products')
         .updateOne(
-            { id: getId.id }, 
+            { _id }, 
             { $set: { name, quantity } },
         );
-    return updatedProduct;
+    
+    return updated.result;
 };
 
 const deleteProductModel = async (id) => {
