@@ -1,4 +1,5 @@
 const connection = require('./connection');
+
 exports.findByName = async (productName) => {
   const db = await connection();
 
