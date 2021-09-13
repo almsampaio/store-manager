@@ -24,8 +24,14 @@ const getProductById = async (id) => {
   return product;
 };
 
+const updateProduct = async (id, name, quantity) => {
+  const updatedProduct = await productsModels.updateProduct(id, name, quantity);
+  return updatedProduct;
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
 };
