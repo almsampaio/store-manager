@@ -20,9 +20,15 @@ const getProductService = async (id) => {
   return product;
 };
 
+const updateService = async (id, name, quantity) => {
+  const update = await productsModels.updateProduct(id, name, quantity);
+  return update;
+};
+
 module.exports = {
   createService,
   findNameService,
   getProductsService,
   getProductService,
+  updateService,
 };

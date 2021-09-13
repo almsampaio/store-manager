@@ -5,13 +5,18 @@ const { message, status, code } = require('../schema');
 const checkProductName = rescue(async (req, res, next) => {
   const { name } = req.body;
   const MIN_LENGTH = 5;
-  const findName = await productsServices.findNameService(name);
 
   if (name.length < MIN_LENGTH) {
     return res.status(status.status.unprocessable).json({
       err: { code: code.code.invalidData, message: message.message.nameShort },
     });
   }
+  next();
+});
+
+const checkProductExist = rescue(async (req, res, next) => {
+  const { name } = req.body;
+  const findName = await productsServices.findNameService(name);
 
   if (findName) {
     return res.status(status.status.unprocessable).json({
@@ -32,6 +37,12 @@ const checkProductQuantity = rescue((req, res, next) => {
     });
   }
 
+  next();
+});
+
+const checkTypeQuantity = rescue((req, res, next) => {
+  const { quantity } = req.body;
+  
   if (typeof quantity === 'string') {
     return res.status(status.status.unprocessable).json({
       err: { code: code.code.invalidData, message: message.message.quantityNotNumber },
@@ -57,6 +68,8 @@ const checkId = rescue(async (req, res, next) => {
 
 module.exports = {
   checkProductName,
+  checkProductExist,
   checkProductQuantity,
+  checkTypeQuantity,
   checkId,
 };
