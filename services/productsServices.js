@@ -13,9 +13,6 @@ const createProduct = async ({ name, quantity }) => {
 
 const getAllProducts = async () => {
   const products = await productsModels.getAllProducts();
-
-  if (!products) return { code: 'invalid_data', type: 422, message: 'Wrong id format' };
-
   return products;
 };
 
