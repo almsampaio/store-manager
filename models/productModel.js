@@ -50,6 +50,8 @@ const deleteById = async (id) => {
 
   const response = await productCollection.deleteOne({ _id: new ObjectId(id) });
 
+  console.log(response);
+
   return response;
 };
 
