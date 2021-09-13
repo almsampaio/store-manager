@@ -34,10 +34,16 @@ const updateProductById = async (id, name, quantity) => {
       return updateProduct.value;
 };
 
+const deleteProductByID = async (id) => {
+    const db = await connection.mongoDB();
+    await db.collection('products').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = { 
     createNewProduct,
      searchProductByName, 
      getAllProducts, 
      getById,
-     updateProductById, 
+     updateProductById,
+     deleteProductByID,
     };

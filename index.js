@@ -23,6 +23,8 @@ app.get('/products/:id', productsControllers.getById);
 app.put('/products/:id', 
 validateNameProduct, validateQuantityProduct, productsControllers.UpdateProductById);
 
+app.delete('/products/:id', productsControllers.deleteProductById);
+
 const PORT = 3000;
 
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
