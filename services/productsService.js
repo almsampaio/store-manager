@@ -27,4 +27,12 @@ const create = async (name, quantity) => {
   return { products: creatProduct };
 };
 
-module.exports = { getAll, getById, create };
+const update = async (id, name, quantity) => {
+  const validations = schemas.validateProduct(name, quantity);
+  if (validations.message) return { err: validations };
+
+  const updateProduct = await productsModel.update(id, name, quantity);
+  return { product: updateProduct };
+};
+
+module.exports = { getAll, getById, create, update };

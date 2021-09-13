@@ -18,6 +18,8 @@ app.get('/products/:id', productsController.getById);
 
 app.post('/products', productsController.create);
 
+app.put('/products/:id', productsController.update);
+
 app.listen(PORT, () => {
   console.log('Aplicação tá on');
 });
