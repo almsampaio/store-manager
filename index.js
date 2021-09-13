@@ -15,4 +15,6 @@ app.post('/products', productsController.createProduct);
 
 app.get('/products', productsController.getProducts);
 
+app.get('/products/:_id', productsController.getPtoductsById);
+
 app.listen(3000, console.log(`aplicação rodando na porta ${3000}`));
