@@ -36,8 +36,6 @@ const updateProduct = async (req, res) => {
 
   const { errorMessage, updatedProduct } = await productsServices.update(id, name, quantity);
 
-  // const errorMessage = await productsServices.update(id, name, quantity);
-
   if (errorMessage) {
     return res.status(httpStatus.invalidData).json(errorMessage);
   }
@@ -45,9 +43,22 @@ const updateProduct = async (req, res) => {
   return res.status(httpStatus.ok).json(updatedProduct);
 };
 
+const excludeProduct = async (req, res) => {
+  const { id } = req.params;
+
+  const { errorMessage, deletedproduct } = await productsServices.exclude(id);
+
+  if (errorMessage) {
+    return res.status(httpStatus.invalidData).json(errorMessage);
+  }
+
+  return res.status(httpStatus.ok).json(deletedproduct);
+};
+
 module.exports = {
   getAll,
   getById,
   createProduct,
   updateProduct,
+  excludeProduct,
 };
