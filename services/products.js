@@ -34,4 +34,4 @@ const getAllProducts = async () => {
   return products;
 };
 
-module.exports = { insertOne, findProductById };
+module.exports = { insertOne, findProductById, getAllProducts };

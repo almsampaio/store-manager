@@ -1,7 +1,6 @@
 // const { StatusCodes } = require('http-status-codes');
 const productSchema = require('../schemas/products');
 const productService = require('../services/products');
-const statusCodes = require('../utils/httpStatusCodes');
 
 const isValidPayload = (req, _res, next) => {
   const { name, quantity } = req.body;
