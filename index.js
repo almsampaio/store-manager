@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const productRoutes = require('./Routes/products');
+const salesRoutes = require('./Routes/sales');
 const { handleErrors } = require('./middlewares/errors');
 
 const app = express();
@@ -14,6 +15,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productRoutes);
+app.use('/sales', salesRoutes);
 app.use(handleErrors);
 
 const PORT = process.env.PORT || 3000;
