@@ -4,8 +4,9 @@ const salesService = require('../services/salesService');
 // const { validateName, validateQuantity } = require('../middlewares/productMiddleware');
 
 const HTTP_UNPROCESSABLE_ENTITY = 422;
-// const HTTP_OK_STATUS = 200;
-const HTTP_CREATED_STATUS = 201;
+const HTTP_NOT_FOUND = 404;
+const HTTP_OK_STATUS = 200;
+// const HTTP_CREATED_STATUS = 201;
 
 const route = express.Router();
 
@@ -31,19 +32,18 @@ const route = express.Router();
 // });
 
 route.post('/', async (req, res) => {
-  const { name, quantity } = req.body;
-  const response = await salesService.createProducts(name, quantity);
+  const arr = req.body;
+  const response = await salesService.createSale(arr);
 
-  if (response.code) {
+  if (response.code === 'invalid_data') {
     return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
       err: {
         code: response.code,
         message: response.message,
       },
     });
-}
-
-  return res.status(HTTP_CREATED_STATUS).json({ _id: response.id, name, quantity });
+  }
+  return res.status(HTTP_OK_STATUS).json(response);
 });
 
 // route.put('/:id', async (req, res) => {

@@ -1,4 +1,5 @@
-const productModel = require('../models/productModel');
+const salesModel = require('../models/salesModel');
+// const productModel = require('../models/productModel');
 const productSchema = require('../schema/productSchema');
 
 // const findById = async (id) => {
@@ -11,18 +12,24 @@ const productSchema = require('../schema/productSchema');
 //   return (idExists);
 // };
 
-const createProducts = async (name, quantity) => {
-  const isNameValid = productSchema.validateName(name);
-  const isQuantityValid = productSchema.validateQuantity(quantity);
-  if (isNameValid) return ({ code: isNameValid.code, message: isNameValid.message });
-  if (isQuantityValid) return ({ code: isQuantityValid.code, message: isQuantityValid.message });
+// const checkQuantity = async (productId, quantity) => {
+//   const findById = await productModel.getById(productId);
+//   if (findById[0].quantity < quantity) {
+//     return { code: 'stock_problem', message: 'Such amount is not permitted to sell' };
+//   }
+// };
 
-  const data = await productModel.getAll();
-  const alreadyExists = productSchema.findValueInArrayOfObjects(data, name, 'name');
-
-  if (alreadyExists) return ({ code: 'invalid_data', message: 'Product already exists' });
-  const response = await productModel.create({ name, quantity });
-  return response;
+const createSale = async (soldItems) => {
+  let errorLog;
+  soldItems.forEach(({ quantity }) => {
+    const isQuantityValid = productSchema.validateQuantity(quantity);
+    if (isQuantityValid) { 
+      errorLog = { code: isQuantityValid.code, message: 'Wrong product ID or invalid quantity' };
+    }
+  });
+if (errorLog !== undefined) return (errorLog);
+const response = await salesModel.create(soldItems);
+return { _id: response.id, itensSold: soldItems };
 };
 
 // const updateProduct = async (id, name, quantity) => {
@@ -48,7 +55,7 @@ const createProducts = async (name, quantity) => {
 // };
 
 module.exports = {
-  createProducts,
+  createSale,
   // findById,
   // updateProduct,
   // deleteProduct,

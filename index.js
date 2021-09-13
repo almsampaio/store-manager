@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productsRoute = require('./controllers/productController');
-// const salesRoute = require('./controllers/salesController');
+const salesRoute = require('./controllers/salesController');
 
 const app = express();
 app.use(express.json());
@@ -14,7 +14,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productsRoute);
-// app.use('/sales', salesRoute);
+app.use('/sales', salesRoute);
 
 app.listen(3000, () => {
   console.log('App listening on port 3000!');

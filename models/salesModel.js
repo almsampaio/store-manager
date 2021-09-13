@@ -1,12 +1,12 @@
 // const { ObjectId } = require('bson');
 const mongoConnection = require('./connection');
 
-const create = async ({ name, quantity }) => {
+const create = async (soldItems) => {
   const productCollection = await mongoConnection.getConnection()
-    .then((db) => db.collection('products'));
+    .then((db) => db.collection('sales'));
 
   const { insertedId: id } = await productCollection
-    .insertOne({ name, quantity });
+    .insertOne({ itensSold: soldItems });
 
   return {
     id,
