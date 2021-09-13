@@ -1,4 +1,3 @@
-const { response } = require('express');
 const ProductsModel = require('../models/ProductsModel');
 
 const errors = {
@@ -10,43 +9,47 @@ const errors = {
 };
 
 const isLengthLetterThan = (value, min) => (value.length < min);
-const isExist = async (value) => {
-  const product = await ProductsModel.getAll().findOne(value);
-  if (product) return true;
-};
-const isNumberGreaterThan = (value, min) => (value < min);
+const isGreaterThan = (value, min) => (value < min);
 const typeOf = (value) => (typeof value === 'string');
 
+// >>>>>>>>>>   CORRIGIR MESSAGEM DE ERRO PARA TODOS!!!   <<<<<<<<<
+
 const validatePost = (name, quantity) => {
-  const code = 'invalid_data';
+  const code = 422;
   switch (true) {
-    case isLengthLetterThan(name, 5): return { err: { code, message: errors.name_lenght } };
-    case isExist(name): return { err: { code, message: errors.name_already_exists } };
-    case isNumberGreaterThan(quantity, 1): return { err: { code, message: errors.quantity_amount } };
-    case typeOf(quantity): return { err: { code, message: errors.typeof_quantity } };
+    case isLengthLetterThan(name, 5): return { code, message: errors.name_length };
+
+    // VERIFICAR SE O NOME JÁ EXISTE!!
+
+    case isGreaterThan(quantity, 1): return { code, message: errors.quantity_amount };
+    case typeOf(quantity): return { code, message: errors.typeof_quantity };
     default: return {};
   }
 };
 
-const validateGetById = (id) => {
-  const code = 'invalid_data';
+const validateGet = async (id) => {
+  const code = 422;
   const product = await ProductsModel.getById(id);
-  if (!product) return { err: { code, message: errors.invalid_product } };
+
+  // VERIFICAR SE O ID JÁ EXISTE
+  
+  if (!product) return { code, message: errors.invalid_product };
   return {};
 };
 
+// PUT OK (exceto msg err)
 const validatePut = (name, quantity) => {
-  const code = 'invalid_data';
+  const code = 422;
   switch (true) {
-    case isLengthLetterThan(name, 5): return { err: { code, message: errors.name_lenght } };
-    case isNumberGreaterThan(quantity, 1): return { err: { code, message: errors.quantity_amount } };
-    case typeOf(quantity): return { err: { code, message: errors.typeof_quantity } };
+    case isLengthLetterThan(name, 5): return { code, message: errors.name_length };
+    case isGreaterThan(quantity, 1): return { code, message: errors.quantity_amount };
+    case typeOf(quantity): return { code, message: errors.typeof_quantity };
     default: return {};
   }
 };
 
 module.exports = {
   validatePost,
-  validateGetById,
+  validateGet,
   validatePut,
 };

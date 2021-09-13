@@ -21,6 +21,6 @@ app.get('/products/:id', ProductsController.getById);
 app.put('/products/:id', ProductsController.update);
 
 // deletar produto /products/:id
-// app.delete('/products/:id', null);
+app.delete('/products/:id', ProductsController.exclude);
 
 app.listen(3000, () => console.log('WoPhi!'));
