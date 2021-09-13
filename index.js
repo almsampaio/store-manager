@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParse = require('body-parser');
-const productController = require('./controllers/productController');
+const productsController = require('./controllers/productsController');
 
 const app = express();
 app.use(bodyParse.json());
@@ -12,9 +12,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/products', productController.getAll);
+app.get('/products', productsController.getAll);
 
-app.post('/products', productController.create);
+app.post('/products', productsController.create);
 
 app.listen(PORT, () => {
   console.log('Aplicação tá on');
