@@ -1,6 +1,7 @@
 // const { StatusCodes } = require('http-status-codes');
 const productSchema = require('../schemas/products');
 const productModel = require('../models/products');
+const statusCodes = require('../utils/httpStatusCodes');
 
 const isValidPayload = (req, _res, next) => {
   const { name, quantity } = req.body;
@@ -13,7 +14,19 @@ const isValidPayload = (req, _res, next) => {
 
 const existId = (req, _res, next) => {
   const { id } = req.params;
-  productModel.existsProduct;
+  const product = productModel.findProductById(id);
+  if (!product) {
+    const error = {
+      err: {
+        statusCode: statusCodes.invalidData,
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+    return next(error);
+  }
+
+  return next();
 };
 
 module.exports = isValidPayload;
