@@ -94,3 +94,6 @@ module.exports = {
   update,
   exclude,
 };
+
+// Source - sobre findOneAndUpdate:
+// https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndUpdate/
