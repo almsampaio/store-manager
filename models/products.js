@@ -46,10 +46,19 @@ const updateOne = async (name, quantity) => {
   return result;
 };
 
+const excludeOne = async (name) => {
+  const productsCollection = await connection.getConnection()
+    .then((db) => db.collection('products'));
+
+  const result = await productsCollection.findOneAndDelete({ name });
+  return result;
+};
+
 module.exports = {
   addNew,
   getByName,
   getById,
   getAll,
   updateOne,
+  excludeOne,
 };
