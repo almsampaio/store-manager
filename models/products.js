@@ -61,6 +61,20 @@ const deleteById = async (id) => {
   return value;
 };
 
+const updateSoldProduct = async (id, quantity) => {
+  if (!ObjectId.isValid(id)) return null;
+  
+  const productsCollection = await accessProducts();
+
+  const result = await productsCollection.findOneAndUpdate(
+    { _id: ObjectId(id), quantity: { $gte: quantity } },
+    { $inc: { quantity } },
+    { returnOriginal: false },
+  );
+
+  return result;
+};
+
 module.exports = {
   createProduct,
   getProductByName,
@@ -68,4 +82,5 @@ module.exports = {
   getProducts,
   updateProduct,
   deleteById,
+  updateSoldProduct,
 };

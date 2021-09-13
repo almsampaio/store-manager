@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const salesModel = require('../models/sales');
+const productsModel = require('../models/products');
 
 const INVALID_PRODUCT_DATA = {
   err: {
@@ -38,6 +39,12 @@ const createSales = async (itensSold) => {
 
   const [result] = await salesModel.createSales(value);
 
+  const { itensSold: products } = result;
+
+  products.forEach(
+    ({ productId, quantity }) => productsModel.updateSoldProduct(productId, -quantity),
+  );
+
   return { result };
 };
 
@@ -71,6 +78,12 @@ const deleteSale = async (id) => {
   const result = await salesModel.deleteSale(id);
 
   if (!result) return { error: INVALID_SALE_DATA };
+
+  const { itensSold: products } = result;
+
+  products.forEach(
+    ({ productId, quantity }) => productsModel.updateSoldProduct(productId, quantity),
+  );
 
   return { result };
 };
