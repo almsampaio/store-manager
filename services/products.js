@@ -15,11 +15,10 @@ const insertOne = async (name, quantity) => {
   return productModel.insertNewProduct(name, quantity);
 };
 
-const findProductById = async (id) => {
-  const product = await productModel.findProductById(id);
-  return product;
-};
+const findProductById = async (id) => productModel.findProductById(id);
 
 const getAllProducts = async () => productModel.getAllProducts();
 
-module.exports = { insertOne, findProductById, getAllProducts };
+const updateOne = async (id) => productModel.updateProductById(id);
+
+module.exports = { insertOne, findProductById, getAllProducts, updateOne };
