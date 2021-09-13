@@ -44,9 +44,20 @@ const update = async (id, name, quantity) => {
     return updatedProduct;
 };
 
+const remove = async (id) => {
+    const productId = await productSchema.validateProductDoesntExistId(id);
+
+    if (productId) { return productId; }
+
+   const removedProduct = await productsModel.remove(id);
+
+   return removedProduct;
+};
+
 module.exports = {
     create,
     getById,
     getAll,
     update,
+    remove,
 };
