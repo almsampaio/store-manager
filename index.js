@@ -24,7 +24,7 @@ app.get('/products', Products.findAllProducts);
 app.get('/products/:id', Products.findProductById);
 
 app.put('/products/:id', [
-  Validation.nameValidation, 
-  Validation.quantityValidation, 
+  Validation.nameValidation,
+  Validation.quantityValidation,
   Products.updateProduct,
   ]);
