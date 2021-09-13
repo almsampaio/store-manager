@@ -1,7 +1,7 @@
 // não remova esse endpoint, e para o avaliador funcionar
 const express = require('express');
 const bodyParser = require('body-parser');
-const productRoutes = require('./controller/products/ProductsController');
+const productRoutes = require('./routes/ProductsRouter');
 
 const PORT = 3000;
 

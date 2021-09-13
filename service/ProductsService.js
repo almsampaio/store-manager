@@ -13,4 +13,14 @@ const createProductService = async (name, quantity) => {
     return result;
 }; 
 
-module.exports = createProductService;
+const getAllProductsService = async () => {
+    // proxy
+
+    const products = await ProductsModel.getAllProductsModel();
+    return products;
+};
+
+module.exports = {
+    createProductService,
+    getAllProductsService,
+};

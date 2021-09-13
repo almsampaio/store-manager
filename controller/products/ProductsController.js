@@ -1,11 +1,11 @@
-const createProductService = require('../../service/ProductsService');
+const productsService = require('../../service/ProductsService');
 
 const PROD_ERR_STATUS_MESSAGE = require('../../util/ProdStatusMessages');
 
 const createProductController = async (req, res) => {
     const { name, quantity } = req.body;
 
-    const product = await createProductService(name, quantity);
+    const product = await productsService.createProductService(name, quantity);
     
     switch (product) {
         case 'ERR_PROD_NAME_LENGTH': 
@@ -21,4 +21,17 @@ const createProductController = async (req, res) => {
     }    
 };
 
-module.exports = createProductController;
+const getAllProductsController = async (_req, res) => {
+    const products = await productsService.getAllProductsService();
+    
+    
+    return res.status(200).json(products);
+};
+
+// const getProductByIdController = async (_req, res) => {};
+
+module.exports = {
+    createProductController,
+    getAllProductsController,
+    // getProductByIdController,
+};
