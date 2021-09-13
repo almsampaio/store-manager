@@ -10,7 +10,7 @@ const salesCrud = async (operation, payload) => {
     return { _id: result.insertedId, itensSold: payload };
   }
   if (operation === 'getAll') {
-    const result = await salesCollection.findOne().toArray();
+    const result = await salesCollection.find().toArray();
     return { sales: result };
   }
   if (operation === 'getById') {

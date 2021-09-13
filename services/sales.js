@@ -10,7 +10,7 @@ const get = async (payload, id) => {
   let operation = 'getAll';
   if (id) operation = 'getById';
   const result = await salesModel.salesCrud(operation, payload);
-  return result.itensSold && !result.message
+  return !result.message && (result.sales.length || result.itensSold)
     ? result
     : builtError(404, 'not_found', 'Sale not found');
 };
