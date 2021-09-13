@@ -18,6 +18,12 @@ const create = async (name, quantity) => {
   return { product };
 };
 
+const getAll = async () => {
+  const products = productsModel.getAll();
+  return products;
+};
+
 module.exports = {
   create,
+  getAll,
 };
