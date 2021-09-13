@@ -44,4 +44,14 @@ const update = async (req, res) => {
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
 
-module.exports = { create, getByID, getAll, update };
+const exclude = async (req, res) => {
+  const { id } = req.params;
+
+  const result = await saleService.exclude(id);
+
+  const code = result.err ? UNPROCESSABLE_ENTITY : OK;
+
+  return res.status(code).json(result);
+};
+
+module.exports = { create, getByID, getAll, update, exclude };

@@ -7,8 +7,8 @@ const PRODUCTS_COLLECTION = 'products';
 
 const create = async ({ name, quantity }) => {
   const connection = await getConnection();
-
   const exists = await connection.collection(PRODUCTS_COLLECTION).findOne({ name });
+
   if (exists) return null;
 
   const insertedProduct = await connection.collection('products')

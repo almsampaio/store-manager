@@ -1,10 +1,10 @@
 const saleModel = require('../models/saleModel');
 
 const error = {
-  wrongIdOrQuantity: {
+  wrongId: {
     err: {
       code: 'invalid_data',
-      message: 'Wrong product ID or invalid quantity',
+      message: 'Wrong sale ID format',
     },
   },
   saleNotFound: {
@@ -38,7 +38,15 @@ const getAll = async () => saleModel.getAll();
 const update = async (id, sale) => {
   const result = await saleModel.update(id, sale);
 
-  return result || error.wrongIdOrQuantity;
+  return result || error.wrongId;
 };
 
-module.exports = { create, getByID, getAll, update };
+// ----------------------------------------------------- || ----------------------------------------------------- //
+
+const exclude = async (id) => {
+  const result = await saleModel.exclude(id);
+
+  return result || error.wrongId;
+};
+
+module.exports = { create, getByID, getAll, update, exclude };

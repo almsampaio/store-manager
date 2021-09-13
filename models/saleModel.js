@@ -56,4 +56,16 @@ const update = async (id, sale) => {
   return result.value;
 };
 
-module.exports = { create, getByID, getAll, update };
+const exclude = async (id) => {
+  if (!isValidID(id)) return null;
+
+  const filter = { _id: ObjectId(id) };
+
+  const db = await getConnection();
+
+  const result = await db.collection(SALES_COLLECTION).findOneAndDelete(filter);
+
+  return result.ok ? result.value : null;
+};
+
+module.exports = { create, getByID, getAll, update, exclude };

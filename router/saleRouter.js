@@ -19,6 +19,8 @@ router.put('/:id', [
   saleController.update,
 ]);
 
+router.delete('/:id', saleController.exclude);
+
 router.use((_err, _req, res, _next) => {
   const error = {
     err: {
