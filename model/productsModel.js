@@ -26,4 +26,15 @@ const getPtoductsById = async (_id) => {
   return findById;
 };
 
-module.exports = { createProduct, getProducts, existsNameProduct, getPtoductsById };
+const editProduct = async (_id, name, quantity) => {
+  if (!ObjectId.isValid(_id)) return null;
+  const db = await connection();
+  const edit = db.collection('products').updateMany(
+    {
+      _id: ObjectId(_id) }, 
+    { $set: { name, quantity } },
+  );
+  return edit;
+};
+
+module.exports = { createProduct, getProducts, existsNameProduct, getPtoductsById, editProduct };

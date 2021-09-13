@@ -19,4 +19,12 @@ const getPtoductsById = async (req, res) => {
   return res.status(200).json(productId);
 };
 
-module.exports = { createProduct, getProducts, getPtoductsById };
+const editProduct = async (req, res) => {
+  const { _id } = req.params;
+  const { name, quantity } = req.body;
+  const edit = await productsService.editProduct(_id, name, quantity);
+  if (edit.err) return res.status(422).json(edit);
+  return res.status(200).json({ _id, name, quantity });
+};
+
+module.exports = { createProduct, getProducts, getPtoductsById, editProduct };

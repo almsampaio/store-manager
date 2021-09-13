@@ -69,4 +69,19 @@ const getPtoductsById = async (_id) => {
   return findId;
 };
 
-module.exports = { createProduct, getProducts, getPtoductsById };
+const editProduct = async (_id, name, quantity) => {
+  if (!name || name.length < 5) { 
+    return {
+      err: {
+        code: 'invalid_data', 
+        message: '"name" length must be at least 5 characters long',
+      }, 
+    };
+}
+  const validateQuantidade = await validateQuantity(quantity);
+  if (validateQuantidade.err) return validateQuantidade;
+  await productsModel.editProduct(_id, name, quantity);
+  return (_id, name, quantity);
+};
+
+module.exports = { createProduct, getProducts, getPtoductsById, editProduct };
