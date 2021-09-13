@@ -19,7 +19,6 @@ const findOneByName = async ({ name }) => {
     .then((db) => db.collection('products'));
 
   const productFound = await productsCollection.findOne(name);
-  console.log(productFound);
   return productFound;
 };
 
