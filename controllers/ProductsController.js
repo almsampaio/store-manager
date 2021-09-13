@@ -1,6 +1,7 @@
 const productService = require('../services/ProductsService');
 
 const HTTP_CREATED_STATUS = 201;
+const HTTP_OK_STATUS = 200;
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
@@ -13,7 +14,7 @@ const create = async (req, res) => {
 const getAll = async (_req, res) => {
   const products = await productService.getAll();
   
-  res.status(200).json(products);
+  res.status(HTTP_OK_STATUS).json(products);
 };
 
 const getById = async (req, res) => {
@@ -22,11 +23,21 @@ const getById = async (req, res) => {
 
   if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
 
-  res.status(200).json(data);
+  res.status(HTTP_OK_STATUS).json(data);
+};
+
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const product = await productService.updateProduct(id, name, quantity);
+
+  res.status(HTTP_OK_STATUS).json(product);
 };
 
 module.exports = {
   create,
   getAll,
   getById,
+  updateProduct,
 };

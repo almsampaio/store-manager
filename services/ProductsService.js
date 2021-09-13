@@ -1,12 +1,15 @@
 const productModel = require('../models/ProductsModel');
 
+const HTTP_CREATED_STATUS = 201;
+const HTTP_UNPROCESSABLE_STATUS = 422;
+
 const create = async (name, quantity) => {
   const findByName = await productModel.getByName(name);
   const createdProduct = await productModel.create(name, quantity);
 
-  if (findByName) return { status: 422, message: 'Product already exists' };
+  if (findByName) return { status: HTTP_UNPROCESSABLE_STATUS, message: 'Product already exists' };
 
-  return { status: 201, data: createdProduct };
+  return { status: HTTP_CREATED_STATUS, data: createdProduct };
 };
 
 const getAll = async () => {
@@ -17,13 +20,19 @@ const getAll = async () => {
 const getById = async (id) => {
   const product = await productModel.getById(id);
 
-  if (!product) return { status: 422, message: 'Wrong id format' };
+  if (!product) return { status: HTTP_UNPROCESSABLE_STATUS, message: 'Wrong id format' };
 
   return { data: product };  
+};
+
+const updateProduct = async (id, name, quantity) => {
+  const product = await productModel.updateProduct(id, name, quantity);
+  return product;
 };
 
 module.exports = {
   create,
   getAll,
   getById,
+  updateProduct,
 };
