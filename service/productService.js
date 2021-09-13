@@ -1,7 +1,7 @@
 const productModel = require('../models/productModel');
 
 const create = async (name, quantity) => {
-  const isExist = await productModel.getByName(name);
+  const isExist = await productModel.getName(name);
   if (isExist !== null) {
     return {
     err: { code: 'invalid_data', message: 'Product already exists' } }; 
@@ -10,6 +10,18 @@ const create = async (name, quantity) => {
   return { data: product };
 };
 
+const getAll = async () => {
+  const products = await productModel.getAll();
+  return products;
+};
+
+const getById = async (id) => {
+  const product = await productModel.getById(id);
+  return product;
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };
