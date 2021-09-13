@@ -32,4 +32,6 @@ app.post('/sales', validateQuantitySales, salesControllers.createNewSales);
 
 app.get('/sales', salesControllers.getAll);
 
+app.get('/sales/:id', salesControllers.getSaleById);
+
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
