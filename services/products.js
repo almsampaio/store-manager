@@ -29,9 +29,6 @@ const getById = async (id) => {
 
 const updateOne = async ({ name, quantity }) => {
   const result = await productModel.updateOne(name, quantity);
-  if (!result.acknowledged) {
-    return builtError(500, 'Internal error', 'Could not process requisition');
-  }
   return { _id: result.upsertedId, name, quantity };
 };
 
