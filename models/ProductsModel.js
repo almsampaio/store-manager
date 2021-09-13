@@ -7,6 +7,12 @@ const create = async (name, quantity) => {
   return { id: product.insertedId, name, quantity };
 };
 
+const findByName = async (name) => {
+  const db = await connect();
+  const product = await db.collection('products').findOne({ name });
+  return product;
+};
+
 const getAll = async () => {
   const db = await connect();
   const products = await db.collection('products').find().toArray();
@@ -39,6 +45,7 @@ const exclude = async (id) => {
 
 module.exports = {
   create,
+  findByName,
   getAll,
   getById,
   update,

@@ -6,12 +6,12 @@ const create = async (name, quantity) => {
   if (validations.message) return validations;
 
   const product = await ProductsModel.create(name, quantity);
-  return { code: 201, product };
+  return { status: 201, product };
 };
 
 const getAll = async () => {
   const products = await ProductsModel.getAll();
-  return { code: 200, products };
+  return { status: 200, products };
 };
 
 const getById = async (id) => {
@@ -19,7 +19,7 @@ const getById = async (id) => {
   if (validations.message) return validations;
 
   const product = await ProductsModel.getById(id);
-  return { code: 200, product };
+  return { status: 200, product };
 };
 
 const update = async (id, name, quantity) => {
@@ -27,7 +27,7 @@ const update = async (id, name, quantity) => {
   if (validations.message) return validations;
 
   const product = await ProductsModel.update(id, name, quantity);
-  return { code: 200, product };
+  return { status: 200, product };
 };
 
 const exclude = async (id) => {
@@ -37,7 +37,7 @@ const exclude = async (id) => {
   const product = await ProductsModel.getById(id);
   await ProductsModel.exclude(id);
 
-  return { code: 200, product };
+  return { status: 200, product };
 };
 
 module.exports = {

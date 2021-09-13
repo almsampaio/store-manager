@@ -7,43 +7,47 @@ const errors = {
   typeof_quantity: '"quantity" must be number',
   invalid_product: 'Wrong id format',
 };
+const status = 422;
+const code = 'invalid_data';
 
 const isLengthLetterThan = (value, min) => (value.length < min);
 const isGreaterThan = (value, min) => (value < min);
 const typeOf = (value) => (typeof value === 'string');
 
-// >>>>>>>>>>   CORRIGIR MESSAGEM DE ERRO PARA TODOS!!!   <<<<<<<<<
+const isExist = async (value) => {
+  console.log(value); // o nome chega
+  const product = await ProductsModel.findByName(value);
+  console.log(product); // está retornando typeOf(FALSE) ou o product que existe
+
+  if (product) return true;
+};
 
 const validatePost = (name, quantity) => {
-  const code = 422;
   switch (true) {
-    case isLengthLetterThan(name, 5): return { code, message: errors.name_length };
+    case isLengthLetterThan(name, 5): return { status, code, message: errors.name_length };
 
-    // VERIFICAR SE O NOME JÁ EXISTE!!
+    // VERIFICAR SE O NOME JÁ EXISTE! (o nome existe mas não retorna o erro)
+    case isExist(name): return { status, code, message: errors.name_already_exists };
 
-    case isGreaterThan(quantity, 1): return { code, message: errors.quantity_amount };
-    case typeOf(quantity): return { code, message: errors.typeof_quantity };
+    case isGreaterThan(quantity, 1): return { status, code, message: errors.quantity_amount };
+    case typeOf(quantity): return { status, code, message: errors.typeof_quantity };
     default: return {};
   }
 };
 
 const validateGet = async (id) => {
-  const code = 422;
   const product = await ProductsModel.getById(id);
 
-  // VERIFICAR SE O ID JÁ EXISTE
+  // VERIFICAR SE O ID JÁ EXISTE (está retornando {} vazia invés do erro)
   
-  if (!product) return { code, message: errors.invalid_product };
-  return {};
+  if (!product) return { status, code, message: errors.invalid_product };
 };
 
-// PUT OK (exceto msg err)
 const validatePut = (name, quantity) => {
-  const code = 422;
   switch (true) {
-    case isLengthLetterThan(name, 5): return { code, message: errors.name_length };
-    case isGreaterThan(quantity, 1): return { code, message: errors.quantity_amount };
-    case typeOf(quantity): return { code, message: errors.typeof_quantity };
+    case isLengthLetterThan(name, 5): return { status, code, message: errors.name_length };
+    case isGreaterThan(quantity, 1): return { status, code, message: errors.quantity_amount };
+    case typeOf(quantity): return { status, code, message: errors.typeof_quantity };
     default: return {};
   }
 };
