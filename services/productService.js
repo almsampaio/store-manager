@@ -73,9 +73,9 @@ function validateName(req, res, next) {
         }
         next();
         }
-// const remove = async (id) => {
-//   await songModel.remove(id);
-// };
+const remove = async (id) => {
+  await productModel.remove(id);
+};
 
 module.exports = {
     register,
@@ -84,5 +84,6 @@ module.exports = {
     getAll,
     getById,
     update,
+    remove,
 
 }; 

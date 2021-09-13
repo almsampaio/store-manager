@@ -13,6 +13,7 @@ app.post('/products', validateName, validateQuantity, productController.register
 app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getById);
 app.put('/products/:id', validateName, validateQuantity, productController.update);
+app.delete('/products/:id', productController.remove);
 
 app.listen(PORT, () => {
   console.log('🚀 Segura que nossa app tá rodando!');

@@ -42,19 +42,22 @@ const update = async (req, res) => {
   res.status(200).json(product);
 };
 
-// const remove = async (req, res) => {
-//   const song = await songService.getById(req.params.id);
+const remove = async (req, res) => {
+  const product = await productService.getById(req.params.id);
+  if (!product) {
+ return res.status(HTTP_422)
+  .json({ err: { code: 'invalid_data', message: 'Wrong id format' } }); 
+} 
 
-//   if (!song) return res.status(HTTP_NOT_FOUND_STATUS).json({ message: 'Song not found!' });
+  await productService.remove(req.params.id);
 
-//   await songService.remove(req.params.id);
-
-//   res.status(HTTP_NO_BODY_STATUS).end();
-// };
+  res.status(200).json(product);
+};
 
 module.exports = {
     register,
     getAll,
     getById,
     update,
+    remove,
 }; 
