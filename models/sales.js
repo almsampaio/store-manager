@@ -35,8 +35,9 @@ const updateOne = async (payload, id) => {
   const result = await salesCollection.findOneAndUpdate(
     { _id: ObjectID(id) },
     { $set: { itensSold: payload } },
+    { returnDocument: 'after' },
   );
-  return result;
+  return result.value;
 };
 
 module.exports = {

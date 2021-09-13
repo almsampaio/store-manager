@@ -20,8 +20,16 @@ const getById = async (id) => {
     : builtError(404, 'not_found', 'Sale not found');
 };
 
+const updateOne = async (payload, id) => {
+  const result = await salesModel.updateOne(payload, id);
+  return result.itensSold
+    ? result
+    : builtError(404, 'not_found', 'Sale not found');
+};
+
 module.exports = {
   addNew,
   getAll,
   getById,
+  updateOne,
 };

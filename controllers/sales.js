@@ -16,8 +16,16 @@ const getAll = async (req, res, next) => {
   return result.message ? next(result) : res.status(200).json(result);
 };
 
+const updateOne = async (req, res, next) => {
+  const { id } = req.params;
+  const payload = req.body;
+  const result = await salesService.updateOne(payload, id);
+  return result.message ? next(result) : res.status(200).json(result);
+};
+
 module.exports = {
   addNew,
   getById,
   getAll,
+  updateOne,
 };
