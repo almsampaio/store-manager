@@ -30,6 +30,10 @@ describe('Ao chamar o controller de create - controller', () => {
       .resolves(err);
     });
 
+    after(() => {
+      ProductService.create.restore();
+    });
+
     it('é chamado o status com o código 422', async () => {
       await ProductController.create(request, response);
 
@@ -64,6 +68,10 @@ describe('Ao chamar o controller de create - controller', () => {
       sinon.stub(ProductService, 'create')
       .resolves({ name: 'Produto Batista',
       quantity: 1 });
+    });
+
+    after(() => {
+      ProductService.create.restore();
     });
 
     it('é chamado o status com o código 201', async () => {
