@@ -7,19 +7,19 @@ const addProduct = async (req, res) => {
   return res.status(newProduct.error).json(newProduct);
 };
 
-// const getProducts = async (req, res) => {
-//   const allProducts = await productModel.getAll();
-//   return res.status(https.HTTP_OK).json({ products: allProducts });
-// };
+const getProducts = async (req, res) => {
+  const allProducts = await ProductService.getAll();
+  return res.status(200).json({ products: allProducts });
+};
 
-// const getProductById = async (req, res) => {
-//   const { id } = req.params;
-//   const product = await productModel.getProductById(id);
-//   if (!product) {
-//  return res.status(422).json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
-// }
-//   return res.status(https.HTTP_OK).json(product);
-// };
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+  const product = await ProductService.getProductById(id);
+  if (!product) {
+ return res.status(422).json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
+}
+  return res.status(200).json(product);
+};
 
 // const updateProductById = async (req, res) => {
 //   const { id } = req.params;
@@ -35,7 +35,7 @@ const addProduct = async (req, res) => {
 
 module.exports = {
   addProduct,
-  // getProducts,
-  // getProductById,
+  getProducts,
+  getProductById,
   // updateProductById,
 };

@@ -1,6 +1,6 @@
 const errors = require('./errors');
 const productModel = require('../models/productModel');
-const https = require('./HttpsStatus');
+// const https = require('./HttpsStatus');
 
 const NAME_LENGTH = 5;
 const INVALID_QUANTITY = 0;
@@ -25,6 +25,18 @@ const checkProduct = async (name, quantity) => {
   return insertedProduct;
 };
 
+const getAll = async () => {
+  const allProducts = await productModel.getAll();
+  return allProducts;
+};
+
+const getProductById = async (id) => {
+  const product = await productModel.getProductById(id);
+  return product;
+};
+
 module.exports = {
   checkProduct,
+  getAll,
+  getProductById,
 };
