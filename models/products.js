@@ -7,10 +7,16 @@ const existsProduct = async (name) => {
   return false;
 };
 
+const findProductById = async (id) => {
+  const db = await connection();
+  const product = await db.collection('products').findOne({ _id: id });
+  return product;
+};
+
 const insertNewProduct = async (name, quantity) => {
   const db = await connection();
   const newProduct = await db.collection('products').insertOne({ name, quantity });
   return ({ _id: newProduct.insertedId, name, quantity });
 };
 
-module.exports = { insertNewProduct, existsProduct };
+module.exports = { insertNewProduct, existsProduct, findProductById };
