@@ -178,3 +178,7 @@ describe('Testando a função getAll do controller ProductController', () => {
 
 // getById Product
 
+describe.only('Testando a função `getById` do service ProductService', () => {
+
+});
+
