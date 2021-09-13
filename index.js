@@ -11,6 +11,7 @@ app.get('/', (_request, response) => {
 });
 
 app.get('/products', productController.listProduct);
+app.get('/products/:id', productController.listProductId);
 app.post('/products', productController.addProduct);
 
 app.listen(3000, () => console.log('Project Store Manager'));

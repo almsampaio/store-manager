@@ -12,7 +12,14 @@ const listProduct = async () => {
   return list; 
 };
 
+const listProductId = async (id) => {
+  const db = await connect();
+  const productId = await db.collection('products').findOne(id);
+  return productId;
+};
+
 module.exports = {
   addProduct,
   listProduct,
+  listProductId,
 };
