@@ -89,7 +89,7 @@ describe.only('Ao chamar o controller de getAll', () => {
     const request = {};
     const response = {};
 
-    before(async () => {
+    before(() => {
       request.body = {};
 
       response.status = sinon.stub().returns(response);
@@ -108,7 +108,7 @@ describe.only('Ao chamar o controller de getAll', () => {
       expect(response.status.calledWith(200).to.be.equal(true));
     });
 
-    it('é chamado o json passando o objeto "product" contendo um array', () => {
+    it('é chamado o json passando o objeto "product" contendo um array', async () => {
       await ProductController.getAll(request, response);
 
       const { products }= response.json;
@@ -116,7 +116,7 @@ describe.only('Ao chamar o controller de getAll', () => {
       expect(products.calledWith(sinon.match.array)).to.be.equal(true);
     });
 
-    it('é chamado o método json passando uma array vazia', () => {
+    it('é chamado o método json passando uma array vazia', async () => {
       await ProductController.getAll(request, response);
 
       const { products }= response.json;
