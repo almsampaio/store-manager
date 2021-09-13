@@ -33,7 +33,7 @@ const getById = async (id) => {
 
 const update = async (id, soldItems) => {
   const productCollection = await mongoConnection.getConnection()
-  .then((db) => db.collection('products'));
+  .then((db) => db.collection('sales'));
 
   const response = await productCollection.updateOne(
     { _id: new ObjectId(id) },
@@ -43,19 +43,19 @@ const update = async (id, soldItems) => {
   return response;
 };
 
-// const deleteById = async (id) => {
-//   const productCollection = await mongoConnection.getConnection()
-//   .then((db) => db.collection('products'));
+const deleteById = async (id) => {
+  const productCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection('sales'));
 
-//   const response = await productCollection.deleteOne({ _id: new ObjectId(id) });
+  const response = await productCollection.deleteOne({ _id: new ObjectId(id) });
 
-//   return response;
-// };
+  return response;
+};
 
 module.exports = {
   create,
   getAll,
   getById,
   update,
-  // deleteById,
+  deleteById,
 };
