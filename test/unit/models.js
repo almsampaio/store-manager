@@ -62,7 +62,7 @@ describe('Insere um novo produto no BD - camada model', () => {
 
 // getAll PRODUCT
 
-describe('Busca todos os produtos no BD', () => {
+describe('Busca todos os produtos no BD - model', () => {
   let connectionMock; 
   const DBServer = new MongoMemoryServer();
   const DB_NAME = 'StoreManager';

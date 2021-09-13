@@ -5,8 +5,10 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const mongoConnection = require('../../models/connection');
 
+const ProductModel = require('../../models/ProductModel');
 const ProductService = require('../../services/ProductService');
 
+// CREATE PRODUCT
 describe('Insere um novo produto no BD - camada services', () => {
   let connectionMock;
 
@@ -202,6 +204,80 @@ describe('Insere um novo produto no BD - camada services', () => {
       const movieCreated = await connectionMock.collection('products').findOne({name: payloadProduct.name, quantity: payloadProduct.quantity});
 
       expect(movieCreated).to.deep.include(payloadProduct);
+    });
+  });
+});
+
+// getAll PRODUCT
+
+describe.only('Busca todos os produtos no BD - service - service' ,() => {
+  describe('quanto não existe nenhum produto cadastrado' ,() => {
+    before(() => {
+      sinon.stub(ProductModel, 'getAll')
+        .resolves({products: []});
+    });
+
+    after(() => {
+      ProductModel.getAll.restore();
+    });
+
+    it('retorna o object "products" contento um array', async () => {
+      const response = await ProductService.getAll();
+      const { products } = response;
+
+      expect(products).to.be.an('array');
+    });
+
+    it('o array está vazio', async () => {
+      const response = await ProductService.getAll();
+      const { products } = response;
+
+      expect(products).to.be.empty;
+    });
+  });
+
+  describe('quanto existem produtos cadastrados' ,() => {
+    before(() => {
+      sinon.stub(ProductModel, 'getAll')
+        .resolves({
+          products: [
+            {
+              _id: '604cb554311d68f491ba5781',
+              name: 'Produto Silva',
+              quantity: 1,
+            }
+          ]
+      })
+    })
+
+    it('retorna o object "products" contento um array', async () => {
+      const response = await ProductService.getAll();
+      const { products } = response;
+
+      expect(products).to.be.an('array');
+    });
+
+    it('o array retornado não está vazio', async () => {
+      const response = await ProductService.getAll();
+      const { products } = response;
+
+      expect(products).to.not.be.empty;
+    });
+
+    it('o array retornado possui dados do tipo objeto', async () => {
+      const response = await ProductService.getAll();
+      const { products } = response;
+      const  [firstProduct] = products;
+
+      expect(firstProduct).to.be.an('object');
+    });
+
+    it('todos os objetos possuem os atributos "id", "name" e "quantity"', async () => {
+      const response = await ProductService.getAll();
+      const { products } = response;
+      const  [firstProduct] = products;
+
+      expect(firstProduct).to.include.all.keys('_id', 'name', 'quantity');
     });
   });
 });

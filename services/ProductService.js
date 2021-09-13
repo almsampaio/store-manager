@@ -15,8 +15,11 @@ const create = async ({ name, quantity }) => {
   return product;
 };
 
+const getAll = async () => {};
+
 module.exports = {
   create,
+  getAll,
 };
 
 // console.log(create({ name: 'thyago 1', quantity: 1 }).then((data) => console.log(data)));
