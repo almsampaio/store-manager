@@ -1,5 +1,6 @@
 const httpStatus = require('../utils/httpStatus');
 const productModel = require('../models/productModel');
+const salesModel = require('../models/salesModel');
 
 const validateName = async (req, res, next) => {
   const { name } = req.body;
@@ -80,6 +81,23 @@ const validateProductIdExists = async (req, res, next) => {
   next();
 };
 
+const validateSaleExists = async (req, res, next) => {
+  const { id } = req.params;
+
+  const saleExists = await salesModel.getById(id);
+
+  if (!saleExists) {
+    return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    });
+  }
+
+  next();
+};
+
 const validateSoldProductQuantity = (req, res, next) => {
   const sales = req.body;
   const ZERO = 0;
@@ -123,4 +141,5 @@ module.exports = {
   validateProductIdExists,
   validateSoldProductQuantity,
   validateItemsSoldArray,
+  validateSaleExists,
 };

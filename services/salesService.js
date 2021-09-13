@@ -36,9 +36,15 @@ const update = async (id, itensSold) => {
   return editSale;
 };
 
+const exclude = async (id) => {
+  const removeSale = await salesModel.exclude(id);
+  return removeSale;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  exclude,
 };
