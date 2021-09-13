@@ -18,8 +18,14 @@ const findProductById = async (id) => {
   return { status: 200, data: productById };
 };
 
+const updateProduct = async (id, data) => {
+  const updatedProduct = await Products.updateProduct(id, data);
+  return { status: 200, data: updatedProduct };
+};
+
 module.exports = {
   create,
   findAllProducts,
   findProductById,
+  updateProduct,
 };
