@@ -50,9 +50,11 @@ const excludeOne = async (id) => {
   const productsCollection = await connection.getConnection()
     .then((db) => db.collection('products'));
 
+  if (!ObjectID.isValid(id)) return { message: 'Wrong id format' };
+
   const result = await productsCollection.findOneAndDelete({ _id: ObjectID(id) });
   console.log(result);
-  return result;
+  return result.value;
 };
 
 module.exports = {

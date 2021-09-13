@@ -34,6 +34,7 @@ const updateOne = async ({ name, quantity }) => {
 
 const excludeOne = async (id) => {
   const result = await productModel.excludeOne(id);
+  if (result.message) return builtError(422, 'invalid_data', result.message);
   return result;
 };
 
