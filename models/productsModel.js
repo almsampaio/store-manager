@@ -30,7 +30,8 @@ const update = async (id, namee, quantityy) => {
   const db = await connection();
   if (!ObjectID.isValid(id)) return false;
   await db.collection('products').updateOne({ _id: ObjectID(id) },
-    { $set: { name: namee, quantity: quantityy } });
+    { $set: { quantity: (50 - quantityy) } });
+  //  { $set: { name: namee, quantity: quantityy } });
   return { _id: id, name: namee, quantity: quantityy };
 };
 

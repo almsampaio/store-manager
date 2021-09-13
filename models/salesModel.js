@@ -13,17 +13,27 @@ const getAll = async () => {
   return result;
 };
 
+// const updateProductQuantity = async (prodId, qtd) => {
+//   const db = await connection();
+//   const { result } = await db.collection('products').updateOne({ _id: ObjectID(prodId) },
+//     { $set: { quantity: ('$quantity' - qtd) } });
+//   console.log(result);
+// }; 
+
 const create = async (sale) => {
   const itens = { itensSold: sale };
+  // const { productId, quantity } = sale;
   const db = await connection();
   const { insertedId } = await db.collection('sales').insertOne(itens);
+  // await updateProductQuantity(productId, quantity);
   return { _id: insertedId, itensSold: sale };
 };
 
 const update = async (id, prodId, qtd) => {
   const db = await connection();
   await db.collection('sales').updateOne({ _id: ObjectID(id) },
-    { $set: { itensSold: [{ productId: prodId, quantity: qtd }] } });
+    { $set: { 'itensSold.$[element].quantity': qtd } },
+    { arrayFilters: [{ 'element.productId': prodId }] });
   const result = await getById(ObjectID(id));
   return result;
 };
