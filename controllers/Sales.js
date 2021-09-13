@@ -25,9 +25,17 @@ const updateSale = async (req, res) => {
   res.status(status).json(data);
 };
 
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const { status, message, deletedSale } = await Sales.deleteSale(id);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
+  res.status(status).json(deletedSale);
+};
+
 module.exports = {
   createSales,
   getAllSales,
   getSalesById,
   updateSale,
+  deleteSale,
 };

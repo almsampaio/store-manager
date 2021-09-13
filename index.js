@@ -39,3 +39,5 @@ app.get('/sales', Sales.getAllSales);
 app.get('/sales/:id', Sales.getSalesById);
 
 app.put('/sales/:id', Validation.salesValidation, Sales.updateSale);
+
+app.delete('/sales/:id', Sales.deleteSale);
