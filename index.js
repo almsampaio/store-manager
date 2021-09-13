@@ -1,8 +1,10 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
 
 dotenv.config();
+
+const productController = require('./controllers/productController');
 
 const app = express();
 
@@ -13,9 +15,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', (_req, _res) => {
-
-});
+app.post('/products', productController.createProduct);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

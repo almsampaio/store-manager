@@ -10,6 +10,7 @@ const OPTIONS = {
 let db = null;
 
 function connection() {
+  console.log(MONGO_DB_URL);
   return db
     ? Promise.resolve(db)
     : mongodb.MongoClient.connect(MONGO_DB_URL, OPTIONS)
