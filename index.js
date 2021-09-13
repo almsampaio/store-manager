@@ -3,8 +3,11 @@ const bodyParser = require('body-parser');
 const productsControllers = require('./controllers/productsControllers');
 const { validateNameProduct,
   validateQuantityProduct } = require('./middlewares/productsMiddlewares');
+const salesControllers = require('./controllers/salesControllers');
+const { validateQuantitySales } = require('./middlewares/salesMiddlewares');
 
 const app = express();
+const PORT = 3000;
 
 app.use(bodyParser.json());
 
@@ -25,6 +28,8 @@ validateNameProduct, validateQuantityProduct, productsControllers.UpdateProductB
 
 app.delete('/products/:id', productsControllers.deleteProductById);
 
-const PORT = 3000;
+app.post('/sales', validateQuantitySales, salesControllers.createNewSales);
+
+app.get('/sales', salesControllers.getAll);
 
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));

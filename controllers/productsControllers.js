@@ -37,18 +37,18 @@ const UpdateProductById = async (req, res) => {
 const deleteProductById = async (req, res) => {
   const { id } = req.params;
   const product = await productsModel.getById(id);
-  if(!product) {
+  if (!product) {
     return res.status(422)
-    .json({err: {code: 'invalid_data', message: 'Wrong id format'}})
+    .json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
   }
   res.status(200).json(product);
   await productsModel.deleteProductByID(id);
-}
+};
 
 module.exports = {
   createNewProduct,
   getAllProducts,
   getById,
   UpdateProductById,
-  deleteProductById
+  deleteProductById,
 };
