@@ -60,22 +60,31 @@ const SALE_INSERT_QUANTITY_ONLY_ONE_POSITION_OK = [
 ]
 const SALE_INSERT_OK = [
   {
-    productId: "5f43ba273200020b101fe49f",
+    productId: "f43ba273200020b101fe49f", // Esse id também é referente a um product existente na coleção ficticia products
     quantity: 2
   }
 ]
 
 const SALE_ALL_TWO_POSITIONS_OK = [
   {
-    productId: "5f43ba273200020b101fe49f",
+    productId: "f43ba273200020b101fe49", // Esse id também é referente a um product existente na coleção ficticia products
     quantity: 2,
   },
 
   {
-    productId: "5f43ba273233320b101fe45d",
+    productId: "5f43ba273233320b101fe45d", // Esse não existe na coleção ficticia products
     quantity: 1
   }
 ]
+
+const SALE_ID_NOT_EXISTS_IN_PRODUCTS = [
+  {
+    productId: "5f43ba273233320b101fe45d", // Esse não existe na coleção ficticia products
+    quantity: 1
+  }
+]
+
+
 
 describe('Testes da camada Service', () => {
 
@@ -220,6 +229,32 @@ describe('Testes da camada Service', () => {
             });
           });
       });
+
+      describe('Valida se o id digitado existe na coleção products', () => {
+        before(async () => {
+          const productAlreadyExists = [{
+            _id: "f43ba273200020b101fe49f",
+            name: "Produto do Batista",
+            quantity: 334
+          }];
+
+          sinon.stub(productsModel, 'getAllProdutcts').resolves(productAlreadyExists);
+        });
+
+        after(async () => {
+          salesModel.createSale.restore();
+        });
+      });
+
+      it('Caso não exista. Deve retornar um objeto com contendo o erro e a mensagem sobre o erro', async () => {
+        const response = await salesService.createSale(SALE_ID_NOT_EXISTS_IN_PRODUCTS);
+        expect(response).to.be.a('object');
+      });
+      it('Testando quantity como string. Deve retornar um objeto com contendo o erro e a mensagem sobre o erro', async () => {
+        const response = await salesService.createSale(SALE_ID_NOT_EXISTS_IN_PRODUCTS);
+        expect(response).to.be.a('object');
+      });
+      
     });
   });
 });

@@ -4,7 +4,7 @@ const { expect } = require('chai');
 const productsController = require('../../controllers/productsController');
 const productsService = require('../../services/productsService');
 
-const salesController = require('../../controllers/sales.Controller');
+const salesController = require('../../controllers/salesController');
 const salesService = require('../../services/salesService');
 
 const ERROR_MESSAGE_INVALID_NAME = {
