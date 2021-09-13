@@ -9,23 +9,17 @@ app.listen(3000, () => {
   console.log('Server rodando na porta 3000');
 });
 
-// ----------------------------------------------------- PRODUCT ----------------------------------------------------- //
+// ---------------------------------------------------- PRODUCTS ---------------------------------------------------- //
 
-const productsRouter = require('./router/productsRouter');
+const productRouter = require('./router/productRouter');
 
-app.use('/products', productsRouter);
+app.use('/products', productRouter);
 
-app.use((err, _req, res, _next) => {
-  const { details } = err;
-  const error = {
-    err: {
-      code: 'invalid_data',
-      message: details[0].message,
-    },
-  };
+// ----------------------------------------------------- SALES ----------------------------------------------------- //
 
-  return res.status(422).json(error);
-});
+const saleRouter = require('./router/saleRouter');
+
+app.use('/sales', saleRouter);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

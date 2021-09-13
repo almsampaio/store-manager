@@ -21,9 +21,7 @@ const error = {
 const create = async (product) => {
   const result = await productModel.create(product);
 
-  if (!result) return error.alreadyExists;
-
-  return result;
+  return result || error.alreadyExists;
 };
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
@@ -31,9 +29,7 @@ const create = async (product) => {
 const getByID = async (id) => {
   const result = await productModel.getByID(id);
 
-  if (!result) return error.invalidID;
-
-  return result;
+  return result || error.invalidID;
 };
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
@@ -45,9 +41,7 @@ const getAll = async () => productModel.getAll();
 const update = async (id, product) => {
   const result = await productModel.update(id, product);
 
-  if (!result) return error.invalidID;
-
-  return result;
+  return result || error.invalidID;
 };
 
 // ----------------------------------------------------- || ----------------------------------------------------- //
@@ -55,9 +49,7 @@ const update = async (id, product) => {
 const exclude = async (id) => {
   const result = await productModel.exclude(id);
 
-  if (!result) return error.invalidID;
-
-  return result;
+  return result || error.invalidID;
 };
 
 module.exports = { create, getAll, getByID, update, exclude };
