@@ -19,7 +19,7 @@ describe('Insere um novo produto no Banco de dados', () => {
       const response = await ProductService.create(produto);
 
       expect(response).to.be.equal({ err: { code: 'invalid_data',
-      message: '"\quantity\" must be a number' } });
+      message: '"\quantity\" must be a integer number' } });
     });
   });
   describe('quando a quantidade eh invalida', () => {
@@ -39,7 +39,7 @@ describe('Insere um novo produto no Banco de dados', () => {
       const response = await ProductService.create(produto);
 
       expect(response).to.be.equal({ err: { code: 'invalid_data',
-      message: '"\quantity\" must be a number' } });
+      message: '"\quantity\" must be a integer number' } });
     });
     it('quando a quantidade eh menor ou igual a 0', async () => {
       const produto = {

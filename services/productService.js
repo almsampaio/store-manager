@@ -23,13 +23,13 @@ const nameIsValid = async (name) => {
 const quantityIsValid = (quantity) => {
   if (!quantity) {
     return { err: { code: 'invalid_data',
-    message: '"\quantity\" must be a number' } };
+    message: '"\quantity\" must be a integer number' } };
   }
   if (!Number.isInteger(quantity)) {
     return { err: { code: 'invalid_data',
-    message: '"\quantity\" must be a number' } };
+    message: '"\quantity\" must be a  integer number' } };
   }
-  if (quantity <= 0) {
+  if (quantity < 1) {
     return { err: { code: 'invalid_data',
     message: '"\quantity\" must be larger than or equal to 1' } };
   }
