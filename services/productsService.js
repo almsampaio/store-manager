@@ -1,15 +1,21 @@
 const productsModel = require('../models/productsModel');
-const task = require('../schemas/validationsSchemas');
+const schemas = require('../schemas/validationsSchemas');
 
 const getAll = async () => {
   const products = await productsModel.getAll();
-
   return products;
 };
 
-const create = async (name, quantity) => {
-  const validations = task.validateProduct(name, quantity);
+const getById = async (id) => {
+  const product = await productsModel.getById(id);
 
+  if (!product) return { err: { code: 'invalid_data', message: 'Wrong id format' } };
+
+  return product;
+};
+
+const create = async (name, quantity) => {
+  const validations = schemas.validateProduct(name, quantity);
   if (validations.message) return { err: validations };
 
   const productName = await productsModel.getName(name);
@@ -21,4 +27,4 @@ const create = async (name, quantity) => {
   return { products: creatProduct };
 };
 
-module.exports = { getAll, create };
+module.exports = { getAll, getById, create };
