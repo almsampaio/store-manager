@@ -9,7 +9,7 @@ const ProductModel = require('../../models/ProductModel');
 const ProductService = require('../../services/ProductService');
 
 // CREATE PRODUCT
-describe('Insere um novo produto no BD - camada services', () => {
+describe('Testando a função `create` do service ProductService', () => {
   let connectionMock;
 
   before(async () => {
@@ -210,7 +210,7 @@ describe('Insere um novo produto no BD - camada services', () => {
 
 // getAll PRODUCT
 
-describe('Busca todos os produtos no BD - service' ,() => {
+describe('Testando a função getAll do service ProductService' ,() => {
   describe('quanto não existe nenhum produto cadastrado' ,() => {
     before(() => {
       sinon.stub(ProductModel, 'getAll')
@@ -284,8 +284,8 @@ describe('Busca todos os produtos no BD - service' ,() => {
 
 // getById Product
 
-describe('Testando a função `getById` do model ProductModel', () => {
-
+describe('Testando a função `getById` do service ProductService', () => {
+  
 });
 
 
