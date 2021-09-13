@@ -1,8 +1,8 @@
 const {
   HTTP_UNPROCESSABLE_ENTITY,
-} = require('../schemas/status');
+} = require('../../schemas/status');
 
-const validateName = (req, res, next) => {
+const validateNameProducts = (req, res, next) => {
   const { name } = req.body;
   const msg = '"name" length must be at least 5 characters long';
 
@@ -18,7 +18,7 @@ const validateName = (req, res, next) => {
   next();
 };
 
-const validateTypeQuantity = (req, res, next) => {
+const validateTypeQuantityProducts = (req, res, next) => {
   const { quantity } = req.body;
   const msg = '"quantity" must be a number';
 
@@ -34,7 +34,7 @@ const validateTypeQuantity = (req, res, next) => {
   next();
 };
 
-const validateQuantity = (req, res, next) => {
+const validateQuantityProducts = (req, res, next) => {
   const { quantity } = req.body;
   const msg = '"quantity" must be larger than or equal to 1';
 
@@ -50,7 +50,7 @@ const validateQuantity = (req, res, next) => {
 };
 
 module.exports = {
-  validateName,
-  validateTypeQuantity,
-  validateQuantity,
+  validateNameProducts,
+  validateTypeQuantityProducts,
+  validateQuantityProducts,
 };

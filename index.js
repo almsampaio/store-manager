@@ -1,9 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productsRouter = require('./rotas/products/productsRouter');
-// const {
-//   HTTP_OK_STATUS,
-// } = require('./schemas/status');
+const salesRouter = require('./rotas/sales/salesRouters');
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,6 +14,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productsRouter);
+app.use('/sales', salesRouter);
 
 app.listen(PORT, () => {
   console.log(`Store Manager On! Ouvindo na porta ${PORT}`);

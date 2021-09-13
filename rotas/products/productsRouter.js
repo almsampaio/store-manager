@@ -8,18 +8,18 @@ const {
 } = require('../../controller/products/productsController');
 
 const {
-  validateName,
-  validateTypeQuantity,
-  validateQuantity,
-} = require('../../middlewares/validates');
+  validateNameProducts,
+  validateTypeQuantityProducts,
+  validateQuantityProducts,
+} = require('../../middlewares/validates/productsValidates');
 
 const router = Router();
 
 router.post(
   '/',
-  validateName,
-  validateTypeQuantity,
-  validateQuantity,
+  validateNameProducts,
+  validateTypeQuantityProducts,
+  validateQuantityProducts,
   createController,
 );
 
@@ -28,9 +28,9 @@ router.get('/:id', readByIdController);
 
 router.put(
   '/:id',
-  validateName,
-  validateTypeQuantity,
-  validateQuantity,
+  validateNameProducts,
+  validateTypeQuantityProducts,
+  validateQuantityProducts,
   updateControler,
 );
 
