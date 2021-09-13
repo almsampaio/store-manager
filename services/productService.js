@@ -52,27 +52,40 @@ function validateName(req, res, next) {
     }
     next();
     }
+    const quantityBiggerThanZero = (quantity) => {
+        if (quantity <= 0) {
+        return true;
+        }
+        return false;
+    };
+
+    const quantityIsNumber = (quantity) => {
+        if (typeof quantity !== 'number') {
+            return true;
+        }
+        return false;
+    };
 
     function validateQuantity(req, res, next) {
         const { quantity } = req.body;
-        if (quantity <= 0) {
-            return res.status(422)
-            .json(
-                { err: 
-                    { code: 'invalid_data',
+         const bigger = quantityBiggerThanZero(quantity);
+         if (bigger === true) {
+            return res.status(422).json(
+                { err: { code: 'invalid_data',
                      message: '"quantity" must be larger than or equal to 1' } },
-    );
-        }
-        if (typeof quantity !== 'number') {
-            return res.status(422)
-            .json(
+            );
+         }
+         const isNumber = quantityIsNumber(quantity);
+         if (isNumber === true) {
+            return res.status(422).json(
                 { err: 
                     { code: 'invalid_data',
                      message: '"quantity" must be a number' } },
-    );
-        }
+    ); 
+}    
         next();
         }
+
 const remove = async (id) => {
   await productModel.remove(id);
 };
@@ -85,5 +98,7 @@ module.exports = {
     getById,
     update,
     remove,
+    quantityBiggerThanZero,
+    quantityIsNumber,
 
 }; 
