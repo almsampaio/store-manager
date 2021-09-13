@@ -20,14 +20,26 @@ const getById = async (id) => {
   return sale;
 };
 
+const updateProductStock = async (productId, quantity) => {
+  const db = await connection();
+  
+  await db.collection('products').findOneAndUpdate({
+    _id: ObjectId(productId) }, { $inc: { quantity: -quantity } });
+};
+
+// const updateProductStockOnSaleDelete = async (productId, quantity) => {
+//   const db = await connection();
+//   await db.collection('products').findOneAndUpdate({
+//     _id: ObjectId(productId) }, { $inc: { quantity: +quantity } });
+// };
+
 const create = async (items) => {
   console.log(items, 'salesModel');
 
   const db = await connection();
   const newSale = await db.collection('sales').insertMany([{ itensSold: items }]);
   items.forEach(async ({ productId, quantity }) => {
-    await db.collection('products').findOneAndUpdate({
-      _id: ObjectId(productId) }, { $inc: { quantity: -quantity } });
+    await updateProductStock(productId, quantity);
   });
 
   return {
@@ -64,9 +76,11 @@ const exclude = async (id) => {
   const db = await connection();
   const { itensSold } = await getById(id);
 
-  itensSold.forEach(({ productId, quantity }) => {
-    updateStock(productId, quantity);
+  itensSold.forEach(async ({ productId, quantity }) => {
+    // updateStock(productId, quantity);
+    await updateStock(productId, quantity);
   });
+
   const removeSale = await db.collection('sales').deleteOne({ _id: ObjectId(id) });
 
   return removeSale;
