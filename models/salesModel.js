@@ -37,12 +37,6 @@ const create = async (items) => {
     _id: Object.values(newSale.insertedIds).toString(),
     itensSold: items,
   };
-  // .then((result) => (
-  //   // result.ops[0]
-  //   { _id: result.insertedId, itensSold: items }
-  // )).catch((err) => console.log(err));
-
-  // return newSale;
 };
 
 module.exports = {
