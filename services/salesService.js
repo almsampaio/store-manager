@@ -9,6 +9,20 @@ const productSchema = require('../schema/productSchema');
 //   }
 // };
 
+const updateProduct = async (id, quantitysold) => {
+  const actual = await productModel.getById(id);
+  const quantity = (actual[0].quantity - quantitysold);
+  const response = await productModel.update(id, { quantity });
+  return response;
+};
+
+const recoveryProduct = async (id, quantitysold) => {
+  const actual = await productModel.getById(id);
+  const quantity = (actual[0].quantity + quantitysold);
+  const response = await productModel.update(id, { quantity });
+  return response;
+};
+
 const createSale = async (soldItems) => {
   const errorLog = await Promise.allSettled( // Lógica de utilizar Promisse.allSettled inspirada pelo código do Rafael medeiros (rafaelmg)
     soldItems.map(async ({ productId, quantity }) => {
@@ -20,6 +34,9 @@ const createSale = async (soldItems) => {
     if (findById[0].quantity < quantity) {
       return { code: 'stock_problem', message: 'Such amount is not permitted to sell' };
     }
+      const updatedProduct = await updateProduct(productId, quantity);
+      console.log(updatedProduct);
+      return undefined;
     }),
   );
   if (errorLog[0].value !== undefined) return (errorLog[0].value);
@@ -57,7 +74,15 @@ const deleteSale = async (id) => {
   const sale = await salesModel.getById(id);
   if (sale.length === 0) return wrongIdFormat;
   const deleted = await salesModel.deleteById(id);
-  if (deleted.result.ok === 1) return { _id: id, itensSold: sale[0].itensSold };
+  if (deleted.result.ok === 1) {
+    const deletedProduct = await Promise.allSettled(
+      sale[0].itensSold.map(async ({ productId, quantity }) => {
+        const recovery = await recoveryProduct(productId, quantity);
+        return recovery;
+    }),
+  );
+    if (deletedProduct) return { _id: id, itensSold: sale[0].itensSold };
+  }
 
   return wrongIdFormat;
 };
