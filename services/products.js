@@ -32,10 +32,16 @@ const updateOne = async ({ name, quantity }) => {
   return { _id: result.upsertedId, name, quantity };
 };
 
+const excludeOne = async (id) => {
+  const result = await productModel.excludeOne(id);
+  return result;
+};
+
 module.exports = {
   addNew,
   builtError,
   getAll,
   getById,
   updateOne,
+  excludeOne,
 };
