@@ -12,12 +12,12 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', productController.addProduct, productController.addOk);
+app.post('/products', productController.addProduct);
 
-app.get('/products', productController.getProducts);
+// app.get('/products/:id', productController.getProductById);
 
-app.get('/products/:id', productController.getProductById);
+// app.get('/products', productController.getProducts);
 
-app.put('/products/:id', productController.addProduct, productController.updateProductById);
+// app.put('/products/:id', productController.addProduct, productController.updateProductById);
 
 app.listen(SERVER_PORT, () => console.log(`Servidor rodando na porta: ${SERVER_PORT}`));
