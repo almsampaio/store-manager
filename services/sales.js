@@ -6,6 +6,14 @@ const addNew = async (payload) => {
   return results;
 };
 
+const get = async (payload, id) => {
+  let operation = 'getAll';
+  if (id) operation = 'getById';
+  const result = await salesModel.salesCrud(operation, payload);
+  return result;
+};
+
 module.exports = {
   addNew,
+  get,
 };
