@@ -14,7 +14,7 @@ const connection = () => (db
     ? Promise.resolve(db)
     : MongoClient.connect(MONGO_DB_URL, OPTIONS)
     .then((conn) => {
-    db = conn.db('store_manager');
+    db = conn.db('StoreManager');
     return db;
     }));
 
