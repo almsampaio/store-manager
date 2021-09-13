@@ -11,7 +11,7 @@ const {
   // HTTP_CREATED_STATUS,
   HTTP_NO_BODY_STATUS,
   // HTTP_401,
-  // HTTP_NOT_FOUND_STATUS,
+  HTTP_NOT_FOUND_STATUS,
 } = require('../helpers/statusCode');
 
 const salesServices = require('../services/salesServices');
@@ -30,6 +30,24 @@ const addSales = rescue(async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(salesList);
 });
 
+const getAllSales = rescue(async (_req, res) => {
+  const allSales = await salesServices.getAllSales();
+  return res.status(HTTP_OK_STATUS).json({ sales: allSales });
+});
+
+const getSalesById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const salesById = await salesServices.getSalesById(id);
+
+  if (salesById.err) {
+    return res.status(HTTP_NOT_FOUND_STATUS).json(salesById);
+  }
+
+  return res.status(HTTP_OK_STATUS).json(salesById);
+});
+
 module.exports = {
   addSales,
+  getAllSales,
+  getSalesById,
 };
