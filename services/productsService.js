@@ -8,15 +8,20 @@ const checkProductInfo = (name, quantity) => {
         message: '"name" length must be at least 5 characters long',
       },
     };
-    testResult.flag = true;
   }
-  if (!Number.isInteger(quantity) || quantity < 1) {
-    testResult.errorInfo = { err: {
+  if (quantity < 1) {
+    testResult.errorInfo = { err: { 
         code: 'invalid_data',
         message: '"quantity" must be larger than or equal to 1',
       },
     };
-    testResult.flag = true;
+  }
+  if (!Number.isInteger(quantity)) {
+    testResult.errorInfo = { err: { 
+        code: 'invalid_data',
+        message: '"quantity" must be a number',
+      },
+    };
   }
   return testResult;
 };
