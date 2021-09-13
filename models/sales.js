@@ -24,6 +24,7 @@ const getById = async (payload) => {
   const { id } = payload;
   if (!ObjectID.isValid(id)) return { message: 'id invalido' };
   const result = await salesCollection.findOne({ _id: ObjectID(id) });
+  if (!result) return { message: 'not found' };
   return result;
 };
 

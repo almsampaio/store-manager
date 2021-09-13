@@ -27,9 +27,17 @@ const updateOne = async (payload, id) => {
     : builtError(404, 'not_found', 'Sale not found');
 };
 
+const deleteOne = async (id) => {
+  const result = await salesModel.deleteOne(id);
+  return result.itensSold
+    ? result
+    : builtError(422, 'invalid_data', 'Wrong sale ID format');
+};
+
 module.exports = {
   addNew,
   getAll,
   getById,
   updateOne,
+  deleteOne,
 };
