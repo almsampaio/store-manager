@@ -23,6 +23,13 @@ const NOT_FOUND = {
   },
 };
 
+const STOCK_PROBLEM = {
+  err: {
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell', 
+  },
+};
+
 const validateSaleObject = Joi.object()
 .keys({
   quantity: Joi.number().integer().min(1).required(),
@@ -32,10 +39,26 @@ const validateSaleObject = Joi.object()
 
 const validateSaleArray = Joi.array().items(validateSaleObject);
 
+const checkStock = async (itensSold) => {
+  const result = itensSold.map(async ({ productId, quantity: soldQuantity }) => {
+    const { quantity } = await productsModel.getProductById(productId);
+  
+    if (quantity < soldQuantity) return true;
+
+    return false;
+  });
+
+  return result.find((item) => item);
+};
+
 const createSales = async (itensSold) => {
   const { error, value } = validateSaleArray.validate(itensSold);
 
   if (error) return { error: INVALID_PRODUCT_DATA };
+
+  const validateStock = await checkStock(value);
+
+  if (validateStock) return { error: STOCK_PROBLEM };
 
   const [result] = await salesModel.createSales(value);
 

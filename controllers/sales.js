@@ -5,6 +5,7 @@ const createSales = async (req, res) => {
 
   const { error, result } = await salesServices.createSales(itensSold);
 
+  if (error && error.err.code === 'stock_problem') return res.status(404).json(error);
   if (error) return res.status(422).json(error);
   
   return res.status(200).json(result);
@@ -20,8 +21,6 @@ const getSalesById = async (req, res) => {
   const { id } = req.params;
 
   const { sales, error } = await salesServices.getSalesById(id);
-
-  console.log('controller', sales);
 
   if (error) return res.status(404).json(error);
 
