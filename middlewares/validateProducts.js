@@ -1,13 +1,13 @@
-// const productModel = require('../models/productModel');
 const schema = require('../validations/validations');
 
-const validationNameAndQuantity = async (req, _res) => {
+const validationNameAndQuantity = async (req, res, next) => {
   const { name, quantity } = req.body;
   const validate = schema.validate({ name, quantity });
-  if (validate.error) return validate.error.details[0].message;
-  return false;
+  if (validate.error) {
+  return res.status(422)
+  .json({ err: { code: 'invalid_data', message: validate.error.details[0].message } }); 
+}
+  next();
 };
 
-module.exports = {
-  validationNameAndQuantity,
-};
+module.exports = validationNameAndQuantity;
