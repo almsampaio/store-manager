@@ -5,6 +5,8 @@ const productsController = require('./controllers/productsController');
 const app = express();
 app.use(bodyParser.json());
 
+app.get('/products', productsController.getAll);
+app.get('/products/:id', productsController.getById);
 app.post('/products', productsController.create);
 
 const PORT = process.env.PORT || 3000;

@@ -9,7 +9,6 @@ const create = async (name, quantity) => {
     
     if (productLength) { return productLength; }
     if (productExist) { return productExist; }
-  //  console.log(quantityMoreZero);
     if (quantityMoreZero) { return quantityMoreZero; }
     if (quantityIsNumber) { return quantityIsNumber; }
     
@@ -17,6 +16,22 @@ const create = async (name, quantity) => {
     return createdProduct;
 };
 
+const getAll = async () => {
+    const products = await productsModel.getAll();
+    return { products };
+};
+
+const getById = async (id) => {
+    const productId = await productSchema.validateProductDoesntExistId(id);
+
+    if (productId) { return productId; }
+
+    const listedProduct = await productsModel.getById(id);
+    return listedProduct;
+};
+
 module.exports = {
     create,
+    getById,
+    getAll,
 };

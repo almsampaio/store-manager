@@ -5,6 +5,7 @@ const errors = {
     productExist: 'Product already exists',
     quantityMoreZero: '"quantity" must be larger than or equal to 1',
     quantityIsNumber: '"quantity" must be a number',
+    productDoesntExistId: 'Wrong id format',
 };
 
 const codeError = 'invalid_data';
@@ -50,9 +51,24 @@ const validateQuantityIsNumber = (quantity) => {
     }
 };
 
+// Requisito 2
+const validateProductDoesntExistId = async (id) => {
+    const existingProduct = await productsModel.getById(id);
+  
+  //  console.log(existingProduct);
+    
+    if (!existingProduct) {
+        return { err: {
+            code: codeError,
+            message: errors.productDoesntExistId,
+        } };
+    }
+};
+
 module.exports = {
     validateProductLength,
     validateProductExist,
     validateQuantityMoreZero,
     validateQuantityIsNumber,
+    validateProductDoesntExistId,
 };
