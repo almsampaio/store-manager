@@ -60,9 +60,23 @@ const updateSales = rescue(async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(salesList);
 });
 
+const deleteSales = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const deletedSales = await salesServices.deleteSales(id);
+  // console.log(deletedSales);
+
+  if (deletedSales.err) {
+    return res.status(HTTP_NO_BODY_STATUS).json(deletedSales);
+  }
+
+  return res.status(HTTP_OK_STATUS).json(deletedSales);
+});
+
 module.exports = {
   addSales,
   getAllSales,
   getSalesById,
   updateSales,
+  deleteSales,
 };
