@@ -19,7 +19,9 @@ app.get('/products/:id', productController.getProductById);
 app.put('/products/:id', productController.updateProduct);
 app.delete('/products/:id', productController.deleteProduct);
 
-app.post('/sales', salesController.createSale);
+// app.post('/sales', salesController.addSales);
+app.get('/sales', salesController.getAllSales);
+app.get('/sales/:id', salesController.getSaleById);
 
 app.listen(PORT, () => {
   console.log('Online em:', PORT);

@@ -1,10 +1,16 @@
 const salesModel = require('../models/salesModel');
 
-const createSale = async (productId, quantity) => {
-  const createdSale = await salesModel.createSale(productId, quantity);
-  return createdSale;
+const getAllSales = async () => {
+  const allSales = await salesModel.getAllSales();
+  return allSales;
+};
+
+const getSaleById = async (id) => {
+  const getSalesById = await salesModel.getSaleById(id);
+  return getSalesById;
 };
 
 module.exports = {
-  createSale,
+  getAllSales,
+  getSaleById,
 };
