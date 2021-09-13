@@ -156,6 +156,7 @@ describe.only('Testando a função `getById` do model ProductModel', () => {
   const DB_NAME = 'StoreManager';
 
   const ID_EXAMPLE = '604cb554311d68f491ba5781';
+  const ID_EXAMPLE_INVALID = '1';
 
   // const payloadProduct = {
   //   name: 'Example Product',
@@ -179,47 +180,53 @@ describe.only('Testando a função `getById` do model ProductModel', () => {
     mongoConnection.getConnection.restore();
   });
 
-  describe('quando não existe um produto para o ID informado', () => {
-    it('retorna um objeto', async () => {
+  describe('quando não existe um produto para o ID informado ou ele é inválido', () => {
+    it('retorna `null` para ID válido inexistente', async () => {
       const response = await ProductModel.getById(ID_EXAMPLE);
 
-      expect(response).to.be.an('object');
+      expect(response).to.be.equal(null);
     });
 
-    it('o objeto retornado possui as keys `code` e `message`', async () => {
-      const response = await ProductModel.getById(ID_EXAMPLE);
-      const { err } = response;
+    it('retorna `null` para ID inválido', async () => {
+      const response = await ProductModel.getById(ID_EXAMPLE_INVALID);
 
-      expect(err).to.include.all.keys('_id', 'code', 'message');
+      expect(response).to.be.equal(null);
     });
 
-    it('a key `code` do objeto retornado é uma string', async () => {
-      const response = await ProductModel.getById(ID_EXAMPLE);
-      const { err: { code } } = response;
+  //   it('o objeto retornado possui as keys `code` e `message`', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err } = response;
 
-      expect(code).to.be.a('string');
-    });
+  //     expect(err).to.include.all.keys('_id', 'code', 'message');
+  //   });
 
-    it('a `string` da key `code` é `invalid_data`', async () => {
-      const response = await ProductModel.getById(ID_EXAMPLE);
-      const { err: { code } } = response;
+  //   it('a key `code` do objeto retornado é uma string', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err: { code } } = response;
 
-      expect(code).to.equal('invalid_data');
-    });
+  //     expect(code).to.be.a('string');
+  //   });
 
-    it('a key `message` do objeto retornado é uma string', async () => {
-      const response = await ProductModel.getById(ID_EXAMPLE);
-      const { err: { message } } = response;
+  //   it('a `string` da key `code` é `invalid_data`', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err: { code } } = response;
 
-      expect(code).to.be.a('string');
-    });
+  //     expect(code).to.equal('invalid_data');
+  //   });
 
-    it('a string da key `message` é `Wrong id format`', async () => {
-      const response = await ProductModel.getById(ID_EXAMPLE);
-      const { err: { message } } = response;
+  //   it('a key `message` do objeto retornado é uma string', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err: { message } } = response;
 
-      expect(message).to.equal('Wrong id format');
-    });
+  //     expect(code).to.be.a('string');
+  //   });
+
+  //   it('a string da key `message` é `Wrong id format`', async () => {
+  //     const response = await ProductModel.getById(ID_EXAMPLE);
+  //     const { err: { message } } = response;
+
+  //     expect(message).to.equal('Wrong id format');
+  //   });
   });
 
   describe('quando existe um produto para o ID informado', () => {
