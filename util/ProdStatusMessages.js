@@ -27,6 +27,12 @@ const PROD_ERR_STATUS_MESSAGE = {
                 message: '"quantity" must be a number',
             }, 
         },
+        ID_NOT_EXISTS: { 
+            err: { 
+                code: 'invalid_data', 
+                message: 'Wrong id format',
+            }, 
+        },
     };
 
 module.exports = PROD_ERR_STATUS_MESSAGE;

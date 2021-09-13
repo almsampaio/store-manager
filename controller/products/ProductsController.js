@@ -22,16 +22,49 @@ const createProductController = async (req, res) => {
 };
 
 const getAllProductsController = async (_req, res) => {
-    const products = await productsService.getAllProductsService();
+    const allProducts = await productsService.getAllProductsService();
     
-    
-    return res.status(200).json(products);
+    return res.status(200).json(allProducts);
 };
 
-// const getProductByIdController = async (_req, res) => {};
+const getProductByIdController = async (req, res) => {
+    const { id } = req.params;
+    const productById = await productsService.getProductByIdService(id);
+
+    if (productById === 'ID_NOT_EXISTS') {
+        return res.status(422).json(PROD_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
+    }
+
+    return res.status(200).json(productById);
+};
+
+const updateProductController = async (req, res) => {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+
+    const updatedProduct = await productsService.updateProductService(id, name, quantity);
+    if (updatedProduct === 'ID_NOT_EXISTS') {
+        return res.status(422).json(PROD_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
+    }
+
+    return res.status(200).json(updatedProduct);
+};
+
+const deleteProductController = async (req, res) => {
+    const { id } = req.params;
+
+    const deletedProduct = await productsService.deleteProductService(id);
+    if (deletedProduct === 'ID_NOT_EXISTS') {
+        return res.status(422).json(PROD_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
+    }
+
+    return res.status(200).json(deletedProduct);
+};
 
 module.exports = {
     createProductController,
     getAllProductsController,
-    // getProductByIdController,
+    getProductByIdController,
+    updateProductController,
+    deleteProductController,
 };

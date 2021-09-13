@@ -5,7 +5,7 @@ const mongoDbUrl = 'mongodb://localhost:27017';
 const url = 'http://localhost:3000';
 const invalidId = 99999;
 
-describe('1 - Crie um endpoint para o cadastro de produtos', () => {
+describe.skip('1 - Crie um endpoint para o cadastro de produtos', () => {
   let connection;
   let db;
 
@@ -138,7 +138,7 @@ describe('1 - Crie um endpoint para o cadastro de produtos', () => {
   });
 });
 
-describe.skip('2 - Crie um endpoint para listar os produtos', () => {
+describe('2 - Crie um endpoint para listar os produtos', () => {
   let connection;
   let db;
 
