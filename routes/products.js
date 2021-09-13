@@ -21,6 +21,8 @@ productsRouter.put(
   productsControllers.updateProduct,
 );
 
+productsRouter.delete('/:id', productsControllers.deleteProduct);
+
 productsRouter.use(errorMiddleware);
 
 module.exports = productsRouter;
