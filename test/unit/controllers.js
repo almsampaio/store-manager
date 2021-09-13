@@ -84,7 +84,7 @@ describe('Ao chamar o controller de create - controller', () => {
 
 // getAll Product
 
-describe.only('Ao chamar o controller de getAll', () => {
+describe('Ao chamar o controller de getAll', () => {
   describe('quando não existe produtos no banco de dados', () => {
     const request = {};
     const response = {};
@@ -105,23 +105,19 @@ describe.only('Ao chamar o controller de getAll', () => {
     it('é chamado o método status passando o código 200', async () => {
       await ProductController.getAll(request, response);
 
-      expect(response.status.calledWith(200).to.be.equal(true));
+      expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
-    it('é chamado o json passando o objeto "product" contendo um array', async () => {
+    it('é chamado o json passando um objeto', async () => {
       await ProductController.getAll(request, response);
 
-      const { products }= response.json;
-
-      expect(products.calledWith(sinon.match.array)).to.be.equal(true);
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
     });
 
-    it('é chamado o método json passando uma array vazia', async () => {
+    it('é chamado o método json passando o objeto "products" com um array vazia', async () => {
       await ProductController.getAll(request, response);
 
-      const { products }= response.json;
-
-      expect(products.calledWith([])).to.be.equal(true);
+      expect(response.json.calledWith({ products: [] })).to.be.equal(true);
     });
 
   });
@@ -158,12 +154,10 @@ describe.only('Ao chamar o controller de getAll', () => {
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
-    it('é chamado o json passando o objeto "product" contendo um array', async () => {
+    it('é chamado o json passando um objeto', async () => {
       await ProductController.getAll(request, response);
 
-      const { products }= response.json;
-
-      expect(products.calledWith(sinon.match.array)).to.be.equal(true);
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
     });
 
     it('é chamado o método json com a lista de produtos', async () => {
