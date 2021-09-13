@@ -63,20 +63,20 @@ route.put('/:id', async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(response);
 });
 
-// route.delete('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const response = await productService.deleteProduct(id);
+route.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const response = await salesService.deleteSale(id);
 
-//   if (response.code) {
-//     return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
-//       err: {
-//         code: response.code,
-//         message: response.message,
-//       },
-//     });
-// }
+  if (response.code) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: response.code,
+        message: response.message,
+      },
+    });
+}
 
-//   return res.status(HTTP_OK_STATUS).json(response.product);
-// });
+  return res.status(HTTP_OK_STATUS).json(response);
+});
 
 module.exports = route;

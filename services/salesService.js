@@ -45,19 +45,21 @@ const response = await salesModel.update(id, soldItems);
 if (response.result.ok === 1) return { _id: id, itensSold: soldItems };
 };
 
-// const deleteProduct = async (id) => {
-//   const isIdValid = productSchema.validateId(id);
-//   if (isIdValid !== true) return ({ code: isIdValid.code, message: isIdValid.message });
+const deleteSale = async (id) => {
+  const wrongIdFormat = { code: 'invalid_data', message: 'Wrong sale ID format' };
+  const idExists = productSchema.validateId(id);
+  if (idExists.code) return wrongIdFormat;
+  const sale = await salesModel.getById(id);
+  if (sale.length === 0) return wrongIdFormat;
+  const deleted = await salesModel.deleteById(id);
+  if (deleted.result.ok === 1) return { _id: id, itensSold: sale[0].itensSold };
 
-//   const product = await productModel.getById(id);
-//   const deleted = await productModel.deleteById(id);
-
-//   return { product, deleted };
-// };
+  return wrongIdFormat;
+};
 
 module.exports = {
   createSale,
   findById,
   updateSale,
-  // deleteProduct,
+  deleteSale,
 };
