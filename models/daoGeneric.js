@@ -1,61 +1,53 @@
-const connection = require('../database/connection');
 const { ObjectId } = require('mongodb');
+const connection = require('../database/connection');
 
+const conn = async (nameCollection) => connection().then((db) => db.collection(nameCollection));
 class DaoGenericMongoDB {
   constructor(nameCollection) {
     this.nameCollection = nameCollection;
+    this.conn = conn(nameCollection);
   }
 
-  async getAll() {
-    const a = await connection()
-      .then((db) => {
-        const products =  db.collection(this.nameCollection).find({}).toArray();
-        return products;
-      });
-    console.log('getALL', a);
-    return a;
+  createCounter() {
+    connection().then(
+      (db) => db.collection('counters').insertOne({ _id: this.nameCollection, autoIncrement: 1 }),
+    ).catch(console.error);
+  }
+
+  async getNextSequenceId() {
+    return connection().then(async (db) => {
+      const { value: { autoIncrement } } = await db.collection('counters').findOneAndUpdate(
+        { _id: this.nameCollection },
+        { $inc: { autoIncrement: 1 } },
+      );
+      return autoIncrement;
+    });
+  }
+
+  async getAll(options = {}) {
+    const collection = await this.conn;
+    return collection.find({}, options).toArray();
   }
 
   async getAllSkipAndLimit(skip, limit) {
-    const a = await connection()
-      .then((db) => {
-        const b =  db.collection(this.nameCollection).find({})
-          .skip(skip).limit(limit).toArray();
-        return b;
-      });
-    console.log('getALL skip limit', a);
-    return a;
+    const collection = await this.conn;
+    return collection.find({}).skip(skip).limit(limit).toArray();
   }
 
   async findByName({ name, nameColumn = 'name' }, options = {}) {
-    const a = await connection()
-      .then((db) => {
-        const b =  db.collection(this.nameCollection)
-          .find({ [nameColumn]: name }, options).toArray();
-        return b;
-      });
-    console.log('findByName', a);
-    return a;
+    const collection = await this.conn;
+    return collection.find({ [nameColumn]: name }, options).toArray();
   }
 
   /**
    * Search for query in column
-   * db.collection(...)
-   *      .find({ [nameColumn]: query }, options).toArray();
-   *
    * @param {object} param0 { query, nameColumn = 'name' } 
-   * @param {object} options options = {}
+   * @param {object} options default value is {}
    * @returns 
    */
   async findByColumn({ query, nameColumn = 'name' }, options = {}) {
-    const a = await connection()
-      .then((db) => {
-        const b =  db.collection(this.nameCollection)
-          .find({ [nameColumn]: query }, options).toArray();
-        return b;
-      });
-    console.log('findByColumn', a);
-    return a;
+    const collection = await this.conn;
+    return collection.find({ [nameColumn]: query }, options).toArray();
   }
 
   /**
@@ -65,14 +57,8 @@ class DaoGenericMongoDB {
    * @returns 
    */
   async findByID(id, options = {}) {
-    const a = await connection()
-      .then((db) => {
-        const b =  db.collection(this.nameCollection)
-          .findOne({ _id: ObjectId(id) }, options);
-        return b;
-      });
-    console.log('findById', a);
-    return a;
+    const collection = await this.conn;
+    return collection.findOne({ _id: ObjectId(id) }, options);
   }
 
   /**
@@ -81,64 +67,58 @@ class DaoGenericMongoDB {
    * @returns data
    */
   async insertOne(data) {
-    const a = await connection()
-      .then((db) => {
-        const b =  db.collection(this.nameCollection).insertOne(data);
-        return b;
-      });
-    console.log('insertOne', a.ops);
-    return a;
+    const collection = await this.conn;
+    return collection.insertOne({ id: await this.getNextSequenceId(), ...data });
   }
 
   async updateOne(id, data) {
     const updateDoc = {
       $set: {
-        ...data
+        ...data,
       },
     };
   
-    const a = await connection()
-      .then((db) => {
-        const b =  db.collection(this.nameCollection)
-          .updateOne({ _id: ObjectId(id) }, updateDoc);
-        return b;
-      });
-    console.log('updateOne', a);
-    return a;
+    const collection = await this.conn;
+    return collection.updateOne({ _id: ObjectId(id) }, updateDoc);
+  }
+
+  async findOneAndUpdate(id, data) {
+    const updateDoc = {
+      $set: {
+        ...data,
+      },
+    };
+  
+    const collection = await this.conn;
+    return collection
+      .findOneAndUpdate({ _id: ObjectId(id) }, updateDoc, { returnDocument: 'after' });
+  }
+
+  async findOneAndUpdateNotSet(id, expr) {
+    const collection = await this.conn;
+    return collection
+      .findOneAndUpdate({ _id: ObjectId(id) }, expr, { returnDocument: 'after' });
+  }
+
+  async aggregate(pipeline) {
+    const collection = await this.conn;
+    return collection
+      .aggregate(pipeline);
   }
 
   async deletebyId(id) {
-    // if (ObjectId(id)) 
-    const a = await connection()
-      .then((db) => {
-        const b =  db.collection(this.nameCollection).deleteOne({ _id: ObjectId(id) });
-        return b;
-      });
-    console.log('deleteById', a);
-    return a;
+    const collection = await this.conn;
+    return collection.deleteOne({ _id: ObjectId(id) });
   }
 
   async findOneAndDelete(id) {
-    const a = await connection()
-      .then((db) => {
-        console.log({ _id: ObjectId(id) });
-        const b =  db.collection(this.nameCollection)
-          .findOneAndDelete({ _id: ObjectId(id) });
-        return b;
-      });
-    console.log('findOneAndDelete', a);
-    return a;
+    const collection = await this.conn;
+    return collection.findOneAndDelete({ _id: ObjectId(id) });
   }
 
   async deleteByQuery(query) {
-    // if (ObjectId(id)) 
-    const a = await connection()
-      .then((db) => {
-        const b =  db.collection(this.nameCollection).deleteMany(query);
-        return b;
-      });
-    console.log('deleteByQuery', a);
-    return a;
+    const collection = await this.conn;
+    return collection.deleteMany(query);
   }
 }
 
