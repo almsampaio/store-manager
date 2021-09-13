@@ -1,6 +1,10 @@
 const { Router } = require('express');
 
-const { createController } = require('../../controller/sales/salesController');
+const { 
+  createController,
+  readByAllController,
+  readByIdController,
+} = require('../../controller/sales/salesController');
 
 const {
   validateTypeQuantitySales,
@@ -15,5 +19,8 @@ router.post(
   validateQuantitySales,
   createController,
 );
+
+router.get('/', readByAllController);
+router.get('/:id', readByIdController);
 
 module.exports = router;

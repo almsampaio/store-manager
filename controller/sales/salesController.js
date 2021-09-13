@@ -1,8 +1,13 @@
 const {
   HTTP_OK_STATUS,
+  HTTP_NOT_FOUND,
 } = require('../../schemas/status');
 
-const { createServices } = require('../../services/sales/salesServices');
+const { 
+  createServices,
+  readByAllServices,
+  readByIdServices,
+} = require('../../services/sales/salesServices');
 
 const createController = async (req, res) => {
   const [...products] = req.body;
@@ -12,4 +17,32 @@ const createController = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(result);
 };
 
-module.exports = { createController };
+const readByAllController = async (_req, res) => {
+  const { data } = await readByAllServices();
+
+  return res.status(HTTP_OK_STATUS).json({
+    sales: data,
+  });
+};
+
+const readByIdController = async (req, res) => {
+  const { id } = req.params;
+  const { code, message, data } = await readByIdServices(id);
+
+  if (!data) {
+    return res.status(HTTP_NOT_FOUND).json({
+      err: {
+        code,
+        message,
+      },
+    });
+  }
+
+  return res.status(HTTP_OK_STATUS).json(data);
+};
+
+module.exports = { 
+  createController,
+  readByAllController,
+  readByIdController,
+};
