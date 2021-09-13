@@ -1,5 +1,18 @@
 const productsModel = require('../models/productsModel');
 
+function formatValidationInputProducts(product) {
+  if (!product.name || !product.quantity) {
+    return {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong input format',
+        },
+        status: 422,
+      };
+  }
+  return false;
+}
+
 function nameLengthValidation(name) {
   if (name.length < 5) {
     return {
@@ -111,11 +124,12 @@ async function productIdValidationSales(sale) {
 }
 
 module.exports = {
+  formatValidationInputProducts,
   nameLengthValidation,
   isRepeated,
   quantityValidationProducts,
   quantityTypeValidationProducts,
+  formatValidationInputSales,
   quantityValidationSales,
   productIdValidationSales,
-  formatValidationInputSales,
 };
