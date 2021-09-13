@@ -19,7 +19,15 @@ async function addSales(req, res) {
 
   const addedSales = await salesService.addSales(salesList);
 
-  if (addedSales.message) return res.status(422).json({ err: addedSales });
+  let STATUS_CODE = 200;
+  if (addedSales.message) {
+    if (addedSales.code === 'stock_problem') {
+      STATUS_CODE = 404;
+    } else {
+      STATUS_CODE = 422;
+    }
+    return res.status(STATUS_CODE).json({ err: addedSales });
+  }
 
   res.status(200).json(addedSales);
 }
@@ -29,8 +37,16 @@ async function updateSales(req, res) {
   const { id } = req.params;
   const updatedSales = await salesService.updateSales({ id, productId, quantity });
 
-  if (updatedSales.message) return res.status(422).json({ err: updatedSales });
-  res.status(200).json(updatedSales);
+  let STATUS_CODE = 200;
+  if (updatedSales.message) {
+    if (updatedSales.code === 'stock_problem') {
+      STATUS_CODE = 404;
+    } else {
+      STATUS_CODE = 422;
+    }
+    return res.status(STATUS_CODE).json({ err: updatedSales });
+  }
+  res.status(STATUS_CODE).json(updatedSales);
 }
 
 async function deleteSales(req, res) {
