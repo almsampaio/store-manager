@@ -10,6 +10,10 @@ app.use(bodyParser.json());
 // Requisito 01
 app.post('/products', ProductsController.create);
 
+// Requisito 02
+app.get('/products/', ProductsController.getAll);
+app.get('/products/:id', ProductsController.getById);
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
