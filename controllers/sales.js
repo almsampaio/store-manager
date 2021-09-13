@@ -18,8 +18,21 @@ const findBySalesId = async (req, res) => {
   return res.status(200).json(findedId);
 };
 
+const editSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const itensSold = req.body;
+    console.log(req.body);
+    await salesService.editSale(id, itensSold);
+    return res.status(200).json({ _id: id, itensSold });
+  } catch (e) {
+    console.log(e.mesage);
+  }
+};
+
 module.exports = {
   createSale,
   getAllSales,
   findBySalesId,
+  editSale,
 };

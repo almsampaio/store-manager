@@ -15,8 +15,14 @@ const findById = async (id) => {
   return findId;
 };
 
+const editSale = async (id, itensSold) => {
+  const edited = await salesModel.editSale(id, itensSold);
+  return edited;
+};
+
 module.exports = {
   create,
   listAll,
   findById,
+  editSale,
 };

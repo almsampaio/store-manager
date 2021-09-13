@@ -16,6 +16,7 @@ const {
   getAllSales,
   createSale,
   findBySalesId,
+  editSale,
 } = require('./controllers/sales');
 
 const PORT = '3000';
@@ -47,6 +48,7 @@ app.delete('/products/:id', validateId, deleteByid);
 app.post('/sales', validateItensSold, createSale);
 app.get('/sales', getAllSales);
 app.get('/sales/:id', validateSaleId, findBySalesId);
+app.put('/sales/:id', validateItensSold, editSale);
 
 app.listen(PORT, () => {
   console.log('hello world');
