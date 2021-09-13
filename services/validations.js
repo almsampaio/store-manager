@@ -93,7 +93,22 @@ function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
   return find;
 }
 
-
+async function productIdValidationSales(sale) {
+  const productsDB = await productsModel.getAllProdutcts();
+  const arrayProductIdDB = productsDB.map(({ _id }) => _id.toString());
+  const arraySaleIdTypeds = sale.map(({ productId }) => productId);
+  const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
+  if (!find) {
+    return {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+        status: 422,
+      };
+  }
+  return false;
+}
 
 module.exports = {
   nameLengthValidation,
@@ -102,5 +117,5 @@ module.exports = {
   quantityTypeValidationProducts,
   quantityValidationSales,
   productIdValidationSales,
-  
+  formatValidationInputSales,
 };
