@@ -5,6 +5,12 @@ const createSale = async (sales) => {
   return sale;
 };
 
+const getAllSales = async () => {
+  const sales = await salesModels.getAllSales();
+  return sales;
+};
+
 module.exports = {
   createSale,
+  getAllSales,
 };
