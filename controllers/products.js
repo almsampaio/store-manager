@@ -22,4 +22,10 @@ const insertOne = async (req, res, next) => {
   return res.status(httpStatus.created).json(product);
 };
 
-module.exports = { insertOne, getAllProducts, getProductById };
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const product = await productService.updateOne(id);
+  return res.status(httpStatus.ok).json(product);
+};
+
+module.exports = { insertOne, getAllProducts, getProductById, updateProduct };
