@@ -30,16 +30,16 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-const updateSale = async (id, quantity) => {
+const updateSale = async (id, newSale) => {
   if (!ObjectId.isValid(id)) return false;
 
   const db = await getConnection();
-  const update = await db.collection('sales').findOneAndUpdate(
+  const { value } = await db.collection('sales').findOneAndUpdate(
     { _id: ObjectId(id) },
-    { $set: { 'itensSold.quantity': quantity } },
-    { returnNewDocument: true },
+    { $set: { itensSold: newSale } },
+    { returnDocument: 'after' },
   );
-  return update;
+  return value;
 };
 
 module.exports = {
