@@ -6,6 +6,7 @@ const { createSaleValidation } = require('../middlewares/sales');
 const salesErrorMiddleware = require('../middlewares/salesErrors');
 
 salesRouter.post('/', createSaleValidation, salesControllers.createSale);
+salesRouter.get('/', salesControllers.getAllSales);
 
 salesRouter.use(salesErrorMiddleware);
 module.exports = salesRouter;
