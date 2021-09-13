@@ -1,5 +1,6 @@
 const { ObjectId } = require('bson');
 const connection = require('./connection');
+const productModel = require('./productModel');
 
 const getAll = async () => {
   const sales = await connection().then((db) => db
@@ -49,13 +50,25 @@ const update = async (id, itensSold) => {
   return getItemsById;
 };
 
+const updateStock = async (productId, amount) => {
+  const { quantity, name } = await productModel.getById(productId);
+  const newQuantity = quantity + amount;
+  await productModel.update(productId, name, newQuantity);
+};
+
 const exclude = async (id) => {
   if (!ObjectId.isValid(id)) {
     return null;
   }
 
   const db = await connection();
-  const removeSale = db.collection('sales').deleteOne({ _id: ObjectId(id) });
+  const { itensSold } = await getById(id);
+
+  itensSold.forEach(({ productId, quantity }) => {
+    updateStock(productId, quantity);
+  });
+  const removeSale = await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+
   return removeSale;
 };
 

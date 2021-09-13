@@ -53,6 +53,7 @@ const update = async (req, res) => {
 
 const exclude = async (req, res) => {
   const { id } = req.params;
+
   const removeSale = await salesService.exclude(id);
   return res.status(httpStatus.HTTP_OK_STATUS).json(removeSale);
 };
