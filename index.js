@@ -37,3 +37,5 @@ app.post('/sales', Validation.salesValidation, Sales.createSales);
 app.get('/sales', Sales.getAllSales);
 
 app.get('/sales/:id', Sales.getSalesById);
+
+app.put('/sales/:id', Validation.salesValidation, Sales.updateSale);
