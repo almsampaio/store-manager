@@ -27,8 +27,21 @@ const getById = async (payload) => {
   return result;
 };
 
+const updateOne = async (payload, id) => {
+  const salesCollection = await connection.getConnection()
+    .then((db) => db.collection('sales'));
+
+  if (!ObjectID.isValid(id)) return { message: 'id invalido' };
+  const result = await salesCollection.findOneAndUpdate(
+    { _id: ObjectID(id) },
+    { $set: { itensSold: payload } },
+  );
+  return result;
+};
+
 module.exports = {
   addNew,
   getAll,
   getById,
+  updateOne,
 };
