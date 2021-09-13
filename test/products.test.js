@@ -1,3 +1,4 @@
+const { serverUnavailable } = require('@hapi/boom');
 const frisby = require('frisby');
 const { MongoClient } = require('mongodb');
 
@@ -393,7 +394,7 @@ describe.skip('3 - Crie um endpoint para atualizar um produto', () => {
   });
 });
 
-describe('4 - Crie um endpoint para deletar um produto', () => {
+describe.skip('4 - Crie um endpoint para deletar um produto', () => {
   let connection;
   let db;
 
