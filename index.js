@@ -10,17 +10,16 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-// cadastro de produtos
 app.post('/products', ProductsController.create);
-
-// listar produtos
 app.get('/products', ProductsController.getAll);
 app.get('/products/:id', ProductsController.getById);
-
-// atualizar produto
 app.put('/products/:id', ProductsController.update);
-
-// deletar produto /products/:id
 app.delete('/products/:id', ProductsController.exclude);
+
+app.post('/sales', SalesController.create);
+app.get('/sales', SalesController.getAll);
+app.get('/sales/:id', SalesController.getById);
+app.put('/sales/:id', SalesController.update);
+app.delete('/sales/:id', SalesController.exclude);
 
 app.listen(3000, () => console.log('WoPhi!'));
