@@ -51,7 +51,6 @@ const deleteProduct = async (req, res) => {
   const { errorMessage, product } = await productService.getById(id);
 
   if (errorMessage) {
-    console.log('ola');
     return res.status(HTTP_UNPR_ENTRY_STATUS).json(errorMessage);
   }
 

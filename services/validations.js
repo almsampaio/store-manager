@@ -1,5 +1,6 @@
 const generateError = require('../utils/errorMessage');
 const productsModel = require('../models/productsModel');
+const salesModel = require('../models/salesModel');
 
 const regexName = /^([a-zA-Z\u00C0-\u017F ]{5,})/;
 
@@ -12,6 +13,7 @@ const WRONG_ID_FORMAT = 'Wrong id format';
 const INVALID_ID_OR_QUANTITY = 'Wrong product ID or invalid quantity';
 const NOT_FOUND = 'not_found';
 const SALE_NOT_FOUND = 'Sale not found';
+const INVALID_SALE_ID = 'Wrong sale ID format';
 
 const notValidId = () => generateError(INVALID_DATA, WRONG_ID_FORMAT);
 
@@ -23,6 +25,17 @@ const validateName = (name) => {
   if (!regexName.test(name)) {
     return generateError(INVALID_DATA, CHARACTER_LONG);
   }
+};
+
+const verifyIdSale = async (id) => {
+  const deletedSale = await salesModel.getSaleById(id);
+
+  if (!deletedSale) {
+    const errorMessage = generateError(INVALID_DATA, INVALID_SALE_ID);
+    return { errorMessage };
+  }
+
+  return { deletedSale };
 };
 
 const validateSale = async (id, quantity) => {
@@ -71,4 +84,5 @@ module.exports = {
   validateToUpdate,
   validateSale,
   saleNotFound,
+  verifyIdSale,
 };

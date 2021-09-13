@@ -38,9 +38,20 @@ const updateSales = async (id, sale) => {
   return { saleUpdated };
 };
 
+const deleteSale = async (id) => {
+  const { deletedSale, errorMessage } = await validations.verifyIdSale(id);
+
+  if (errorMessage) return { errorMessage };
+
+  await salesModel.deleteSale(id);
+
+  return { deletedSale };
+};
+
 module.exports = {
   listSales,
   getById,
   registerSales,
   updateSales,
+  deleteSale,
 };
