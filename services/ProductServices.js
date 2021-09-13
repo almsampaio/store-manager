@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 // Fonte: https://www.youtube.com/watch?v=xXjyqcDTkD0
+// https://joi.dev/api/?v=17.4.2
 // https://stackoverflow.com/questions/48720942/node-js-joi-how-to-display-a-custom-error-messages
 const productSchema = Joi.object({
   name: Joi.string().min(5).required()
