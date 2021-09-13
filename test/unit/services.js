@@ -34,6 +34,11 @@ const INSERT_PRODUCT_OK = {
 };
 
 
+const SALE_INSERT_INVALID_FORMAT = {
+    productId: "5f43ba273200020b101fe49f",
+    quantity: 0
+}
+
 const SALE_INSERT_QUANTITY_ZERO = [
   {
     productId: "5f43ba273200020b101fe49f",
@@ -173,6 +178,13 @@ describe('Testes da camada Service', () => {
 
   describe('Testando as requisições com a coleção "Sales"', () => {
     describe('Teste da Requisição POST - Inserindo um novo "Sale" no BD', () => {
+      describe('Será validade o correto formato do input', () => {
+        it('Se a entrada for diferente de um array, retorna o json com a mensagem de erro', async () => {
+          const response = await salesService.createSale(SALE_INSERT_INVALID_FORMAT);
+          expect(response).to.be.a('object');
+        });
+      });
+
       describe('Será validado que não é possível cadastrar compras com campo quantidade menor que zero ou que seja escrita uma string nesse campo', () => {
         it('Testando valor menor igual a zero. Deve retornar um objeto com contendo o erro e a mensagem sobre o erro', async () => {
           const response = await salesService.createSale(SALE_INSERT_QUANTITY_ZERO);
@@ -254,7 +266,7 @@ describe('Testes da camada Service', () => {
         const response = await salesService.createSale(SALE_ID_NOT_EXISTS_IN_PRODUCTS);
         expect(response).to.be.a('object');
       });
-      
+
     });
   });
 });

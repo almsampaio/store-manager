@@ -54,6 +54,19 @@ function quantityTypeValidationProducts(quantity) {
   return false;
 }
 
+function formatValidationInputSales(sale) {
+  if (!Array.isArray(sale)) {
+    return {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong input format',
+        },
+        status: 422,
+      };
+  }
+  return false;
+}
+
 function quantityValidationSales(sale) {
   const invalidQuantity = sale
   .find(({ quantity }) => typeof quantity !== 'number' || quantity <= 0);
@@ -80,23 +93,7 @@ function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
   return find;
 }
 
-async function productIdValidationSales(sale) {
-  // console.log('entroooooooooooooooooooooou no teste de repetido');
-  const productsDB = await productsModel.getAllProdutcts();
-  const arrayProductIdDB = productsDB.map(({ _id }) => _id.toString());
-  const arraySaleIdTypeds = sale.map(({ productId }) => productId);
-  const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
-  if (!find) {
-    return {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong product ID or invalid quantity',
-        },
-        status: 422,
-      };
-  }
-  return false;
-}
+
 
 module.exports = {
   nameLengthValidation,
@@ -105,4 +102,5 @@ module.exports = {
   quantityTypeValidationProducts,
   quantityValidationSales,
   productIdValidationSales,
+  
 };
