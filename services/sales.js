@@ -1,5 +1,5 @@
 const salesModel = require('../models/sales');
-// const { builtError } = require('./products');
+const { builtError } = require('./products');
 
 const addNew = async (payload) => {
   const results = await salesModel.salesCrud('addNew', payload);
@@ -10,7 +10,7 @@ const get = async (payload, id) => {
   let operation = 'getAll';
   if (id) operation = 'getById';
   const result = await salesModel.salesCrud(operation, payload);
-  return result;
+  return result.itensSold ? result : builtError(404, 'not_found', 'Sale not found');
 };
 
 module.exports = {

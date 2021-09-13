@@ -13,7 +13,7 @@ const get = async (req, res, next) => {
       ? res.status(200).json(result)
       : next(result);
   }
-  const result = await salesService.get({}, id);
+  const result = await salesService.get({ id }, id);
   return res.status(200).json(result);
 };
 
