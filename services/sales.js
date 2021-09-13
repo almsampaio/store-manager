@@ -5,6 +5,18 @@ const create = async (itensSold) => {
   return sale;
 };
 
+const listAll = async () => {
+  const listsSales = await salesModel.getAll();
+  return listsSales;
+};
+
+const findById = async (id) => {
+  const findId = await salesModel.findById(id);
+  return findId;
+};
+
 module.exports = {
   create,
+  listAll,
+  findById,
 };

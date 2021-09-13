@@ -13,7 +13,9 @@ const {
   } = require('./controllers/products');
 
 const {
+  getAllSales,
   createSale,
+  findBySalesId,
 } = require('./controllers/sales');
 
 const PORT = '3000';
@@ -27,6 +29,7 @@ const {
 
 const {
   validateItensSold,
+  validateSaleId,
 } = validatesSales;
 
 app.use(bodyParse.json());
@@ -42,6 +45,8 @@ app.put('/products/:id', validateProductQty, validateProductName, editProduct);
 app.delete('/products/:id', validateId, deleteByid);
 
 app.post('/sales', validateItensSold, createSale);
+app.get('/sales', getAllSales);
+app.get('/sales/:id', validateSaleId, findBySalesId);
 
 app.listen(PORT, () => {
   console.log('hello world');

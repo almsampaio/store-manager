@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const validateItensSold = (req, res, next) => {
   const [{ quantity }] = req.body;
   if (typeof quantity !== 'number') {
@@ -15,6 +17,18 @@ const validateItensSold = (req, res, next) => {
   next();
 };
 
+const validateSaleId = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).json({ err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    } });
+  }
+  next();
+};
+
 module.exports = {
   validateItensSold,
+  validateSaleId,
 };
