@@ -21,15 +21,6 @@ const validProductsParams = async (name, quantity) => {
   }
 };
 
-// const validSalesParams = async (itensSold) => {
-//   switch (true) {
-//     case inNotNumber(quantity): return {
-//       err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' },
-//     };
-//     default: return {};
-//   }
-// };
-
 module.exports = {
   validProductsParams,
 };

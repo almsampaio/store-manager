@@ -46,8 +46,23 @@ const getSalesById = rescue(async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(salesById);
 });
 
+const updateSales = rescue(async (req, res) => {
+  const { id } = req.params;
+  const itensSold = req.body;
+
+  const salesList = await salesServices.updateSales(id, itensSold);
+  // console.log(salesList);
+
+  if (salesList.err) {
+    return res.status(HTTP_NO_BODY_STATUS).json(salesList);
+  }
+
+  return res.status(HTTP_OK_STATUS).json(salesList);
+});
+
 module.exports = {
   addSales,
   getAllSales,
   getSalesById,
+  updateSales,
 };
