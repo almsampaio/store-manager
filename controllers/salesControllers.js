@@ -26,9 +26,9 @@ const getSaleById = async (req, res, next) => {
 
 const updateSale = async (req, res) => {
   const { id } = req.params;
-  const { quantity } = req.body;
+  const newSale = req.body;
 
-  const response = await salesServices.updateSale(id, quantity);
+  const response = await salesServices.updateSale(id, newSale);
 
   res.status(200).json(response);
 };

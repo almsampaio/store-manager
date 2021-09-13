@@ -18,8 +18,8 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-const updateSale = async (id, quantity) => {
-  const update = await salesModels.updateSale(id, quantity);
+const updateSale = async (id, newSale) => {
+  const update = await salesModels.updateSale(id, newSale);
   return update;
 };
 
