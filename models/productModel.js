@@ -40,7 +40,6 @@ const update = async (id, { name, quantity }) => {
     { $set: { name, quantity } },
   );
 
-  console.log(response);
   return response;
 };
 
@@ -49,8 +48,6 @@ const deleteById = async (id) => {
   .then((db) => db.collection('products'));
 
   const response = await productCollection.deleteOne({ _id: new ObjectId(id) });
-
-  console.log(response);
 
   return response;
 };
