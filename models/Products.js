@@ -64,6 +64,26 @@ const deleteProduct = (id) => {
   return deletedProduct;
 };
 
+const queryToUpdate = (query, update) =>
+  connection().then((db) => db.collection('products').findOneAndUpdate(query, update));
+
+const updateQuantity = (id, quantity, action) => {
+  switch (action) {
+    case 'add':
+    case 'remove':
+      queryToUpdate({ _id: ObjectId(id) }, { $inc: { quantity } });
+      break;
+    case 'edit':
+      queryToUpdate({ _id: ObjectId(id) }, { $set: { quantity } });
+      break;
+    case 'sale':
+      queryToUpdate({ _id: ObjectId(id) }, { $inc: { quantity: -quantity } });
+      break;
+    default:
+      break;
+  }
+};
+
 module.exports = {
   createProduct,
   findProduct,
@@ -71,4 +91,5 @@ module.exports = {
   getAll,
   editProduct,
   deleteProduct,
+  updateQuantity,
 };

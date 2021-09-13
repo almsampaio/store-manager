@@ -1,10 +1,14 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
+const { updateQuantity } = require('./Products');
 
 const registerSale = async (itensSold) => {
   const sales = connection()
     .then((db) => db.collection('sales').insertOne({ itensSold }))
     .then((sale) => sale.ops[0]);
+  itensSold.forEach(({ productId, quantity }) => {
+    updateQuantity(productId, quantity, 'sale');
+  });
   if (!sales) return null;
   return sales;
 };
@@ -26,7 +30,7 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-const editSale = async (id, products) => {
+const editSale = async (id, itensSold) => {
   if (!ObjectId.isValid(id)) {
     return null;
   }
@@ -36,7 +40,7 @@ const editSale = async (id, products) => {
         { _id: ObjectId(id) },
         {
           $set: {
-            itensSold: products,
+            itensSold,
           },
         },
         { returnDocument: 'after' },
@@ -52,7 +56,14 @@ const deleteSale = async (id) => {
   }
   const sale = connection()
     .then((db) =>
-      db.collection('sales').findOneAndDelete({ _id: ObjectId(id) }));
+      db.collection('sales').findOneAndDelete({ _id: ObjectId(id) }))
+    .then(({ value, value: { itensSold } }) => {
+      itensSold.forEach(({ productId, quantity }) => {
+        updateQuantity(productId, quantity, 'remove');
+      });
+
+      return value;
+    });
   if (!sale) return null;
   return sale;
 };
