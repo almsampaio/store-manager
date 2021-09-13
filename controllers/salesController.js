@@ -39,12 +39,21 @@ const create = rescue(async (req, res) => {
         message: 'data not found',
       } });
   }
-  
+
   return res.status(httpStatus.HTTP_OK_STATUS).json(newSale);
 });
+
+const update = async (req, res) => {
+  const itensSold = req.body;
+  const { id } = req.params;
+
+  const editSale = await salesService.update(id, itensSold);
+  return res.status(httpStatus.HTTP_OK_STATUS).json(editSale);
+};
 
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };

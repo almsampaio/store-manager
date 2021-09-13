@@ -111,6 +111,8 @@ const validateItemsSoldArray = (req, res, next) => {
   }
   next();
 };
+
+// const validate
 // Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
 
 module.exports = {

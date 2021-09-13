@@ -12,13 +12,9 @@ const getById = async (id) => {
   if (!ObjectId.isValid(id)) {
     return null;
   }
-
   const sale = await connection().then((db) => db
   .collection('sales').findOne({ _id: ObjectId(id) }))
-  .then((response) => {
-    console.log(response, 'getById sales model');
-    return response;
-  }).catch((error) => console.log(error));
+  .then((res) => res).catch((error) => console.log(error));
 
   return sale;
 };
@@ -39,8 +35,23 @@ const create = async (items) => {
   };
 };
 
+const update = async (id, itensSold) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  await connection().then((db) => db
+  .collection('sales').findOneAndUpdate({
+    _id: new ObjectId(id) }, { $set: { itensSold } }))
+  .catch((err) => console.log(err));
+
+  const getItemsById = await getById(id);
+  return getItemsById;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };
