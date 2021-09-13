@@ -21,7 +21,7 @@ const nameIsValid = async (name) => {
 };
 
 const quantityIsValid = (quantity) => {
-  if (!quantity) {
+  if (!quantity && quantity !== 0) {
     return { err: { code: 'invalid_data',
     message: '"\quantity\" must be a integer number' } };
   }
