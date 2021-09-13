@@ -36,7 +36,7 @@ const getAllProducts = async () => {
 
 const getProductById = async (id) => {
   const productById = await productsModel.getProductById(id);
-  if (productById === null) {
+  if (productById === false) {
     return {
       err: { code: 'invalid_data', message: 'Wrong id format' },
     };

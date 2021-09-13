@@ -20,7 +20,7 @@ const getAllProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
+  if (!ObjectId.isValid(id)) return false;
 
   const db = await connect();
   const product = await db.collection('products').findOne({ _id: ObjectId(id) });
