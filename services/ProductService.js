@@ -25,8 +25,19 @@ const create = async ({ name, quantity }) => {
   return product;
 };
 
+const update = async (id, { name, quantity }) => {
+  if (ProductSchema.validate(name, quantity).err) {
+    return ProductSchema.validate(name, quantity);
+  }
+
+  const updatedProduct = await ProductModel.update(id, { name, quantity });
+
+  return updatedProduct;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };
