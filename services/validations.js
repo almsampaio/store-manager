@@ -1,4 +1,15 @@
+const { ObjectId } = require('mongodb');
 const productsModel = require('../models/productsModel');
+
+function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
+  let find = false;
+  arraySaleIdTypeds.forEach((idTyped) => {
+      arrayProductIdDB.forEach((idDB) => {
+        if (idDB === idTyped) find = true;
+      });
+  });
+  return find;
+}
 
 function formatValidationInputProducts(product) {
   if (!product.name || !product.quantity) {
@@ -67,8 +78,8 @@ function quantityTypeValidationProducts(quantity) {
   return false;
 }
 
-function validationIdURLLength(id) {
-    if (id.length < 24) {
+function validateURLId(id) {
+    if (!ObjectId.isValid(id) || !id) {
       return {
         err: {
           code: 'invalid_data',
@@ -81,7 +92,7 @@ function validationIdURLLength(id) {
 }
 
 async function validationGetProductById(product) {
-  if (product.length === 0) {
+  if (product[0].length === 0) {
       return {
           err: {
             code: 'invalid_data',
@@ -91,6 +102,23 @@ async function validationGetProductById(product) {
         };
     }
     return false;
+}
+
+async function productIdValidation(product) {
+  const productsDB = await productsModel.getAllProdutcts();
+  const arrayProductIdDB = productsDB.map(({ _id }) => _id.toString());
+  const arraySaleIdTypeds = product.map(({ productId }) => productId);
+  const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
+  if (!find) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+      status: 422,
+    };
+  }
+  return false;
 }
 
 function formatValidationInputSales(sale) {
@@ -120,16 +148,6 @@ function quantityValidationSales(sale) {
       };
   }
   return false;
-}
-
-function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
-  let find = false;
-  arraySaleIdTypeds.forEach((idTyped) => {
-      arrayProductIdDB.forEach((idDB) => {
-        if (idDB === idTyped) find = true;
-      });
-  });
-  return find;
 }
 
 async function productIdValidationSales(sale) {
@@ -190,7 +208,8 @@ module.exports = {
   quantityValidationProducts,
   quantityTypeValidationProducts,
   validationGetProductById,
-  validationIdURLLength,
+  productIdValidation,
+  validateURLId,
   formatValidationInputSales,
   quantityValidationSales,
   productIdValidationSales,
