@@ -26,12 +26,12 @@ const addSales = async (arr) => {
   const check = checkSales(arr);
   if (check) return check;
 
-  const insertedProduct = await salesModel.create(arr);
+  const insertedSale = await salesModel.create(arr);
 
   // if (insertedProduct === false) {
   //   return { err: { code: 'invalid_data', message: errors.EXISTS }, error: 422 };
 // }
-  return insertedProduct;
+  return insertedSale;
 };
 
 // const getAll = async () => {

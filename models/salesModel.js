@@ -24,16 +24,10 @@ const connection = require('./connection');
 // };
 
 const create = async (arr) => {
-  // const allSales = await getAll();
-
-  // const verifySale = allSales.find((sales, index) => sales.name === arr[index].name);
-
-  // if (verifySale) return false;
-
   const connectionDb = await connection();
 
   const newSale = await connectionDb.collection('sales')
-  .insert(arr);
+  .insertOne({ itensSold: arr });
   return newSale.ops[0];
 };
 
