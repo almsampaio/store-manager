@@ -11,6 +11,24 @@ const create = (rescue(async (req, res) => {
     res.status(200).json(sale);
 }));
 
+const getAll = (rescue(async (_req, res) => {
+    const sale = await salesService.getAll();
+
+    res.status(200).json(sale);
+}));
+
+const getById = (rescue(async (req, res) => {
+    const { id } = req.params;
+
+    const sale = await salesService.getById(id);
+
+    if (sale.err) return res.status(404).json(sale);
+
+    res.status(200).json(sale);
+}));
+
 module.exports = {
     create,
+    getAll,
+    getById,
 };

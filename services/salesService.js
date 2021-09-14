@@ -11,14 +11,23 @@ const create = async (itensSold) => {
     return createdSales;
 };
 
-/*
 const getAll = async () => {
     const sales = await salesModel.getAll();
     return { sales };
 };
-*/
+
+const getById = async (id) => {
+    const saleId = salesSchema.validateSaleDoesntExistId(id);
+
+    if (saleId) { return saleId; }
+
+    const listedSale = await salesModel.getById(id);
+
+    return listedSale;
+};
 
 module.exports = {
     create,
-   // getAll,
+    getAll,
+    getById,
 };
