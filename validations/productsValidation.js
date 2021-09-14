@@ -6,6 +6,7 @@ const errors = {
   isNotNumber: '"quantity" must be a number',
   quantLessThanOne: '"quantity" must be larger than or equal to 1',
   alreadyExists: 'Product already exists',
+  wrongId: '"Wrong id format"',
 };
 
 const checkNameLenght = (name) => name.length <= 5;
