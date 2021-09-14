@@ -1,7 +1,7 @@
-const validateProduct = (req, res, next) => {
+// const validateProduct = (req, res, next) => {
 
-};
+// };
 
-module.exports = {
-  validateProduct,
-};
+// module.exports = {
+//   validateProduct,
+// };
