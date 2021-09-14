@@ -17,13 +17,8 @@ module.exports = {
 
     async byId(value) {
       const db = await connect();
-      try {
-        const product = await db.collection('products').findOne({ _id: ObjectId(value) });
-        if (!product) throw new Error();
-        return product;
-      } catch (error) {
-        throw new Error('Wrong id format');
-      }
+      const product = await db.collection('products').findOne({ _id: ObjectId(value) });
+      return product;
     },
 
     async byName(value) {
