@@ -24,4 +24,10 @@ module.exports = {
 
     return updatedProduct;
   },
+
+  async delete(id) {
+    const deletedProduct = await productModel.delete(id);
+
+    return deletedProduct;
+  },
 };

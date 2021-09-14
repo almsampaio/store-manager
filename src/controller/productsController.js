@@ -31,4 +31,12 @@ module.exports = {
 
     return response.status(200).json(updatedProduct);
   },
+
+  async delete(request, response) {
+    const { id } = request.params;
+
+    const deletedProduct = await productService.delete(id);
+
+    return response.status(200).json(deletedProduct);
+  },
 };

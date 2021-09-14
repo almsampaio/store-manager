@@ -52,4 +52,19 @@ module.exports = {
       quantity,
     };
   },
+
+  async delete(id) {
+    const db = await mongoConnection();
+    const productCollection = await db.collection('products');
+
+    const product = await productCollection
+      .findOne({ _id: ObjectId(id) }, { name: 1, quantity: 1 });
+
+    if (product) {
+      await productCollection
+      .deleteOne({ _id: ObjectId(id) });
+  
+      return product;
+    }
+  }, 
 };
