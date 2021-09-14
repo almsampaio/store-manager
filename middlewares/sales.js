@@ -40,12 +40,12 @@ const checkIdDelete = rescue(async (req, res, next) => {
   const { id } = req.params;
   const idLength = 24;
   if (id.length !== idLength) {
-    return res.status(status.status.unprocessable)
+    return res.status(status.status.notFound)
       .json({ err: { code: code.code.invalidData, message: message.wrongSaleIdFormat } });
   }
   const sale = await salesServices.findSale(id);
   if (!sale) {
-    return res.status(status.status.notFound)
+    return res.status(status.status.unprocessable)
     .json({ err: { code: code.code.notFound, message: message.saleNotFound } });
   }
   next();
