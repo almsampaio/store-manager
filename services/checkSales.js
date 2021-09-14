@@ -10,10 +10,13 @@ const checkSales = (arr) => {
   //  return {
   //   err: { code: 'invalid_data', message: errors.NAME }, error: 422 };
   // }
-  if (arr.map((item) => item.quantity <= INVALID_QUANTITY)) {
+  const sizeCheck = arr.find((item) => item.quantity <= INVALID_QUANTITY);
+  const typeCheck = arr.find((item) => typeof item.quantity !== 'number');
+
+  if (sizeCheck) {
     return { err: { code: 'invalid_data', message: errors.S_QUANTITY }, error: 422 };
   }
-  if (arr.map((item) => typeof item.quantity !== 'number')) {
+  if (typeCheck) {
     return { err: { code: 'invalid_data', message: errors.S_QUANTITY }, error: 422 };
   }
   return false;

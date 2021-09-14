@@ -34,7 +34,6 @@ const create = async (arr) => {
 
   const newSale = await connectionDb.collection('sales')
   .insert(arr);
-
   return newSale.ops[0];
 };
 
