@@ -8,4 +8,18 @@ module.exports = {
 
     return response.status(201).json(newProduct);
   },
+
+  async index(request, response) {
+    const { id } = request.params;
+
+    if (id) {
+      const product = await productService.index(id);
+
+      return response.status(200).json(product);
+    }
+
+    const products = await productService.index();
+
+    return response.status(200).json({ products });
+  },
 };

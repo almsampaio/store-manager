@@ -5,6 +5,7 @@ const {
   nameValidation,
   productHasExists,
   quantityMustBeGreaterThenOne,
+  isValidId,
 } = require('./src/controller/validations/productsValidations');
 
 const routes = express.Router();
@@ -16,5 +17,9 @@ routes.post(
   productHasExists,
   productsController.create,
 );
+
+routes.get('/products', productsController.index);
+
+routes.get('/products/:id', isValidId, productsController.index);
 
 module.exports = routes;

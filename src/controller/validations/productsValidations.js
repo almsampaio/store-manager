@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const MAX_LENGTH = 5;
 
 const productsModel = require('../../model/productsModel');
@@ -61,8 +63,24 @@ function quantityMustBeGreaterThenOne(req, res, next) {
   next();
 }
 
+function isValidId(req, res, next) {
+  const { id } = req.params;
+
+  if (id && !ObjectId.isValid(id)) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+      });
+  }
+
+  next();
+}
+
 module.exports = {
   nameValidation,
   productHasExists,
   quantityMustBeGreaterThenOne,
+  isValidId,
 };

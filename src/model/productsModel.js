@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
 
 module.exports = {
@@ -10,6 +11,15 @@ module.exports = {
     return { _id: newProduct.insertedId, name, quantity };
   },
 
+  async findAll() {
+    const db = await mongoConnection();
+    const productCollection = await db.collection('products');
+
+    const products = await productCollection.find({}).toArray();
+
+    return products;
+  },
+
   async findOne(name) {
     const db = await mongoConnection();
     const productCollection = await db.collection('products');
@@ -17,5 +27,15 @@ module.exports = {
     const product = await productCollection.findOne(name);
 
     return product;
+  },
+
+  async find(id) {
+    const db = await mongoConnection();
+    const productCollection = await db.collection('products');
+
+    const product = await productCollection
+      .findOne({ _id: ObjectId(id) });
+
+    return product; 
   },
 };
