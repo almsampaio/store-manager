@@ -18,6 +18,8 @@ app.get('/products/:id', Product.findById);
 
 app.post('/products', Product.create);
 
+app.put('/products/:id', Product.updateProduct);
+
 const PORT = 3000;
 
 app.listen(PORT, () => {

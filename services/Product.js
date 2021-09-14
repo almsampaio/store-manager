@@ -18,6 +18,12 @@ const create = async (name, quantity) => {
   return Product.create(name, quantity);
 };
 
+const update = async (name, quantity, id) => {
+  const newProduct = await Product.update(name, quantity, id);
+
+  return newProduct;
+};
+
 const findById = async (id) => {
   // Solicitamos que o model realize a busca no banco
   const product = await Product.findById(id);
@@ -40,4 +46,5 @@ module.exports = {
   create,
   getAllProducts,
   findById,
+  update,
 };
