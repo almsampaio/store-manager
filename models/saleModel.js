@@ -1,14 +1,15 @@
 const { ObjectId } = require('mongodb');
 const { getConnection } = require('./connection');
+// const { isValidID } = require('../utils/serviceValidations'); // Validações devem ser feitas na camada service, remover esta linha depois de refatorar
+const isValidID = (id) => ObjectId.isValid(id);
 
 const SALES_COLLECTION = 'sales';
-
-const isValidID = (id) => ObjectId.isValid(id);
 
 const create = async (sale) => {
   const document = {
     itensSold: sale,
   };
+
   const db = await getConnection();
   const result = await db.collection(SALES_COLLECTION).insertOne(document);
   const [savedSale] = result.ops;

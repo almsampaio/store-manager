@@ -7,7 +7,7 @@ const UNPROCESSABLE_ENTITY = 422;
 const create = async (req, res) => {
   const sale = req.body;
   const result = await saleService.create(sale);
-  const code = result.err ? UNPROCESSABLE_ENTITY : OK;
+  const code = result.err ? NOT_FOUND : OK;
   return res.status(code).json(result);
 };
 
