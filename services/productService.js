@@ -12,6 +12,10 @@ const create = async (name, quantity) => {
   if (typeof quantity !== 'number') {
     return { code: errorMessage.invalidData, message: errorMessage.qtyMustBeANumber };
   }
+
+  const nameExists = await productsModel.findByName(name);
+    if (nameExists) return { code: errorMessage.invalidData, message: errorMessage.productExists };
+
   const person = await productsModel.create(name, quantity);
 
   return person;

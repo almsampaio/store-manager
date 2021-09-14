@@ -1,6 +1,6 @@
 const errorMessage = {
     invalidData: 'invalid_data',
-    productAlreadyExists: 'Product already exists',
+    productExists: 'Product already exists',
     minimumQty: '"quantity" must be larger than or equal to 1',
     qtyMustBeANumber: '"quantity" must be a number',
     wrongIdFormat: 'Wrong id format',
