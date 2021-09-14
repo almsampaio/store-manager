@@ -52,5 +52,4 @@ module.exports = {
   getAll,
   getById,
   actualize,
-  nameExists,
 };
