@@ -1,29 +1,29 @@
 const errors = require('./errors');
-const productModel = require('../models/productModel');
+const salesModel = require('../models/salesModel');
 // const https = require('./HttpsStatus');
 
-const NAME_LENGTH = 5;
+// const NAME_LENGTH = 5;
 const INVALID_QUANTITY = 0;
 
 const checkSales = (arr) => {
-  if (arr.map((item) => item.name < NAME_LENGTH)) {
-   return {
-    err: { code: 'invalid_data', message: errors.NAME }, error: 422 };
-  }
+  // if (arr.map((item) => item.name < NAME_LENGTH)) {
+  //  return {
+  //   err: { code: 'invalid_data', message: errors.NAME }, error: 422 };
+  // }
   if (arr.map((item) => item.quantity <= INVALID_QUANTITY)) {
-    return { err: { code: 'invalid_data', message: errors.QUANTITY }, error: 422 };
+    return { err: { code: 'invalid_data', message: errors.S_QUANTITY }, error: 422 };
   }
   if (arr.map((item) => typeof item.quantity !== 'number')) {
-    return { err: { code: 'invalid_data', message: errors.TYPE_NUMBER }, error: 422 };
+    return { err: { code: 'invalid_data', message: errors.S_QUANTITY }, error: 422 };
   }
   return false;
 };
 
-const addSale = async (arr) => {
+const addSales = async (arr) => {
   const check = checkSales(arr);
   if (check) return check;
 
-  const insertedProduct = await productModel.create(arr);
+  const insertedProduct = await salesModel.create(arr);
 
   // if (insertedProduct === false) {
   //   return { err: { code: 'invalid_data', message: errors.EXISTS }, error: 422 };
@@ -32,19 +32,19 @@ const addSale = async (arr) => {
 };
 
 // const getAll = async () => {
-//   const allProducts = await productModel.getAll();
+//   const allProducts = await salesModel.getAll();
 //   return allProducts;
 // };
 
 // const getProductById = async (id) => {
-//   const product = await productModel.getProductById(id);
+//   const product = await salesModel.getProductById(id);
 //   return product;
 // };
 
 // const update = async (id, name, quantity) => {
 //   const check = checkSales(name, quantity);
 //   if (check) return check;
-//   const updateProduct = await productModel.update(id, name, quantity);
+//   const updateProduct = await salesModel.update(id, name, quantity);
 //   if (updateProduct === false) {
 //     return { err: { code: 'invalid_data', message: errors.EXISTS }, error: 422 };
 // }
@@ -52,7 +52,7 @@ const addSale = async (arr) => {
 // };
 
 // const drop = async (id) => {
-//   const deleteProduct = await productModel.drop(id);
+//   const deleteProduct = await salesModel.drop(id);
 //   if (deleteProduct === false) {
 //     return { err: { code: 'invalid_data', message: 'Wrong id format' }, error: 422 };
 // }
@@ -60,7 +60,7 @@ const addSale = async (arr) => {
 // };
 
 module.exports = {
-  addSale,
+  addSales,
   // getAll,
   // getProductById,
   // update,

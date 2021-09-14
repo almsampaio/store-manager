@@ -1,8 +1,8 @@
-const ProductService = require('../services/checkProduct');
+const ProductService = require('../services/checkSales');
 
 const addSale = async (req, res) => {
   const itens = req.body;
-  const newProduct = await ProductService.addProduct(itens);
+  const newProduct = await ProductService.addSales(itens);
   if (!newProduct.error) return res.status(201).json(newProduct);
   return res.status(newProduct.error).json(newProduct);
 };
