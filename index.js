@@ -14,5 +14,6 @@ app.get('/', (_request, response) => {
 app.post('/products', validationNameAndQuantity, productController.create);
 app.get('/products/:id', productController.getById);
 app.get('/products', productController.getAll);
+app.put('/products/:id', validationNameAndQuantity, productController.update);
 
 app.listen(3000, () => console.log('Olha noix ai na porta 3000'));
