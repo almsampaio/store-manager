@@ -27,7 +27,12 @@ app
   .delete(productController.deleteProduct);
 
 app.route('/sales')
+  .get(saleController.getAll)
   .post(saleController.createSale);
+
+  app
+  .route('/sales/:id')
+  .get(saleController.getById);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

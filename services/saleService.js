@@ -15,3 +15,19 @@ exports.create = async (salesArr) => {
 
   return { sale };
 };
+
+exports.getAll = async () => {
+  const sales = Sale.getAll();
+
+  return sales;
+};
+
+exports.getById = async (id) => {
+  const sale = await Sale.getById(id);
+
+  if (!sale) {
+    return { message: 'Sale not found', code: 'not_found' }; 
+  }
+
+  return { sale };
+};
