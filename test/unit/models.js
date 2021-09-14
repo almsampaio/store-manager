@@ -351,7 +351,7 @@ describe('Testando a função `remove` do model ProductModel', () => {
       await connectionMock.collection(collection).insertOne({
         _id: ObjectId(VALID_ID),
         name: payloadProduct.name,
-        quantity: payloadProduct.quantity, 
+        quantity: payloadProduct.quantity,
       });
 
       const response = await ProductModel.remove(VALID_ID);

@@ -626,3 +626,74 @@ describe('Testando a função `update` do service ProductService', () => {
     });
   });
 });
+
+// remove Product
+describe.only('Testando a função `remove` do model ProductService', () => {
+  const payloadProduct = {
+    name: "Produto do Batista",
+    quantity: 100,
+  }
+
+  const errorFormat = {
+    err: { 
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    }
+  }
+
+  const ID_EXAMPLE = '613ffccffc43b8f78e54a01f';
+  // const INVALID_ID_EXAMPLE = '1';
+  // const NOT_FOUND_ID_EXAMPLE = '613ggccggc43b8f78e54a01g';
+
+  describe('quando o produto não é removido', () => {
+    before(() => {
+      sinon.stub(ProductModel, 'remove')
+      .resolves(null);
+    });
+
+    after(() => {
+      ProductModel.remove.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await ProductService.remove(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui o formato correto: `{ err: { code, message } }`', async () => {
+      const response = await ProductService.remove(ID_EXAMPLE);
+
+      expect(response.err).to.include.all.keys('code', 'message');
+    });
+  });
+
+  describe('quando o produto é removido', () => {
+    before(() => {
+      sinon.stub(ProductModel, 'remove')
+      .resolves(
+        {
+          _id: ID_EXAMPLE,
+          name: payloadProduct.name,
+          quantity: payloadProduct.quantity,
+        }
+      );
+    });
+  
+    after(() => {
+      ProductModel.remove.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await ProductService.remove(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui as keys `_id`, `name` e `quantity`', async () => {
+      const response = await ProductService.remove(ID_EXAMPLE);
+
+      expect(response).to.include.all.keys('_id', 'name', 'quantity');
+    });
+  });
+});

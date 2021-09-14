@@ -51,6 +51,15 @@ const validate = (name, quantity) => {
   }
 };
 
+const validateRemove = (removedProduct) => {
+  if (!removedProduct) {
+    return { 
+      err: { code: codeErrors.invalidData, message: messageErrors.idNotValid }, 
+    }; 
+  }
+  return {};
+};
+
 module.exports = {
   nameLength,
   nameIsNotString,
@@ -59,4 +68,5 @@ module.exports = {
   productExists,
   validate,
   productNotFound,
+  validateRemove,
 };
