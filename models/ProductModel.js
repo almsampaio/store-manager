@@ -57,7 +57,7 @@ const update = async (id, { name, quantity }) => {
   const newData = { name, quantity };
 
   const updatedUser = await productsCollection
-    .findOneAndDelete(
+    .findOneAndUpdate(
       { _id: new ObjectId(id) },
       { $set: newData },
       {
@@ -75,10 +75,12 @@ const remove = async (id) => {
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection(COLLECTION_PRODUCT));
 
-  const removedProduct = productsCollection
-    .deleteOne({ _id: ObjectId(id) });
-  
-  return removedProduct;
+  const removedProduct = await productsCollection
+    .findOneAndDelete({ _id: ObjectId(id) });
+
+  // if (removedProduct.value === null) return null;
+
+  return removedProduct.value;
 };
 
 module.exports = {
