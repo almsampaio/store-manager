@@ -15,7 +15,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', productController.createProduct);
+app.route('/products')
+  .get(productController.getAll)
+  .post(productController.createProduct);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

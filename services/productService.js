@@ -63,3 +63,9 @@ exports.create = async ({ name, quantity }) => {
 
   return { product };
 };
+
+exports.getAll = async () => {
+  const products = Product.getAll();
+
+  return products;
+};
