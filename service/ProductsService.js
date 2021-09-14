@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const ProductsModel = require('../model/products/ProductsModel');
 
 const createProductService = async (name, quantity) => {
@@ -14,13 +15,11 @@ const createProductService = async (name, quantity) => {
 }; 
 
 const getAllProductsService = async () => {
-    // proxy
     const allProducts = await ProductsModel.getAllProductsModel();
     return allProducts;
 };
 
 const getProductByIdService = async (id) => {
-    // proxy
     const productById = await ProductsModel.getProductByIdModel(id);
     return productById;
 };
@@ -35,7 +34,9 @@ const updateProductService = async (id, name, quantity) => {
 };
 
 const deleteProductService = async (id) => {
-    // proxy    
+    if (!ObjectId.isValid(id)) {
+        return 'ID_NOT_EXISTS';
+    }
     const deletedProduct = await ProductsModel.deleteProductModel(id);
     return deletedProduct;
 };

@@ -59,8 +59,8 @@ const updateProductController = async (req, res) => {
 
 const deleteProductController = async (req, res) => {
     const { id } = req.params;
-
     const deletedProduct = await productsService.deleteProductService(id);
+    
     if (deletedProduct === 'ID_NOT_EXISTS') {
         return res.status(422).json(PROD_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
     }

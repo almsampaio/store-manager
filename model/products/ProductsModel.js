@@ -48,7 +48,7 @@ const updateProductModel = async (id, name, quantity) => {
             { $set: { name, quantity } },
         );
     
-    return updated.result;
+    return updated;
 };
 
 const deleteProductModel = async (id) => {
