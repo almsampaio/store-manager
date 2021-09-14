@@ -36,18 +36,18 @@ const addSales = async (data) => {
   };
 };
 
-// const updateProduct = async (id, name, quantity) => {
-//   if (!ObjectId.isValid(id)) {
-//     return null;
-//   }
-//   const db = await connection();
-//   const productToUpdate = await db.collection('products').findOneAndUpdate(
-//     { _id: ObjectId(id) },
-//     { $set: { name, quantity } },
-//     { returnDocument: 'after' },
-//   );
-//   return productToUpdate.value;
-// };
+const updateSale = async (id, data) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const db = await connection();
+  const saleToUpdate = await db.collection('sales').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { itensSold: [...data] } },
+    { returnDocument: 'after' },
+  );
+  return saleToUpdate.value;
+};
 
 // const deleteProduct = async (id) => {
 //   if (!ObjectId.isValid(id)) {
@@ -67,7 +67,7 @@ module.exports = {
   getAllSales,
   getSaleById,
   addSales,
-  // updateProduct,
+  updateSale,
   // deleteProduct,
 
 };

@@ -6,7 +6,7 @@ const {
   getAllSales,
   getSaleById,
   addSales,
-  // updateProduct,
+  updateSale,
   // deleteProduct,
 
 } = require('../Controllers/salesController');
@@ -17,7 +17,7 @@ router.get('/:id', getSaleById);
 
 router.post('/', addSales);
 
-// router.put('/:id', updateProduct);
+router.put('/:id', updateSale);
 
 // router.delete('/:id', deleteProduct);
 

@@ -31,17 +31,21 @@ const addSales = async (data) => {
   return sales;
 };
 
-// const updateProduct = async (id, name, quantity) => {
-//   const validate = productsValidate(name, quantity);
+const updateSale = async (id, data) => {
+  const validate = salesValidate(data);
 
-//   if (validate) {
-//     return validate;
-//   }
+  if (validate) {
+    return {
+        err: {
+          code: 'invalid_data', message: 'Wrong product ID or invalid quantity',
+        },
+      };
+  }
 
-//   const productToUpdate = await productsModel.updateProduct(id, name, quantity);
+  const salesToUpdate = await salesModel.updateSale(id, data);
 
-//   return productToUpdate;
-// };
+  return salesToUpdate;
+};
 
 // const deleteProduct = async (id) => {
 //   const productToDelete = await productsModel.deleteProduct(id);
@@ -56,6 +60,6 @@ module.exports = {
   getAllSales,
   getSaleById,
   addSales,
-  // updateProduct,
+  updateSale,
   // deleteProduct,
 };

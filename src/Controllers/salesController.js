@@ -29,16 +29,15 @@ const addSales = async (req, res) => {
   return res.status(HTTP_STATUS_OK).json(sales);
 };
 
-// const updateProduct = async (req, res) => {
-//   const { name, quantity } = req.body;
-//   const { id } = req.params;
+const updateSale = async (req, res) => {
+  const { id } = req.params;
 
-//   const productToUpdate = await productsService.updateProduct(id, name, quantity);
-//   if (productToUpdate.err) {
-//     return res.status(HTTP_STATUS_UNPROCESSABLE).json(productToUpdate);
-//   }
-//   return res.status(HTTP_STATUS_OK).json(productToUpdate);
-// };
+  const saleToUpdate = await salesService.updateSale(id, req.body);
+  if (saleToUpdate.err) {
+    return res.status(HTTP_STATUS_UNPROCESSABLE).json(saleToUpdate);
+  }
+  return res.status(HTTP_STATUS_OK).json(saleToUpdate);
+};
 
 // const deleteProduct = async (req, res) => {
 //   const { id } = req.params;
@@ -54,6 +53,6 @@ module.exports = {
   getAllSales,
   getSaleById,
   addSales,
-  // updateProduct,
+  updateSale,
   // deleteProduct,
 };
