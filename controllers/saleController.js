@@ -29,13 +29,24 @@ const update = async (req, res) => {
   const { quantity, productId } = req.body[0];
 
   const sale = await saleService.update(id, quantity, productId);
-  console.log(sale);
   res.status(200).json(sale);
   };
+
+const remove = async (req, res) => {
+  const sale = await saleService.getById(req.params.id);
+  console.log(sale);
+  if (!sale) {
+  return res.status(422)
+  .json({ err: { code: 'invalid_data', message: 'Wrong sale ID format' } }); 
+} 
+await saleService.remove(req.params.id);
+res.status(200).json(sale);
+};
 
   module.exports = {
     register,
     getAll,
     getById,
     update,
+    remove,
 }; 

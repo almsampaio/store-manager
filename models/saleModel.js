@@ -9,10 +9,13 @@ const register = async (sales) => {
     return { _id: result.insertedId };
   };
 const getById = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
+  if (!ObjectId.isValid(id)) {
+    console.log('alou');
+    return null;
+  } 
  
   const db = await getConnection(); 
-  const sale = await db.collection(collectionName).findOne([{ id: ObjectId(id) }]);
+  const sale = await db.collection(collectionName).findOne({ _id: ObjectId(id) });
   return sale;
 };
 
@@ -31,9 +34,17 @@ const update = async (saleId, quantity, productId) => {
       { $set: { 'itensSold.$.std': quantity } });
   return { _id: saleId, itensSold: [{ productId, quantity }] };
 };
+
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await getConnection();
+  await db.collection(collectionName).deleteOne({ _id: ObjectId(id) });
+};
 module.exports = {
   register,
   getById,
   getAll,
   update,
+  remove,
   }; 

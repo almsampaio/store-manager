@@ -20,6 +20,7 @@ app.post('/sales', validateQuantitySale, salesController.register);
 app.get('/sales', salesController.getAll);
 app.get('/sales/:id', salesController.getById);
 app.put('/sales/:id', validateQuantitySale, salesController.update);
+app.delete('/sales/:id', salesController.remove);
 
 app.listen(PORT, () => {
   console.log('🚀 Segura que nossa app tá rodando!');

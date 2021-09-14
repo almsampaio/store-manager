@@ -36,11 +36,16 @@ const update = async (saleId, quantity, productId) => {
   return sale;
 };
 
+const remove = async (id) => {
+  await salesModel.remove(id);
+};
+
   module.exports = {
     register,
     validateQuantitySale,
     getById,
     getAll,
     update,
+    remove,
 
 }; 
