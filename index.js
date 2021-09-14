@@ -26,6 +26,8 @@ app.delete('/products/:id', productsController.exclude);
 
 app.get('/sales', salesController.getAll);
 
+app.get('/sales/:id', salesController.getById);
+
 app.post('/sales', salesController.create);
 
 app.listen(PORT, () => {

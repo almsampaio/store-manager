@@ -7,6 +7,14 @@ const getAll = async () => {
   return sales;
 };
 
+const getById = async (id) => {
+  const sale = await salesModel.getById(id);
+
+  if (!sale || { sale: null }) return { err: { code: 'not_found', message: 'Sale not found' } };
+
+  return { sale };
+};
+
 const create = async (itensSold) => {
   const validations = schemas.validateSales(itensSold);
   if (validations.message) return { err: validations };
@@ -16,4 +24,4 @@ const create = async (itensSold) => {
   return { sales: createSales };
 };
 
-module.exports = { getAll, create };
+module.exports = { getAll, getById, create };
