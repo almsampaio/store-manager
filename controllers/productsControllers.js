@@ -1,4 +1,4 @@
-// const services = require('../services/productsServices');
+const services = require('../services/productsServices');
 const model = require('../models/productsModel');
 
 const getAll = async (_req, res) => {
@@ -20,13 +20,12 @@ const getById = async (_req, res) => {
 
 const add = async (req, res) => {
   const { name, quantity } = req.body;
+  
+  const validateName = await services.add(name, quantity);
 
-  try {
-    const addProduct = await model.add(name, quantity);
-    return res.status(200).json(addProduct);
-  } catch (error) {
-    return res.status(500).json({ message: 'erro' });
-  }
+  if (validateName.err) return res.status(422).json(validateName.err);
+  
+  return res.status(200).json(validateName);
 };
 
 const update = async (req, res) => {
@@ -36,7 +35,14 @@ const update = async (req, res) => {
   return res.status(200).json(addProduct);
 };
 
-// const remove = async (req, res) => {
-// };
+const remove = async (req, res) => {
+  const { id } = req.params;
 
-module.exports = { getAll, add, getById, update };
+  const removeProduct = await services.remove(id);
+
+  if (removeProduct.err) return res.status(422).json(removeProduct.err);
+
+  return res.status(200).json(removeProduct);
+};
+
+module.exports = { getAll, add, getById, update, remove };

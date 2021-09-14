@@ -12,7 +12,9 @@ const validateName = (req, res, next) => {
 // const validateNameExists = (req, res, next) => {
 //   const { name } = req.body;
 
-//   if () {
+//   const productName = await model.getByName(name);
+
+//   if (productName) {
 //     return res.status(422).json({ err: 
 //       { message: 'Product already exists', code: 'invalid_data' },
 //     });

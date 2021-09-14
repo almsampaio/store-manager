@@ -1,5 +1,5 @@
+const { ObjectId } = require('mongodb');
 const getConnection = require('./connection');
-// const { ObjectId } = require('mongodb');
 
 const getAll = async () => {
   const db = await getConnection();
@@ -19,27 +19,37 @@ const getByName = async (name) => {
   return product;
 };
 
-// const getById = async (id) => {
-//   if (!ObjectId.isValid(id)) return null; // estou validadno o id, nao entendi direito
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null; // estou validadno o id, nao entendi direito
   
-//   const db = await getConnection();
-//   const product = await db.collection('products').findOne({ id });
-//   return product;
-// };
+  const db = await getConnection();
+  const product = await db.collection('products').findOne(ObjectId(id));
+  return product;
+};
 
-// const update = async () => {
-//   const db = await getConnection();
-// };
+const update = async (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) return null;
+  
+  const db = await getConnection();
+  const updateProduct = await db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+  return { id: updateProduct.insertedId, name, quantity };
+};
 
-// const remove = async () => {
-//   const db = await getConnection();
-// };
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  
+  const db = await getConnection();
+  const product = await db.collection('products').deleteOne({ _id: ObjectId(id) });
+  
+  return product;
+};
 
 module.exports = {
   getAll,
   add,
-  // getById,
+  getById,
   getByName,
-  // update,
-  // remove,
+  update,
+  remove,
 };
