@@ -1,6 +1,7 @@
 const rescue = require('express-rescue');
 const { salesServices } = require('../services');
-const { status } = require('../schema');
+const { status, code } = require('../schema');
+const { message } = require('../schema/message');
 
 const addSales = rescue(async (req, res) => {
   const itensSold = req.body;
@@ -26,7 +27,12 @@ const updateSale = rescue(async (req, res) => {
   return res.status(status.status.ok).json({ _id: id, itensSold });
 });
 
-const deleteSale = async () => {};
+const deleteSale = rescue(async (req, res) => {
+  const { id } = req.params;
+  const sale = await salesServices.findSale(id);
+  await salesServices.deleteSale(id);
+  return res.status(status.status.ok).json(sale);
+});
 
 module.exports = {
   addSales,

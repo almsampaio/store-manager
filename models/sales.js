@@ -27,7 +27,11 @@ const updateSale = async (id, itensSold) => {
   return update;
 };
 
-const deleteSale = () => {};
+const deleteSale = async (id) => {
+  const erase = await connection()
+    .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+  return erase;
+};
 
 module.exports = {
   addSales,

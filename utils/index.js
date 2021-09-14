@@ -15,10 +15,13 @@ const quantitySales = [middlewaresServices.checkSalesQuantity,
 
 const idSales = middlewaresServices.checkIdSales;
 
+const idDelete = middlewaresServices.checkIdDelete;
+
 module.exports = {
   createProducts,
   id,
   updateProducts,
   quantitySales,
   idSales,
+  idDelete,
 };

@@ -20,7 +20,10 @@ const updateSale = async (id, itensSold) => {
   return update;
 };
 
-const deleteSale = () => {};
+const deleteSale = async (id) => {
+  const erase = await salesModels.deleteSale(id);
+  return erase;
+};
 
 module.exports = {
   addSales,
