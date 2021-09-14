@@ -1,0 +1,1 @@
+exports.addProduct = require('./addProduct');
