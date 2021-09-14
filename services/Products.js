@@ -13,7 +13,9 @@ module.exports = {
   },
   async get(id) {
     if (id) {
+      validate.id(id);
       const product = await productsModel.get.byId(id);
+      if (!product) throw new Error('Wrong id format');
       return product;
     }
     
