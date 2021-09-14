@@ -1,7 +1,8 @@
 const salesService = require('../services/sales');
 
-const addNew = async (req, res, _next) => {
+const addNew = async (req, res, next) => {
   const result = await salesService.addNew(req.body);
+  if (result.message) return next(result);
   return res.status(200).json(result);
 };
 
