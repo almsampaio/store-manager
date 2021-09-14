@@ -3,6 +3,7 @@ const {
   findAllProductsInSomeDB,
   findOneProductInSomeDBByID,
   updateOneProductIntoSomeDB,
+  deleteOneProductFromSomeDB,
 } = require('../SERVICES/ProductsService');
 
 const {
@@ -44,9 +45,19 @@ async function putOneProductByID(req, res) {
   return res.status(STATUS_OK).json(responseFromUpdate);
 }
 
+async function deleteOneProductByID(req, res) {
+  const { id } = req.params;
+  const responseFromDelete = await deleteOneProductFromSomeDB(id);
+  if (responseFromDelete.err) {
+    return res.status(responseFromDelete.statusCode).json({ err: responseFromDelete.err });
+  }
+  return res.status(STATUS_OK).json(responseFromDelete);
+}
+
 module.exports = {
   postOneProduct,
   getAllProducts,
   getOneProductByID,
   putOneProductByID,
+  deleteOneProductByID,
 };

@@ -6,6 +6,7 @@ const {
   getAllProducts,
   getOneProductByID,
   putOneProductByID,
+  deleteOneProductByID,
 } = require('./CONTROLLERS/ProductsController');
 
 const PORT = 3000;
@@ -25,9 +26,10 @@ app.get('/Ping', (_req, res) => {
 });
 
 app.get('/products', getAllProducts);
+app.post('/products', postOneProduct);
 app.get('/products/:id', getOneProductByID);
 app.put('/products/:id', putOneProductByID);
-app.post('/products', postOneProduct);
+app.delete('/products/:id', deleteOneProductByID);
 
 app.listen(PORT, () => {
   console.log(`Escutando na porta ${PORT}`);

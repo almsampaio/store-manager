@@ -69,10 +69,28 @@ async function updateOneProductIntoMongoDB(id, productToUpdate) {
   }
 }
 
+async function deleteOneProductFromMongoDB(id) {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const productToDelete = findOneProductInMongoDBByID(id);
+  try {
+    const db = await connection();
+    const responseOfQuery = await db.collection('products')
+      .deleteOne({ _id: new ObjectId(id) });
+    if (responseOfQuery && productToDelete) return productToDelete;
+    return null;
+  } catch (err) {
+    console.log(err);
+    return MONGO_ERROR;
+  }
+}
+
 module.exports = {
   insertOneProductIntoMongoDB,
   findOneProductByName,
   findAllProductsInMongoDB,
   findOneProductInMongoDBByID,
   updateOneProductIntoMongoDB,
+  deleteOneProductFromMongoDB,
 };
