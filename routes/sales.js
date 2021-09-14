@@ -10,5 +10,6 @@ route.post('/', isValidPayload, rescue(Sales.insertSales));
 route.get('/:id', isValidSaleId, rescue(Sales.getSaleById));
 route.get('/', rescue(Sales.getSales));
 route.put('/:id', isValidSaleId, isValidPayload, rescue(Sales.updateSale));
+route.delete('/:id', isValidSaleId, rescue(Sales.deleteSale));
 route.use(error);
 module.exports = route;
