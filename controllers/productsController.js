@@ -17,7 +17,7 @@ const ERROR_MESSAGES_QUANTITY = {
   'any.required': 'Quantity name  is a required field',
 };
 
-const create = rescue(async (req, res, next) => {
+const create = rescue(async (req, res) => {
   const { error } = Joi.object({
     name: Joi.string().min(5).not().empty()
       .required()
@@ -29,7 +29,10 @@ const create = rescue(async (req, res, next) => {
     .validate(req.body);
 
   if (error) {
-    return next(error);
+    return res.status(422).json({ err: {
+      code: 'invalid_data',
+      message: error.details[0].message,
+    } });
   }
 
   const { name, quantity } = req.body;
