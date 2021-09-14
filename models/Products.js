@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connect = require('./connection');
 
 module.exports = {
@@ -8,6 +9,23 @@ module.exports = {
   },
 
   get: {
+    async all() {
+      const db = await connect();
+      const products = await db.collection('products').find({}).toArray();
+      return products || null;
+    },
+
+    async byId(value) {
+      const db = await connect();
+      try {
+        const product = await db.collection('products').findOne({ _id: ObjectId(value) });
+        if (!product) throw new Error();
+        return product;
+      } catch (error) {
+        throw new Error('Wrong id format');
+      }
+    },
+
     async byName(value) {
       const db = await connect();
       const product = await db.collection('products').findOne({ name: value });
