@@ -273,3 +273,112 @@ describe('Testando a função `update` do model ProductModel', () => {
   });
 
 });
+
+
+// remove Product
+describe.only('Testando a função `remove` do model ProductModel', () => {
+  let connectionMock;
+  const INVALID_ID = '1';
+  const NOT_FOUND_ID = '613ggccggc43b8f78e54a01g'
+  const VALID_ID = '613ffccffc43b8f78e54a01f';
+
+  const payloadProduct = {
+    name: "Produto do Batista",
+    quantity: 100,
+  }
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+    const DB_NAME = 'StoreManager';
+
+    connectionMock = await MongoClient
+    .connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then((conn) => conn.db(DB_NAME));
+  
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quando o produto não é removido', () => {
+    const collection = 'products';
+
+    before(async () => {
+      await connectionMock.collection(collection).insertOne({
+        _id: ObjectId(VALID_ID),
+        name: payloadProduct.name,
+        quantity: payloadProduct.quantity,
+      });
+    });
+
+    after(async () => {
+      await connectionMock.collection(collection).drop();
+    });
+
+    it('o produto não existe', async () => {
+      const response = await ProductModel.remove(NOT_FOUND_ID);
+
+      expect(response).to.be.a('null');
+    });
+
+    it('o ID informado é inválido', async () => {
+      const response = await ProductModel.remove(INVALID_ID);
+
+      expect(response).to.be.a('null');
+    });
+  });
+
+  describe('quando o produto é removido', () => {
+   const collection = 'products';
+
+    before(async () => {
+      await connectionMock.collection(collection).insertOne({
+        _id: ObjectId(VALID_ID),
+        name: payloadProduct.name,
+        quantity: payloadProduct.quantity, 
+      });
+    });
+
+    after(async () => {
+      await connectionMock.collection(collection).drop();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await ProductModel.remove(VALID_ID);
+
+      expect(response).to.be.a('object');
+    });
+
+    it('o objeto retornado possui as keys `_id`, `name` e `quantity`', async () => {
+      const response = await ProductModel.remove(VALID_ID);
+
+      expect(response).to.include.all.keys('_id', 'name', 'quantity');
+    });
+
+    it('o produto foi removido do banco de dados', async () => {
+      const response = await ProductModel.remove(VALID_ID);
+      const removedProduct = await connectionMock.collection(collection)
+      .findOne({
+        // _id: ObjectId(VALID_ID),
+        VALID_ID,
+      });
+
+      expect(response).to.be.equal(removedProduct);
+    });
+  });
+});
+
+
+// describe('', () => {
+
+// });
+
+// it('', () => {
+
+// });

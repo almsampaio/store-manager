@@ -57,7 +57,7 @@ const update = async (id, { name, quantity }) => {
   const newData = { name, quantity };
 
   const updatedUser = await productsCollection
-    .findOneAndUpdate(
+    .findOneAndDelete(
       { _id: new ObjectId(id) },
       { $set: newData },
       {
@@ -69,10 +69,23 @@ const update = async (id, { name, quantity }) => {
     return updatedUser.value;
 };
 
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const productsCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection(COLLECTION_PRODUCT));
+
+  const removedProduct = productsCollection
+    .deleteOne({ _id: ObjectId(id) });
+  
+  return removedProduct;
+};
+
 module.exports = {
   isName,
   getAll,
   getById,
   create,
   update,
+  remove,
 };
