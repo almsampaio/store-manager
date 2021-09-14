@@ -19,8 +19,11 @@ app.route('/products')
   .get(productController.getAll)
   .post(productController.createProduct);
 
-app.get('/products/:id', productController.getById);
-app.put('/products/:id', productController.updateProduct);
+app
+  .route('/products/:id')
+  .get(productController.getById)
+  .put(productController.updateProduct)
+  .delete(productController.deleteProduct);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

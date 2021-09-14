@@ -48,8 +48,6 @@ exports.updateProduct = async ({ id, name, quantity }) => {
     .collection('products')
     .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
 
-  console.log('Product: ', result);
-
   if (result.ok) {
       return {
       _id: id,
@@ -59,4 +57,16 @@ exports.updateProduct = async ({ id, name, quantity }) => {
   }
 
   return null;
+};
+
+exports.deleteProduct = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await connection();
+
+  await db
+    .collection('products')
+    .deleteOne({ _id: ObjectId(id) });
+
+  return { ok: 1 };
 };
