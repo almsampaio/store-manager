@@ -10,7 +10,12 @@ const errorJson = {
 const updateSaleControler = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
-    await updateSumAndSubtract(id, body).catch(() => res.status(404).json(errorJson));
+    try {
+        await updateSumAndSubtract(id, body);
+    } catch (e) {
+        console.log('update catch');
+       return res.status(404).json(errorJson);
+    }
     const response = await updateOneSale(id, body);
     const responseJson = {
         _id: id,

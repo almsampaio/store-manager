@@ -6,9 +6,10 @@ const {
 
 const updateSumAndSubtract = async (id, saleArr) => {
     const { itensSold } = await findById(id, 'sales');
-    console.log(itensSold);
     await itensSold.forEach(async (product) => sumProducts(product));
-    await saleArr.forEach(async (product) => subtractProducts(product));
+    await saleArr.forEach(async (product) => subtractProducts(product).catch(() => {
+        throw new Error('erro em sum and subtract');
+         }));
 };
 
 module.exports = updateSumAndSubtract;

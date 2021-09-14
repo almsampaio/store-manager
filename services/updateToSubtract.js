@@ -1,7 +1,14 @@
 const subtractProduct = require('./subtractProduct');
 
 const updateToSubtract = async (saleArr) => {
-    await saleArr.forEach(async (product) => subtractProduct(product).catch((e) => e));    
+    const asyncronousArr = [];
+    saleArr.forEach((element) => {
+        asyncronousArr.push(subtractProduct(element));
+    });
+    const resultArr = await Promise.all(asyncronousArr);
+    if (resultArr.some((element) => element === false)) {        
+        throw new Error('erro do subtract');
+    }
 };
 
 module.exports = updateToSubtract;
