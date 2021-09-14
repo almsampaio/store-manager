@@ -1,4 +1,5 @@
 const salesModel = require('../models/salesModel');
+const productModel = require('../models/productModel');
 
 const getAll = async () => {
   const sales = await salesModel.getAll();
@@ -10,21 +11,46 @@ const getById = async (id) => {
   return sale;
 };
 
+// REFATORAR ESTE TRECHO DEPOIS
+// const verifyStock = async (items) => {
+//   // await items.forEach(async ({ productId, quantity }) => {
+//   //    const product = await productModel.getById(productId);
+//   //     const newQuantity = product.quantity - quantity;
+//   //     if (newQuantity < 0) {
+//   //       return {
+//   //         err: {
+//   //           code: 'invalid_data',
+//   //           message: 'erro',
+//   //         },
+//   //       };
+//   //     }
+//   //     await productModel.update(productId, product.name, newQuantity);
+//   // });
+// };
+
+const ERRO = {
+  err: {
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell',
+  },
+};
+
 const create = async (items) => {
-  if (!items) {
-    return null;
+  if (!items || !items.length) return null;
+  const { productId, quantity } = items[0];
+  const product = await productModel.getById(productId);
+  const newQuantity = product.quantity - quantity;
+  if (newQuantity < 0) {
+    return ERRO;
   }
-  if (!items.length) {
-    return null;
-  }
-  // console.log(items, 'sales service');
-  
+  await productModel.update(productId, product.name, newQuantity);
+
   const newSale = await salesModel.create(items);
   if (newSale === null) {
     return {
       err: {
-        code: 'invalid_data',
-        message: 'Such amount is not allowed to sell',
+        code: 'stock_problem',
+        message: 'Such amount is not permitted to sell',
       },
     };
   }

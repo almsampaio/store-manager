@@ -42,11 +42,11 @@ const create = async (items) => {
 
   const db = await connection();
   const newSale = await db.collection('sales').insertMany([{ itensSold: items }]);
-  await items.forEach(async ({ productId, quantity }) => {
-     await db.collection('products').findOneAndUpdate({ _id: ObjectId(productId) }, {
-      $inc: { quantity: -quantity },
-  });
-  });
+  // await items.forEach(async ({ productId, quantity }) => {
+  //    await db.collection('products').findOneAndUpdate({ _id: ObjectId(productId) }, {
+  //     $inc: { quantity: -quantity },
+  // });
+  // });
 
   return {
     _id: Object.values(newSale.insertedIds).toString(),

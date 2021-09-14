@@ -2,6 +2,8 @@ const httpStatus = require('../utils/httpStatus');
 const productModel = require('../models/productModel');
 const salesModel = require('../models/salesModel');
 
+// dados que vem no body, token do header --> utilização do middleware
+
 const validateName = async (req, res, next) => {
   const { name } = req.body;
 

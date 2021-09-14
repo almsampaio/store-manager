@@ -26,18 +26,11 @@ const getById = async (req, res) => {
 
 const create = rescue(async (req, res) => {
   const itensSold = req.body;
-  // const { productId, quantity } = [itensSold];
  
   const newSale = await salesService.create(itensSold);
-  // if (newSale) {
-  //   return res.status(httpStatus.HTTP_OK_STATUS).json(newSale);
-  // }
+
   if (newSale.err) {
-    return res.status(httpStatus.HTTP_NOT_FOUND).json({
-      err: {
-        code: 'not_found',
-        message: 'data not found',
-      } });
+    return res.status(httpStatus.HTTP_NOT_FOUND).json(newSale);
   }
 
   return res.status(httpStatus.HTTP_OK_STATUS).json(newSale);
