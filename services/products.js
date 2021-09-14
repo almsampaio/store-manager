@@ -43,7 +43,7 @@ const getProductById = async (id) => {
 const getProducts = async () => {
   const products = await productsModel.getProducts();
 
-  return products;
+  return { products };
 };
 
 const updateProduct = async (id, name, quantity) => {

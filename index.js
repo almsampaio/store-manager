@@ -7,7 +7,6 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
@@ -15,7 +14,7 @@ app.get('/', (_request, response) => {
 const productsController = require('./controllers/products');
 
 app.route('/products/:id')
-  .get(productsController.getProductsById)
+  .get(productsController.getProductById)
   .put(productsController.updateProduct)
   .delete(productsController.deleteById);
 
@@ -33,5 +32,9 @@ app.route('/sales/:id')
 app.route('/sales')
   .post(salesController.createSales)
   .get(salesController.getSales);
+
+const error = require('./middleware/error');
+
+app.use(error);
 
 app.listen(PORT, () => console.log(`Running at ${PORT} port`));

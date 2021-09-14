@@ -1,6 +1,7 @@
+const rescue = require('express-rescue');
 const productsService = require('../services/products');
 
-const createProduct = async (req, res) => {
+const createProduct = rescue(async (req, res) => {
   const { name, quantity } = req.body;
 
   const createdProduct = await productsService.createProduct(name, quantity);
@@ -17,9 +18,9 @@ const createProduct = async (req, res) => {
   }
 
   return res.status(201).json(createdProduct);
-};
+});
 
-const getProductsById = async (req, res) => {
+const getProductById = rescue(async (req, res) => {
   const { id } = req.params;
 
   const product = await productsService.getProductById(id);
@@ -36,19 +37,18 @@ const getProductsById = async (req, res) => {
   }
 
   return res.status(200).json(product);
-};
+});
 
-const getProducts = async (_req, res) => {
+const getProducts = rescue(async (_req, res) => {
   const products = await productsService.getProducts();
 
-  return res.status(200).json({ products });
-};
+  return res.status(200).json(products);
+});
 
-const updateProduct = async (req, res) => {
+const updateProduct = rescue(async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
-  
-  console.log('chegamos');
+
   const updatedProduct = await productsService.updateProduct(id, name, quantity);
 
   if (updatedProduct.message) {
@@ -63,9 +63,9 @@ const updateProduct = async (req, res) => {
   }
 
   return res.status(200).json(updatedProduct);
-};
+});
 
-const deleteById = async (req, res) => {
+const deleteById = rescue(async (req, res) => {
   const { id } = req.params;
 
   const deletedProduct = await productsService.deleteById(id);
@@ -82,12 +82,12 @@ const deleteById = async (req, res) => {
   }
 
   return res.status(200).json({ deletedProduct });
-};
+});
 
 module.exports = {
   createProduct,
   getProducts,
-  getProductsById,
+  getProductById,
   updateProduct,
   deleteById,
 };
