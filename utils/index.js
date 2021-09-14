@@ -10,7 +10,7 @@ const id = middlewaresProducts.checkId;
 const updateProducts = [middlewaresProducts.checkProductName,
   middlewaresProducts.checkProductQuantity, middlewaresProducts.checkTypeQuantity];
 
-const registerSales = [middlewaresServices.checkSalesQuantity,
+const quantitySales = [middlewaresServices.checkSalesQuantity,
   middlewaresServices.checkTypeSales];
 
 const idSales = middlewaresServices.checkIdSales;
@@ -19,6 +19,6 @@ module.exports = {
   createProducts,
   id,
   updateProducts,
-  registerSales,
+  quantitySales,
   idSales,
 };

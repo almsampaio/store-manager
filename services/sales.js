@@ -10,9 +10,19 @@ const getAllServices = async () => {
   return getAll;
 };
 
-const getOneService = async (id) => {
+const getOneServices = async (id) => {
   const getOne = await salesModels.getOneSale(id);
   return getOne;
 };
 
-module.exports = { registerSalesServices, getAllServices, getOneService };
+const updateSaleServices = async (id, itensSold) => {
+  const update = await salesModels.updateSale(id, itensSold);
+  return update;
+};
+
+module.exports = {
+  registerSalesServices,
+  getAllServices,
+  getOneServices,
+  updateSaleServices,
+};

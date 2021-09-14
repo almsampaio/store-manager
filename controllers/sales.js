@@ -15,8 +15,20 @@ const getSales = async (_req, res) => {
 
 const getOneSale = rescue(async (req, res) => {
   const { id } = req.params;
-  const sale = await salesServices.getOneService(id);
+  const sale = await salesServices.getOneServices(id);
   return res.status(status.status.ok).json(sale);
 });
 
-module.exports = { registerSales, getSales, getOneSale };
+const updateSale = rescue(async (req, res) => {
+  const { id } = req.params;
+  const itensSold = req.body;
+  await salesServices.updateSaleServices(id, itensSold);
+  return res.status(status.status.ok).json({ _id: id, itensSold });
+});
+
+module.exports = {
+  registerSales,
+  getSales,
+  getOneSale,
+  updateSale,
+};
