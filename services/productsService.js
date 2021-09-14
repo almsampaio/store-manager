@@ -55,8 +55,25 @@ const getById = async (id) => {
   return product;
 };
 
+const editById = async (id, name, quantity) => {
+  const result = await validate(name, quantity);
+  if (result) {
+    return result;
+  }
+
+  const product = await productsModel.editById(id, name, quantity);
+  return { product };
+};
+
+const deleteById = async (id) => {
+  const product = productsModel.deleteById(id);
+  return product;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  editById,
+  deleteById,
 };
