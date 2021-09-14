@@ -28,9 +28,15 @@ const updateSaleById = async (id, ...itensSold) => {
      return sale.value;
 };
 
+const deleteSaleByID = async (id) => {
+    const db = await connection.mongoDB();
+    await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
     createNewSales,
     getAll,
     getSaleById,
     updateSaleById,
+    deleteSaleByID,
 };

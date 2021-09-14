@@ -40,4 +40,6 @@ app.put('/sales/:id', validateQuantitySales, salesControllers.updateSaleById);
 
 app.get('/sales/:id', salesControllers.getSaleById);
 
+app.delete('/sales/:id', salesControllers.deleteSaleById);
+
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
