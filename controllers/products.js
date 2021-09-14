@@ -2,41 +2,41 @@ const rescue = require('express-rescue');
 const { productsServices } = require('../services');
 const { status } = require('../schema');
 
-const createProduct = rescue(async (req, res) => {
+const addProduct = rescue(async (req, res) => {
   const { name, quantity } = req.body;
-  const create = await productsServices.createService(name, quantity);
+  const create = await productsServices.addProduct(name, quantity);
   return res.status(status.status.created).json(create);
 });
 
-const getProducts = rescue(async (_req, res) => {
-  const products = await productsServices.getProductsService();
+const findProducts = rescue(async (_req, res) => {
+  const products = await productsServices.findProducts();
   return res.status(status.status.ok).json({ products });
 });
 
-const getProduct = rescue(async (req, res) => {
+const findProduct = rescue(async (req, res) => {
   const { id } = req.params;
-  const product = await productsServices.getProductService(id);
+  const product = await productsServices.findProduct(id);
   return res.status(status.status.ok).json(product);
 });
 
 const updateProduct = rescue(async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
-  await productsServices.updateProductService(id, name, quantity);
+  await productsServices.updateProduct(id, name, quantity);
   return res.status(status.status.ok).json({ _id: id, name, quantity });
 });
 
 const deleteProduct = rescue(async (req, res) => {
   const { id } = req.params;
-  const findProduct = await productsServices.getProductService(id);
-  await productsServices.deleteProductService(id);
-  return res.status(status.status.ok).json(findProduct);
+  const searchProduct = await productsServices.findProduct(id);
+  await productsServices.deleteProduct(id);
+  return res.status(status.status.ok).json(searchProduct);
 });
 
 module.exports = {
-  createProduct,
-  getProducts,
-  getProduct,
+  addProduct,
+  findProducts,
+  findProduct,
   updateProduct,
   deleteProduct,
  };

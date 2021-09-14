@@ -1,28 +1,31 @@
 const { salesModels } = require('../models');
 
-const registerSalesServices = async (itensSold) => {
-  const register = await salesModels.registerSales(itensSold);
+const addSales = async (itensSold) => {
+  const register = await salesModels.addSales(itensSold);
   return register;
 };
 
-const getAllServices = async () => {
-  const getAll = await salesModels.getAllSales();
-  return getAll;
+const findSales = async () => {
+  const sales = await salesModels.findSales();
+  return sales;
 };
 
-const getOneServices = async (id) => {
-  const getOne = await salesModels.getOneSale(id);
-  return getOne;
+const findSale = async (id) => {
+  const sale = await salesModels.findSale(id);
+  return sale;
 };
 
-const updateSaleServices = async (id, itensSold) => {
+const updateSale = async (id, itensSold) => {
   const update = await salesModels.updateSale(id, itensSold);
   return update;
 };
 
+const deleteSale = () => {};
+
 module.exports = {
-  registerSalesServices,
-  getAllServices,
-  getOneServices,
-  updateSaleServices,
+  addSales,
+  findSales,
+  findSale,
+  updateSale,
+  deleteSale,
 };

@@ -16,7 +16,7 @@ const checkProductName = rescue(async (req, res, next) => {
 
 const checkProductExist = rescue(async (req, res, next) => {
   const { name } = req.body;
-  const findName = await productsServices.findNameService(name);
+  const findName = await productsServices.findName(name);
 
   if (findName) {
     return res.status(status.status.unprocessable).json({

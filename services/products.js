@@ -1,40 +1,40 @@
 const { productsModels } = require('../models');
 
-const createService = async (name, quantity) => {
-  const create = await productsModels.createProduct(name, quantity);
+const addProduct = async (name, quantity) => {
+  const create = await productsModels.addProduct(name, quantity);
   return create;
 };
 
-const findNameService = async (name) => {
+const findName = async (name) => {
   const search = await productsModels.findName(name);
   return search;
 };
 
-const getProductsService = async () => {
-  const products = await productsModels.getProducts();
+const findProducts = async () => {
+  const products = await productsModels.findProducts();
   return products;
 };
 
-const getProductService = async (id) => {
-  const product = await productsModels.getProduct(id);
+const findProduct = async (id) => {
+  const product = await productsModels.findProduct(id);
   return product;
 };
 
-const updateProductService = async (id, name, quantity) => {
+const updateProduct = async (id, name, quantity) => {
   const update = await productsModels.updateProduct(id, name, quantity);
   return update;
 };
 
-const deleteProductService = async (id) => {
+const deleteProduct = async (id) => {
   const erase = await productsModels.deleteProduct(id);
   return erase;
 };
 
 module.exports = {
-  createService,
-  findNameService,
-  getProductsService,
-  getProductService,
-  updateProductService,
-  deleteProductService,
+  addProduct,
+  findName,
+  findProducts,
+  findProduct,
+  updateProduct,
+  deleteProduct,
 };

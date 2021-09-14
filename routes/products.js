@@ -4,9 +4,9 @@ const check = require('../utils');
 
 const router = express.Router();
 
-router.post('/', check.createProducts, productsControllers.createProduct);
-router.get('/', productsControllers.getProducts);
-router.get('/:id', check.id, productsControllers.getProduct);
+router.post('/', check.createProducts, productsControllers.addProduct);
+router.get('/', productsControllers.findProducts);
+router.get('/:id', check.id, productsControllers.findProduct);
 router.put('/:id', check.updateProducts, productsControllers.updateProduct);
 router.delete('/:id', check.id, productsControllers.deleteProduct);
 
