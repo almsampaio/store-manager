@@ -628,7 +628,7 @@ describe('Testando a função `update` do service ProductService', () => {
 });
 
 // remove Product
-describe.only('Testando a função `remove` do model ProductService', () => {
+describe('Testando a função `remove` do model ProductService', () => {
   const payloadProduct = {
     name: "Produto do Batista",
     quantity: 100,
@@ -642,8 +642,6 @@ describe.only('Testando a função `remove` do model ProductService', () => {
   }
 
   const ID_EXAMPLE = '613ffccffc43b8f78e54a01f';
-  // const INVALID_ID_EXAMPLE = '1';
-  // const NOT_FOUND_ID_EXAMPLE = '613ggccggc43b8f78e54a01g';
 
   describe('quando o produto não é removido', () => {
     before(() => {

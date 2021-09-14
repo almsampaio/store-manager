@@ -17,6 +17,7 @@ app.get('/products', ProductController.getAll);
 app.get('/products/:id', ProductController.getById);
 app.post('/products', ProductController.create);
 app.put('/products/:id', ProductController.update);
+app.delete('/products/:id', ProductController.delete);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log('Example app listening on port port!'));

@@ -38,9 +38,12 @@ const update = async (req, res) => {
   res.status(200).json(updatedProduct);
 };
 
+const remove = async (req, res) => {};
+
 module.exports = { 
   getAll,
   getById,
   create,
   update,
+  remove,
 };
