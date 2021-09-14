@@ -30,7 +30,7 @@ const SALE_ERR_STATUS_MESSAGE = {
     ID_NOT_EXISTS: { 
         err: { 
             code: 'invalid_data', 
-            message: 'Wrong id format',
+            message: 'Wrong sale ID format',
         }, 
     },
 };

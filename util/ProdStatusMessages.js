@@ -35,8 +35,8 @@ const PROD_ERR_STATUS_MESSAGE = {
         },
         ID_NOT_EXISTS: { 
             err: { 
-                code: 'invalid_data', 
-                message: 'Wrong id format',
+                code: 'not_found', 
+                message: 'Sale not found',
             }, 
         },
     };
