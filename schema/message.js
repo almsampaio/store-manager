@@ -4,6 +4,7 @@ const message = {
   atLeastOneProduct: '"quantity" must be larger than or equal to 1',
   quantityNotNumber: '"quantity" must be a number',
   idNotFound: 'Wrong id format',
+  invalidQuantity: 'Wrong product ID or invalid quantity',
 };
 
 module.exports = { message };

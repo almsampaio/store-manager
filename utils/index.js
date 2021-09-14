@@ -1,4 +1,4 @@
-const { middlewaresProducts } = require('../middlewares');
+const { middlewaresProducts, middlewaresServices } = require('../middlewares');
 
 const createProducts = [middlewaresProducts.checkProductName, 
   middlewaresProducts.checkProductExist,
@@ -10,8 +10,12 @@ const id = middlewaresProducts.checkId;
 const updateProducts = [middlewaresProducts.checkProductName,
   middlewaresProducts.checkProductQuantity, middlewaresProducts.checkTypeQuantity];
 
+const registerSales = [middlewaresServices.checkSalesQuantity,
+  middlewaresServices.checkTypeSales];
+
 module.exports = {
   createProducts,
   id,
   updateProducts,
+  registerSales,
 };
