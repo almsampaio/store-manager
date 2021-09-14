@@ -84,4 +84,17 @@ const editProduct = async (_id, name, quantity) => {
   return (_id, name, quantity);
 };
 
-module.exports = { createProduct, getProducts, getPtoductsById, editProduct };
+const deleteProduct = async (_id) => {
+  if (!await productsModel.getPtoductsById(_id)) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  const delette = await productsModel.deleteProduct(_id);
+  return delette;
+};
+
+module.exports = { createProduct, getProducts, getPtoductsById, editProduct, deleteProduct };

@@ -37,4 +37,20 @@ const editProduct = async (_id, name, quantity) => {
   return edit;
 };
 
-module.exports = { createProduct, getProducts, existsNameProduct, getPtoductsById, editProduct };
+const deleteProduct = async (_id) => {
+  const db = await connection();
+  const deletee = db.collection('products').deleteOne(
+    {
+      _id: ObjectId(_id),
+    }, 
+  );
+  return deletee;
+};
+
+module.exports = { 
+  createProduct, 
+  getProducts, 
+  existsNameProduct, 
+  getPtoductsById, 
+  editProduct, 
+  deleteProduct };
