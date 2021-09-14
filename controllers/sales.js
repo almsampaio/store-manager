@@ -30,13 +30,9 @@ const editSale = async (req, res) => {
 };
 
 const deleteId = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await salesService.deleteId(id);
-    return res.status(200).json(result.value);
-  } catch (e) {
-    console.log(e.message);
-  }
+  const { id } = req.params;
+  const result = await salesService.deleteId(id);
+  return res.status(200).json(result.value);
 };
 
 module.exports = {
