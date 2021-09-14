@@ -39,8 +39,22 @@ const validateQuantity = (req, res, next) => {
   next();
 };
 
+const validateQuantitySales = (req, res, next) => {
+  const { sales } = req.body;
+
+  sales.forEach((sale) => {
+    if (sale.quantity <= 0 || typeof (sale.quantity) === 'string') {
+      return res.status(422).json({ err: 
+        { message: 'Wrong product ID or invalid quantity', code: 'invalid_data' },
+      });
+    }
+  });
+
+  next();
+};
+
 module.exports = { 
   validateName, 
   validateQuantity,
-  // validateNameExists,
+  validateQuantitySales,
 };

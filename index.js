@@ -28,14 +28,17 @@ app.put('/products/:id',
 app.delete('/products/:id', productsControllers.remove);
 
 // sales routes
-// app.post('/sales', 
-//   validations.validateName, 
-//   validations.validateQuantity,
-//   productsControllers.add);
+app.post('/sales', 
+  validations.validateQuantitySales, 
+  productsControllers.add);
 
 app.get('/sales', salesControllers.getAll);
 
 app.get('/sales/:id', salesControllers.getById);
+
+app.put('/sales/:id', 
+  validations.validateQuantitySales, 
+  salesControllers.update);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

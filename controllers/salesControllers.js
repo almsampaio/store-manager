@@ -1,4 +1,4 @@
-// const services = require('../services/salesServices');
+const services = require('../services/salesServices');
 const model = require('../models/salesModel');
 
 const getAll = async (_req, res) => {
@@ -20,4 +20,19 @@ const getById = async (req, res) => {
   return res.status(200).json(sale);
 };
 
-module.exports = { getAll, getById };
+const add = async (req, res) => {
+  const addSales = await services.add(req.body);
+
+  if (addSales.err) return res.status(422).json(addSales);
+  
+  return res.status(201).json(addSales);
+};
+
+const update = async (req, res) => {
+  const { id } = req.params;
+
+  const updateSale = await model.update(id, req.body);
+  return res.status(200).json(updateSale);
+};
+
+module.exports = { getAll, getById, add, update };
