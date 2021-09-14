@@ -27,17 +27,29 @@ const getSaleById = async (req, res) => {
   return res.status(HTTP_OK).json(sale);
 };
 
-const editById = async (req, res) => {
+const editSaleById = async (req, res) => {
   const { id } = req.params;
   const itensSold = req.body;
-  const { err, solded } = await salesService.editById(id, itensSold);
+  const { err, solded } = await salesService.editSaleById(id, itensSold);
   if (err) return res.status(HTTP_UNPROCESSABLE).json({ err });
   return res.status(HTTP_OK).json(solded);
+};
+
+const deleteSaleById = async (req, res) => {
+  const { id } = req.params;
+  const sale = await salesService.getSaleById(id);
+  if (!sale) {
+    return res.status(HTTP_UNPROCESSABLE).json({ err:
+      { code: 'invalid_data', message: 'Wrong sale ID format' } });
+  }
+  await salesService.deleteSaleById(id);
+  return res.status(HTTP_OK).json(sale.value);
 };
 
 module.exports = {
   create,
   getAllSales,
   getSaleById,
-  editById,
+  editSaleById,
+  deleteSaleById,
 };

@@ -21,7 +21,8 @@ app.delete('/products/:id', productsController.deleteProductById);
 app.get('/sales', salesController.getAllSales);
 app.get('/sales/:id', salesController.getSaleById);
 app.post('/sales', salesController.create);
-app.put('/sales/:id', salesController.editById);
+app.put('/sales/:id', salesController.editSaleById);
+app.delete('/sales/:id', salesController.deleteSaleById);
 
 const PORT = '3000';
 

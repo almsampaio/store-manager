@@ -26,17 +26,23 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-const editById = async (id, itensSold) => {
+const editSaleById = async (id, itensSold) => {
   const [{ quantity }] = itensSold;
   if (quantity < minQuantity) return errMessage;
   if (typeof (quantity) === 'string') return errMessage;
-  const solded = await salesModel.editById(id, itensSold);
+  const solded = await salesModel.editSaleById(id, itensSold);
   return { solded };
+};
+
+const deleteSaleById = async (id) => {
+  const sale = salesModel.deleteSaleById(id);
+  return sale;
 };
 
 module.exports = {
   create,
   getAllSales,
   getSaleById,
-  editById,
+  editSaleById,
+  deleteSaleById,
 };

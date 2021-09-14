@@ -9,7 +9,7 @@ const create = async (itensSold) => {
 
 const getSaleById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
-  const db = getConnection();
+  const db = await getConnection();
   const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
   return sale;
 };
@@ -20,7 +20,7 @@ const getAllSales = async () => {
   return sales;
 };
 
-const editById = async (id, itensSold) => {
+const editSaleById = async (id, itensSold) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await getConnection();
   await db.collection('sales')
@@ -28,9 +28,17 @@ const editById = async (id, itensSold) => {
   return { _id: ObjectId(id), itensSold };
 };
 
+const deleteSaleById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getConnection();
+  const result = await db.collection('sales').findOneAndDelete({ _id: ObjectId(id) });
+  return result;
+};
+
 module.exports = { 
   create,
   getSaleById,
   getAllSales,
-  editById,
+  editSaleById,
+  deleteSaleById,
 };
