@@ -6,10 +6,6 @@ const salesModel = require('../models/salesModel');
 const INVALID_QUANTITY = 0;
 
 const checkSales = (arr) => {
-  // if (arr.map((item) => item.name < NAME_LENGTH)) {
-  //  return {
-  //   err: { code: 'invalid_data', message: errors.NAME }, error: 422 };
-  // }
   const sizeCheck = arr.find((item) => item.quantity <= INVALID_QUANTITY);
   const typeCheck = arr.find((item) => typeof item.quantity !== 'number');
 
@@ -28,21 +24,19 @@ const addSales = async (arr) => {
 
   const insertedSale = await salesModel.create(arr);
 
-  // if (insertedProduct === false) {
-  //   return { err: { code: 'invalid_data', message: errors.EXISTS }, error: 422 };
-// }
   return insertedSale;
 };
 
-// const getAll = async () => {
-//   const allProducts = await salesModel.getAll();
-//   return allProducts;
-// };
+const getAll = async () => {
+  const allProducts = await salesModel.getAll();
+  return allProducts;
+};
 
-// const getProductById = async (id) => {
-//   const product = await salesModel.getProductById(id);
-//   return product;
-// };
+const getSaleById = async (id) => {
+  const sale = await salesModel.getSaleById(id);
+  console.log(sale);
+  return sale;
+};
 
 // const update = async (id, name, quantity) => {
 //   const check = checkSales(name, quantity);
@@ -64,8 +58,8 @@ const addSales = async (arr) => {
 
 module.exports = {
   addSales,
-  // getAll,
-  // getProductById,
+  getAll,
+  getSaleById,
   // update,
   // drop,
 };

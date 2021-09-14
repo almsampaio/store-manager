@@ -1,27 +1,27 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-// const getAll = async () => {
-//   const salesCollection = await connection()
-//     .then((db) => db.collection('sales'));
+const getAll = async () => {
+  const salesCollection = await connection()
+    .then((db) => db.collection('sales'));
 
-//   const sales = await salesCollection
-//     .find()
-//     .toArray();
+  const sales = await salesCollection
+    .find()
+    .toArray();
 
-//   return sales;
-// };
+  return sales;
+};
 
-// const getProductById = async (id) => {
-//   if (!ObjectId.isValid(id)) return false;
+const getSaleById = async (id) => {
+  if (!ObjectId.isValid(id)) return false;
 
-//   const productsCollection = await connection()
-//   .then((db) => db.collection('sales'));
+  const salesCollection = await connection()
+  .then((db) => db.collection('sales'));
 
-//   const product = await productsCollection
-//     .findOne({ _id: ObjectId(id) });
-//     return product;
-// };
+  const sale = await salesCollection
+    .findOne({ _id: ObjectId(id) });
+    return sale;
+};
 
 const create = async (arr) => {
   const connectionDb = await connection();
@@ -61,8 +61,8 @@ const create = async (arr) => {
 
 module.exports = {
   create,
-  // getAll,
-  // getProductById,
+  getAll,
+  getSaleById,
   // update,
   // drop,
 };

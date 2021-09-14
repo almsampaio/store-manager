@@ -1,8 +1,8 @@
-const saleService = require('../services/checkSales');
+const salesService = require('../services/checkSales');
 
 const addSale = async (req, res) => {
   const itens = req.body;
-  const newSale = await saleService.addSales(itens);
+  const newSale = await salesService.addSales(itens);
 
   // const { _id } = newSale;
   // const result = { _id, newSale };
@@ -10,19 +10,19 @@ const addSale = async (req, res) => {
   return res.status(newSale.error).json(newSale);
 };
 
-// const getProducts = async (req, res) => {
-//   const allProducts = await ProductService.getAll();
-//   return res.status(200).json({ products: allProducts });
-// };
+const getSales = async (req, res) => {
+  const allSales = await salesService.getAll();
+  return res.status(200).json({ sales: allSales });
+};
 
-// const getProductById = async (req, res) => {
-//   const { id } = req.params;
-//   const product = await ProductService.getProductById(id);
-//   if (!product) {
-//  return res.status(422).json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
-// }
-//   return res.status(200).json(product);
-// };
+const getSaleById = async (req, res) => {
+  const { id } = req.params;
+  const sale = await salesService.getSaleById(id);
+  if (!sale) {
+ return res.status(404).json({ err: { code: 'not_found', message: 'Sale not found' } });
+}
+  return res.status(200).json(sale);
+};
 
 // const updateProductById = async (req, res) => {
 //   const { id } = req.params;
@@ -47,8 +47,8 @@ const addSale = async (req, res) => {
 
 module.exports = {
   addSale,
-  // getProducts,
-  // getProductById,
+  getSales,
+  getSaleById,
   // updateProductById,
   // deleteProductById,
 };
