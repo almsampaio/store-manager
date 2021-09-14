@@ -16,6 +16,8 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+// Crud products;
+
 app.post('/products', 
 validateNameProduct, validateQuantityProduct, productsControllers.createNewProduct);
 
@@ -28,11 +30,11 @@ validateNameProduct, validateQuantityProduct, productsControllers.UpdateProductB
 
 app.delete('/products/:id', productsControllers.deleteProductById);
 
+// Crud sales;
+
 app.post('/sales', validateQuantitySales, salesControllers.createNewSales);
 
 app.get('/sales', salesControllers.getAll);
-
-// app.put('/sales/:id', validateQuantityUpdateSale, salesControllers.updateSaleById);
 
 app.put('/sales/:id', validateQuantitySales, salesControllers.updateSaleById);
 
