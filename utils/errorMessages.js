@@ -8,6 +8,7 @@ const errorMessages = {
   invalidIdOrQtd: 'Wrong product ID or invalid quantity',
   notFound: 'not_found',
   saleNotFound: 'Sale not found',
+  invalidSaleId: 'Wrong sale ID format',
 };
 
 module.exports = errorMessages;

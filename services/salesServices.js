@@ -29,7 +29,7 @@ const createSale = async (sales) => {
       }
     }));
   } catch (error) {
-    console.error('teste');
+    console.error('erro');
   }
 
   if (newProd !== null) {
@@ -41,8 +41,51 @@ const createSale = async (sales) => {
   return { prodSale };
 };
 
+const updateSale = async (id, sale) => {
+  console.log(sale);
+  const [{ productId, quantity }] = sale;
+
+  try {
+    const errorMessage = await validations.validateSale(productId, quantity);
+  
+    if (errorMessage) {
+      return errorMessage;
+    }
+  } catch (error) {
+    console.error('erro');
+  }
+
+  await salesModel.updateSale(id, sale);
+
+  const updatedSale = await salesModel.getSalesById(id);
+
+  return { updatedSale };
+};
+
+const removeSale = async (id) => {
+  const { removedSale, errorMessage } = await validations.validateSaleId(id);
+
+  if (errorMessage) {
+    return { errorMessage };
+  }
+
+  await salesModel.removeSale(id);
+  
+  return { removedSale };
+
+  // const teste = await validations.validateSaleId(id);
+
+  // if (teste.errorMessage) return { errorMessage: teste.errorMessage };
+  
+  // await salesModel.removeSale(id);
+  
+  // return { removedSale: teste.removeSale };
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
   createSale,
+  updateSale,
+  removeSale,
 };

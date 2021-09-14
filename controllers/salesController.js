@@ -28,8 +28,34 @@ const createSale = async (req, res) => {
   return res.status(httpStatus.ok).json(prodSale);
 };
 
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+  const sale = req.body;
+
+  const { updatedSale, errorMessage } = await salesServices.updateSale(id, sale);
+
+  if (errorMessage) {
+    return res.status(httpStatus.invalidData).json(errorMessage);
+  }
+
+  return res.status(httpStatus.ok).json(updatedSale);
+};
+
+const removeSale = async (req, res) => {
+  const { id } = req.params;
+  const { removedSale, errorMessage } = await salesServices.removeSale(id);
+
+  if (errorMessage) {
+    return res.status(httpStatus.invalidData).json(errorMessage);
+  }
+
+  return res.status(httpStatus.ok).json(removedSale);
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
   createSale,
+  updateSale,
+  removeSale,
 };

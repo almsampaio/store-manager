@@ -27,8 +27,33 @@ const createSale = async (sales) => {
   // Reference for .ops: https://stackoverflow.com/questions/40766654/node-js-mongodb-insert-one-and-return-the-newly-inserted-document
 };
 
+const updateSale = async (id, sale) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const connection = await mongoConnection();
+  await connection.collection('sales').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { itensSold: sale } },
+  );
+
+  return { id, itensSold: sale };
+};
+
+const removeSale = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  
+  const connection = await mongoConnection();
+  await connection.collection('sales').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
   createSale,
+  updateSale,
+  removeSale,
 };
