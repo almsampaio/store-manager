@@ -20,7 +20,7 @@ const create = async (req, res) => {
 
   const { errorMessage, product } = await productService.create(name, quantity);
 
-  if (errorMessage) return res.status(HTTP_422).json({ message: errorMessage });
+  if (errorMessage) return res.status(HTTP_NO_BODY_STATUS).json({ message: errorMessage });
 
   res.status(HTTP_CREATED_STATUS).json(product);
 };

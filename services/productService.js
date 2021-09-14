@@ -1,7 +1,18 @@
 const productsModel = require('../models/productsModel');
 
-const create = async (name, age) => {
-  const person = await productsModel.create(name, age);
+const errorMessage = require('../utils/errorMessage');
+
+const create = async (name, quantity) => {
+  if (name.length < 6) {
+    return { code: errorMessage.invalidData, message: errorMessage.nameMinimumLength };
+  }
+  if (quantity <= 0) {
+    return { code: errorMessage.invalidData, message: errorMessage.minimumQty };
+  }
+  if (typeof quantity !== 'number') {
+    return { code: errorMessage.invalidData, message: errorMessage.qtyMustBeANumber };
+  }
+  const person = await productsModel.create(name, quantity);
 
   return person;
 };
