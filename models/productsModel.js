@@ -9,20 +9,23 @@ const getAll = async () => {
 
 const add = async (name, quantity) => {
   const db = await getConnection();
-  const addProduct = await db.collection('songs').insertOne({ name, quantity });
+  const addProduct = await db.collection('products').insertOne({ name, quantity });
   return { id: addProduct.insertedId, name, quantity };
 };
 
 const getByName = async (name) => {
   const db = await getConnection();
-  const product = await db.collection('songs').findOne({ name });
+  const product = await db.collection('products').findOne({ name });
   return product;
 };
 
-const getById = async (id) => {
-  if (!ObjectId.isValid(id)) return null; // estou validadno o id, nao entendi direito
-
-};
+// const getById = async (id) => {
+//   if (!ObjectId.isValid(id)) return null; // estou validadno o id, nao entendi direito
+  
+//   const db = await getConnection();
+//   const product = await db.collection('products').findOne({ id });
+//   return product;
+// };
 
 // const update = async () => {
 //   const db = await getConnection();
@@ -35,7 +38,7 @@ const getById = async (id) => {
 module.exports = {
   getAll,
   add,
-  getById,
+  // getById,
   getByName,
   // update,
   // remove,
