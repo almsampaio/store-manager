@@ -1,7 +1,7 @@
 const salesSchema = require('../schemas/sales');
 const { findProductById } = require('../models/products');
 
-const existsId = (async (value) => {
+const existsProductId = (async (value) => {
   const response = await findProductById(value);
   if (!response) {
     return false;
@@ -14,7 +14,7 @@ const isValidPayload = (req, _res, next) => {
     const { productId, quantity } = sale;
     const { error } = salesSchema.validate({ productId, quantity });
 
-    if (error || !existsId) {
+    if (error || !existsProductId(productId)) {
       return next(error);
     }
   });
