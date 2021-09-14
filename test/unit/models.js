@@ -215,7 +215,7 @@ describe('Testando a função `getById` do model ProductModel', () => {
 
 // update Product
 
-describe.only('Testando a função `update` do model ProductModel', () => {
+describe('Testando a função `update` do model ProductModel', () => {
   let connectionMock;
   let id;
 
