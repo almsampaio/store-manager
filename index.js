@@ -18,6 +18,9 @@ app.get('/', (_request, response) => {
 app.post('/products', ProductControllers.create);
 
 // 2 - Crie um endpoint para listar os produtos
+app.get('/products', ProductControllers.getAll);
+app.get('/products/:id', ProductControllers.findById);
+
 // 3 - Crie um endpoint para atualizar um produto
 // 4 - Crie um endpoint para deletar um produto
 // 5 - Crie um endpoint para cadastrar vendas

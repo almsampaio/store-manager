@@ -7,6 +7,14 @@ const HTTP_CREATED_STATUS = 201;
 
 const getAll = async (_req, res) => {
   const getAllProducts = await productsService.getAll();
+  // if (!getAllProducts) {
+  //   return res.status(UNPROCESSABLE_ENTITY).json({
+  //     err: {
+  //       code: 'invalid_data',
+  //       message: 'Wrong id format',
+  //     },
+  //   });
+  // }
   return res.status(HTTP_OK_STATUS).json({ products: getAllProducts });
 };
 
