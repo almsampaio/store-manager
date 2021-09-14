@@ -20,8 +20,9 @@ const getAllProductsService = async () => {
 };
 
 const getProductByIdService = async (id) => {
-    if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
+    if (!ObjectId.isValid(id)) return console.log('ID NAO EXISTE 🇨🇼');
     const productById = await ProductsModel.getProductByIdModel(id);
+    console.log('productById serv', productById);
     return productById;
 };
 

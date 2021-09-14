@@ -27,6 +27,12 @@ const PROD_ERR_STATUS_MESSAGE = {
                 message: '"quantity" must be a number',
             }, 
         },
+        QTY_NOT_STRING: { 
+            err: { 
+                code: 'invalid_data', 
+                message: '"productId" must be a string',
+            }, 
+        },
         ID_NOT_EXISTS: { 
             err: { 
                 code: 'invalid_data', 

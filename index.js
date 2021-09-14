@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productRoutes = require('./routes/ProductsRouter');
+const salesRoutes = require('./routes/SalesRouter');
 
 const PORT = 3000;
 
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(productRoutes);
+app.use(salesRoutes);
 
 app.get('/', (_request, response) => {
   response.send();
