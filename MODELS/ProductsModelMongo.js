@@ -50,9 +50,29 @@ async function findOneProductInMongoDBByID(id) {
   }
 }
 
+async function updateOneProductIntoMongoDB(id, productToUpdate) {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  try {
+    const db = await connection();
+    const responseOfQuery = await db.collection('products')
+      .updateOne({ _id: new ObjectId(id) }, { $set: productToUpdate });
+    if (responseOfQuery) {
+      const { name, quantity } = productToUpdate;
+      return { _id: id, name, quantity };
+    }
+    return null;
+  } catch (err) {
+    console.log(err);
+    return MONGO_ERROR;
+  }
+}
+
 module.exports = {
   insertOneProductIntoMongoDB,
   findOneProductByName,
   findAllProductsInMongoDB,
   findOneProductInMongoDBByID,
+  updateOneProductIntoMongoDB,
 };

@@ -2,6 +2,7 @@ const {
   insertOneProductIntoSomeDB,
   findAllProductsInSomeDB,
   findOneProductInSomeDBByID,
+  updateOneProductIntoSomeDB,
 } = require('../SERVICES/ProductsService');
 
 const {
@@ -32,8 +33,20 @@ async function getOneProductByID(req, res) {
   return res.status(STATUS_OK).json(product);
 }
 
+async function putOneProductByID(req, res) {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const productToUpdate = { name, quantity };
+  const responseFromUpdate = await updateOneProductIntoSomeDB(id, productToUpdate);
+  if (responseFromUpdate.err) {
+    return res.status(responseFromUpdate.statusCode).json({ err: responseFromUpdate.err });
+  }
+  return res.status(STATUS_OK).json(responseFromUpdate);
+}
+
 module.exports = {
   postOneProduct,
   getAllProducts,
   getOneProductByID,
+  putOneProductByID,
 };

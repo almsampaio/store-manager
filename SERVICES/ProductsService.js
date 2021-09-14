@@ -1,6 +1,6 @@
 const {
   insertOneProductIntoMongoDB, findOneProductByName, findAllProductsInMongoDB,
-  findOneProductInMongoDBByID,
+  findOneProductInMongoDBByID, updateOneProductIntoMongoDB,
 } = require('../MODELS/ProductsModelMongo');
 
 const { validateName, validateQuantity } = require('../utils/validateProductFields');
@@ -34,8 +34,23 @@ async function findOneProductInSomeDBByID(id) {
   return product;
 }
 
+async function updateOneProductIntoSomeDB(id, productToUpdate) {
+  const { name, quantity } = productToUpdate;
+  const productExistence = false;
+
+  const validQuantity = validateQuantity(quantity);
+  if (validQuantity.err) return validQuantity;
+
+  const validName = validateName(name, productExistence);
+  if (validName.err) return validName;
+
+  const returnedFromMongo = await updateOneProductIntoMongoDB(id, productToUpdate);
+  return returnedFromMongo;
+}
+
 module.exports = {
   insertOneProductIntoSomeDB,
   findAllProductsInSomeDB,
   findOneProductInSomeDBByID,
+  updateOneProductIntoSomeDB,
 };
