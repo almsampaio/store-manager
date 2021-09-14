@@ -6,8 +6,10 @@ const getAll = async (_req, res) => {
   return res.status(200).json({ products: allProducts });
 };
 
-const getById = async (_req, res) => {
-  const product = await model.getById();
+const getById = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await model.getById(id);
 
   if (!product) {
     return res.status(422).json({ err: 
@@ -15,17 +17,17 @@ const getById = async (_req, res) => {
     });
   }
 
-  return res.status(200).json({ product });
+  return res.status(200).json(product);
 };
 
 const add = async (req, res) => {
   const { name, quantity } = req.body;
   
-  const validateName = await services.add(name, quantity);
+  const addProduct = await services.add(name, quantity);
 
-  if (validateName.err) return res.status(422).json(validateName.err);
+  if (addProduct.err) return res.status(422).json(addProduct);
   
-  return res.status(200).json(validateName);
+  return res.status(201).json(addProduct);
 };
 
 const update = async (req, res) => {
@@ -40,7 +42,7 @@ const remove = async (req, res) => {
 
   const removeProduct = await services.remove(id);
 
-  if (removeProduct.err) return res.status(422).json(removeProduct.err);
+  if (removeProduct.err) return res.status(422).json(removeProduct);
 
   return res.status(200).json(removeProduct);
 };

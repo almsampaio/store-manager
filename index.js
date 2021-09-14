@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const productsControllers = require('./controllers/productsControllers');
-// const salesControllers = require('./controllers/salesControllers');
+const salesControllers = require('./controllers/salesControllers');
 const validations = require('./validations');
 
 const app = express();
@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 
 const PORT = '3000';
 
+// products routes
 app.post('/products', 
   validations.validateName, 
   validations.validateQuantity,
@@ -25,6 +26,16 @@ app.put('/products/:id',
   productsControllers.update);
 
 app.delete('/products/:id', productsControllers.remove);
+
+// sales routes
+// app.post('/sales', 
+//   validations.validateName, 
+//   validations.validateQuantity,
+//   productsControllers.add);
+
+app.get('/sales', salesControllers.getAll);
+
+app.get('/sales/:id', salesControllers.getById);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

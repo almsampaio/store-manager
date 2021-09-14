@@ -13,13 +13,15 @@ const add = async (name, quantity) => {
 
 const remove = async (id) => {
   const productExist = await model.getById(id);
+  console.log(productExist);
 
   if (!productExist) {
-    return { message: 'Wrong id format' };
+    return { err: { message: 'Wrong id format', code: 'invalid_data' } };
   }
 
-  const removeProduct = await model.remove(id);
-  return removeProduct;
+  await model.remove(id);
+
+  return productExist; // retorno a resposta do getById pois essa resposta já tem todos os dados que eu quero que o endpoint retorne
 };
 
 module.exports = {
