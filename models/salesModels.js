@@ -20,8 +20,17 @@ const getSaleById = async (id) => {
     return sale;
 };
 
+const updateSaleById = async (id, ...itensSold) => {
+    const db = await connection.mongoDB();
+    const sale = await db.collection('sales').findOneAndUpdate({ _id: ObjectId(id) }, 
+    { $set: { itensSold } },
+         { returnDocument: 'after' });
+     return sale.value;
+};
+
 module.exports = {
     createNewSales,
     getAll,
     getSaleById,
+    updateSaleById,
 };

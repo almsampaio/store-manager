@@ -20,8 +20,19 @@ const getSaleById = async (req, res) => {
     res.status(200).json(sale);
 };
 
+const updateSaleById = async (req, res) => {
+    const { id } = req.params;
+    const sale = await salesModels.updateSaleById(id, ...req.body);
+    if (!sale) {
+     return res.status(422)
+    .json({ err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' } }); 
+} 
+    res.status(200).json(sale);
+};
+
 module.exports = {
    getAll,
    createNewSales,
    getSaleById,
+   updateSaleById,
 };
