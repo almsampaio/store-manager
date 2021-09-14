@@ -9,6 +9,7 @@ const {
   addProduct, 
   getAll,
   getById,
+  updateProduct,
 } = require('../controllers/products');
 
 Router.route('/')
@@ -16,6 +17,11 @@ Router.route('/')
   .post(productValidation, addProduct);
 
 Router.route('/:id')
-  .get(productIdValidation, getById);
+  .get(productIdValidation, getById)
+  .put(
+    productIdValidation, 
+    productValidation, 
+    updateProduct,
+  );
   
 module.exports = Router;

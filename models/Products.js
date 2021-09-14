@@ -32,3 +32,13 @@ exports.getById = async (id) => {
 
   return product;
 };
+
+exports.update = async (id, newProduct) => {
+  const db = await connection();
+  const updatedProduct = await db.collection(COLLECTION_NAME)
+    .updateOne({ _id: ObjectId(id) }, { $set: newProduct });
+
+  console.log(updatedProduct);
+
+  return updatedProduct;
+};
