@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 
 const ProductControllers = require('./controllers/products');
+const SalesControllers = require('./controllers/sales');
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.put('/products/:id', ProductControllers.update);
 app.delete('/products/:id', ProductControllers.exclude);
 
 // 5 - Crie um endpoint para cadastrar vendas
+app.post('/sales', SalesControllers.create);
+
 // 6 - Crie um endpoint para listar as vendas
 // 7 - Crie um endpoint para atualizar uma venda
 // 8 - Crie um endpoint para deletar uma venda
