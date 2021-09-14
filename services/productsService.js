@@ -87,10 +87,14 @@ const update = async (id, name, quantity) => {
   if (infoValidation.flag) {
     return { response: infoValidation.errorInfo, status: 422 };
   }
+  const productExists = await findById(id);
+  if (productExists.status === 422) {
+    return productExists;
+  }
   const productUpdated = await productsModel.update(id, name, quantity);
   return {
     response: productUpdated,
-    status: 201,
+    status: 200,
   };
 };
 

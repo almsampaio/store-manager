@@ -37,11 +37,13 @@ const create = async (name, quantity) => {
   return productCreated;
 };
 
-const update = async (id, name, quantity) => (
-  connection()
+const update = async (id, name, quantity) => {
+  const productUpdated = await connection()
     .then((db) => db.collection(collectionName)
       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }))
     .then(() => ({ _id: id, name, quantity }))
-);
+    .catch((err) => console.log(err));
+  return productUpdated;  
+};
 
 module.exports = { getAll, findById, deleteById, create, update, findByName }; 
