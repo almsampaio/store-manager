@@ -49,7 +49,8 @@ async function updateOneProductIntoSomeDB(id, productToUpdate) {
 }
 
 async function deleteOneProductFromSomeDB(id) {
-  const returnedFromMongo = await deleteOneProductFromMongoDB(id);
+  const productToDelete = findOneProductInMongoDBByID(id);
+  const returnedFromMongo = await deleteOneProductFromMongoDB(id, productToDelete);
   if (!returnedFromMongo) return ERROR_PRODUCT_WRONG_ID;
   return returnedFromMongo;
 }

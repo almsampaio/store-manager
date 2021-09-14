@@ -69,11 +69,10 @@ async function updateOneProductIntoMongoDB(id, productToUpdate) {
   }
 }
 
-async function deleteOneProductFromMongoDB(id) {
+async function deleteOneProductFromMongoDB(id, productToDelete) {
   if (!ObjectId.isValid(id)) {
     return null;
   }
-  const productToDelete = findOneProductInMongoDBByID(id);
   try {
     const db = await connection();
     const responseOfQuery = await db.collection('products')
