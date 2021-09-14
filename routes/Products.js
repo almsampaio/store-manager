@@ -10,6 +10,7 @@ const {
   getAll,
   getById,
   updateProduct,
+  deleteProduct,
 } = require('../controllers/products');
 
 Router.route('/')
@@ -22,6 +23,10 @@ Router.route('/:id')
     productIdValidation, 
     productValidation, 
     updateProduct,
+  )
+  .delete(
+    productIdValidation,
+    deleteProduct,
   );
   
 module.exports = Router;

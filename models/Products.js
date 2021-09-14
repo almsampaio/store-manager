@@ -38,7 +38,15 @@ exports.update = async (id, newProduct) => {
   const updatedProduct = await db.collection(COLLECTION_NAME)
     .updateOne({ _id: ObjectId(id) }, { $set: newProduct });
 
-  console.log(updatedProduct);
-
   return updatedProduct;
+};
+
+exports.delete = async (id) => {
+  const db = await connection();
+  const deletedProduct = await db.collection(COLLECTION_NAME)
+    .deleteOne({ _id: ObjectId(id) });
+
+    console.log(deletedProduct);
+
+  return deletedProduct;
 };
