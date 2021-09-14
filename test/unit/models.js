@@ -113,6 +113,12 @@ describe('Testando a função `getAll` do model ProductModel', () => {
       await connectionMock.collection(collection).drop();
     });
 
+    it('retorna o object "products"', async () => {
+      const products  = await ProductModel.getAll();
+
+      expect(products).to.be.an('object');
+    });
+
     it('retorna o object "products" contento um array', async () => {
       const { products } = await ProductModel.getAll();
 
@@ -217,16 +223,12 @@ describe('Testando a função `getById` do model ProductModel', () => {
 
 describe('Testando a função `update` do model ProductModel', () => {
   let connectionMock;
-  let id;
+  const INVALID_ID = '1';
+  const VALID_ID = '613ffccffc43b8f78e54a01f';
 
   let payloadProduct = {
     name: "Produto do Batista",
     quantity: 100,
-  }
-
-  let payloadProductUpdate = {
-    name: "Produto do Otávio",
-    quantity: 50,
   }
 
   before(async () => {
@@ -248,36 +250,26 @@ describe('Testando a função `update` do model ProductModel', () => {
     mongoConnection.getConnection.restore();
   });
 
+  describe('quando não é atualizado', () => {
+    it('id inválido', async () => {
+      const response = await ProductModel.update(INVALID_ID, payloadProduct);
+
+      expect(response).to.be.null;
+    });
+  });
+
   describe('quando é atualizado com sucesso', () => {
-
-    before(async () => {
-      const { insertedId } = await connectionMock.collection('products').insertOne(payloadProduct);
-      id = insertedId;
-    });
-
-    after(async () => {
-      await connectionMock.collection('products').drop();
-    });
-
     it('retorna um objeto', async () => {
-      const response = await ProductModel.update(id,payloadProductUpdate);
+      const response = await ProductModel.update(VALID_ID, payloadProduct);
 
       expect(response).to.be.a('object');
     });
 
     it('o objeto possui as keys `_id`, `name` e `quantity`', async () => {
-      const response = await ProductModel.update(id,payloadProductUpdate);
+      const response = await ProductModel.update(VALID_ID, payloadProduct);
 
       expect(response).to.include.all.keys('_id', 'name', 'quantity');
     });
-
-    // it('deve existir um produto com o nome e a quantidade atualizada', async () => {
-    //  await ProductModel.update(payloadProductUpdate);
-
-    //   const updateProduct = await connectionMock.collection('products').findOne({ name: payloadProduct.name, quantity: payloadProduct.quantity });
-
-    //   expect(updateProduct).to.deep.include(payloadProductUpdate);
-    // });
   });
 
 });
