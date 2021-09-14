@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const productController = require('./controllers/productController');
+const saleController = require('./controllers/saleController');
 
 const app = express();
 
@@ -24,6 +25,9 @@ app
   .get(productController.getById)
   .put(productController.updateProduct)
   .delete(productController.deleteProduct);
+
+app.route('/sales')
+  .post(saleController.createSale);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
