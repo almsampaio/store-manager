@@ -21,27 +21,15 @@ const verifyQuantity = (quantity) => {
   return true;
 };
 
-const alreadyExists = async (productName) => {
-  const productByName = await Product.findByName(productName);
-
-  if (productByName) return true;
-
-  return false;
-};
-
 const isNumber = (quantity) => {
   if (typeof quantity === 'number') return true;
 
   return false;
 };
 
-exports.create = async ({ name, quantity }) => {
+const validData = (name, quantity) => {
   if (!verifyName(name)) {
     return { message: errors.nameLength, code: 'invalid_data' };
-  }
-
-  if (await alreadyExists(name)) { 
-    return { message: errors.alreadyExists, code: 'invalid_data' };
   }
 
   if (!verifyQuantity(quantity)) {
@@ -52,7 +40,26 @@ exports.create = async ({ name, quantity }) => {
     return { message: errors.notNumber, code: 'invalid_data' };
   }
 
+  return { isValid: true };
+};
+
+const alreadyExists = async (productName) => {
+  const productByName = await Product.findByName(productName);
+
+  if (productByName) return true;
+
+  return false;
+};
+
+exports.create = async ({ name, quantity }) => {
+  const dataValid = validData(name, quantity);
+  if (!dataValid.isValid) return dataValid;
+
+  if (await alreadyExists(name)) { 
+    return { message: errors.alreadyExists, code: 'invalid_data' };
+  } 
+
   const product = await Product.createProduct({ name, quantity });
 
-  return product;
+  return { product };
 };
