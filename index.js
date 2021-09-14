@@ -7,6 +7,7 @@ const SERVER_PORT = 3000;
 app.use(bodyParse.json());
 
 const serviceProducts = require('./services/products');
+const serviceSales = require('./services/sales');
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -56,6 +57,13 @@ app.delete('/products/:id', async (req, res) => {
     return res.status(removedItem.err2.errCode).json(removedItem.err1);
   }
   return res.status(200).json(removedItem);
+});
+
+app.post('/sales', async (req, res) => {
+  const create = await serviceSales.create(req.body);
+  if (create.err1) return res.status(create.err2.errCode).json(create.err1);
+  console.log(create);
+  return res.status(200).json(create);
 });
 
 app.listen(SERVER_PORT, () => console.log('servidor rodando!!'));
