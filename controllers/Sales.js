@@ -2,7 +2,8 @@ const Sales = require('../services/Sales');
 
 const createSales = async (req, res) => {
   const soldItems = req.body;
-  const { status, data } = await Sales.createSales(soldItems);
+  const { status, data, message } = await Sales.createSales(soldItems);
+  if (message) return res.status(status).json({ err: { code: 'stock_problem', message } });
   res.status(status).json(data);
 };
 
