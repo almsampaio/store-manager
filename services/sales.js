@@ -52,12 +52,12 @@ const updateOne = async (payload, id) => {
 };
 
 const deleteOne = async (id) => {
-  const { itensSold } = await salesModel.getById({ id });
-  await updateProductsByDelete(itensSold);
   const result = await salesModel.deleteOne(id);
-  return result.itensSold
+  const toReturn = result.itensSold
     ? result
     : builtError(422, 'invalid_data', 'Wrong sale ID format');
+  if (!toReturn.message) await updateProductsByDelete(result.itensSold);
+  return toReturn;
 };
 
 module.exports = {
