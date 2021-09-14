@@ -1,6 +1,8 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 
+const ProductControllers = require('./controllers/products');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -13,6 +15,8 @@ app.get('/', (_request, response) => {
 });
 
 // 1 - Crie um endpoint para o cadastro de produtos
+app.post('/products', ProductControllers.create);
+
 // 2 - Crie um endpoint para listar os produtos
 // 3 - Crie um endpoint para atualizar um produto
 // 4 - Crie um endpoint para deletar um produto
