@@ -27,10 +27,17 @@ const PROD_ERR_STATUS_MESSAGE = {
                 message: '"quantity" must be a number',
             }, 
         },
+
+        QTY_BELOW_ZERO: { 
+            err: { 
+                code: 'invalid_data', 
+                message: '"quantity" must be larger than or equal to 1',
+            }, 
+        },
         ID_NOT_EXISTS: { 
             err: { 
-                code: 'not_found', 
-                message: 'Sale not found',
+                code: 'invalid_data', 
+                message: 'Wrong id format',
             }, 
         },
     };

@@ -3,7 +3,7 @@ const salesService = require('../service/SalesService');
 const SALE_ERR_STATUS_MESSAGE = require('../util/ProdStatusMessages');
 
 const createSaleController = async (req, res) => {
-    const [item] = req.body;
+    const item = req.body;
     const { productId, quantity } = item;
 
     const sale = await salesService.createSaleService(productId, quantity);
