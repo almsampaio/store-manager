@@ -81,12 +81,25 @@ const getById = async (id) => {
   if (verifyId.err1) return verifyId;
  
  const getProductById = await productModel.getById(id);
- console.log(getProductById);
  return getProductById;
+};
+
+const update = async (id, name, quantity) => {
+  const validateQtd = validateQuantity(quantity);
+  const validateNm = validateName(name);
+  const productNotExists = await validateNoExistsProduct(name);
+  
+  if (validateNm.err1) return validateNm;
+  if (validateQtd.err1) return validateQtd;
+  if (productNotExists.err1) return productNotExists;
+  
+  const updateProduct = await productModel.update(id, name, quantity);
+  return updateProduct;
 };
 
 module.exports = { 
   create,
   getAll,
   getById,
+  update,
 };

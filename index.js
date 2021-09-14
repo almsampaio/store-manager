@@ -37,4 +37,16 @@ app.post('/products', async (req, res) => {
   return res.status(201).json(newProduct);
 });
 
+app.put('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const updateProduct = await serviceProducts.update(id, name, quantity);
+
+  if (updateProduct.err1) {
+    return res.status(updateProduct.err2.errCode).json(updateProduct.err1);
+  }
+  return res.status(200).json(updateProduct);
+});
+
 app.listen(SERVER_PORT, () => console.log('servidor rodando!!'));
