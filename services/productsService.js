@@ -17,22 +17,23 @@ const create = async (name, quantity) => {
   return Products.create(name, quantity);
 };
 
-// const findByName = async (name) => {
-//   const productByName = await Products.findByName(name);
+const findById = async (id) => {
+  const product = await Products.findById(id);
 
-//   if (!productByName) {
-//     return {
-//       error: {
-//         code: 'invalid_data',
-//         message: 'Product not exists',
-//       },
-//     };
-//   }
+  if (!product) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
 
-//   return productByName;
-// };
+  return product;
+};
 
 module.exports = {
   getAll,
   create,
+  findById,
 };
