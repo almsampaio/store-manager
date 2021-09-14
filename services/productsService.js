@@ -33,6 +33,11 @@ const update = async (id, name, quantity) => {
   return result;
 };
 
+const updateOnSale = async (id, name, quantity) => {
+  const result = await productModel.update(id, name, quantity);
+  return result;
+};
+
 const remove = async (id) => {
   const result = await productModel.remove(id);
 
@@ -45,5 +50,6 @@ module.exports = {
   getAll,
   getById,
   update,
+  updateOnSale,
   remove,
 };

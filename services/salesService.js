@@ -3,14 +3,21 @@ const salesMidd = require('../middlewares/salesMidd');
 const errorMsg = require('../returnMsg');
 const productsService = require('./productsService');
 
+const checkProductQuantityForSale = async (prodId, qtd) => {
+  const { quantity } = await productsService.getById(prodId);
+  const newQtd = quantity - qtd;
+  return newQtd;
+};
+
 const updateProductQuantityOnSale = async (prodId, qtd) => {
   const { quantity, name } = await productsService.getById(prodId);
   const newQtd = quantity - qtd;
-  await productsService.update(prodId, name, newQtd);
+  await productsService.updateOnSale(prodId, name, newQtd);
 };
 
 const updateProductQuantityOnRemoveSale = async (prodId, qtd) => {
   const { quantity, name } = await productsService.getById(prodId);
+
   const newQtd = quantity + qtd;
   await productsService.update(prodId, name, newQtd);
 };
@@ -29,12 +36,19 @@ const getAll = async () => {
 };
 
 const create = async (sale) => {
+  const [{ productId, quantity }] = sale;
   const validIds = await salesMidd.validateAllIds(sale);
   const validQtd = await salesMidd.validateAllQtd(sale);
   if (!validIds || !validQtd) return errorMsg.invalidQtdSale;
-  const [{ productId, quantity }] = sale;
-  const result = await salesModel.create(sale);
+  
+  const valid = await Promise.all(sale.map(async (e) => (
+    await checkProductQuantityForSale(e.productId, e.quantity) >= 0
+  )));
+
+  const validated = valid.every((e) => e === true);
+  if (!validated) return false;
   await updateProductQuantityOnSale(productId, quantity);
+  const result = await salesModel.create(sale);
   return result;
 };
 
@@ -53,10 +67,10 @@ const remove = async (id) => {
   const sale = await getById(id);
   if (validId && sale === null) return null;
   const { itensSold } = sale;
-  await salesModel.remove(id);
-  itensSold.forEach((e) => {
+  await itensSold.forEach((e) => {
     updateProductQuantityOnRemoveSale(e.productId, e.quantity);
   });
+  await salesModel.remove(id);
   return sale;
 };
 

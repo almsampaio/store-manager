@@ -14,9 +14,8 @@ const getAll = async () => {
 };
 
 const create = async (sale) => {
-  const itens = { itensSold: sale };
   const db = await connection();
-  const { insertedId } = await db.collection('sales').insertOne(itens);
+  const { insertedId } = await db.collection('sales').insertOne({ itensSold: sale });
   return { _id: insertedId, itensSold: sale };
 };
 

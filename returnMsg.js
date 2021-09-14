@@ -30,6 +30,10 @@ const saleIdInvalid = { err: { err: { code: 'invalid_data',
   message: 'Wrong sale ID format' } },
 };
 
+const stockInvalid = { err: { err: { code: 'stock_problem',
+  message: 'Such amount is not permitted to sell' } },
+};
+
 module.exports = {
   duplicatedProductMsg,
   validateNameMsg,
@@ -39,4 +43,5 @@ module.exports = {
   invalidQtdSale,
   saleNotFound,
   saleIdInvalid,
+  stockInvalid,
 };
