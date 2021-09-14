@@ -55,9 +55,20 @@ const update = rescue(async (req, res) => {
   res.status(HTTP_OK_STATUS).json(updateProduct);
 });
 
+const exclude = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const excludeProduct = await productsService.exclude(id);
+
+  if (excludeProduct.err) return res.status(UNPROCESSABLE_ENTITY).json(excludeProduct);
+
+  res.status(HTTP_OK_STATUS).json(excludeProduct);
+});
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
+  exclude,
 };

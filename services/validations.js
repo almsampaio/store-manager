@@ -49,9 +49,24 @@ const isNotNumber = (quantity) => {
   }
 };
 
+const isIdExists = async (id) => {
+  const products = await productsModel.getAll();
+  const productId = products.find((product) => product.id === id);
+  if (productId) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return false;
+};
+
 module.exports = {
   validNameLength,
   isNameExists,
   isSmallerOrIqualQuantity,
   isNotNumber,
+  isIdExists,
 };
