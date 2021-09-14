@@ -21,16 +21,16 @@ const getSaleById = async (req, res) => {
   return res.status(200).json(sale);
 };
 
-// const updateProductById = async (req, res) => {
-//   const { id } = req.params;
-//   const { name, quantity } = req.body;
-//   const updateProduct = await ProductService.update(id, name, quantity);
-//   if (updateProduct.error) {
-//     return res.status(422).json(updateProduct);
-//   }
+const updateSaleById = async (req, res) => {
+  const { id } = req.params;
+  const itens = req.body;
+  const updateSale = await salesService.update(id, itens);
+  if (updateSale.error) {
+    return res.status(422).json(updateSale);
+  }
 
-//   return res.status(200).json(updateProduct);
-// };
+  return res.status(200).json(updateSale);
+};
 
 // const deleteProductById = async (req, res) => {
 //   const { id } = req.params;
@@ -46,6 +46,6 @@ module.exports = {
   addSale,
   getSales,
   getSaleById,
-  // updateProductById,
+  updateSaleById,
   // deleteProductById,
 };

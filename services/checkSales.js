@@ -34,19 +34,18 @@ const getAll = async () => {
 
 const getSaleById = async (id) => {
   const sale = await salesModel.getSaleById(id);
-  console.log(sale);
   return sale;
 };
 
-// const update = async (id, name, quantity) => {
-//   const check = checkSales(name, quantity);
-//   if (check) return check;
-//   const updateProduct = await salesModel.update(id, name, quantity);
-//   if (updateProduct === false) {
-//     return { err: { code: 'invalid_data', message: errors.EXISTS }, error: 422 };
-// }
-//   return updateProduct;
-// };
+const update = async (id, arr) => {
+  const check = checkSales(arr);
+  if (check) return check;
+  const updateProduct = await salesModel.update(id, arr);
+  if (updateProduct === false) {
+    return { err: { code: 'invalid_data', message: errors.EXISTS }, error: 422 };
+}
+  return updateProduct;
+};
 
 // const drop = async (id) => {
 //   const deleteProduct = await salesModel.drop(id);
@@ -60,6 +59,6 @@ module.exports = {
   addSales,
   getAll,
   getSaleById,
-  // update,
+  update,
   // drop,
 };

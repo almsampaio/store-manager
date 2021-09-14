@@ -31,22 +31,25 @@ const create = async (arr) => {
   return newSale.ops[0];
 };
 
-// const update = async (id, name, quantity) => {
-//   if (!ObjectId.isValid(id)) return false;
+const update = async (id, arr) => {
+  if (!ObjectId.isValid(id)) return false;
+  const [{ productId, quantity }] = arr;
 
-//   const connectionDb = await connection();
+  const connectionDb = await connection();
 
-//   await connectionDb.collection('products')
-//   .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+  await connectionDb.collection('sales')
+  .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: { productId, quantity } } });
 
-//   const newProduct = {
-//     _id: id,
-//     name,
-//     quantity,
-//   };
+  const newProduct = {
+    _id: id,
+    itensSold: [{
+    productId,
+    quantity,
+    }],
+  };
 
-//   return newProduct;
-// };
+  return newProduct;
+};
 
 // const drop = async (id) => {
 //   if (!ObjectId.isValid(id)) return false;
@@ -63,6 +66,6 @@ module.exports = {
   create,
   getAll,
   getSaleById,
-  // update,
+  update,
   // drop,
 };
