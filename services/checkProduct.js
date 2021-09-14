@@ -50,6 +50,16 @@ const update = async (id, name, quantity) => {
   return updateProduct;
 };
 
+const updateOnSale = async (id, name, quantity) => {
+  // const check = checkProduct(name, quantity);
+  // if (check) return check;
+  const updateProduct = await productModel.update(id, name, quantity);
+  if (updateProduct === false) {
+    return { err: { code: 'invalid_data', message: errors.EXISTS }, error: 422 };
+}
+  return updateProduct;
+};
+
 const drop = async (id) => {
   const deleteProduct = await productModel.drop(id);
   if (deleteProduct === false) {
@@ -64,4 +74,5 @@ module.exports = {
   getProductById,
   update,
   drop,
+  updateOnSale,
 };

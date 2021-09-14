@@ -1,5 +1,6 @@
 const errors = require('./errors');
 const salesModel = require('../models/salesModel');
+const productService = require('./checkProduct');
 // const https = require('./HttpsStatus');
 
 // const NAME_LENGTH = 5;
@@ -18,11 +19,19 @@ const checkSales = (arr) => {
   return false;
 };
 
+const updateProductOnSale = async (sale) => {
+const [{ productId, quantity }] = sale;
+// if (!productId) return;
+const product = await productService.getProductById(productId);
+const soldQuantyti = product.quantity - quantity;
+await productService.updateOnSale(productId, product.name, soldQuantyti);
+};
+
 const addSales = async (arr) => {
   const check = checkSales(arr);
   if (check) return check;
-
   const insertedSale = await salesModel.create(arr);
+  await updateProductOnSale(arr);
 
   return insertedSale;
 };
@@ -37,6 +46,17 @@ const getSaleById = async (id) => {
   return sale;
 };
 
+const updateProductOnDropSale = async (id) => {
+  const product = await getSaleById(id);
+  if (!product) return;
+  const { itensSold: [{ productId, quantity }] } = product;
+
+  const productSer = await productService.getProductById(productId);
+
+  const soldQuantyti = quantity + productSer.quantity;
+ await productService.updateOnSale(productId, product.name, soldQuantyti);
+};
+
 const update = async (id, arr) => {
   const check = checkSales(arr);
   if (check) return check;
@@ -48,7 +68,9 @@ const update = async (id, arr) => {
 };
 
 const drop = async (id) => {
+  await updateProductOnDropSale(id);
   const deleteSale = await salesModel.drop(id);
+
   if (deleteSale === false) {
     return { err: { code: 'invalid_data', message: 'Wrong sale ID format' }, error: 422 };
 }
