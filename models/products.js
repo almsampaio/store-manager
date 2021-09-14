@@ -57,6 +57,18 @@ const excludeOne = async (id) => {
   return result.value;
 };
 
+const updateById = async (id, quantity) => {
+  const productsCollection = await connection.getConnection()
+    .then((db) => db.collection('products'));
+
+  if (!ObjectID.isValid(id)) return { message: 'Wrong id format' };
+  const result = await productsCollection.findOneAndUpdate(
+    { _id: ObjectID(id) },
+    { $inc: { quantity } },
+  );
+  return result;
+};
+
 module.exports = {
   addNew,
   getByName,
@@ -64,4 +76,5 @@ module.exports = {
   getAll,
   updateOne,
   excludeOne,
+  updateById,
 };
