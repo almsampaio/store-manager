@@ -67,6 +67,32 @@ function quantityTypeValidationProducts(quantity) {
   return false;
 }
 
+function validationIdURLLength(id) {
+    if (id.length < 24) {
+      return {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        },
+        status: 422,
+      };
+    }
+    return false;
+}
+
+async function validationGetProductById(product) {
+  if (product.length === 0) {
+      return {
+          err: {
+            code: 'invalid_data',
+            message: 'Wrong id format',
+          },
+          status: 422,
+        };
+    }
+    return false;
+}
+
 function formatValidationInputSales(sale) {
   if (!Array.isArray(sale)) {
     return {
@@ -163,6 +189,8 @@ module.exports = {
   isRepeated,
   quantityValidationProducts,
   quantityTypeValidationProducts,
+  validationGetProductById,
+  validationIdURLLength,
   formatValidationInputSales,
   quantityValidationSales,
   productIdValidationSales,

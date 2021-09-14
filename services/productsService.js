@@ -16,6 +16,20 @@ const createProduct = async ({ name, quantity }) => {
   return productsModel.createProduct({ name, quantity });
 };
 
+const getProducts = async (id) => {
+  if (!id) return productsModel.getAllProdutcts();
+
+  const validationIdURLLength = validations.validationIdURLLength(id);
+  if (validationIdURLLength) return validationIdURLLength;
+
+  const getProductById = await productsModel.getProductById(id);
+  const validationGetProductById = await validations.validationGetProductById([...getProductById]);
+  if (validationGetProductById) return validationGetProductById;
+  
+  return getProductById;
+};
+
 module.exports = {
   createProduct,
+  getProducts,
 };

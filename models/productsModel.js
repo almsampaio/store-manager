@@ -1,15 +1,20 @@
 const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
 
+const serialize = ({ _id, name, quantity }) => (
+  {
+    _id,
+    name,
+    quantity,
+  }
+);
+
 const getAllProdutcts = async () => mongoConnection.getConnection()
       .then((db) => db.collection('products').find().toArray())
-          .then((products) =>
-              products.map(({ _id, name, quantity }) =>
-              ({
-                _id,
-                name,
-                quantity,
-              })));
+          .then((products) => products.map(serialize));
+const getProductById = async (id) => mongoConnection.getConnection()
+      .then((db) => db.collection('products').find({ _id: ObjectId(id) }).toArray())
+          .then((products) => products.map(serialize));
 
 const uptadeQuantityOfProduct = async (sale) => {
   const prodsCollection = await mongoConnection.getConnection()
@@ -38,7 +43,8 @@ const createProduct = async ({ name, quantity }) => {
 };
 
 module.exports = {
-  createProduct,
   getAllProdutcts,
+  getProductById,
+  createProduct,
   uptadeQuantityOfProduct,
 };
