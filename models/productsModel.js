@@ -8,14 +8,15 @@ const getAll = async () => {
   const products = await connection()
     .then((db) => db.collection(collectionName).find().toArray())
     .catch((err) => console.log(err));
-  console.log('getAll do model', products);
   return products;
 };
 
-const findById = async (id) => (
-  connection()
-    .then((db) => db.collection(collectionName).findOne(new ObjectId(id)).toArray())
-);
+const findById = async (id) => {
+  const product = await connection()
+    .then((db) => db.collection(collectionName).findOne({ _id: { $eq: ObjectId(id) } }))
+    .catch((err) => console.log(err));
+  return product;
+};
 
 const findByName = async (nameProduct) => {
   const resultSearch = await connection()

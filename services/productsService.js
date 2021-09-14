@@ -36,15 +36,25 @@ const checkProductExists = async (name) => {
 
 const getAll = async () => {
   const products = await productsModel.getAll();
-  console.log('este é o getAll do service', products);
   return {
-    response: !products ? [] : products,
+    response: { products },
     status: 200,
   };
 };
 
 const findById = async (id) => {
   const product = await productsModel.findById(id);
+  if (!product) {
+    return {
+      response: {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        },
+      },
+      status: 422,
+    };
+  }
   return {
     response: product,
     status: 200,
