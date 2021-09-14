@@ -42,4 +42,9 @@ module.exports = {
     );
     return { _id: id, name, quantity };
   },
+
+  async delete(id) {
+    const db = await connect();
+    await db.collection('products').deleteOne({ _id: ObjectId(id) });
+  },
 };

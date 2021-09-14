@@ -49,4 +49,22 @@ module.exports = {
       });
     }
   },
+  
+  async delete(req, res) {
+    const { id } = req.params;
+    try {
+      const product = await productsService.get(id);
+      if (!product) throw new Error('Wrong id format');
+      await productsService.delete(id);
+      return res.status(200).json(product);
+    } catch (error) {
+      const code = 422;
+      return res.status(code).json({
+        err: {
+          message: error.message,
+          code: httpcodes[code],
+        },
+      });
+    }
+  },
 };
