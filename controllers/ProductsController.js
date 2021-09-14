@@ -5,7 +5,7 @@ const create = async (req, res) => {
 
   const product = await ProductsService.create({ name, quantity });
 
-  if (!product.id) {
+  if (!product.name) {
     return res.status(422).json(product);
   }
 
