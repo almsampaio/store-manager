@@ -5,7 +5,7 @@ const create = async (name, quantity) => {
 
   if (existingProduct) {
     return {
-      error: {
+      err: {
         code: 'invalid_data',
         message: 'Product already exists',
       },

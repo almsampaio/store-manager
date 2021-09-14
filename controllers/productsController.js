@@ -6,14 +6,14 @@ const service = require('../services/productsService');
 const ERROR_MESSAGES_NAME = {
   'string.base': 'Product name should be a type of string',
   'string.empty': 'Product name  cannot be an empty field',
-  'string.min': 'Product name should have a minimum length of 5 characters',
+  'string.min': '"name" length must be at least 5 characters long',
   'any.required': 'Product name  is a required field',
 };
 
 const ERROR_MESSAGES_QUANTITY = {
-  'number.base': 'Quantity should be a integer number',
+  'number.base': '"quantity" must be a number',
   'number.empty': 'Quantity cannot be an empty field',
-  'number.min': 'Quantity should have a minimum length of 5 characters',
+  'number.min': '"quantity" must be larger than or equal to 1',
   'any.required': 'Quantity is a required field',
 };
 
@@ -38,6 +38,10 @@ const create = rescue(async (req, res) => {
   const { name, quantity } = req.body;
 
   const createProduct = await service.create(name, quantity);
+
+  if (createProduct.err) return res.status(422).json(createProduct);
+
+  // console.log('Estou no Controller', createProduct);
 
   res.status(201).json(createProduct);
 });

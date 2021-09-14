@@ -16,7 +16,7 @@ const create = async (name, quantity) => {
   const { _id } = await findByName(name);
 
   return {
-    id: _id,
+    _id,
     name,
     quantity,
   };
