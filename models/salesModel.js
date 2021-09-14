@@ -30,9 +30,18 @@ const deleteById = async (id) => {
   return sale;
 };
 
+const editById = async (id, itensSold) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getConnection();
+  const product = await db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+  return { product };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   deleteById,
+  editById,
 };
