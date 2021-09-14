@@ -371,7 +371,7 @@ describe('Testando a função `getById` do service ProductService', () => {
 
 // update Product
 
-describe.only('Testando a função `update` do service ProductService', () => {
+describe('Testando a função `update` do service ProductService', () => {
   let connectionMock;
   let id;
 

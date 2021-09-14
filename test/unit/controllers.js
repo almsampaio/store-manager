@@ -277,3 +277,90 @@ describe('Testando a função `getById` do controller ProductController', () => 
 
 // update Product
 
+describe.only('Testando a função `update` do controller ProductController', () => {
+  describe('quando o payload informado não é válido', () => {
+    const response = {};
+    const request = {};
+  
+    before(() => {
+      request.body = {
+        name: 'Produto Batista',
+        quantity: 'string',
+      };
+
+      request.params = {
+        id: '604cb554311d68f491ba5781'
+      };
+
+      const err = {
+        err: { code: 'invalid_data', message: '"quantity" must be a number' }
+      }
+  
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(ProductService, 'update')
+      .resolves(err);
+    });
+
+    after(() => {
+      ProductService.update.restore();
+    });
+
+    it('é chamado o método `status` passando o código 422 como parâmetro', async () => {
+      await ProductController.update(request, response);
+
+      expect(response.status.calledWith(422)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando o objeto "err" como parâmetro', async () => {
+      await ProductController.update(request, response);
+      const err = {
+        err: { code: 'invalid_data', message: '"quantity" must be a number' }
+      }
+
+      expect(response.json.calledWith(err)).to.be.equal(true);
+    });
+  });
+
+  describe('quando é atualizado com sucesso', () => {
+    const response = {};
+    const request = {};
+
+    before(() => {
+      request.body = {
+        name: 'Produto Batista 2',
+        quantity: 1,
+      };
+  
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(ProductService, 'update')
+      .resolves({ name: 'Produto Batista',
+      quantity: 1 });
+    });
+
+    after(() => {
+      ProductService.update.restore();
+    });
+
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
+      await ProductController.update(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando os dados do produto atualizado como parâmetro', async () => {
+      await ProductController.update(request, response);
+      const product = { name: 'Produto Batista',
+      quantity: 1 };
+
+      expect(response.json.calledWith(product)).to.be.equal(true);
+    });
+  });
+});
