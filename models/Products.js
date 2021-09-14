@@ -18,10 +18,10 @@ const findById = async (id) => {
 };
 
 const create = async (name, quantity) => {
-  const newProduct = await connectionDB()
+  const { ops: newProduct } = await connectionDB()
     .then((db) => db.collection('products').insertOne({ name, quantity }));
   
-  return newProduct;
+  return newProduct[0];
 };
 
 module.exports = {

@@ -15,7 +15,7 @@ const create = async (name, quantity) => {
   const validNameLength = validation.validNameLength(name);
   if (validNameLength) return validNameLength;
 
-  const isNameExists = validation.isNameExists(name);
+  const isNameExists = await validation.isNameExists(name);
   if (isNameExists) return isNameExists;
 
   const isSmallerOrIqualQuantity = validation.isSmallerOrIqualQuantity(quantity);

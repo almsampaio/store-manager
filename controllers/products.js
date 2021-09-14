@@ -1,3 +1,4 @@
+const rescue = require('express-rescue');
 const productsService = require('../services/products');
 
 const HTTP_OK_STATUS = 200;
@@ -23,11 +24,17 @@ const findById = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(findByIdProduct);
 };
 
-const create = async (req, res) => {
+const create = rescue(async (req, res) => {
   const { name, quantity } = req.body;
+
   const createNewProduct = await productsService.create(name, quantity);
-  return res.status(HTTP_CREATED_STATUS).json(createNewProduct);
-};
+  
+  if (createNewProduct.err) {
+    return res.status(UNPROCESSABLE_ENTITY).json(createNewProduct);
+  }
+
+  res.status(HTTP_CREATED_STATUS).json(createNewProduct);
+});
 
 module.exports = {
   getAll,
