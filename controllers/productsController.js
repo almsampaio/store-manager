@@ -12,9 +12,9 @@ const ERROR_MESSAGES_NAME = {
 
 const ERROR_MESSAGES_QUANTITY = {
   'number.base': 'Quantity should be a integer number',
-  'number.empty': 'Quantity name  cannot be an empty field',
-  'number.min': 'Quantity name should have a minimum length of 5 characters',
-  'any.required': 'Quantity name  is a required field',
+  'number.empty': 'Quantity cannot be an empty field',
+  'number.min': 'Quantity should have a minimum length of 5 characters',
+  'any.required': 'Quantity is a required field',
 };
 
 const create = rescue(async (req, res) => {
