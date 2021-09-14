@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connection = require('./connection/connection');
 
 const createSalesModel = async (productId, quantity) => {
@@ -17,28 +17,19 @@ const createSalesModel = async (productId, quantity) => {
     };
 };
 
-// const getsaleByName = async (name) => {
-//     const db = await connection();
-//     const saleName = await db.collection('sales').findOne({ name });
-//     return saleName;
-// };
+const getSaleByIdModel = async (id) => {
+    const objId = ObjectId(id);
+    const db = await connection();
+    const sale = await db.collection('sales').findOne({ _id: objId });
+    return sale;
+};
 
 const getAllSalesModel = async () => {
     const db = await connection();
     const allsales = await db.collection('sales').find({}).toArray();
-    console.log('allsales', allsales)
     const objsales = { sales: allsales };
     return objsales;
 };
-
-// const updatesaleModel = async (id, name, quantity) => {
-//     const db = await connection();
-//     const getProdutcById = await getsaleByIdModel(id);
-//     const { _id } = getProdutcById;
-//     const updated = await db.collection('sales')
-//         .updateOne({ _id }, { $set: { name, quantity } });
-//     return updated;
-// };
 
 // const deletesaleModel = async (id) => {
 //     const db = await connection();
@@ -49,8 +40,8 @@ const getAllSalesModel = async () => {
 
 module.exports = { 
     createSalesModel, 
-    // getsaleByName,
     getAllSalesModel,
+    getSaleByIdModel,
     // getSaleByIdModel,
     // updatesaleModel,
     // deletesaleModel,

@@ -20,6 +20,19 @@ const getAllSalesService = async () => {
     return allsales;
 };
 
+const getSaleByIdService = async (id) => {
+    if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
+
+    const sale = await salesModel.getSaleByIdModel(id);
+    return sale;
+};
+
+const deletesaleService = async (id) => {
+    if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
+    const deletedsale = await salesModel.deletesaleModel(id);
+    return deletedsale;
+};
+
 // const updatesaleService = async (id, name, quantity) => {
 //     if (name.length < 5) return 'ERR_SALE_NAME_LENGTH';        
 //     if (quantity <= 0) return 'ERR_SALE_QTY_BELOW_ZERO';
@@ -30,16 +43,12 @@ const getAllSalesService = async () => {
 //     return updatedsale;
 // };
 
-// const deletesaleService = async (id) => {
-//     if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
-//     const deletedsale = await salesModel.deletesaleModel(id);
-//     return deletedsale;
-// };
+
 
 module.exports = {
     createSaleService,
     getAllSalesService,
-    // getsaleByIdService,
+    getSaleByIdService,
     // updatesaleService,
     // deletesaleService,
 };
