@@ -25,6 +25,10 @@ app.delete('/products/:id', Product.deleteProduct);
 
 app.post('/sales', Sales.create);
 
+app.get('/sales', Sales.getAllSales);
+
+app.get('/sales/:id', Sales.findById);
+
 const PORT = 3000;
 
 app.listen(PORT, () => {
