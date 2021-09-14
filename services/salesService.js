@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+/* eslint-disable sonarjs/cognitive-complexity */
 const salesModel = require('../models/salesModel');
 const validations = require('./validations');
 
@@ -21,9 +23,10 @@ const registerSales = async (sales) => {
     checkProduct = validations.validateSale(productId, quantity);
   });
 
-  const errorMessage = await checkProduct;
+  const { notValid, error } = await checkProduct;
 
-  if (errorMessage) return { errorMessage };
+  if (notValid) return { notValid };
+  if (error) return { error };
 
   const productSales = await salesModel.registerSales(sales);
   return { productSales };
@@ -31,21 +34,40 @@ const registerSales = async (sales) => {
 
 const updateSales = async (id, sale) => {
   const [{ productId, quantity }] = sale;
-  const errorMessage = await validations.validateSale(productId, quantity);
-  if (errorMessage) return { errorMessage };
+  const { notValid, error } = await validations.validateSale(productId, quantity);
+  const validateIdSale = validations.validateIdSale(id);
+
+  if (validateIdSale) return { validateIdSale };
+  if (notValid) return { notValid };
+  if (error) return { error };
+
+  const differenceSale = await validations.differenceInSale(id, quantity);
+
+  if (differenceSale < 0) {
+    const myError = await validations.decreaseProductStock(productId, -differenceSale);
+    if (myError) return { myError };
+  } else {
+    await validations.increaseProductStock(productId, differenceSale);
+  }
+
   await salesModel.updateSale(id, sale);
   const saleUpdated = await salesModel.getSaleById(id);
   return { saleUpdated };
 };
 
 const deleteSale = async (id) => {
-  const { deletedSale, errorMessage } = await validations.verifyIdSale(id);
+  const { sale, errorMessage } = await validations.verifyIdSale(id);
 
   if (errorMessage) return { errorMessage };
 
+  const { itensSold } = sale;
+  const { productId, quantity } = itensSold[0];
+
+  await validations.increaseProductStock(productId, quantity);
+
   await salesModel.deleteSale(id);
 
-  return { deletedSale };
+  return { sale };
 };
 
 module.exports = {

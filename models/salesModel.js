@@ -23,6 +23,7 @@ const registerSales = async (sales) => {
 };
 
 const updateSale = async (id, sale) => {
+  if (!ObjectId.isValid(id)) return null;
   const db = await getConnection();
   await db.collection('sales').updateOne(
     { _id: ObjectId(id) },

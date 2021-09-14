@@ -22,10 +22,14 @@ const getById = async (req, res) => {
 const registerSales = async (req, res) => {
   const sales = req.body;
 
-  const { productSales, errorMessage } = await salesServices.registerSales(sales);
+  const { productSales, notValid, error } = await salesServices.registerSales(sales);
 
-  if (errorMessage) {
-    return res.status(HTTP_UNPR_ENTRY_STATUS).json(errorMessage);
+  if (notValid) {
+    return res.status(HTTP_UNPR_ENTRY_STATUS).json(notValid);
+  }
+
+  if (error) {
+    return res.status(HTTP_NOT_FOUND).json(error);
   }
 
   return res.status(HTTP_OK_STATUS).json(productSales);
@@ -34,10 +38,14 @@ const registerSales = async (req, res) => {
 const updateSales = async (req, res) => {
   const { id } = req.params;
   const sale = req.body;
-  const { saleUpdated, errorMessage } = await salesServices.updateSales(id, sale);
+  const { saleUpdated, notValid, error } = await salesServices.updateSales(id, sale);
 
-  if (errorMessage) {
-    return res.status(HTTP_UNPR_ENTRY_STATUS).json(errorMessage);
+  if (notValid) {
+    return res.status(HTTP_UNPR_ENTRY_STATUS).json(notValid);
+  }
+
+  if (error) {
+    return res.status(HTTP_NOT_FOUND).json(error);
   }
 
   return res.status(HTTP_OK_STATUS).json(saleUpdated);

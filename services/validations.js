@@ -1,3 +1,4 @@
+const { ObjectId } = require('bson');
 const generateError = require('../utils/errorMessage');
 const productsModel = require('../models/productsModel');
 const salesModel = require('../models/salesModel');
@@ -14,6 +15,8 @@ const INVALID_ID_OR_QUANTITY = 'Wrong product ID or invalid quantity';
 const NOT_FOUND = 'not_found';
 const SALE_NOT_FOUND = 'Sale not found';
 const INVALID_SALE_ID = 'Wrong sale ID format';
+const STOCK_PROBLEM = 'Stock_problem';
+const NO_STOCK_MESSAGE = 'Such amount is not permitted to sell';
 
 const notValidId = () => generateError(INVALID_DATA, WRONG_ID_FORMAT);
 
@@ -27,23 +30,55 @@ const validateName = (name) => {
   }
 };
 
-const verifyIdSale = async (id) => {
-  const deletedSale = await salesModel.getSaleById(id);
+const decreaseProductStock = async (id, quantity) => {
+  const product = await productsModel.getProductById(id);
 
-  if (!deletedSale) {
+  if (product.quantity >= quantity) {
+    const newQuantity = product.quantity - quantity;
+    await productsModel.updateOnlyProductQuantity(id, newQuantity);
+    return null;
+  }
+  return generateError(STOCK_PROBLEM, NO_STOCK_MESSAGE);
+};
+
+const increaseProductStock = async (id, quantity) => {
+  const product = await productsModel.getProductById(id);
+  const newQuantity = product.quantity + quantity;
+  await productsModel.updateOnlyProductQuantity(id, newQuantity);
+};
+
+const verifyIdSale = async (id) => {
+  const sale = await salesModel.getSaleById(id);
+
+  if (!sale) {
     const errorMessage = generateError(INVALID_DATA, INVALID_SALE_ID);
     return { errorMessage };
   }
 
-  return { deletedSale };
+  return { sale };
+};
+
+const differenceInSale = async (id, newQuantity) => {
+  const actualSale = await verifyIdSale(id);
+  const { sale: { itensSold } } = actualSale;
+  const { quantity } = itensSold[0];
+  return quantity - newQuantity;
+};
+
+const validateIdSale = (id) => {
+  if (!ObjectId.isValid(id)) {
+    return notValidIdOrQuantity();
+  }
 };
 
 const validateSale = async (id, quantity) => {
   const product = await productsModel.getProductById(id);
   if (!product || quantity < 1 || (typeof quantity !== 'number')) {
-    return notValidIdOrQuantity();
+    const notValid = notValidIdOrQuantity();
+    return { notValid };
   }
-  return null;
+  const error = await decreaseProductStock(id, quantity);
+  return { error };
 };
 
 const validateIfNameAlreadyExists = async (name) => {
@@ -85,4 +120,8 @@ module.exports = {
   validateSale,
   saleNotFound,
   verifyIdSale,
+  increaseProductStock,
+  decreaseProductStock,
+  differenceInSale,
+  validateIdSale,
 };
