@@ -18,4 +18,19 @@ module.exports = {
       });
     }
   },
+  async get(req, res) {
+    const { id } = req.params;
+    try {
+      const products = await productsService.get(id);
+      return res.status(200).json(products);
+    } catch (error) {
+      const code = 422;
+      return res.status(code).json({
+        err: {
+          message: error.message,
+          code: httpcodes[code],
+        },
+      });
+    }
+  },
 };
