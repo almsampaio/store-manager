@@ -15,7 +15,7 @@ const INVALID_ID_OR_QUANTITY = 'Wrong product ID or invalid quantity';
 const NOT_FOUND = 'not_found';
 const SALE_NOT_FOUND = 'Sale not found';
 const INVALID_SALE_ID = 'Wrong sale ID format';
-const STOCK_PROBLEM = 'Stock_problem';
+const STOCK_PROBLEM = 'stock_problem';
 const NO_STOCK_MESSAGE = 'Such amount is not permitted to sell';
 
 const notValidId = () => generateError(INVALID_DATA, WRONG_ID_FORMAT);
