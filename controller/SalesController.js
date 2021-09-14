@@ -10,13 +10,11 @@ const createSaleController = async (req, res) => {
     
     switch (sale) {
         case 'ID_NOT_EXISTS': 
-        return res.status(422).json(SALE_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
+            return res.status(404).json(SALE_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
         case 'ERR_SALE_QTY_BELOW_ZERO': 
-            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.QTY_BELOW_ZERO);
+            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.WRONG_PRODUCTID_INVALID_QTY);
         case 'ERR_QTY_NOT_NUMBER': 
-            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.QTY_NOT_NUMBER);
-        case 'ERR_QTY_NOT_STRING': 
-            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.QTY_NOT_STRING);
+            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.WRONG_PRODUCTID_INVALID_QTY);
         default: 
             return res.status(201).json(sale);
     }    

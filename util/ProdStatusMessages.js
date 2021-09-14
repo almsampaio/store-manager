@@ -14,10 +14,10 @@ const PROD_ERR_STATUS_MESSAGE = {
                 },
         },
 
-        QTY_BELOW_ZERO: { 
+        WRONG_PRODUCTID_INVALID_QTY: { 
             err: { 
                 code: 'invalid_data', 
-                message: '"quantity" must be larger than or equal to 1',
+                message: 'Wrong product ID or invalid quantity',
             },
         },
 
@@ -25,12 +25,6 @@ const PROD_ERR_STATUS_MESSAGE = {
             err: { 
                 code: 'invalid_data', 
                 message: '"quantity" must be a number',
-            }, 
-        },
-        QTY_NOT_STRING: { 
-            err: { 
-                code: 'invalid_data', 
-                message: '"productId" must be a string',
             }, 
         },
         ID_NOT_EXISTS: { 

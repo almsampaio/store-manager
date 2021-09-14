@@ -3,18 +3,12 @@ const connection = require('./connection/connection');
 
 const createSalesModel = async (productId, quantity) => {
     const db = await connection();
-    const saleData = await db.collection('sales').insertOne({ productId, quantity });
-    const result = saleData.ops[0];
+    const saleData = await db.collection('sales')
+        .insertOne({
+            itensSold: [{ productId, quantity }],
+        });
     
-    const { _id } = result;
-
-    return {
-        _id,
-        itensSold: [
-            productId,
-            quantity,
-        ],
-    };
+    return saleData.ops[0];
 };
 
 const getSaleByIdModel = async (id) => {
@@ -27,14 +21,12 @@ const getSaleByIdModel = async (id) => {
 const getAllSalesModel = async () => {
     const db = await connection();
     const sales = await db.collection('sales').find({}).toArray();
-    const objsales = { sales };
-    return objsales;
+    return { sales };
 };
 
 const deleteSaleModel = async (id) => {
     const db = await connection();
     const getId = await getSaleByIdModel(id);
-    console.log('getId', getId)
     await db.collection('sales').deleteOne(getId);
     return getId;    
 };
@@ -44,5 +36,4 @@ module.exports = {
     getAllSalesModel,
     getSaleByIdModel,
     deleteSaleModel,
-    // updatesaleModel,
 };

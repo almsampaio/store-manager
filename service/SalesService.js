@@ -3,14 +3,12 @@ const salesModel = require('../model/SalesModel');
 const { getProductByIdService } = require('./ProductsService');
 
 const createSaleService = async (productId, quantity) => {
-    console.log('productId', productId)
-    const checkProductId = await getProductByIdService(productId);
+    const res = await getProductByIdService(productId);
     
-    if (checkProductId === 'ID_NOT_EXISTS') return checkProductId;
+    if (res === 'ID_NOT_EXISTS') return res;
     if (quantity <= 0) return 'ERR_SALE_QTY_BELOW_ZERO';    
     if (typeof (quantity) !== 'number') return 'ERR_QTY_NOT_NUMBER';
     
-    console.log('🇦🇫', checkProductId);
     const result = await salesModel.createSalesModel(productId, quantity);
     return result;
 }; 
@@ -33,20 +31,9 @@ const deleteSaleService = async (id) => {
     return deletedsale;
 };
 
-// const updatesaleService = async (id, name, quantity) => {
-//     if (name.length < 5) return 'ERR_SALE_NAME_LENGTH';        
-//     if (quantity <= 0) return 'ERR_SALE_QTY_BELOW_ZERO';
-//     if (typeof (quantity) !== 'number') return 'ERR_QTY_NOT_NUMBER';
-//     if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
-    
-//     const updatedsale = await salesModel.updatesaleModel(id, name, quantity);
-//     return updatedsale;
-// };
-
 module.exports = {
     createSaleService,
     getAllSalesService,
     getSaleByIdService,
     deleteSaleService,
-    // updatesaleService,
 };
