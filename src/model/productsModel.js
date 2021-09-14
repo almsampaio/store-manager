@@ -2,7 +2,7 @@ const mongoConnection = require('./connection');
 
 module.exports = {
   async create(name, quantity) {
-    const db = await mongoConnection.getConnection();
+    const db = await mongoConnection();
     const productCollection = await db.collection('products');
 
     const newProduct = await productCollection.insertOne({ name, quantity });
@@ -11,7 +11,7 @@ module.exports = {
   },
 
   async findOne(name) {
-    const db = await mongoConnection.getConnection();
+    const db = await mongoConnection();
     const productCollection = await db.collection('products');
 
     const product = await productCollection.findOne({ name });

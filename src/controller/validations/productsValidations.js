@@ -23,9 +23,9 @@ function nameValidation(req, res, next) {
 async function productHasExists(req, res, next) {
   const { name } = req.body;
 
-  const product = await productsModel.findOne(name);
+  const product = await productsModel.findOne({ name });
 
-  if (product.name && product.quantity) {
+  if (product && product.name) {
     return res.status(422).json({
       err: {
         code: 'invalid_data',

@@ -1,5 +1,4 @@
 const express = require('express');
-
 const routes = require('./routes');
 
 const app = express();
@@ -13,5 +12,5 @@ app.get('/', (_request, response) => {
 });
 
 app.listen(3000, () => {
-  console.log('app in running on port 3333');
+  console.log('app in running on port 3000');
 });
