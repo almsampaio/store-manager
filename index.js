@@ -22,6 +22,8 @@ app.get('/products', ProductControllers.getAll);
 app.get('/products/:id', ProductControllers.findById);
 
 // 3 - Crie um endpoint para atualizar um produto
+app.put('/products/:id', ProductControllers.update);
+
 // 4 - Crie um endpoint para deletar um produto
 // 5 - Crie um endpoint para cadastrar vendas
 // 6 - Crie um endpoint para listar as vendas

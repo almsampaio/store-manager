@@ -44,8 +44,20 @@ const create = rescue(async (req, res) => {
   res.status(HTTP_CREATED_STATUS).json(createNewProduct);
 });
 
+const update = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const updateProduct = await productsService.update(id, name, quantity);
+
+  if (updateProduct.err) return res.status(UNPROCESSABLE_ENTITY).json(updateProduct);
+
+  res.status(HTTP_OK_STATUS).json(updateProduct);
+});
+
 module.exports = {
   getAll,
   findById,
   create,
+  update,
 };

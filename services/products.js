@@ -28,8 +28,23 @@ const create = async (name, quantity) => {
   return newProduct;
 };
 
+const update = async (id, name, quantity) => {
+  const validNameLength = validation.validNameLength(name);
+  if (validNameLength) return validNameLength;
+
+  const isSmallerOrIqualQuantity = validation.isSmallerOrIqualQuantity(quantity);
+  if (isSmallerOrIqualQuantity) return isSmallerOrIqualQuantity;
+
+  const isNotNumber = validation.isNotNumber(quantity);
+  if (isNotNumber) return isNotNumber;
+
+  const updateProduct = await productsModel.update(id, name, quantity);
+  return updateProduct;
+};
+
 module.exports = {
   getAll,
   findById,
   create,
+  update,
 };
