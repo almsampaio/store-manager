@@ -7,13 +7,21 @@ exports.create = async (req, res) => {
     const product = await productsService.create({ name, quantity });
     return res.status(StatusCodes.CREATED).json(product);
   } catch (e) {
-    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+    return res.status(e.code).json(
       { err: {
         code: e.name,
         message: e.message,
       } },
     );
   }
+/*   productsService.create({ name, quantity })
+    .then((product) => res.status(StatusCodes.CREATED).json(product))
+    .catch((e) => res.status(e.code).json(
+      { err: {
+        code: e.name,
+        message: e.message,
+      } },
+    )); */
 };
 
 exports.getAll = async (_req, res) => {
@@ -21,7 +29,7 @@ exports.getAll = async (_req, res) => {
     const products = await productsService.getAll();
     return res.status(StatusCodes.OK).json({ products });
   } catch (e) {
-    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+    return res.status(e.code).json(
       { err: {
         code: e.name,
         message: e.message,
@@ -36,7 +44,7 @@ exports.get = async (req, res) => {
     const products = await productsService.get({ id });
     return res.status(StatusCodes.OK).json(products);
   } catch (e) {
-    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+    return res.status(e.code).json(
       { err: {
         code: e.name,
         message: e.message,
@@ -52,7 +60,7 @@ exports.update = async (req, res) => {
     const products = await productsService.update({ id, name, quantity });
     return res.status(StatusCodes.OK).json(products);
   } catch (e) {
-    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+    return res.status(e.code).json(
       { err: {
         code: e.name,
         message: e.message,
@@ -67,7 +75,7 @@ exports.delete = async (req, res) => {
     const products = await productsService.delete({ id });
     return res.status(StatusCodes.OK).json(products);
   } catch (e) {
-    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(
+    return res.status(e.code).json(
       { err: {
         code: e.name,
         message: e.message,

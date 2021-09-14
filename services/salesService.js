@@ -51,7 +51,7 @@ exports.delete = async ({ id }) => {
   if (!isObjectId(id)) throw new InvalidDataError('Wrong sale ID format');
   const sale = await salesModel.findById(id);
   const { _id, itensSold } = sale;
-  await Promise.allSettled(
+  await Promise.all(
     itensSold.map(async ({ productId, quantity }) => {
       const { quantity: inventoryQnt } = await productsModel.findById(productId);
       return productsModel.updateOne({ _id: productId }, { quantity: inventoryQnt + quantity });
