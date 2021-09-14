@@ -39,7 +39,9 @@ const productExists = async (name) => {
 
 const validate = (name, quantity) => {
   switch (true) {
-    case nameLength(name) || nameIsNotString(name): return { 
+    // case nameLength(name) || nameIsNotString(name): return { 
+    //   err: { code: codeErrors.invalidData, message: messageErrors.nameLength } };
+    case nameLength(name): return { 
       err: { code: codeErrors.invalidData, message: messageErrors.nameLength } };
     case quantityLength(quantity): return { 
       err: { code: codeErrors.invalidData, message: messageErrors.quantityLength } };

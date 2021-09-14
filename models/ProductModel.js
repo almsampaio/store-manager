@@ -65,8 +65,6 @@ const update = async (id, { name, quantity }) => {
         returnDocument: 'after',
       },
     );
-  
-    // if (!updatedUser) return null;
 
     return updatedUser.value;
 };

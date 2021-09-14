@@ -410,6 +410,31 @@ describe('Testando a função `getById` do service ProductService', () => {
 
 describe('Testando a função `update` do service ProductService', () => {
   describe('quando o payload informado não é válido', () => {
+    describe('o id informado é inválido', () => {
+      const payloadProduct = {
+        name: 'Product Example',
+        quantity: 10,
+      }
+
+      const ID_INVALID = '1';
+
+      before(() => {
+        sinon.stub(ProductModel, 'update')
+          .resolves(null);
+      });
+  
+      after(() => {
+        ProductModel.update.restore();
+      });
+
+      it('retorna null', async () => {
+        const response = await ProductService.update(ID_INVALID, payloadProduct);
+
+        expect(response).to.be.a('object');
+      });
+
+    });
+
     describe('pois o nome é menor que 5 caracteres', () => {
       const payloadProduct = {
         name: 'abc',
