@@ -12,7 +12,7 @@ const {
 } = require('../controllers/products');
 
 Router.route('/')
-  .get('/', getAll)
+  .get(getAll)
   .post(productValidation, addProduct);
 
 Router.route('/:id')
