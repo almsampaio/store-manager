@@ -22,4 +22,12 @@ routes.get('/products', productsController.index);
 
 routes.get('/products/:id', isValidId, productsController.index);
 
+routes.put(
+  '/products/:id',
+  nameValidation,
+  quantityMustBeGreaterThenOne,
+  productHasExists, 
+  productsController.update,
+);
+
 module.exports = routes;

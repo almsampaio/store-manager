@@ -38,4 +38,18 @@ module.exports = {
 
     return product; 
   },
+
+  async update(id, name, quantity) {
+    const db = await mongoConnection();
+    const productCollection = await db.collection('products');
+
+    await productCollection
+      .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+
+    return {
+      _id: id,
+      name,
+      quantity,
+    };
+  },
 };

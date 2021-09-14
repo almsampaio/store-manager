@@ -22,4 +22,13 @@ module.exports = {
 
     return response.status(200).json({ products });
   },
+
+  async update(request, response) {
+    const { id } = request.params;
+    const { name, quantity } = request.body;
+    
+    const updatedProduct = await productService.update(id, name, quantity);
+
+    return response.status(200).json(updatedProduct);
+  },
 };
