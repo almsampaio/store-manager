@@ -62,9 +62,13 @@ const findById = async (id) => {
 };
 
 const deleteById = async (id) => {
-  const productDeleted = await productsModel.deleteById(id);
+  const productExists = await findById(id);
+  if (productExists.status === 422) {
+    return productExists;
+  }
+  await productsModel.deleteById(id);
   return {
-    response: productDeleted,
+    response: productExists.response,
     status: 200,
   };
 };
