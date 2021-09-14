@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const Product = require('./controllers/Product');
+const Sales = require('./controllers/Sales');
 
 app.use(bodyParser.json());
 
@@ -21,6 +22,8 @@ app.post('/products', Product.create);
 app.put('/products/:id', Product.updateProduct);
 
 app.delete('/products/:id', Product.deleteProduct);
+
+app.post('/sales', Sales.create);
 
 const PORT = 3000;
 
