@@ -18,7 +18,7 @@ const findOneByName = async ({ name }) => {
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('products'));
 
-  const productFound = await productsCollection.findOne(name);
+  const productFound = await productsCollection.findOne({ name });
   return productFound;
 };
 
