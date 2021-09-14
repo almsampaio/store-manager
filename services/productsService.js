@@ -21,7 +21,6 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const result = await productModel.getById(id);
-
   if (!result) return errorMsg.invalidIdFormat;
   return result;
 };
