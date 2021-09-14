@@ -24,4 +24,12 @@ const create = async (itensSold) => {
   return { sales: createSales };
 };
 
-module.exports = { getAll, getById, create };
+const update = async (id, itensSold) => {
+  const validations = schemas.validateSales(itensSold);
+  if (validations.message) return { err: validations };
+
+  const updatesale = await salesModel.update(id, itensSold);
+  return { sale: updatesale };
+};
+
+module.exports = { getAll, getById, create, update };

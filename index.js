@@ -30,6 +30,8 @@ app.get('/sales/:id', salesController.getById);
 
 app.post('/sales', salesController.create);
 
+app.put('/sales/:id', salesController.update);
+
 app.listen(PORT, () => {
   console.log('Aplicação tá on');
 });
