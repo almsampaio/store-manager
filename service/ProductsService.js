@@ -20,6 +20,7 @@ const getAllProductsService = async () => {
 };
 
 const getProductByIdService = async (id) => {
+    if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
     const productById = await ProductsModel.getProductByIdModel(id);
     return productById;
 };
@@ -28,15 +29,14 @@ const updateProductService = async (id, name, quantity) => {
     if (name.length < 5) return 'ERR_PROD_NAME_LENGTH';        
     if (quantity <= 0) return 'ERR_PROD_QTY_BELOW_ZERO';
     if (typeof (quantity) !== 'number') return 'ERR_QTY_NOT_NUMBER';
+    if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
     
     const updatedProduct = await ProductsModel.updateProductModel(id, name, quantity);
     return updatedProduct;
 };
 
 const deleteProductService = async (id) => {
-    if (!ObjectId.isValid(id)) {
-        return 'ID_NOT_EXISTS';
-    }
+    if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
     const deletedProduct = await ProductsModel.deleteProductModel(id);
     return deletedProduct;
 };
