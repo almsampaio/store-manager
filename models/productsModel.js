@@ -4,10 +4,13 @@ const connection = require('./connection');
 
 const collectionName = 'products';
 
-const getAll = async () => (
-  connection()
+const getAll = async () => {
+  const products = await connection()
     .then((db) => db.collection(collectionName).find().toArray())
-);
+    .catch((err) => console.log(err));
+  console.log('getAll do model', products);
+  return products;
+};
 
 const findById = async (id) => (
   connection()

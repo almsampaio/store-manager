@@ -36,8 +36,9 @@ const checkProductExists = async (name) => {
 
 const getAll = async () => {
   const products = await productsModel.getAll();
+  console.log('este é o getAll do service', products);
   return {
-    response: products,
+    response: !products ? [] : products,
     status: 200,
   };
 };
