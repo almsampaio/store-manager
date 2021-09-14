@@ -21,6 +21,12 @@ app.post('/products',
 
  app.get('/products/:id', productController.validateId);
 
+ app.put('/products/:id', 
+  nameFiveCharacter,
+  quantityEqualToOne, 
+  quantityNumber, 
+  productController.updateUi);
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
