@@ -12,7 +12,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', productsController.createProduct);
-app.post('/sales', salesController.createSale);
+app.post('/products/', productsController.createProduct);
+app.post('/sales/', salesController.createSale);
 
 app.listen(3000, () => { console.log('Ouvindo na porta 3000'); });

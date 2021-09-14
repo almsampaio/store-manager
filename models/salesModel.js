@@ -9,7 +9,7 @@ const createSale = async (inputSale) => {
   const SalesCollection = await salesCollection();
 
     const ret = await SalesCollection
-    .insertMany([{ itensSold: inputSale }]).then((r) => r.ops[0]);
+    .insertOne({ itensSold: inputSale }).then((r) => r.ops[0]);
 
   return ret;
 };

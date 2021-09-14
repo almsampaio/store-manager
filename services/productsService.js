@@ -3,8 +3,8 @@ const productsModel = require('../models/productsModel');
 const validations = require('./validations');
 
 const createProduct = async ({ name, quantity }) => {
-  const validationFormat = validations.formatValidationInputProducts({ name, quantity });
-  if (validationFormat) return validationFormat;
+  // const validationFormat = validations.formatValidationInputProducts({ name, quantity });
+  // if (validationFormat) return validationFormat;
   const validationName = validations.nameLengthValidation(name);
   if (validationName) return validationName;
   const isNameRepeat = await validations.isRepeated(name);

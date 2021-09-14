@@ -82,7 +82,7 @@ function formatValidationInputSales(sale) {
 
 function quantityValidationSales(sale) {
   const invalidQuantity = sale
-  .find(({ quantity }) => typeof quantity !== 'number' || quantity <= 0);
+  .find(({ quantity }) => typeof quantity === 'string' || quantity <= 0);
 
   if (invalidQuantity) {
     return {
