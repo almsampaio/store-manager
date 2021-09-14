@@ -2,8 +2,10 @@ const { Router } = require('express');
 
 const router = new Router();
 
-router.post('/', (_req, res) => {
-  res.status(200).json({ Ok: 'oi' });
-});
+const { create } = require('../controllers/products');
+
+const productVerifier = require('../services/validations');
+
+router.post('/', productVerifier.productsValidation, create);
 
 module.exports = router;

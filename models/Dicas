@@ -1,3 +1,0 @@
-Camada de modelo, o que você for fazer dentro do banco de dados é aqui que fica,
-service é responsavel por chamar o model, model é o ultimo ponto a ser chamado,
-user> Controler > Service > Model = banco = Model > Service > Controler > user
