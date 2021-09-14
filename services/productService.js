@@ -33,8 +33,24 @@ const create = async (name, quantity) => {
   return person;
 };
 
+const actualize = async (name, quantity, id) => {
+  if (name.length < 6) {
+    return { code: invalidData, message: nameMinimumLength };
+  }
+  if (quantity <= 0) {
+    return { code: invalidData, message: minimumQty };
+  }
+  if (typeof quantity !== 'number') {
+    return { code: invalidData, message: qtyMustBeANumber };
+  }
+  const updatedData = await productsModel.updateById(name, quantity, id);
+  return updatedData;
+};
+
 module.exports = { 
   create,
   getAll,
   getById,
+  actualize,
+  nameExists,
 };

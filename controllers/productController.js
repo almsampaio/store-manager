@@ -28,8 +28,17 @@ const create = async (req, res) => {
   res.status(HTTP_CREATED_STATUS).json(product);
 };
 
+const actualize = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const { code, message, product } = await productService.actualize(name, quantity, id);
+  if (code && message) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
+  res.status(HTTP_OK_STATUS).json(product);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  actualize,
 };
