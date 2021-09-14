@@ -23,6 +23,21 @@ const createSale = async (itensSold) => {
   return { status: HTTP_OK_STATUS, data: result };
 };
 
+const getAll = async () => {
+  const itens = await salesModel.getAll();
+  return { sales: itens };
+};
+
+const getById = async (id) => {
+  const product = await salesModel.getById(id);
+
+  if (!product) return { status: HTTP_NOT_FOUND, message: 'Sale not found' };
+
+  return { data: product };  
+};
+
 module.exports = {
   createSale,
+  getAll,
+  getById,
 };
