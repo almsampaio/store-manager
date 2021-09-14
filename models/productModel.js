@@ -14,7 +14,7 @@ const create = async ({ name, quantity }) => {
   };
 };
 
-const findOneByName = async ({ name }) => {
+const findOneByName = async (name) => {
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('products'));
 
