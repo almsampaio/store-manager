@@ -1,5 +1,3 @@
-/* eslint-disable complexity */
-/* eslint-disable sonarjs/cognitive-complexity */
 const salesModel = require('../models/salesModel');
 const validations = require('./validations');
 
@@ -32,6 +30,17 @@ const registerSales = async (sales) => {
   return { productSales };
 };
 
+const treatDifference = async (id, productId, quantity) => {
+  const differenceSale = await validations.differenceInSale(id, quantity);
+
+  if (differenceSale < 0) {
+    const myError = await validations.decreaseProductStock(productId, -differenceSale);
+    if (myError) return { myError };
+  } else {
+    await validations.increaseProductStock(productId, differenceSale);
+  }
+};
+
 const updateSales = async (id, sale) => {
   const [{ productId, quantity }] = sale;
   const { notValid, error } = await validations.validateSale(productId, quantity);
@@ -41,14 +50,8 @@ const updateSales = async (id, sale) => {
   if (notValid) return { notValid };
   if (error) return { error };
 
-  const differenceSale = await validations.differenceInSale(id, quantity);
-
-  if (differenceSale < 0) {
-    const myError = await validations.decreaseProductStock(productId, -differenceSale);
-    if (myError) return { myError };
-  } else {
-    await validations.increaseProductStock(productId, differenceSale);
-  }
+  const difference = await treatDifference(id, productId, quantity);
+  if (difference) return difference;
 
   await salesModel.updateSale(id, sale);
   const saleUpdated = await salesModel.getSaleById(id);
