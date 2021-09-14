@@ -15,8 +15,14 @@ const getById = async (id) => {
   return sales;
 };
 
+const update = async (id, Sale) => connection()
+  .then((db) => db.collection('sales').updateOne(
+    { _id: ObjectId(id) }, { $set: { itensSold: Sale } },
+  ));
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

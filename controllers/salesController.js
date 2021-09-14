@@ -30,8 +30,19 @@ const getById = async (req, res, next) => {
   }
 };
 
+const update = async (req, res, next) => {
+  try {
+    const { body, params: { id } } = req;
+    const updated = await salesService.update(id, body);
+    return res.status(STATUS.STATUS_200_OK).json(...updated);
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
