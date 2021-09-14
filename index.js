@@ -13,11 +13,18 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+// Products
+
 app.post('/products', validationNameAndQuantity, productController.create);
 app.get('/products/:id', productController.getById);
 app.get('/products', productController.getAll);
 app.put('/products/:id', validationNameAndQuantity, productController.update);
 app.delete('/products/:id', productController.exclude);
+
+// Sales
+
 app.post('/sales', validationIDAndQuantity, saleController.create);
+app.get('/sales/:id', saleController.getById);
+app.get('/sales', saleController.getAll);
 
 app.listen(3000, () => console.log('Olha noix ai na porta 3000'));
