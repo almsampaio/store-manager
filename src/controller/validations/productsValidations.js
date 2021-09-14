@@ -8,9 +8,7 @@ function lengthIsLowerThenFive(name) {
 
 function nameValidation(req, res, next) {
   const { name } = req.body;
-
   const isValid = lengthIsLowerThenFive(name);
-
   if (!isValid) {
     return res.status(422).json({
       err: {
