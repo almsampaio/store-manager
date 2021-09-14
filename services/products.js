@@ -97,9 +97,18 @@ const update = async (id, name, quantity) => {
   return updateProduct;
 };
 
+const remove = async (id) => {
+  const verifyId = await validateId(id);
+  if (verifyId.err1) return verifyId;
+  
+  const removedItem = await productModel.remove(id);
+  return removedItem;
+};
+
 module.exports = { 
   create,
   getAll,
   getById,
   update,
+  remove,
 };

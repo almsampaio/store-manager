@@ -49,4 +49,13 @@ app.put('/products/:id', async (req, res) => {
   return res.status(200).json(updateProduct);
 });
 
+app.delete('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const removedItem = await serviceProducts.remove(id);
+  if (removedItem.err1) {
+    return res.status(removedItem.err2.errCode).json(removedItem.err1);
+  }
+  return res.status(200).json(removedItem);
+});
+
 app.listen(SERVER_PORT, () => console.log('servidor rodando!!'));

@@ -22,10 +22,17 @@ const update = async (id, name, quantity) => {
   return { id, name, quantity };
   };
 
+const remove = async (id) => {
+  const removedItem = await getById(id);
+  connection()
+    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+    return removedItem;
+  };
 module.exports = {
   create,
   findByName,
   getAll,
   getById,
   update,
+  remove,
 };
