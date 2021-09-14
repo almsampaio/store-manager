@@ -82,6 +82,9 @@ exports.getById = async (id) => {
 };
 
 exports.update = async ({ id, name, quantity }) => {
+  const dataValid = validData(name, quantity);
+    if (!dataValid.isValid) return dataValid;
+
   const product = await Product.updateProduct({ id, name, quantity });
 
   if (product === null) {
