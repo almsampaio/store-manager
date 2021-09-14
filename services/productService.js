@@ -44,11 +44,11 @@ const create = async ({ name, quantity }) => {
   
   if (isNameValid !== true) return isNameValid;
 
-  const { id } = await ProductsModel
+  const { _id } = await ProductsModel
     .create({ name, quantity });
   
   return {
-    id,
+    _id,
     name,
     quantity,
   };
