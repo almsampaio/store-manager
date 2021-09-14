@@ -1,4 +1,4 @@
-// const { ObjectId } = require('bson');
+const { ObjectId } = require('bson');
 const getConnection = require('./connection');
 
 const create = async (soldItens) => {
@@ -16,7 +16,23 @@ const getAll = async () => {
   return sales;
 };
 
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getConnection();
+  const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
+  return sale;
+};
+
+const deleteById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getConnection();
+  const sale = await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+  return sale;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
+  deleteById,
 };

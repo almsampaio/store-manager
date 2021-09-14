@@ -23,7 +23,19 @@ const getAll = async () => {
   return sales;
 };
 
+const getById = async (id) => {
+  const sale = salesModel.getById(id);
+  return sale;
+};
+
+const deleteById = async (id) => {
+  const sale = salesModel.deleteById(id);
+  return sale;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
+  deleteById,
 };
