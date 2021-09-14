@@ -26,23 +26,23 @@ const getSaleByIdModel = async (id) => {
 
 const getAllSalesModel = async () => {
     const db = await connection();
-    const allsales = await db.collection('sales').find({}).toArray();
-    const objsales = { sales: allsales };
+    const sales = await db.collection('sales').find({}).toArray();
+    const objsales = { sales };
     return objsales;
 };
 
-// const deletesaleModel = async (id) => {
-//     const db = await connection();
-//     const getId = await getsaleByIdModel(id);
-//     await db.collection('sales').deleteOne(getId);
-//     return getId;    
-// };
+const deleteSaleModel = async (id) => {
+    const db = await connection();
+    const getId = await getSaleByIdModel(id);
+    console.log('getId', getId)
+    await db.collection('sales').deleteOne(getId);
+    return getId;    
+};
 
 module.exports = { 
     createSalesModel, 
     getAllSalesModel,
     getSaleByIdModel,
-    // getSaleByIdModel,
+    deleteSaleModel,
     // updatesaleModel,
-    // deletesaleModel,
 };

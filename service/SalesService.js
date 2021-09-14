@@ -27,9 +27,9 @@ const getSaleByIdService = async (id) => {
     return sale;
 };
 
-const deletesaleService = async (id) => {
+const deleteSaleService = async (id) => {
     if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
-    const deletedsale = await salesModel.deletesaleModel(id);
+    const deletedsale = await salesModel.deleteSaleModel(id);
     return deletedsale;
 };
 
@@ -43,12 +43,10 @@ const deletesaleService = async (id) => {
 //     return updatedsale;
 // };
 
-
-
 module.exports = {
     createSaleService,
     getAllSalesService,
     getSaleByIdService,
+    deleteSaleService,
     // updatesaleService,
-    // deletesaleService,
 };
