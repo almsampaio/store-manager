@@ -1,8 +1,13 @@
 const productModel = require('../models/productModel');
+const { productValidations } = require('../validations/productValidations');
 
 const addProduct = async (name, quantity) => {
+  const validations = await productValidations(name, quantity);
+  if (validations.message) return validations;
+
   const product = await productModel.addProduct(name, quantity);
-  return product;
+ 
+  return { product };
 };
 
 const listProduct = async () => {

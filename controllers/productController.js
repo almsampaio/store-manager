@@ -3,7 +3,8 @@ const productService = require('../services/productService');
 const addProduct = async (req, res) => {
   const { name, quantity } = req.body; 
 
-  const product = await productService.addProduct(name, quantity);
+  const { product, status, message } = await productService.addProduct(name, quantity);
+  if (!product) return res.status(status).json(message);
   res.status(201).json(product);
 };
 

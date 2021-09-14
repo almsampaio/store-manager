@@ -4,7 +4,7 @@ const connect = require('./connection');
 const addProduct = async (name, quantity) => {
   const db = await connect();
   const product = await db.collection('products').insertOne({ name, quantity });
-  return { id: product.insertedId, name, quantity };
+  return { _id: product.insertedId, name, quantity };
 };
 
 const listProduct = async () => {
@@ -31,10 +31,17 @@ const excludeProduct = async (id) => {
   await db.collection('products').deleteOne({ _id: ObjectId(id) });
 };
 
+const listProductName = async (name) => {
+  const db = await connect();
+  const product = await db.collection('products').findOne({ name });
+  return product;
+};
+
 module.exports = {
   addProduct,
   listProduct,
   listProductId,
   updateProduct,
   excludeProduct,
+  listProductName,
 };
