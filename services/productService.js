@@ -5,6 +5,7 @@ const errors = {
     alreadyExists: 'Product already exists',
     largerZero: '"quantity" must be larger than or equal to 1',
     notNumber: '"quantity" must be a number',
+    invalidId: 'Wrong id format',
 };
 
 const verifyName = (productName) => {
@@ -68,4 +69,14 @@ exports.getAll = async () => {
   const products = Product.getAll();
 
   return products;
+};
+
+exports.getById = async (id) => {
+  const product = await Product.getById(id);
+
+  if (product === null) {
+    return { message: errors.invalidId, code: 'invalid_data' }; 
+  }
+
+  return { product };
 };

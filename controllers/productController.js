@@ -6,6 +6,18 @@ exports.getAll = async (_req, res) => {
   res.status(200).json({ products });
 };
 
+exports.getById = async (req, res) => {
+  const { id } = req.params;
+
+  const { message, code, product } = await productService.getById(id);
+
+  if (message) {
+    return res.status(422).json({ err: { code, message } });
+  }
+
+  res.status(200).json(product);
+};
+
 exports.createProduct = async (req, res) => {
   const { name, quantity } = req.body;
 

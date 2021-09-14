@@ -19,6 +19,8 @@ app.route('/products')
   .get(productController.getAll)
   .post(productController.createProduct);
 
+app.get('/products/:id', productController.getById);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`App is running on port ${PORT}`);
