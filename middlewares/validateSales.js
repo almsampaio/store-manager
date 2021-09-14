@@ -28,7 +28,19 @@ const validateSaleId = (req, res, next) => {
   next();
 };
 
+const validateDelId = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(422).json({ err: {
+      code: 'invalid_data',
+      message: 'Wrong sale ID format',
+    } });
+  }
+  next();
+};
+
 module.exports = {
   validateItensSold,
   validateSaleId,
+  validateDelId,
 };

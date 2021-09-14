@@ -22,11 +22,20 @@ const editSale = async (req, res) => {
   try {
     const { id } = req.params;
     const itensSold = req.body;
-    console.log(req.body);
     await salesService.editSale(id, itensSold);
     return res.status(200).json({ _id: id, itensSold });
   } catch (e) {
     console.log(e.mesage);
+  }
+};
+
+const deleteId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await salesService.deleteId(id);
+    return res.status(200).json(result.value);
+  } catch (e) {
+    console.log(e.message);
   }
 };
 
@@ -35,4 +44,5 @@ module.exports = {
   getAllSales,
   findBySalesId,
   editSale,
+  deleteId,
 };

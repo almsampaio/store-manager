@@ -20,9 +20,15 @@ const editSale = async (id, itensSold) => {
   return edited;
 };
 
+const deleteId = async (id) => {
+  const deleted = await salesModel.deleteId(id);
+  return deleted;
+};
+
 module.exports = {
   create,
   listAll,
   findById,
   editSale,
+  deleteId,
 };
