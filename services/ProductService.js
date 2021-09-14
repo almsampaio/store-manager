@@ -32,6 +32,8 @@ const update = async (id, { name, quantity }) => {
 
   const updatedProduct = await ProductModel.update(id, { name, quantity });
 
+  if (!updatedProduct) return {};
+
   return updatedProduct;
 };
 
