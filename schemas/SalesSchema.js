@@ -4,7 +4,7 @@ const ProductsModel = require('../models/ProductsModel');
 const errors = {
   QUANTITY_AMOUNT: 'Wrong product ID or invalid quantity',
   TYPEOF_QUANTITY: 'Wrong product ID or invalid quantity',
-  NAME_ALREADY_EXISTS: 'Wrong product ID or invalid quantity',
+  INVALID_PRODUCT: 'Wrong product ID or invalid quantity',
 };
 const status = 422;
 const code = 'invalid_data';
@@ -21,7 +21,7 @@ const validatePost = async (itensSold) => {
   switch (true) {
     case isGreaterThan(quantity, 1): return { status, code, message: errors.QUANTITY_AMOUNT };
     case typeOf(quantity): return { status, code, message: errors.TYPEOF_QUANTITY };
-    case (await isExist(productId)): return { status, code, message: errors.NAME_ALREADY_EXISTS };
+    case (await isExist(productId)): return { status, code, message: errors.INVALID_PRODUCT };
     default: return {};
   }
 };
