@@ -13,11 +13,9 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', productController.addProduct);
-
 app.get('/products/:id', productController.getProductById);
-
 app.get('/products', productController.getProducts);
-
 app.put('/products/:id', productController.updateProductById);
+app.delete('/products/:id', productController.deleteProductById);
 
 app.listen(SERVER_PORT, () => console.log(`Servidor rodando na porta: ${SERVER_PORT}`));
