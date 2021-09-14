@@ -7,7 +7,7 @@ const createSales = async (req, res) => {
   res.status(status).json(data);
 };
 
-const getAllSales = async (req, res) => {
+const getAllSales = async (_req, res) => {
   const { status, sales } = await Sales.getAllSales();
   res.status(status).json({ sales });
 };
