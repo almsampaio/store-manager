@@ -55,10 +55,22 @@ const update = async (id, name, quantity) => {
   };
 };
 
+const deleteInfo = async (id) => {
+  const product = await findById(id);
+
+  if (!product) return null;
+
+  await connection()
+    .then((db) => db.collection('products').deleteOne(new ObjectId(id)));
+  
+  return product;
+};
+
 module.exports = {
   create,
   findByName,
   getAll,
   findById,
   update,
+  deleteInfo,
 };
