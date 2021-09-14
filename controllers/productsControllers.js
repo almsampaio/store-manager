@@ -1,4 +1,4 @@
-const services = require('../services/productsServices');
+// const services = require('../services/productsServices');
 const model = require('../models/productsModel');
 
 const getAll = async (_req, res) => {
@@ -6,21 +6,33 @@ const getAll = async (_req, res) => {
   return res.status(200).json({ products: allProducts });
 };
 
+const getById = async (_req, res) => {
+  const product = await model.getById();
+
+  if (!product) {
+    return res.status(422).json({ err: 
+      { message: 'Wrong id format', code: 'invalid_data' },
+    });
+  }
+
+  return res.status(200).json({ product });
+};
+
 const add = async (req, res) => {
   const { name, quantity } = req.body;
 
   try {
-    const addProduct = await songsModel.getAll();
-    return res.status(200).json(songs);
+    const addProduct = await model.add(name, quantity);
+    return res.status(200).json(addProduct);
   } catch (error) {
-    return res.status(500).json({ message: 'Ops, algo de errado :( ' })
+    return res.status(500).json({ message: 'erro' });
   }
 };
 
-// const update = async (req, res) => {
-// };
+const update = async (req, res) => {
+};
 
 // const remove = async (req, res) => {
 // };
 
-module.exports = { getAll, add, update, remove };
+module.exports = { getAll, add, getById, update };

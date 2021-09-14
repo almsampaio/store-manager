@@ -1,9 +1,10 @@
-// const model = require('../models/productsModel');
+const model = require('../models/productsModel');
 
-// const addProduct = async () => {
-  
-// };
+const getAll = async () => {
+  const products = await model.getAll();
+  return products;
+};
 
-// module.exports = {
-//   addProduct,
-// };
+module.exports = {
+  getAll,
+};
