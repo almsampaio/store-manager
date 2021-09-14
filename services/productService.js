@@ -1,11 +1,17 @@
 const productsModel = require('../models/productsModel');
 
 const { invalidData, nameMinimumLength, minimumQty,
-  qtyMustBeANumber, productExists } = require('../utils/errorMessage');
+  qtyMustBeANumber, productExists, wrongIdFormat } = require('../utils/errorMessage');
 
 const getAll = async (_req, _res) => {
     const products = await productsModel.getAll();
     return products;
+};
+
+const getById = async (id) => {
+  const product = await productsModel.getById(id);
+  if (!product) return { code: invalidData, message: wrongIdFormat };
+  return product;
 };
 
 const create = async (name, quantity) => {
@@ -30,4 +36,5 @@ const create = async (name, quantity) => {
 module.exports = { 
   create,
   getAll,
+  getById,
 };
