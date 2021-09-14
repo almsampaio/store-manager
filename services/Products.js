@@ -11,4 +11,13 @@ module.exports = {
     const product = await productsModel.create(name, quantity);
     return product;
   },
+  async get(id) {
+    if (id) {
+      const product = await productsModel.get.byId(id);
+      return product;
+    }
+
+    const products = await productsModel.get.all();
+    return { products };
+  },
 };
