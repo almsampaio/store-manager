@@ -65,7 +65,7 @@ const updateSoldProduct = async (id, quantity) => {
   const db = await getConnection();
   const { value } = await db.collection('products').findOneAndUpdate(
     { _id: ObjectId(id) },
-    { quantity: { $inc: quantity } },
+    { $inc: { quantity } },
     { returnDocument: 'after' },
   );
   return value;
