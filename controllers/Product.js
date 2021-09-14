@@ -3,6 +3,12 @@ const Joi = require('joi');
 const service = require('../services/Product');
 const invalid = require('../utils/InvalidData');
 
+const getAllProducts = rescue(async (req, res) => {
+  const products = await service.getAllProducts();
+
+  return res.status(200).json(products);
+});
+
 const create = rescue(async (req, res) => {
   const { error } = Joi.object({
     name: Joi.string().min(5).required(),
@@ -25,6 +31,18 @@ const create = rescue(async (req, res) => {
   return res.status(201).json(newProduct);
 });
 
+const findById = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const product = await service.findById(id);
+
+  if (product.err) return res.status(422).json(product);
+
+  return res.status(200).json(product);
+});
+
 module.exports = {
   create,
+  getAllProducts,
+  findById,
 };

@@ -12,6 +12,10 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+app.get('/products', Product.getAllProducts);
+
+app.get('/products/:id', Product.findById);
+
 app.post('/products', Product.create);
 
 const PORT = 3000;
