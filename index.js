@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productController = require('./controller/productController');
+const salesController = require('./controller/salesControler');
 
 const app = express();
 const SERVER_PORT = 3000;
@@ -12,10 +13,18 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+// products
 app.post('/products', productController.addProduct);
 app.get('/products/:id', productController.getProductById);
 app.get('/products', productController.getProducts);
 app.put('/products/:id', productController.updateProductById);
 app.delete('/products/:id', productController.deleteProductById);
+
+// sales
+app.post('/sales', salesController.addSale);
+// app.get('/sales/:id', salesController.getSalesById);
+// app.get('/sales', salesController.getSales);
+// app.put('/sales/:id', salesController.updateSalesById);
+// app.delete('/sales/:id', salesController.deleteSalesById);
 
 app.listen(SERVER_PORT, () => console.log(`Servidor rodando na porta: ${SERVER_PORT}`));
