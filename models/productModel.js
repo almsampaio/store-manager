@@ -4,11 +4,11 @@ const create = async ({ name, quantity }) => {
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('products'));
 
-  const { insertedId: id } = await productsCollection
+  const { insertedId: _id } = await productsCollection
     .insertOne({ name, quantity });
   console.log(name);
   return {
-    id,
+    _id,
     name,
     quantity,
   };
