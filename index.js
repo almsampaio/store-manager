@@ -15,6 +15,7 @@ app.get('/', (_request, response) => {
 // Products Routes
 
 app.get('/products', Products.getAll);
+app.get('/products/:id', Products.findById);
 app.post('/products', Products.create);
 
 const PORT = process.env.PORT || 3000;
