@@ -8,9 +8,12 @@ const insertSales = async (req, res, _next) => {
 };
 
 const getSales = async (req, res, _next) => {
-
+  res.status(httpStatus.ok).json(salesService.getSales());
 };
 
-const getSalesById = async (req, res, _next) => { };
+const getSalesById = async (req, res, _next) => {
+  const { id } = req.params;
+  res.status(httpStatus.ok).json(salesService.getSalesById(id));
+};
 
-module.exports = { insertSales };
+module.exports = { insertSales, getSales, getSalesById };
