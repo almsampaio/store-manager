@@ -11,7 +11,7 @@ const {
   getById,
   updateProduct,
   deleteProduct,
-} = require('../controllers/products');
+} = require('../controllers/Products');
 
 Router.route('/')
   .get(getAll)
