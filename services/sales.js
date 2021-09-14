@@ -1,4 +1,4 @@
-const { createSale, findSales, findSalesById } = require('../models/sales');
+const { createSale, findSales, findSalesById, findSaleAndUpdate } = require('../models/sales');
 const StatusCodes = require('../utils/httpStatusCodes');
 
 const insertSales = async (sales) => {
@@ -26,4 +26,6 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-module.exports = { insertSales, getSales, getSaleById };
+const updateSale = async (id, sales) => findSaleAndUpdate(id, sales);
+
+module.exports = { insertSales, getSales, getSaleById, updateSale };
