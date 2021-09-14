@@ -74,3 +74,7 @@ module.exports = {
   update,
   exclude,
 };
+
+// Agradecimento especial ao colega Adelino, que me ajudou com o requisito 10
+// e deu insights maravilhosos sobre a organização do projeto!!
+// Valeu demais!!! =))
