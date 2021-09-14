@@ -36,9 +36,20 @@ const update = async (id, itensSold) => {
     return updateSale;
 };
 
+const remove = async (id) => {
+    const saleId = await salesSchema.validateSaleIdRemove(id);
+
+    if (saleId) { return saleId; }
+
+    const removedSale = await salesModel.remove(id);
+
+    return removedSale;
+};
+
 module.exports = {
     create,
     getAll,
     getById,
     update,
+    remove,
 };

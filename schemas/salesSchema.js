@@ -3,6 +3,7 @@
 const errors = {
     quantityErrorValue: 'Wrong product ID or invalid quantity',
     saleDoesnExistId: 'Sale not found',
+    idFormatDoesnExist: 'Wrong sale ID format',
 };
 
 const codeError = 'invalid_data';
@@ -33,7 +34,20 @@ const validateSaleDoesntExistId = async (id) => {
     }
 };
 
+// Requisito 8
+const validateSaleIdRemove = async (id) => {
+    const existingSale = await salesModel.getById(id);
+    
+    if (!existingSale) {
+        return { err: {
+            code: codeError,
+            message: errors.idFormatDoesnExist,
+        } };
+    }
+};
+
 module.exports = {
     validateQuantity,
     validateSaleDoesntExistId,
+    validateSaleIdRemove,
 };
