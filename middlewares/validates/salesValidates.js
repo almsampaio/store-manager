@@ -3,7 +3,7 @@ const {
 } = require('../../schemas/status');
 
 const validateTypeQuantitySales = (req, res, next) => {
-  const [...products] = req.body;
+  const products = req.body;
   const msg = 'Wrong product ID or invalid quantity';
 
   for (let i = 0; i < products.length; i += 1) {
@@ -21,7 +21,7 @@ const validateTypeQuantitySales = (req, res, next) => {
 };
 
 const validateQuantitySales = (req, res, next) => {
-  const [...products] = req.body;
+  const products = req.body;
   const msg = 'Wrong product ID or invalid quantity';
 
   for (let i = 0; i < products.length; i += 1) {

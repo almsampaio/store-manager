@@ -52,6 +52,24 @@ const updateModel = async (id, itensSold) => {
   return result;
 };
 
+const updateProductsModel = async (productId, quantitySales) => {
+  if (!ObjectId.isValid(productId)) {
+    return null;
+  }
+
+  const db = await connection();
+  await db.collection('products')
+    .updateOne(
+      { _id: ObjectId(productId) },
+      {
+        $inc: { quantity: -(quantitySales) },
+      },
+    );
+  const result = await db.collection('products').findOne({ _id: ObjectId(productId) });
+
+  return result;
+};
+
 const deleteModel = async (id) => {
   if (!ObjectId.isValid(id)) {
     return null;
@@ -66,5 +84,6 @@ module.exports = {
   readByAllModel,
   readByIdModel,
   updateModel,
+  updateProductsModel,
   deleteModel,
 };

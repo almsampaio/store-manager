@@ -3,6 +3,7 @@ const {
   readByAllModel,
   readByIdModel,
   updateModel,
+  updateProductsModel,
   deleteModel,
 } = require('../../model/sales/salesModel');
 
@@ -31,6 +32,14 @@ const readByIdServices = async (id) => {
   return { data };
 };
 
+const updateAddProductsServices = async (productId, quantity) => {
+  await updateProductsModel(productId, -(quantity));
+};
+
+const updateSubProductsServices = async (productId, quantity) => {
+  await updateProductsModel(productId, quantity);
+};
+
 const updateServices = async (id, itensSold) => {
   const dataIsValid = await updateModel(id, itensSold);
 
@@ -40,7 +49,6 @@ const updateServices = async (id, itensSold) => {
       message: 'Wrong id format',
     };
   }
-
   const data = await readByIdModel(id);
   return { data };
 };
@@ -64,6 +72,8 @@ module.exports = {
   createServices,
   readByAllServices,
   readByIdServices,
+  updateAddProductsServices,
+  updateSubProductsServices,
   updateServices,
   deleteServices,
 };

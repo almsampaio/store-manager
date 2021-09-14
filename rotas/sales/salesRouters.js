@@ -13,12 +13,16 @@ const {
   validateQuantitySales,
 } = require('../../middlewares/validates/salesValidates');
 
+const { addProducts } = require('../../middlewares/UpdateQuantitySales/addQuantity');
+const { subProducts } = require('../../middlewares/UpdateQuantitySales/subQuantity');
+
 const router = Router();
 
 router.post(
   '/',
   validateTypeQuantitySales,
   validateQuantitySales,
+  subProducts,
   createController,
 );
 
@@ -32,6 +36,6 @@ router.put(
   updateController,
 );
 
-router.delete('/:id', deleteController);
+router.delete('/:id', addProducts, deleteController);
 
 module.exports = router;

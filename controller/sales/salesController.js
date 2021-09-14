@@ -1,10 +1,11 @@
+// const { updateProducts } = require('../../model/sales/salesModel');
 const {
   HTTP_OK_STATUS,
   HTTP_NOT_FOUND,
   HTTP_UNPROCESSABLE_ENTITY,
 } = require('../../schemas/status');
 
-const { 
+const {
   createServices,
   readByAllServices,
   readByIdServices,
@@ -13,7 +14,7 @@ const {
 } = require('../../services/sales/salesServices');
 
 const createController = async (req, res) => {
-  const [...products] = req.body;
+  const products = req.body;
 
   const { result } = await createServices(products);
 
@@ -46,7 +47,7 @@ const readByIdController = async (req, res) => {
 
 const updateController = async (req, res) => {
   const { id } = req.params;
-  const [...products] = req.body;
+  const products = req.body;
 
   const { code, message, data } = await updateServices(id, products);
 
@@ -78,7 +79,7 @@ const deleteController = async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(deletedData);
 };
 
-module.exports = { 
+module.exports = {
   createController,
   readByAllController,
   readByIdController,
