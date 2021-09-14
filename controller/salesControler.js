@@ -3,9 +3,6 @@ const salesService = require('../services/checkSales');
 const addSale = async (req, res) => {
   const itens = req.body;
   const newSale = await salesService.addSales(itens);
-
-  // const { _id } = newSale;
-  // const result = { _id, newSale };
   if (!newSale.error) return res.status(200).json(newSale);
   return res.status(newSale.error).json(newSale);
 };
