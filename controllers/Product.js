@@ -20,7 +20,7 @@ const create = rescue(async (req, res) => {
 
   const newProduct = await service.create(name, quantity);
 
-  if (newProduct.error) return res.status(422).json(newProduct.error);
+  if (newProduct.errr) return res.status(422).json(newProduct.errr);
 
   return res.status(201).json(newProduct);
 });
