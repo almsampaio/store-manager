@@ -33,8 +33,21 @@ const addProduct = async (name, quantity) => {
   return product;
 };
 
+const updateProduct = async (id, name, quantity) => {
+  const validate = productsValidate(name, quantity);
+
+  if (validate) {
+    return validate;
+  }
+
+  const productToUpdate = await productsModel.updateProduct(id, name, quantity);
+
+  return productToUpdate;
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   addProduct,
+  updateProduct,
 };

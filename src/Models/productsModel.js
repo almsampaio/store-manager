@@ -14,7 +14,7 @@ const getProductById = async (id) => {
   }
 
   const db = await connection();
-  const product = await db.collection('products').findOne(new ObjectId(id));
+  const product = await db.collection('products').findOne(ObjectId(id));
 
   return product;
 };
@@ -25,16 +25,30 @@ const addProduct = async (name, quantity) => {
   return { _id: product.insertedId, name, quantity };
 };
 
+const updateProduct = async (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const db = await connection();
+  const productToUpdate = await db.collection('products').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { name, quantity } },
+    { returnDocument: 'after' },
+  );
+  return productToUpdate.value;
+};
+
 const productExists = async (name) => {
   const db = await connection();
   const exists = await db.collection('products').findOne({ name });
 
   return exists;
-}; 
+};
 
 module.exports = {
   getAllProducts,
   getProductById,
   addProduct,
+  updateProduct,
   productExists,
 };
