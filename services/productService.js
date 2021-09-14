@@ -1,21 +1,5 @@
 const productModel = require('../models/productModel');
 
-// const errorNameIsRequired = {
-//   err: {
-//     code: 'invalid_data',
-//     message: 'Name is required' },
-//   statusCode: 422 };
-
-const getAll = async () => {
-  const products = await productModel.getAll();
-  return products;
-};
-
-const getById = async (id) => {
-  const product = await productModel.getById(id);
-  return product;
-};
-
 const errorNameLengthLessThanFive = {
   err: {
     code: 'invalid_data',
@@ -46,6 +30,23 @@ const errorProductAlreadyExists = {
     message: 'Product already exists' },
     statusCode: 422 };
 
+// const checkProduct = (name, quantity) => {
+//   if (name.length <= 5) return errorNameLengthLessThanFive;
+//   if (quantity <= 0) return errorQuantityLessThanOne;
+//   if (!quantity) return errorQuantityIsRequired;
+//   if (typeof (quantity) !== 'number') return errorQuantityMustBeANumber;
+// };
+
+const getAll = async () => {
+  const products = await productModel.getAll();
+  return products;
+};
+
+const getById = async (id) => {
+  const product = await productModel.getById(id);
+  return product;
+};
+
 const createProduct = async (name, quantity) => {
   const createdProduct = await productModel.create(name, quantity);
   if (createdProduct.statusCode === 422) return errorProductAlreadyExists;
@@ -53,6 +54,7 @@ const createProduct = async (name, quantity) => {
 };
 
 const create = (name, quantity) => {
+  // checkProduct(name, quantity);
   if (name.length <= 5) return errorNameLengthLessThanFive;
   if (quantity <= 0) return errorQuantityLessThanOne;
   if (!quantity) return errorQuantityIsRequired;
@@ -60,8 +62,19 @@ const create = (name, quantity) => {
   return createProduct(name, quantity);
 };
 
+const update = async (id, name, quantity) => {
+  // checkProduct(name, quantity);
+  if (name.length <= 5) return errorNameLengthLessThanFive;
+  if (quantity <= 0) return errorQuantityLessThanOne;
+  if (!quantity) return errorQuantityIsRequired;
+  if (typeof (quantity) !== 'number') return errorQuantityMustBeANumber;
+  const product = await productModel.update(id, name, quantity);
+  return product;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };
