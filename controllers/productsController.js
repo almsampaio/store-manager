@@ -60,7 +60,7 @@ const findById = rescue(async (req, res) => {
   res.status(200).json(product);
 });
 
-const update = rescue(async (res, req) => {
+const update = rescue(async (req, res) => {
   const { error } = Joi.object({
     name: Joi.string().min(5).not().empty()
       .required()
