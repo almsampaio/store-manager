@@ -3,18 +3,28 @@ const Joi = require('joi');
 
 const service = require('../services/productsService');
 
+const ERROR_MESSAGES_NAME = {
+  'string.base': 'Product name should be a type of string',
+  'string.empty': 'Product name  cannot be an empty field',
+  'string.min': 'Product name should have a minimum length of 5 characters',
+  'any.required': 'Product name  is a required field',
+};
+
+const ERROR_MESSAGES_QUANTITY = {
+  'number.base': 'Quantity should be a integer number',
+  'number.empty': 'Quantity name  cannot be an empty field',
+  'number.min': 'Quantity name should have a minimum length of 5 characters',
+  'any.required': 'Quantity name  is a required field',
+};
+
 const create = rescue(async (req, res, next) => {
   const { error } = Joi.object({
-    product_name: Joi.string()
-      .min(5)
-      .not()
-      .empty()
-      .required(),
+    name: Joi.string().min(5).not().empty()
+      .required()
+      .messages(ERROR_MESSAGES_NAME),
 
-    product_quantity: Joi.number()
-      .integer()
-      .min(1)
-      .required(),
+    quantity: Joi.number().integer().min(1).required()
+      .messages(ERROR_MESSAGES_QUANTITY),
   })
     .validate(req.body);
 
@@ -22,9 +32,9 @@ const create = rescue(async (req, res, next) => {
     return next(error);
   }
 
-  const { product_name, product_quantity } = req.body;
+  const { name, quantity } = req.body;
 
-  const createProduct = await service.create(product_name, product_quantity);
+  const createProduct = await service.create(name, quantity);
 
   res.status(201).json(createProduct);
 });
@@ -32,3 +42,5 @@ const create = rescue(async (req, res, next) => {
 module.exports = {
   create,
 };
+
+// Consegui usar essa estrutura de erros no próprio Joi com referência ao: https://stackoverflow.com/questions/48720942/node-js-joi-how-to-display-a-custom-error-messages
