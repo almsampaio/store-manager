@@ -7,7 +7,7 @@ const createProductsModel = async (name, quantity) => {
     return productData.ops[0];
 };
 
-const findProductByName = async (name) => {
+const getProductByName = async (name) => {
     const db = await connection();
     const productName = await db.collection('products').findOne({ name });
     return productName;
@@ -44,7 +44,7 @@ const deleteProductModel = async (id) => {
 
 module.exports = { 
     createProductsModel, 
-    findProductByName,
+    getProductByName,
     getAllProductsModel,
     getProductByIdModel,
     updateProductModel,
