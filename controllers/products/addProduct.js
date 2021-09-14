@@ -5,9 +5,9 @@ const { created } = require('../../utils/httpStatus');
 const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const newProduct = await create({ name, quantity });
+  const { _id } = await create({ name, quantity });
 
-  res.status(created).json(newProduct);
+  res.status(created).json({ _id, name, quantity });
 };
 
 module.exports = addProduct;

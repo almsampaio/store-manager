@@ -8,3 +8,10 @@ exports.create = async ({ name, quantity }) => {
 
   return newProduct;
 };
+
+exports.getByName = async (productName) => {
+  const db = await connection();
+  const product = await db.collection(COLLECTION_NAME).find({ name: productName });
+
+  return product;
+};
