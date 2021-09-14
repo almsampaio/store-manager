@@ -51,21 +51,21 @@ const update = async (id, arr) => {
   return newProduct;
 };
 
-// const drop = async (id) => {
-//   if (!ObjectId.isValid(id)) return false;
+const drop = async (id) => {
+  if (!ObjectId.isValid(id)) return false;
 
-//   const connectionDb = await connection();
+  const connectionDb = await connection();
 
-//   const deletedProduct = await connectionDb.collection('products')
-//   .deleteOne({ _id: ObjectId(id) });
+  const deletedSale = await connectionDb.collection('sales')
+  .deleteOne({ _id: ObjectId(id) });
 
-//   return deletedProduct;
-// };
+  return deletedSale;
+};
 
 module.exports = {
   create,
   getAll,
   getSaleById,
   update,
-  // drop,
+  drop,
 };

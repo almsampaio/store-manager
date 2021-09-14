@@ -32,20 +32,20 @@ const updateSaleById = async (req, res) => {
   return res.status(200).json(updateSale);
 };
 
-// const deleteProductById = async (req, res) => {
-//   const { id } = req.params;
-//   const deleteProduct = await ProductService.drop(id);
-//   if (deleteProduct.error) {
-//     return res.status(422).json(deleteProduct);
-//   }
+const deleteSaleById = async (req, res) => {
+  const { id } = req.params;
+  const deleteSale = await salesService.drop(id);
+  if (deleteSale.error) {
+    return res.status(422).json(deleteSale);
+  }
 
-//   return res.status(200).json(deleteProduct);
-// };
+  return res.status(200).json(deleteSale);
+};
 
 module.exports = {
   addSale,
   getSales,
   getSaleById,
   updateSaleById,
-  // deleteProductById,
+  deleteSaleById,
 };

@@ -25,6 +25,6 @@ app.post('/sales', salesController.addSale);
 app.get('/sales/:id', salesController.getSaleById);
 app.get('/sales', salesController.getSales);
 app.put('/sales/:id', salesController.updateSaleById);
-// app.delete('/sales/:id', salesController.deleteSalesById);
+app.delete('/sales/:id', salesController.deleteSaleById);
 
 app.listen(SERVER_PORT, () => console.log(`Servidor rodando na porta: ${SERVER_PORT}`));
