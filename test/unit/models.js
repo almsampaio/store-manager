@@ -7,6 +7,8 @@ const mongoConnection = require('../../models/connection');
 
 const ProductModel = require('../../models/ProductModel');
 
+const SalesModel = require('../../models/SalesModel');
+
 // CREATE PRODUCT
 
 describe('Testando a função `create` do model ProductModel', () => {
@@ -374,6 +376,61 @@ describe('Testando a função `remove` do model ProductModel', () => {
       });
 
       expect(removedProduct).to.be.equal(null);
+    });
+  });
+});
+
+// create sales
+
+describe.only('Testando a função `create` do model SalesModel', () => {
+  let connectionMock;
+
+  const payloadSales = [
+    {
+      productId: '5f43ba273200020b101fe49f',
+      quantity: 2,
+    }
+  ];
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+    const DB_NAME = 'StoreManager';
+
+    connectionMock = await MongoClient
+    .connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then((conn) => conn.db(DB_NAME));
+  
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quando é inserido com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const response = await SalesModel.create(payloadSales);
+
+      expect(response).to.be.a('object');
+    });
+
+    it('o objeto possui as keys `_id` e `itensSold` da nova venda inserida', async () => {
+      const response = await SalesModel.create(payloadSales);
+
+      expect(response).to.include.all.keys('_id', 'itensSold');
+    });
+
+    it('deve existir um produto com o productId e a quantidade da venda cadastrada', async () => {
+      // await SalesModel.create(payloadSales);
+      const { _id } = SalesModel.create(payloadSales);
+
+      const createdProduct = await connectionMock.collection('products').findOne({_id: ObjectId(_id)});
+
+      expect(createdProduct).to.deep.include(payloadSales);
     });
   });
 });

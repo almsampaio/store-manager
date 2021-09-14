@@ -370,7 +370,7 @@ describe('Testando a função `update` do controller ProductController', () => {
 });
 
 // remove Product
-describe.only('Testando a função `remove` do controller ProductController', () => {
+describe('Testando a função `remove` do controller ProductController', () => {
   describe('quando o produto não é removido', () => {
     const response = {};
     const request = {};
