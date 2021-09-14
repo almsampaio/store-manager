@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
 
 const getAllProdutcts = async () => mongoConnection.getConnection()
@@ -9,6 +10,18 @@ const getAllProdutcts = async () => mongoConnection.getConnection()
                 name,
                 quantity,
               })));
+
+const uptadeQuantityOfProduct = async (sale) => {
+  const prodsCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection('products'));
+
+  sale.forEach(async (element) => {
+    await prodsCollection
+    .updateOne({ _id: ObjectId(element.productId) }, { $inc: { quantity: -element.quantity } });
+  });
+
+  return null;
+};
 
 const createProduct = async ({ name, quantity }) => {
   const prodsCollection = await mongoConnection.getConnection()
@@ -27,4 +40,5 @@ const createProduct = async ({ name, quantity }) => {
 module.exports = {
   createProduct,
   getAllProdutcts,
+  uptadeQuantityOfProduct,
 };

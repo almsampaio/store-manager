@@ -123,6 +123,40 @@ async function productIdValidationSales(sale) {
   return false;
 }
 
+function testNegativeQuantity(id, qtd, getProductsDB, _verb) {
+  const productToUpdate = getProductsDB.map(({ _id, name, quantity }) => (
+    { idProduct: _id.toString(), name, quantity }))
+    .find((el) => el.idProduct === id);
+  const subtract = productToUpdate.quantity - qtd;
+  if (subtract < 0) {
+    return {
+        err: {
+          code: 'stock_problem',
+          message: 'Such amount is not permitted to sell',
+        },
+        status: 422,
+      };
+  }
+  return false;
+}
+
+async function validateUpdateProductsQuantitys(sale, verb) {
+  const getProductsDB = await productsModel.getAllProdutcts();
+  if (verb === 'post' || verb === 'put') {
+    const arrayGetToPossiblesNegativeQuantitys = sale
+    .map(({ productId, quantity }) => {
+      const testeAmountProduct = testNegativeQuantity(productId, quantity, getProductsDB, verb);
+      return testeAmountProduct;
+    });
+
+  const error = arrayGetToPossiblesNegativeQuantitys
+    .find((element) => element !== false);
+
+  if (error) return error;
+  }
+  return false;
+}
+
 module.exports = {
   formatValidationInputProducts,
   nameLengthValidation,
@@ -132,4 +166,5 @@ module.exports = {
   formatValidationInputSales,
   quantityValidationSales,
   productIdValidationSales,
+  validateUpdateProductsQuantitys,
 };

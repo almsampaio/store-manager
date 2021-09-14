@@ -9,8 +9,11 @@ const createSale = async (sale) => {
   if (validationQuantity) return validationQuantity;
 
   const validationProductId = await validations.productIdValidationSales(sale);
-
   if (validationProductId) return validationProductId;
+
+  const validateUpdateProductsQuantitys = await validations
+  .validateUpdateProductsQuantitys(sale, 'post');
+  if (validateUpdateProductsQuantitys) return validateUpdateProductsQuantitys;
 
   return salesModel.createSale(sale);
 };
