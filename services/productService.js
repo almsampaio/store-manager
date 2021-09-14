@@ -6,6 +6,16 @@ const productModel = require('../models/productModel');
 //     message: 'Name is required' },
 //   statusCode: 422 };
 
+const getAll = async () => {
+  const products = await productModel.getAll();
+  return products;
+};
+
+const getById = async (id) => {
+  const product = await productModel.getById(id);
+  return product;
+};
+
 const errorNameLengthLessThanFive = {
   err: {
     code: 'invalid_data',
@@ -51,5 +61,7 @@ const create = (name, quantity) => {
 };
 
 module.exports = {
+  getAll,
+  getById,
   create,
 };

@@ -1,5 +1,20 @@
 const productService = require('../services/productService');
 
+const getAll = async (_req, res) => {
+  const products = await productService.getAll();
+  res.status(200).json({ products });
+};
+
+const getById = async (req, res) => {
+  const product = await productService.getById(req.params.id);
+  if (!product) {
+    return res.status(422).json({ err: {
+     code: 'invalid_data',
+     message: 'Wrong id format' } });
+  }
+  res.status(200).json(product);
+};
+
 const create = async (req, res) => {
   const { name, quantity } = req.body;
 
@@ -10,5 +25,7 @@ const create = async (req, res) => {
 };
 
 module.exports = {
+  getAll,
+  getById,
   create,
 };
