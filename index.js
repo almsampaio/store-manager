@@ -21,6 +21,8 @@ app.post('/products', productController.create);
 
 app.put('/products/:id', productController.update);
 
+app.delete('/products/:id', productController.remove);
+
 app.listen(PORT, () => {
   console.log(`Online na porta ${PORT}`);
 });

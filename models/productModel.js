@@ -1,6 +1,12 @@
 const { ObjectID } = require('bson');
 const getConnection = require('./connection');
 
+const errMessage = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong id format' },
+  statusCode: 422 };
+
 const getAll = async () => {
   const db = await getConnection();
   const products = await db.collection('products').find({}).toArray();
@@ -30,9 +36,19 @@ const update = async (id, name, quantity) => {
   return { id, name, quantity };
 };
 
+const remove = async (id) => {
+  if (!ObjectID.isValid(id)) return errMessage;
+  const db = await getConnection();
+  const findProduct = await db.collection('products').findOne({ _id: ObjectID(id) });
+  if (!findProduct) return errMessage;
+  await db.collection('products').deleteOne({ _id: ObjectID(id) });
+  return findProduct;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };

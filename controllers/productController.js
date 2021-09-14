@@ -1,4 +1,5 @@
 const productService = require('../services/productService');
+const productModel = require('../models/productModel');
 
 const getAll = async (_req, res) => {
   const products = await productService.getAll();
@@ -32,9 +33,19 @@ const update = async (req, res) => {
   res.status(200).json({ id, name, quantity });
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { err, statusCode, product } = await productModel.remove(id);
+  await productService.remove(id);
+  if (err) return res.status(statusCode).json({ err });
+
+  res.status(200).json(product);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };
