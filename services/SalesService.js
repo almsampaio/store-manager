@@ -1,12 +1,12 @@
 const SalesModel = require('../models/SalesModel');
-// const ProductSchema = require('../schemas/ProductSchema');
+const SalesSchema = require('../schemas/SalesSchema');
 
-const create = async (productId, quantity) => {
-  // const validations = await ProductSchema.validatePost(name, quantity);
-  // if (validations.message) return validations;
+const create = async (itensSold) => {
+  const validations = await SalesSchema.validatePost(itensSold);
+  if (validations.message) return validations;
   
-  const sales = await SalesModel.create(productId, quantity);
-  return { status: 201, sales };
+  const sales = await SalesModel.create(itensSold);
+  return { status: 200, sales };
 };
 
 // const getAll = async () => {
