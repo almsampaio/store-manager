@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const ProductsModel = require('../model/products/ProductsModel');
+const ProductsModel = require('../model/ProductsModel');
 
 const createProductService = async (name, quantity) => {
     const prodAlreadyExists = await ProductsModel.getProductByName(name);

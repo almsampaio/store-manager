@@ -1,5 +1,3 @@
-// models/connection.js
-
 const { MongoClient } = require('mongodb');
 
 const OPTIONS = {
