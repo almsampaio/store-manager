@@ -24,10 +24,11 @@ const editSale = async (id, itensSold) => {
 };
 
 const deleteId = async (id) => {
-    const result = await connection()
+    const { value } = await connection()
    .then((db) => db.collection('sales')
    .findOneAndDelete({ _id: ObjectId(id) }));
-   return result;
+
+   return value;
 };
 
 module.exports = {

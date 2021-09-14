@@ -17,7 +17,7 @@ const validateItensSold = (req, res, next) => {
   next();
 };
 
-const validateSaleId = (req, res, next) => {
+const validateSaleId = async (req, res, next) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
     return res.status(404).json({ err: {

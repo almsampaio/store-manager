@@ -15,6 +15,12 @@ const getAllSales = async (_req, res) => {
 const findBySalesId = async (req, res) => {
   const { id } = req.params;
   const findedId = await salesService.findById(id);
+  if (findedId === null) {
+    return res.status(404).json({ err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    } });
+  }
   return res.status(200).json(findedId);
 };
 
@@ -32,7 +38,13 @@ const editSale = async (req, res) => {
 const deleteId = async (req, res) => {
   const { id } = req.params;
   const result = await salesService.deleteId(id);
-  return res.status(200).json(result.value);
+  if (result === null) {
+    return req.status(404).json({ err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    } });
+  }
+  return res.status(200).json(result);
 };
 
 module.exports = {
