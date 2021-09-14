@@ -86,11 +86,22 @@ const update = rescue(async (req, res) => {
   res.status(200).json(updateProduct);
 });
 
+const deleteInfo = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const product = await service.deleteInfo(id);
+
+  if (product.err) return res.status(422).json(product);
+
+  res.status(200).json(product);
+});
+
 module.exports = {
   getAll,
   create,
   findById,
   update,
+  deleteInfo,
 };
 
 // Consegui usar essa estrutura de erros no próprio Joi com referência ao: https://stackoverflow.com/questions/48720942/node-js-joi-how-to-display-a-custom-error-messages
