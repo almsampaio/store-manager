@@ -13,9 +13,12 @@ const updateProducts = [middlewaresProducts.checkProductName,
 const registerSales = [middlewaresServices.checkSalesQuantity,
   middlewaresServices.checkTypeSales];
 
+const idSales = middlewaresServices.checkIdSales;
+
 module.exports = {
   createProducts,
   id,
   updateProducts,
   registerSales,
+  idSales,
 };

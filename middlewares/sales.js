@@ -24,4 +24,15 @@ const checkTypeSales = rescue((req, res, next) => {
   next();
 });
 
-module.exports = { checkSalesQuantity, checkTypeSales };
+const checkIdSales = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const idLength = 24;
+  if (!id || id.length !== idLength) {
+    res.status(status.status.notFound).json({
+      err: { code: code.code.notFound, message: message.message.saleNotFound },
+    }); 
+  }
+  next();
+});
+
+module.exports = { checkSalesQuantity, checkTypeSales, checkIdSales };

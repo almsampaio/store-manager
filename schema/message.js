@@ -5,6 +5,7 @@ const message = {
   quantityNotNumber: '"quantity" must be a number',
   idNotFound: 'Wrong id format',
   invalidQuantity: 'Wrong product ID or invalid quantity',
+  saleNotFound: 'Sale not found',
 };
 
 module.exports = { message };

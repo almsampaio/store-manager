@@ -8,4 +8,15 @@ const registerSales = rescue(async (req, res) => {
   return res.status(status.status.ok).json(registerItens);
 });
 
-module.exports = { registerSales };
+const getSales = async (_req, res) => {
+  const getAll = await salesServices.getAllServices();
+  return res.status(status.status.ok).json({ sales: getAll });
+};
+
+const getOneSale = rescue(async (req, res) => {
+  const { id } = req.params;
+  const sale = await salesServices.getOneService(id);
+  return res.status(status.status.ok).json(sale);
+});
+
+module.exports = { registerSales, getSales, getOneSale };

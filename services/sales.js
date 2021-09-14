@@ -5,4 +5,14 @@ const registerSalesServices = async (itensSold) => {
   return register;
 };
 
-module.exports = { registerSalesServices };
+const getAllServices = async () => {
+  const getAll = await salesModels.getAllSales();
+  return getAll;
+};
+
+const getOneService = async (id) => {
+  const getOne = await salesModels.getOneSale(id);
+  return getOne;
+};
+
+module.exports = { registerSalesServices, getAllServices, getOneService };
