@@ -18,8 +18,8 @@ app.put('/products/:id', ProductsController.update);
 app.delete('/products/:id', ProductsController.exclude);
 
 app.post('/sales', SalesController.create);
-// app.get('/sales', SalesController.getAll);
-// app.get('/sales/:id', SalesController.getById);
+app.get('/sales', SalesController.getAll);
+app.get('/sales/:id', SalesController.getById);
 // app.put('/sales/:id', SalesController.update);
 // app.delete('/sales/:id', SalesController.exclude);
 

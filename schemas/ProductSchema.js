@@ -21,9 +21,9 @@ const isExist = async (value) => {
 const validatePost = async (name, quantity) => {
   switch (true) {
     case isLengthLetterThan(name, 5): return { status, code, message: errors.NAME_LENGTH };
-    case (await isExist(name)): return { status, code, message: errors.NAME_ALREADY_EXISTS };
     case isGreaterThan(quantity, 1): return { status, code, message: errors.QUANTITY_AMOUNT };
     case typeOf(quantity): return { status, code, message: errors.TYPEOF_QUANTITY };
+    case (await isExist(name)): return { status, code, message: errors.NAME_ALREADY_EXISTS };
     default: return {};
   }
 };

@@ -9,18 +9,18 @@ const create = async (itensSold) => {
   return { status: 200, sales };
 };
 
-// const getAll = async () => {
-//   const products = await ProductsModel.getAll();
-//   return { status: 200, products };
-// };
+const getAll = async () => {
+  const sales = await SalesModel.getAll();
+  return { status: 200, sales };
+};
 
-// const getById = async (id) => {
-//   const validations = await ProductSchema.validateGet(id);
-//   if (validations.message) return validations;
+const getById = async (id) => {
+  const validations = await SalesSchema.validateGet(id);
+  if (validations.message) return validations;
 
-//   const product = await ProductsModel.getById(id);
-//   return { status: 200, product };
-// };
+  const sales = await SalesModel.getById(id);
+  return { status: 200, sales };
+};
 
 // const update = async (id, name, quantity) => {
 //   const validations = ProductSchema.validatePut(name, quantity);
@@ -41,8 +41,8 @@ const create = async (itensSold) => {
 
 module.exports = {
   create,
-  // getAll,
-  // getById,
+  getAll,
+  getById,
   // update,
   // exclude,
 };

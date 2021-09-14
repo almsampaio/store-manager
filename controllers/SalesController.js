@@ -8,17 +8,17 @@ const create = async (req, res) => {
   res.status(status).json(sales);
 };
 
-// const getAll = async (_req, res) => {
-//   const { status, products } = await ProductsService.getAll();
-//   res.status(status).json({ products });
-// };
+const getAll = async (_req, res) => {
+  const { status, sales } = await SalesService.getAll();
+  res.status(status).json({ sales });
+};
 
-// const getById = async (req, res) => {
-//   const { id } = req.params;
-//   const { status, code, message, product } = await ProductsService.getById(id);
-//   if (!product) return res.status(status).json({ err: { code, message } });
-//   res.status(status).json(product);
-// };
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const { status, code, message, sales } = await SalesService.getById(id);
+  if (!sales) return res.status(status).json({ err: { code, message } });
+  res.status(status).json(sales);
+};
 
 // const update = async (req, res) => {
 //   const { id } = req.params;
@@ -37,8 +37,8 @@ const create = async (req, res) => {
 
 module.exports = {
  create,
-//  getAll,
-//  getById,
+ getAll,
+ getById,
 //  update,
 //  exclude,
 };

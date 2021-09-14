@@ -1,10 +1,11 @@
 const ProductsModel = require('../models/ProductsModel');
-// const SalesModel = require('../models/SalesModel');
+const SalesModel = require('../models/SalesModel');
 
 const errors = {
   QUANTITY_AMOUNT: 'Wrong product ID or invalid quantity',
   TYPEOF_QUANTITY: 'Wrong product ID or invalid quantity',
   INVALID_PRODUCT: 'Wrong product ID or invalid quantity',
+  NOT_FOUND: 'Sale not found',
 };
 const status = 422;
 const code = 'invalid_data';
@@ -26,11 +27,13 @@ const validatePost = async (itensSold) => {
   }
 };
 
-// const validateGet = async (id) => {
-//   const product = await ProductsModel.getById(id);  
-//   if (!product) return { status, code, message: errors.INVALID_PRODUCT };
-//   return {};
-// };
+const validateGet = async (id) => {
+  const codeErr = 'not_found';
+  const statusErr = 404;
+  const sales = await SalesModel.getById(id);  
+  if (!sales) return { status: statusErr, code: codeErr, message: errors.NOT_FOUND };
+  return {};
+};
 
 // const validatePut = (name, quantity) => {
 //   switch (true) {
@@ -43,6 +46,6 @@ const validatePost = async (itensSold) => {
 
 module.exports = {
   validatePost,
-  // validateGet,
+  validateGet,
   // validatePut,
 };
