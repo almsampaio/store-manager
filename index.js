@@ -20,6 +20,8 @@ app.post('/products', Product.create);
 
 app.put('/products/:id', Product.updateProduct);
 
+app.delete('/products/:id', Product.deleteProduct);
+
 const PORT = 3000;
 
 app.listen(PORT, () => {
