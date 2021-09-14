@@ -1,12 +1,17 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const productsController = require('./controllers/productsControler');
+const salesController = require('./controllers/salesController');
 
 const app = express();
 app.use(bodyParser.json());
 
+app.get('/sales/:id', salesController.find);
+app.get('/sales', salesController.getAll);
+app.post('/sales', salesController.create);
+
 app.delete('/products/:id', productsController.remove);
-app.put('/products/:id', productsController.editProduct)
+app.put('/products/:id', productsController.editProduct);
 app.get('/products/:id', productsController.getProductById);
 app.post('/products', productsController.create);
 app.get('/products', productsController.getAll);
