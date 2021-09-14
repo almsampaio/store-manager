@@ -26,8 +26,19 @@ const getById = async (id) => {
     return listedSale;
 };
 
+const update = async (id, itensSold) => {
+    const quantitySale = await salesSchema.validateQuantity(itensSold);
+
+    if (quantitySale) { return quantitySale; }
+
+    const updateSale = await salesModel.update(id, itensSold);
+
+    return updateSale;
+};
+
 module.exports = {
     create,
     getAll,
     getById,
+    update,
 };
