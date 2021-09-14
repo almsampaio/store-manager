@@ -5,6 +5,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const productController = require('./controllers/productController');
+const saleController = require('./controllers/saleController');
 
 const PORT = '3000';
 
@@ -18,6 +19,7 @@ app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getById);
 
 app.post('/products', productController.create);
+app.post('/sales', saleController.create);
 
 app.put('/products/:id', productController.update);
 
