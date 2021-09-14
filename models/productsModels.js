@@ -59,6 +59,18 @@ const deleteProduct = async (id) => {
   return value;
 };
 
+const updateSoldProduct = async (id, quantity) => {
+  if (!ObjectId.isValid(id)) return false;
+
+  const db = await getConnection();
+  const { value } = await db.collection('products').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { quantity: { $inc: quantity } },
+    { returnDocument: 'after' },
+  );
+  return value;
+};
+
 module.exports = {
   createProduct,
   getProductByName,
@@ -66,4 +78,5 @@ module.exports = {
   getProductById,
   updateProduct,
   deleteProduct,
+  updateSoldProduct,
 };
