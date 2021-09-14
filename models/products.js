@@ -10,8 +10,8 @@ const findByName = async (name) => {
   const product = await getConnection()
   .then((db) => db.collection('products').findOne({ name }));
       if (!product) return null;
-      return product; // ????
-    };
+      return product; 
+};
 const getAll = async () => {
   const db = await getConnection(); 
   const productsList = await db.collection('products').find({}).toArray();
