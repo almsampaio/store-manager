@@ -7,7 +7,7 @@ const {
   getSaleById,
   addSales,
   updateSale,
-  // deleteProduct,
+  deleteSale,
 
 } = require('../Controllers/salesController');
 
@@ -19,6 +19,6 @@ router.post('/', addSales);
 
 router.put('/:id', updateSale);
 
-// router.delete('/:id', deleteProduct);
+router.delete('/:id', deleteSale);
 
 module.exports = router;

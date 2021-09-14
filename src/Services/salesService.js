@@ -20,10 +20,10 @@ const addSales = async (data) => {
   const validate = salesValidate(data);
   if (validate) {
     return {
-        err: {
-          code: 'invalid_data', message: 'Wrong product ID or invalid quantity',
-        },
-      };
+      err: {
+        code: 'invalid_data', message: 'Wrong product ID or invalid quantity',
+      },
+    };
   }
 
   const sales = await salesModel.addSales(data);
@@ -36,10 +36,10 @@ const updateSale = async (id, data) => {
 
   if (validate) {
     return {
-        err: {
-          code: 'invalid_data', message: 'Wrong product ID or invalid quantity',
-        },
-      };
+      err: {
+        code: 'invalid_data', message: 'Wrong product ID or invalid quantity',
+      },
+    };
   }
 
   const salesToUpdate = await salesModel.updateSale(id, data);
@@ -47,19 +47,19 @@ const updateSale = async (id, data) => {
   return salesToUpdate;
 };
 
-// const deleteProduct = async (id) => {
-//   const productToDelete = await productsModel.deleteProduct(id);
+const deleteSale = async (id) => {
+  const saleToDelete = await salesModel.deleteSale(id);
 
-//   if (!productToDelete) {
-//     return { err: { code: 'invalid_data', message: 'Wrong id format' } };
-//   }
-//   return productToDelete;
-// };
+  if (!saleToDelete) {
+    return { err: { code: 'invalid_data', message: 'Wrong sale ID format' } };
+  }
+  return saleToDelete;
+};
 
 module.exports = {
   getAllSales,
   getSaleById,
   addSales,
   updateSale,
-  // deleteProduct,
+  deleteSale,
 };

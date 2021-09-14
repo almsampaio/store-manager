@@ -39,20 +39,20 @@ const updateSale = async (req, res) => {
   return res.status(HTTP_STATUS_OK).json(saleToUpdate);
 };
 
-// const deleteProduct = async (req, res) => {
-//   const { id } = req.params;
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
 
-//   const productToDelete = await productsService.deleteProduct(id);
-//   if (productToDelete.err) {
-//     return res.status(HTTP_STATUS_UNPROCESSABLE).json(productToDelete);
-//   }
-//   return res.status(HTTP_STATUS_OK).json(productToDelete);
-// };
+  const saleToDelete = await salesService.deleteSale(id);
+  if (saleToDelete.err) {
+    return res.status(HTTP_STATUS_UNPROCESSABLE).json(saleToDelete);
+  }
+  return res.status(HTTP_STATUS_OK).json(saleToDelete);
+};
 
 module.exports = {
   getAllSales,
   getSaleById,
   addSales,
   updateSale,
-  // deleteProduct,
+  deleteSale,
 };

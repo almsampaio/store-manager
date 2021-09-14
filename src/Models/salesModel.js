@@ -49,25 +49,25 @@ const updateSale = async (id, data) => {
   return saleToUpdate.value;
 };
 
-// const deleteProduct = async (id) => {
-//   if (!ObjectId.isValid(id)) {
-//     return null;
-//   }
+const deleteSale = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
 
-//   const db = await connection();
-//   const productToDelete = await db.collection('products').findOneAndDelete(
-//     { _id: ObjectId(id) },
-//     { returnDocument: 'after' },
-//   );
+  const db = await connection();
+  const saleToDelete = await db.collection('sales').findOneAndDelete(
+    { _id: ObjectId(id) },
+    { returnDocument: 'after' },
+  );
 
-//   return productToDelete.value;
-// };
+  return saleToDelete.value;
+};
 
 module.exports = {
   getAllSales,
   getSaleById,
   addSales,
   updateSale,
-  // deleteProduct,
+  deleteSale,
 
 };
