@@ -25,8 +25,8 @@ const create = async (name, quantity) => {
     return { err: { code: 'invalid_data', message: 'Product already exists' } };
   }
 
-  const creatProduct = await productsModel.create(name, quantity);
-  return { products: creatProduct };
+  const createProduct = await productsModel.create(name, quantity);
+  return { products: createProduct };
 };
 
 const update = async (id, name, quantity) => {

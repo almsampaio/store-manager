@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParse = require('body-parser');
 const productsController = require('./controllers/productsController');
+const salesController = require('./controllers/salesController');
+// const { validateId } = require('./middlewares/validateId');
 
 const app = express();
 app.use(bodyParse.json());
@@ -21,6 +23,10 @@ app.post('/products', productsController.create);
 app.put('/products/:id', productsController.update);
 
 app.delete('/products/:id', productsController.exclude);
+
+app.get('/sales', salesController.getAll);
+
+app.post('/sales', salesController.create);
 
 app.listen(PORT, () => {
   console.log('Aplicação tá on');
