@@ -5,8 +5,6 @@ const HTTP_NO_BODY_STATUS = 422;
 
 const productService = require('../services/productService');
 
-const { invalidData, wrongIdFormat } = require('../utils/errorMessage');
-
 const getAll = async (_req, res) => {
   const { product } = await productService.getAll();
 
