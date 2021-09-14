@@ -25,7 +25,7 @@ describe('Ao chamar o controller de create sem passar nenhum valor', () => {
       await ProductsController.create(req,res);
 
       expect(response.json.calledWith({ err: { code: 'invalid_data',
-      message: '"\quantity\" must be a integer number' } })).to.be.equal(true);
+      message: '"quantity" must be a integer number' } })).to.be.equal(true);
     })
   })
 });
@@ -52,7 +52,7 @@ describe('Ao chamar o controller de create com name nao tendo caracteres necessa
     await ProductsController.create(req, res);
 
     expect(response.json.calledWith({ err: { code: 'invalid_data',
-    message: '\"name\" must be at least 5 characters long' } })).to.be.equal(true);
+    message: '"name" must be at least 5 characters long' } })).to.be.equal(true);
   });
 });
 
@@ -78,7 +78,7 @@ describe('Ao chamar o controller de create com name nao sendo string', () => {
     await ProductsController.create(req, res);
 
     expect(response.json.calledWith({ err: { code: 'invalid_data',
-    message: '\"name\"  must be a string' } })).to.be.equal(true);
+    message: '"name"  must be a string' } })).to.be.equal(true);
   });
 });
 
@@ -106,7 +106,7 @@ describe('Se a quantidade nao for um numero inteiro', () => {
     await ProductsController.create(req, res);
 
     expect(response.json.calledWith({ err: { code: 'invalid_data',
-    message: '"\quantity\" must be a  integer number' } })).to.be.equal(true);
+    message: '"quantity" must be a  integer number' } })).to.be.equal(true);
   });
 });
 
@@ -130,6 +130,6 @@ describe('Se a quantidade for um numero menor que 1', () => {
     await ProductsController.create(req, res);
 
     expect(response.json.calledWith({ err: { code: 'invalid_data',
-    message: '"\quantity\" must be larger than or equal to 1' } })).to.be.equal(true);
+    message: '"quantity" must be larger than or equal to 1' } })).to.be.equal(true);
   });
 });

@@ -7,11 +7,11 @@ const nameIsValid = async (name) => {
   }
   if (typeof name !== 'string') {
     return { err: { code: 'invalid_data',
-    message: '\"name\"  must be a string' } };
+    message: '"name"  must be a string' } };
   } 
   if (name.length < 6) {
     return { err: { code: 'invalid_data',
-    message: '\"name\" must be at least 5 characters long' } };
+    message: '"name" must be at least 5 characters long' } };
   }
   if ((await ProductsModel.findOneByName(name)) === undefined) {
     return { err: { code: 'invalid_data',
@@ -23,15 +23,15 @@ const nameIsValid = async (name) => {
 const quantityIsValid = (quantity) => {
   if (!quantity && quantity !== 0) {
     return { err: { code: 'invalid_data',
-    message: '"\quantity\" must be a integer number' } };
+    message: '"quantity" must be a integer number' } };
   }
   if (!Number.isInteger(quantity)) {
     return { err: { code: 'invalid_data',
-    message: '"\quantity\" must be a  integer number' } };
+    message: '"quantity" must be a  integer number' } };
   }
   if (quantity < 1) {
     return { err: { code: 'invalid_data',
-    message: '"\quantity\" must be larger than or equal to 1' } };
+    message: '"quantity" must be larger than or equal to 1' } };
   }
   return true;
 };
