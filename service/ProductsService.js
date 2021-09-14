@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb');
 const ProductsModel = require('../model/products/ProductsModel');
 
 const createProductService = async (name, quantity) => {
-    const prodAlreadyExists = await ProductsModel.findProductName(name);
+    const prodAlreadyExists = await ProductsModel.findProductByName(name);
 
     if (name.length < 5) return 'ERR_PROD_NAME_LENGTH';        
     if (quantity <= 0) return 'ERR_PROD_QTY_BELOW_ZERO';    
