@@ -1,5 +1,7 @@
 const Products = require('../models/productsModel');
 
+const getAll = async () => Products.getAll();
+
 const create = async (name, quantity) => {
   const existingProduct = await Products.findByName(name);
 
@@ -30,9 +32,7 @@ const create = async (name, quantity) => {
 //   return productByName;
 // };
 
-const getAll = async () => Products.getAll;
-
 module.exports = {
-  create,
   getAll,
+  create,
 };

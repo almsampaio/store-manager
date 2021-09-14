@@ -17,6 +17,12 @@ const ERROR_MESSAGES_QUANTITY = {
   'any.required': 'Quantity is a required field',
 };
 
+const getAll = rescue(async (_req, res) => {
+  const productsArray = await service.getAll();
+
+  res.status(200).json({ products: productsArray });
+});
+
 const create = rescue(async (req, res) => {
   const { error } = Joi.object({
     name: Joi.string().min(5).not().empty()
@@ -44,15 +50,9 @@ const create = rescue(async (req, res) => {
   res.status(201).json(createProduct);
 });
 
-const getAll = rescue(async (_req, res) => {
-  const products = await service.getAll();
-
-  res.status(200).json(products);
-});
-
 module.exports = {
-  create,
   getAll,
+  create,
 };
 
 // Consegui usar essa estrutura de erros no próprio Joi com referência ao: https://stackoverflow.com/questions/48720942/node-js-joi-how-to-display-a-custom-error-messages
