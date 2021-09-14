@@ -7,8 +7,8 @@ const validation = async (req, _res, next) => {
   const { error } = schema.validate({ name, quantity });
   if (error) return next(error);
 
-  const alreadyExists = ProductModel.getByName(name) !== [];
-  if (alreadyExists) return next({ message: 'Product already exists' });
+  const product = await ProductModel.getByName(name);
+  if (product) return next({ message: 'Product already exists' });
 
   next();
 };

@@ -11,9 +11,7 @@ exports.create = async ({ name, quantity }) => {
 
 exports.getByName = async (name) => {
   const db = await connection();
-  const product = await db.collection(COLLECTION_NAME).aggregate([
-    { $match: { name } },
-  ]);
+  const product = await db.collection(COLLECTION_NAME).find({ name });
 
   return product;
 };
