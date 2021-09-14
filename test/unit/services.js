@@ -4,6 +4,9 @@ const { expect } = require('chai');
 const ProductModel = require('../../models/ProductModel');
 const ProductService = require('../../services/ProductService');
 
+const SalesModel = require('../../models/SalesModel');
+const SalesService = require('../../services/SalesService');
+
 // CREATE PRODUCT
 describe('Testando a função `create` do service ProductService', () => {
   describe('quando o payload informado não é válido', () => {
@@ -693,5 +696,317 @@ describe('Testando a função `remove` do model ProductService', () => {
 
       expect(response).to.include.all.keys('_id', 'name', 'quantity');
     });
+  });
+});
+
+// create sales
+
+describe.only('Testando a função `create` do service SalesService', () => {
+  describe('quando o payload informado não é válido', () => {
+    describe('o parâmetro passado não é um array', () => {
+      const errFormat = {
+        err: {
+          code: 'invalid_data',
+          message: 'body must be an array',
+        }
+      }
+
+      const payloadSales = {
+        productId: '614117088ef1e8004d2e3d7b',
+        quantity: -10,
+      };
+
+      before(() => {
+        sinon.stub(SalesModel, 'create')
+          .resolves(errFormat);
+      });
+  
+      after(() => {
+        SalesModel.create.restore();
+      });
+
+      it('retorna um objeto', async () => {
+        const response = await SalesService.create(payloadSales);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('o objeto retornado possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const { err } = await SalesService.create(payloadSales);
+
+        expect(err).to.have.property('message');
+        expect(err).to.have.property('code');
+      });
+
+      it('a chave "message" possui a mensagem correta', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { message } } = response;
+
+        expect(message).to.equal(errFormat.err.message);
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { code } } = response;
+
+        expect(code).to.equal(errFormat.err.code);
+      });
+    });
+
+    describe('a quantidade é menor que 0', () => {
+      const errFormat = {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        }
+      }
+
+      const payloadSales = [{
+        productId: '614117088ef1e8004d2e3d7b',
+        quantity: -10,
+      }];
+
+      before(() => {
+        sinon.stub(SalesModel, 'create')
+          .resolves(errFormat);
+      });
+  
+      after(() => {
+        SalesModel.create.restore();
+      });
+
+      it('retorna um objeto', async () => {
+        const response = await SalesService.create(payloadSales);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('o objeto retornado possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const { err } = await SalesService.create(payloadSales);
+
+        expect(err).to.have.property('message');
+        expect(err).to.have.property('code');
+      });
+
+      it('a chave "message" possui a mensagem correta', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { message } } = response;
+
+        expect(message).to.equal(errFormat.err.message);
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { code } } = response;
+
+        expect(code).to.equal(errFormat.err.code);
+      });
+    });
+
+    describe('a quantidade é igual a 0', async () => {
+      const errFormat = {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        }
+      }
+
+      const payloadSales = {
+        productId: '614117088ef1e8004d2e3d7b',
+        quantity: 0,
+      }
+
+      before(() => {
+        sinon.stub(SalesModel, 'create')
+          .resolves(errFormat);
+      });
+  
+      after(() => {
+        SalesModel.create.restore();
+      });
+
+      it('retorna um objeto', async () => {
+        const response = await SalesService.create(payloadSales);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('o objeto retornado possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const { err } = await SalesService.create(payloadSales);
+
+        expect(err).to.have.property('message');
+        expect(err).to.have.property('code');
+      });
+
+      it('a chave "message" possui a mensagem correta', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { message } } = response;
+
+        expect(message).to.equal(errFormat.err.message);
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { code } } = response;
+
+        expect(code).to.equal(errFormat.err.code);
+      });
+    });
+
+    describe('a quantidade não é um número', () => {
+      const errFormat = {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        }
+      }
+
+      const payloadSales = {
+        productId: '614117088ef1e8004d2e3d7b',
+        quantity: 0,
+      }
+
+      before(() => {
+        sinon.stub(SalesModel, 'create')
+          .resolves(errFormat);
+      });
+  
+      after(() => {
+        SalesModel.create.restore();
+      });
+
+      it('retorna um objeto', async () => {
+        const response = await SalesService.create(payloadSales);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('o objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err } = response;
+
+        expect(err).to.have.property('code');
+        expect(err).to.have.property('message');
+      });
+
+      it('a chave "message" possui a mensagem correta', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { message } } = response;
+
+        expect(message).to.equal(errFormat.err.message);
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { code } } = response;
+
+        expect(code).to.equal(errFormat.err.code);
+      });
+    });
+
+  //   describe('o produto não existe no banco de dados', () => {
+  //     const errFormat = {
+  //       err: {
+  //         code: 'invalid_data',
+  //         message: 'Wrong product ID or invalid quantity',
+  //       }
+  //     }
+
+  //     const payloadSales = {
+  //       productId: '614117088ef1e8004d2e3d7b',
+  //       quantity: 0,
+  //     }
+
+  //     before(async () => {
+  //       sinon.stub(SalesModel, 'create')
+  //         .resolves(errFormat);
+
+  //       await SalesService.create(payloadSales);
+  //     });
+  
+  //     after(() => {
+  //       SalesModel.create.restore();
+  //     });
+
+  //     it('retorna um objeto', async () => {
+  //       const response = await SalesService.create(payloadSales);
+
+  //       expect(response).to.be.a('object');
+  //     });
+
+  //     it('o objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
+  //       const response = await SalesService.create(payloadSales);
+  //       const { err } = response;
+
+  //       expect(err).to.have.property('code');
+  //       expect(err).to.have.property('message');
+  //     });
+
+  //     it('a chave "message" possui a mensagem correta', async () => {
+  //       const response = await SalesService.create(payloadSales);
+  //       const { err: { message } } = response;
+
+  //       expect(message).to.equal(errFormat.err.message);
+  //     });
+
+  //     it('a chave "code" deste objeto possui o código correto', async () => {
+  //       const response = await SalesService.create(payloadSales);
+  //       const { err: { code } } = response;
+
+  //       expect(code).to.equal(errFormat.err.code);
+  //     });
+  //   });
+  });
+
+  describe('quando é inserido com sucesso', () => {
+
+    const payloadSales = {
+      productId: '614117088ef1e8004d2e3d7b',
+      quantity: 100,
+    }
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      sinon.stub(SalesModel, 'create')
+        .resolves({
+          _id: ID_EXAMPLE,
+          itensSold: [
+            {
+              productId: payloadSales.productId,
+              quantity: payloadSales.quantity,
+            },
+          ],
+        });
+    });
+
+    after(() => {
+      SalesModel.create.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await SalesService.create(payloadSales);
+
+      expect(response).to.be.a('object');
+    });
+
+    it('o objeto retornado possui as keys `_id` e `itensSold`', async () => {
+      const response = await SalesService.create(payloadSales);
+
+      expect(response).to.include.all.keys('_id', 'itensSold');
+    });
+
+    it('a key `itensSold` é um array não vazio', async () => {
+      const { itensSold } = await SalesService.create(payloadSales);
+
+      expect(itensSold).to.be.an('array').that.is.not.empty;
+    });
+
+    it('os objetos da key `itensSold` possui as keys `productId` e `quantity`', async () => {
+      const { itensSold } = await SalesService.create(payloadSales);
+
+      expect(itensSold[0]).to.include.all.keys('productId', 'quantity');
+    });
+
   });
 });

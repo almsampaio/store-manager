@@ -382,7 +382,7 @@ describe('Testando a função `remove` do model ProductModel', () => {
 
 // create sales
 
-describe.only('Testando a função `create` do model SalesModel', () => {
+describe('Testando a função `create` do model SalesModel', () => {
   let connectionMock;
 
   const payloadSales = [
