@@ -21,7 +21,6 @@ async function postOneProduct(req, res) {
 
 async function getAllProducts(_req, res) {
   const allProducts = await findAllProductsInSomeDB();
-  console.log(allProducts);
   if (allProducts.err) return res.status(allProducts.statusCode).json({ err: allProducts.err });
   return res.status(STATUS_OK).json(allProducts);
 }
