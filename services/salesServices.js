@@ -2,34 +2,41 @@ const salesModels = require('../models/salesModels');
 const productsModels = require('../models/productsModels');
 
 const getProductQuantity = async (id) => {
-  const { quantity } = productsModels.getProductById(id);
+  const { quantity } = await productsModels.getProductById(id);
   return quantity;
 };
 
 const verifiesSalesAmount = async (amount, id) => {
   const totalQuantity = await getProductQuantity(id);
-  if (totalQuantity - amount <= 0) {
+  const stock = totalQuantity - amount;
+  if (stock < 0) {
     return false;
   }
   return true;
 };
 
 const updateSoldProducts = async (sales) => {
-  sales.forEach(async ({ productId, quantity }) => {
-    if (!verifiesSalesAmount(quantity, productId)) {
-      return false;
-    }
+  const result = await sales.map(async ({ productId, quantity }) => {
+    const isValid = await verifiesSalesAmount(quantity, productId);
+    if (!isValid) return false;
+    await productsModels.updateSoldProduct(productId, -quantity);
+    return true;
+  });
+  return Promise.all(result).then((res) => res);
+};
+
+const updateDeletedSale = async ({ itensSold }) => {
+  await itensSold.forEach(async ({ productId, quantity }) => {
     await productsModels.updateSoldProduct(productId, quantity);
   });
 };
 
 const createSale = async (sales) => {
-  const sale = await salesModels.createSale(sales);
-
   const verifyAmount = await updateSoldProducts(sales);
-  if (!verifyAmount) {
+  if (verifyAmount.includes(false)) {
     return { code: 'stock_problem', type: 404, message: 'Such amount is not permitted to sell' };
   }
+  const sale = await salesModels.createSale(sales);
 
   return sale;
 };
@@ -53,6 +60,10 @@ const updateSale = async (id, newSale) => {
 };
 
 const deleteSale = async (id) => {
+  const sale = await salesModels.getSaleById(id);
+
+  if (sale) await updateDeletedSale(sale);
+
   const response = await salesModels.deleteSale(id);
 
   if (!response) return { code: 'invalid_data', type: 422, message: 'Wrong sale ID format' };
