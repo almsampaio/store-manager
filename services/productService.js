@@ -39,9 +39,16 @@ const ifExists = async (req, res, next) => {
   next();
 };  
 
+const validId = async (id) => {
+  const productId = await productModel.getId({ id });
+  if (!productId) return false;
+  return productId;
+};
+
 module.exports = {
  quantityEqualToOne,
  quantityNumber,
  nameFiveCharacter,
  ifExists,
+ validId,
 };

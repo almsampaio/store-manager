@@ -4,7 +4,8 @@ const productController = require('./controllers/productControler');
 const { quantityEqualToOne, 
   quantityNumber, 
   nameFiveCharacter, 
-  ifExists } = require('./services/productService');
+  ifExists,
+} = require('./services/productService');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +18,8 @@ app.post('/products',
  quantityNumber, 
  ifExists,
  productController.validatedNameAndQuantity);
+
+ app.get('/products/:id', productController.validateId);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
