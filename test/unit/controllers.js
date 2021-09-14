@@ -334,6 +334,10 @@ describe.only('Testando a função `update` do controller ProductController', ()
         name: 'Produto Batista 2',
         quantity: 1,
       };
+
+      request.params = {
+        id: '604cb554311d68f491ba5781'
+      };
   
       response.status = sinon.stub()
         .returns(response);
