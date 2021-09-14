@@ -7,7 +7,7 @@ const updateProductsBySales = async (sales) => {
   const arrayInfo = await Promise.all(productInfo).then((res) => res);
   const booleanArray = arrayInfo.map(({ quantity }, index) => quantity > sales[index].quantity);
 
-  if (booleanArray.includes('false')) return false;
+  if (booleanArray.includes(false)) return false;
   const updatesArray = sales.map(
     ({ productId, quantity }) => productsModel.updateById(productId, (0 - quantity)),
   );
