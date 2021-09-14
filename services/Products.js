@@ -16,8 +16,18 @@ module.exports = {
       const product = await productsModel.get.byId(id);
       return product;
     }
-
+    
     const products = await productsModel.get.all();
     return { products };
+  },
+  async update(id, body) {
+    const foundProduct = await productsModel.get.byId(id);
+    const { name, quantity } = body;
+    if (!foundProduct) throw new Error('Product does not exist');
+    validate.minValue({ quantity }, 1);
+    validate.minLength(name, 5).textField('name');
+    validate.typeOfNumber({ quantity });
+    const product = await productsModel.update(id, body);
+    return product;
   },
 };
