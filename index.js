@@ -32,6 +32,9 @@ app.delete('/products/:id', ProductControllers.exclude);
 app.post('/sales', SalesControllers.create);
 
 // 6 - Crie um endpoint para listar as vendas
+app.get('/sales', SalesControllers.getAll);
+app.get('/sales/:id', SalesControllers.findById);
+
 // 7 - Crie um endpoint para atualizar uma venda
 // 8 - Crie um endpoint para deletar uma venda
 // 9 - Atualize a quantidade de produtos
