@@ -1,4 +1,4 @@
-const salesSchema = require('../schemas/sales');
+const { salesSchema, saleIdSchema } = require('../schemas/sales');
 const { findProductById } = require('../models/products');
 
 const existsProductId = (async (value) => {
@@ -21,4 +21,13 @@ const isValidPayload = (req, _res, next) => {
   return next();
 };
 
-module.exports = { isValidPayload };
+const isValidSaleId = async (req, _res, next) => {
+  const { id } = req.params;
+  const { error } = saleIdSchema.validate({ id });
+  if (error) {
+    return next(error);
+  }
+  return next();
+};
+
+module.exports = { isValidPayload, isValidSaleId };

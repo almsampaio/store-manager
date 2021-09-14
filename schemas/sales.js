@@ -23,4 +23,9 @@ const salesSchema = Joi.object({
     .required(),
 }).error(() => ({ message: 'Wrong product ID or invalid quantity' }));
 
-module.exports = salesSchema;
+const saleIdSchema = Joi.object({
+  id: Joi.string().length(ID_LENGTH).hex().required()
+    .error(() => ({ message: 'Sale not found' })),
+});
+
+module.exports = { salesSchema, saleIdSchema };

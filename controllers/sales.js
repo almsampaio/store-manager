@@ -8,12 +8,16 @@ const insertSales = async (req, res, _next) => {
 };
 
 const getSales = async (req, res, _next) => {
-  res.status(httpStatus.ok).json(salesService.getSales());
+  res.status(httpStatus.ok).json(await salesService.getSales());
 };
 
-const getSalesById = async (req, res, _next) => {
+const getSaleById = async (req, res, next) => {
   const { id } = req.params;
-  res.status(httpStatus.ok).json(salesService.getSalesById(id));
+  const sale = await salesService.getSaleById(id);
+  if (sale.err) {
+    return next(sale.err);
+  }
+  return res.status(httpStatus.ok).json(sale);
 };
 
-module.exports = { insertSales, getSales, getSalesById };
+module.exports = { insertSales, getSales, getSaleById };

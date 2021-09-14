@@ -40,7 +40,6 @@ const updateProductById = async (id, name, quantity) => {
 const deleteProductById = async (id) => {
   const db = await connection();
   const product = await db.collection('products').findOneAndDelete({ _id: ObjectId(id) });
-  console.log(product);
   return product.value;
 };
 
