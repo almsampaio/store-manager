@@ -1,7 +1,6 @@
 const rescue = require('express-rescue');
 const { salesServices } = require('../services');
-const { status, code } = require('../schema');
-const { message } = require('../schema/message');
+const { status } = require('../schema');
 
 const addSales = rescue(async (req, res) => {
   const itensSold = req.body;
