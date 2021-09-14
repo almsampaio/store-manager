@@ -45,9 +45,24 @@ const update = async (id, array) => {
   }
 };
 
+const exclude = async (id) => {
+  const fullSale = await SalesModels.getById(id);
+  const sale = await SalesModels.exclude(id);
+  if (!sale) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    };
+  }
+  return fullSale;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  exclude,
 };
