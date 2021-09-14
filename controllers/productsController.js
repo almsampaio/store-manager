@@ -72,15 +72,14 @@ const update = rescue(async (res, req) => {
     .validate(req.body);
 
   if (error) {
-    return res.status(422).json({ err: {
-      code: 'invalid_data',
-      message: error.details[0].message,
+    return res.status(422).json({ err: { code: 'invalid_data', message: error.details[0].message,
     } });
   }
 
+  const { id } = req.params;
   const { name, quantity } = req.body;
 
-  const updateProduct = await service.update(name, quantity);
+  const updateProduct = await service.update(id, name, quantity);
 
   if (updateProduct.err) return res.status(422).json(updateProduct);
 
