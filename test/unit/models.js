@@ -389,7 +389,7 @@ describe.only('Testando a função `create` do model SalesModel', () => {
     {
       productId: '5f43ba273200020b101fe49f',
       quantity: 2,
-    }
+    },
   ];
 
   before(async () => {
@@ -424,13 +424,12 @@ describe.only('Testando a função `create` do model SalesModel', () => {
       expect(response).to.include.all.keys('_id', 'itensSold');
     });
 
-    it('deve existir um produto com o productId e a quantidade da venda cadastrada', async () => {
-      // await SalesModel.create(payloadSales);
-      const { _id } = SalesModel.create(payloadSales);
+    it('deve existir um produto no banco de dados com o productId e a quantidade da venda cadastrada', async () => {
+      const { _id } = await SalesModel.create(payloadSales);
 
-      const createdProduct = await connectionMock.collection('products').findOne({_id: ObjectId(_id)});
+      const createdProduct = await connectionMock.collection('sales').findOne({_id: ObjectId(_id)});
 
-      expect(createdProduct).to.deep.include(payloadSales);
+      expect(createdProduct.itensSold[0]).to.be.include(payloadSales[0]);
     });
   });
 });
