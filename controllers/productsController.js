@@ -41,8 +41,6 @@ const create = rescue(async (req, res) => {
 
   if (createProduct.err) return res.status(422).json(createProduct);
 
-  // console.log('Estou no Controller', createProduct);
-
   res.status(201).json(createProduct);
 });
 

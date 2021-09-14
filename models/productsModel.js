@@ -22,7 +22,13 @@ const create = async (name, quantity) => {
   };
 };
 
+const getAll = async () => {
+  connection()
+    .then((db) => db.collection('products').find().toArray());
+};
+
 module.exports = {
   create,
   findByName,
+  getAll,
 };
