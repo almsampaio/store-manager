@@ -32,8 +32,24 @@ const findById = async (id) => {
   return product;
 };
 
+const update = async (id, name, quantity) => {
+  const product = await Products.findById(id);
+
+  if (!product) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+
+  return Products.update(id, name, quantity);
+};
+
 module.exports = {
   getAll,
   create,
   findById,
+  update,
 };
