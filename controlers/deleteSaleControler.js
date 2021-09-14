@@ -1,4 +1,4 @@
-const { deleteSale, findByIdOrAllSales } = require('../services');
+const { deleteSale, findByIdOrAllSales, updateToSum } = require('../services');
 
 const errorJson = {
     err: {
@@ -11,6 +11,7 @@ const deleteSaleController = async (req, res) => {
     const { id } = req.params;    
     try {
         const sale = await findByIdOrAllSales(id);
+        await updateToSum(id);
         await deleteSale(id);
         return res.status(200).json(sale);
     } catch (e) {

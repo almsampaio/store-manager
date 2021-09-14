@@ -11,6 +11,9 @@ const insertAndReturnSale = require('./insertAndReturnSale');
 const findByIdOrAllSales = require('./findByIdOrAllSales');
 const updateOneSale = require('./updateOneSale');
 const deleteSale = require('./deleteSale');
+const updateSumAndSubtract = require('./updateSumAndSubtract');
+const updateToSubtract = require('./updateToSubtract');
+const updateToSum = require('./updateToSum');
 
 module.exports = {
     insertAndReturnOne,
@@ -26,4 +29,7 @@ module.exports = {
     findByIdOrAllSales,
     updateOneSale,
     deleteSale,
+    updateSumAndSubtract,
+    updateToSubtract,
+    updateToSum,
 };

@@ -1,8 +1,16 @@
-const { updateOneSale } = require('../services');
+const { updateOneSale, updateSumAndSubtract } = require('../services');
+
+const errorJson = {
+    err: {
+        code: 'stock_problem',
+        message: 'Such amount is not permitted to sell',
+    },
+};
 
 const updateSaleControler = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
+    await updateSumAndSubtract(id, body).catch(() => res.status(404).json(errorJson));
     const response = await updateOneSale(id, body);
     const responseJson = {
         _id: id,
