@@ -30,6 +30,10 @@ const add = async (req, res) => {
 };
 
 const update = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const addProduct = await model.update(id, name, quantity);
+  return res.status(200).json(addProduct);
 };
 
 // const remove = async (req, res) => {

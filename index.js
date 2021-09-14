@@ -19,7 +19,10 @@ app.get('/products', productsControllers.getAll);
 
 app.get('/products/:id', productsControllers.getById);
 
-app.put('/products', productsControllers.update);
+app.put('/products/:id', 
+  validations.validateName, 
+  validations.validateQuantity,
+  productsControllers.update);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
