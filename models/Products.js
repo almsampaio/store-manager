@@ -32,4 +32,14 @@ module.exports = {
       return product || null;
     },
   },
+
+  async update(id, body) {
+    const { name, quantity } = body;
+    const db = await connect();
+    await db.collection('products').updateOne(
+      { _id: ObjectId(id) },
+      { $set: { name, quantity } },
+    );
+    return { _id: id, name, quantity };
+  },
 };
