@@ -60,8 +60,10 @@ const drop = async (id) => {
 
   const connectionDb = await connection();
 
-  await connectionDb.collection('products')
+  const deletedProduct = await connectionDb.collection('products')
   .deleteOne({ _id: ObjectId(id) });
+
+  return deletedProduct;
 };
 
 module.exports = {

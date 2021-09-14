@@ -50,9 +50,18 @@ const update = async (id, name, quantity) => {
   return updateProduct;
 };
 
+const drop = async (id) => {
+  const deleteProduct = await productModel.drop(id);
+  if (deleteProduct === false) {
+    return { err: { code: 'invalid_data', message: 'Wrong id format' }, error: 422 };
+}
+  return deleteProduct;
+};
+
 module.exports = {
   addProduct,
   getAll,
   getProductById,
   update,
+  drop,
 };
