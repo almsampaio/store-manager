@@ -3,12 +3,12 @@ const connect = require('./connection');
 
 const findByName = async (name) => {
     connect()
-      .then((db) => db.collection('products').findOne({ name }).toArray());
+      .then((db) => db.collection('products').findOne({ name }));
 };
 
 const create = async (name, quantity) => {
     const db = await connect();
-    const product = await db.collection('product').insertOne({ name, quantity });
+    const product = await db.collection('products').insertOne({ name, quantity });
     return { id: product.insertedId, name, quantity };
 };
 

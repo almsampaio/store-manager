@@ -1,20 +1,21 @@
 const productsModel = require('../models/productsModel');
 
-const errorMessage = require('../utils/errorMessage');
+const { invalidData, nameMinimumLength, minimumQty,
+  qtyMustBeANumber, productExists } = require('../utils/errorMessage');
 
 const create = async (name, quantity) => {
   if (name.length < 6) {
-    return { code: errorMessage.invalidData, message: errorMessage.nameMinimumLength };
+    return { code: invalidData, message: nameMinimumLength };
   }
   if (quantity <= 0) {
-    return { code: errorMessage.invalidData, message: errorMessage.minimumQty };
+    return { code: invalidData, message: minimumQty };
   }
   if (typeof quantity !== 'number') {
-    return { code: errorMessage.invalidData, message: errorMessage.qtyMustBeANumber };
+    return { code: invalidData, message: qtyMustBeANumber };
   }
 
   const nameExists = await productsModel.findByName(name);
-    if (nameExists) return { code: errorMessage.invalidData, message: errorMessage.productExists };
+    if (nameExists) return { code: invalidData, message: productExists };
 
   const person = await productsModel.create(name, quantity);
 
