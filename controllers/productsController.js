@@ -83,7 +83,7 @@ const update = rescue(async (req, res) => {
 
   if (updateProduct.err) return res.status(422).json(updateProduct);
 
-  res.status(201).json(updateProduct);
+  res.status(200).json(updateProduct);
 });
 
 module.exports = {
