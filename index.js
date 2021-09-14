@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const Products = require('./controllers/productsController');
+const Sales = require('./controllers/salesController');
 
 const app = express();
 
@@ -19,6 +20,10 @@ app.get('/products/:id', Products.findById);
 app.put('/products/:id', Products.update);
 app.delete('/products/:id', Products.deleteInfo);
 app.post('/products', Products.create);
+
+// Sales Routes
+
+app.post('/sales', Sales.create);
 
 const PORT = process.env.PORT || 3000;
 
