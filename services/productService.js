@@ -13,7 +13,7 @@ const nameIsValid = async (name) => {
     return { err: { code: 'invalid_data',
     message: '"name" length must be at least 5 characters long' } };
   }
-  if ((await ProductsModel.findOneByName(name)) !== undefined) {
+  if ((await ProductsModel.findOneByName(name)) !== {}) {
     return { err: { code: 'invalid_data',
     message: 'Product already exists' } };
   }
