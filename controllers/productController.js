@@ -1,19 +1,22 @@
-// const HTTP_OK_STATUS = 200;
+const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
 // const HTTP_NOT_FOUND_STATUS = 404;
 const HTTP_NO_BODY_STATUS = 422;
 
 const productService = require('../services/productService');
 
-// const getAll = async (req, res) => {
-//   const { name, quantity } = req.body;
+const getAll = async (_req, res) => {
+  const { product } = await productService.getAll();
 
-//   const { errorMessage, product } = await productService.getAll(name, quantity);
+  return res.status(HTTP_OK_STATUS).json(product);
+};
 
-//   if (errorMessage) return res.status(HTTP_NO_BODY_STATUS).json({ message: errorMessage });
-
-//   res.status(HTTP_CREATED_STATUS).json(product);
-// };
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const product = await productService.getById(id);
+  if (!product) return res.status(HTTP_NOT_FOUND_STATUS).json({ message: 'Song not Found.'})
+  res.status(HTTP_OK_STATUS).json(product);
+};
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
@@ -27,5 +30,6 @@ const create = async (req, res) => {
 
 module.exports = {
   create,
-  // getAll,
+  getAll,
+  getById,
 };

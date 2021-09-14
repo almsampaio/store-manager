@@ -7,17 +7,17 @@ const productController = require('./controllers/productController');
 const app = express();
 app.use(bodyParser.json());
 
-const PORT = '3000';
+const DEFAULT_PORT = '3000';
+
+const PORT = process.env.PORT || DEFAULT_PORT;
 
 app.get('/products', productController.getAll);
 
-// app.get('/products/:id', productController.getById);
-
-// app.post('/products', productController.create);
-
-// app.put('/products/:id', productController.actualize);
+app.get('/products/:id', productController.getById);
 
 app.post('/products', productController.create);
+
+// app.put('/products/:id', productController.actualize);
 
 // app.delete('/songs/:id', productController.remove);
 

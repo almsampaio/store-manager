@@ -3,6 +3,11 @@ const productsModel = require('../models/productsModel');
 const { invalidData, nameMinimumLength, minimumQty,
   qtyMustBeANumber, productExists } = require('../utils/errorMessage');
 
+const getAll = async (_req, _res) => {
+    const products = await productsModel.getAll();
+    return products;
+};
+
 const create = async (name, quantity) => {
   if (name.length < 6) {
     return { code: invalidData, message: nameMinimumLength };
@@ -24,4 +29,5 @@ const create = async (name, quantity) => {
 
 module.exports = { 
   create,
+  getAll,
 };
