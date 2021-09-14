@@ -24,7 +24,6 @@ const getAll = rescue(async (req, res) => {
 });
 const getById = rescue(async (req, res) => {
   const { id } = req.params;
-  console.log(id);     
   const productId = await service.getById(id);
   if (productId.err) {
     return res.status(422).json(productId);
@@ -32,9 +31,20 @@ const getById = rescue(async (req, res) => {
   res.status(200).json(productId);
 });
 
+const productUpdate = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const updatedProduct = await service.productUpdate(id, name, quantity);
+  if (updatedProduct.err) {
+    return res.status(422).json(updatedProduct);
+  }
+  res.status(200).json(updatedProduct);
+});
+
 module.exports = {
   getAll,
   create,
   getById,
+  productUpdate,
   
 };

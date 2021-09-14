@@ -19,7 +19,6 @@ const create = async (name, quantity) => {
 
 const getAll = async () => model.getAll();
 const getById = async (id) => {
-  console.log(id.length);
   const productId = await model.getById(id);
   if (!productId) {
     return {
@@ -31,9 +30,17 @@ const getById = async (id) => {
   }
   return model.getById(id);
 };
-
+const productUpdate = async (id, name, quantity) => {
+  const valid = await validate.productValidate(name, quantity);
+  if (valid) return valid;
+  
+  const updatedProduct = await model.productUpdate(id, name, quantity);
+  return updatedProduct;
+};
+  
 module.exports = {
     create,
     getAll,
     getById,
+    productUpdate,
 };

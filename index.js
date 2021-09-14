@@ -15,6 +15,7 @@ app.get('/', (_request, response) => {
 app.post('/products', controller.create); 
 app.get('/products', controller.getAll);
 app.get('/products/:id', controller.getById);
+app.put('/products/:id', controller.productUpdate);
 
 app.listen(PORT, () => {
   console.log('Online');
