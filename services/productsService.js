@@ -30,6 +30,9 @@ const create = async (name, quantity) => {
 //   return productByName;
 // };
 
+const getAll = async () => Products.getAll;
+
 module.exports = {
   create,
+  getAll,
 };
