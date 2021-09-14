@@ -49,7 +49,29 @@ const create = async ({ name, quantity }) => {
     };
 };
 
-const update = async (id, { name, quantity }) => {};
+const update = async (id, { name, quantity }) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const productsCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection(COLLECTION_PRODUCT));
+
+  const newData = { name, quantity };
+  // console.log(newData, id);
+
+  const updatedUser = await productsCollection
+    .findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: newData },
+      { returnNewDocument: true },
+    );
+  
+    if (!updatedUser) return null;
+
+    return updatedUser.value;
+};
+
+// console.log(update('613fdfbafc43b8f78e54a011',
+// { name: 'anderson', quantity: 20 }).then((data) => console.log(data)));
 
 module.exports = {
   isName,
