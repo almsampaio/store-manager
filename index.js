@@ -20,6 +20,7 @@ app.route('/products')
   .post(productController.createProduct);
 
 app.get('/products/:id', productController.getById);
+app.put('/products/:id', productController.updateProduct);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

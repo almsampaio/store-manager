@@ -29,3 +29,16 @@ exports.createProduct = async (req, res) => {
 
   res.status(201).json(product);
 };
+
+exports.updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const { message, code, product } = await productService.update({ id, name, quantity });
+
+  if (message) {
+    return res.status(422).json({ err: { code, message } });
+  }
+
+  res.status(200).json(product);
+};

@@ -80,3 +80,13 @@ exports.getById = async (id) => {
 
   return { product };
 };
+
+exports.update = async ({ id, name, quantity }) => {
+  const product = await Product.updateProduct({ id, name, quantity });
+
+  if (product === null) {
+    return { message: errors.invalidId, code: 'invalid_data' }; 
+  }
+
+  return { product };
+};

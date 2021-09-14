@@ -38,3 +38,25 @@ exports.createProduct = async ({ name, quantity }) => {
     quantity,
   };
 };
+
+exports.updateProduct = async ({ id, name, quantity }) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await connection();
+
+  const { result } = await db
+    .collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+
+  console.log('Product: ', result);
+
+  if (result.ok) {
+      return {
+      _id: id,
+      name,
+      quantity,
+    };
+  }
+
+  return null;
+};
