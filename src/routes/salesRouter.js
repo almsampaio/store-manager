@@ -3,17 +3,17 @@ const { Router } = require('express');
 const router = Router();
 
 const {
-  // getAllProducts,
-  // getProductById,
+  getAllSales,
+  getSaleById,
   addSales,
   // updateProduct,
   // deleteProduct,
 
 } = require('../Controllers/salesController');
 
-// router.get('/', getAllProducts);
+router.get('/', getAllSales);
 
-// router.get('/:id', getProductById);
+router.get('/:id', getSaleById);
 
 router.post('/', addSales);
 

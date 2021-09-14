@@ -1,20 +1,20 @@
 const salesModel = require('../Models/salesModel');
 const { salesValidate } = require('../validations/salesValidations');
 
-// const getAllProducts = async () => {
-//   const products = await productsModel.getAllProducts();
+const getAllSales = async () => {
+  const sales = await salesModel.getAllSales();
 
-//   return products;
-// };
+  return sales;
+};
 
-// const getProductById = async (id) => {
-//   const product = await productsModel.getProductById(id);
+const getSaleById = async (id) => {
+  const sale = await salesModel.getSaleById(id);
 
-//   if (!product) {
-//     return { err: { code: 'invalid_data', message: 'Wrong id format' } };
-//   }
-//   return product;
-// };
+  if (!sale) {
+    return { err: { code: 'not_found', message: 'Sale not found' } };
+  }
+  return sale;
+};
 
 const addSales = async (data) => {
   const validate = salesValidate(data);
@@ -53,8 +53,8 @@ const addSales = async (data) => {
 // };
 
 module.exports = {
-  // getAllProducts,
-  // getProductById,
+  getAllSales,
+  getSaleById,
   addSales,
   // updateProduct,
   // deleteProduct,

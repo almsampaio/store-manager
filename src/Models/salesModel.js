@@ -1,23 +1,23 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-// const getAllSales = async () => {
-//   const db = await connection();
-//   const products = await db.collection('products').find({}).toArray();
+const getAllSales = async () => {
+  const db = await connection();
+  const sales = await db.collection('sales').find({}).toArray();
 
-//   return { products };
-// };
+  return { sales };
+};
 
-// const getProductById = async (id) => {
-//   if (!ObjectId.isValid(id)) {
-//     return null;
-//   }
+const getSaleById = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
 
-//   const db = await connection();
-//   const product = await db.collection('products').findOne(ObjectId(id));
+  const db = await connection();
+  const sale = await db.collection('sales').findOne(ObjectId(id));
 
-//   return product;
-// };
+  return sale;
+};
 
 const addSales = async (data) => {
   const db = await connection();
@@ -64,8 +64,8 @@ const addSales = async (data) => {
 // };
 
 module.exports = {
-  // getAllProducts,
-  // getProductById,
+  getAllSales,
+  getSaleById,
   addSales,
   // updateProduct,
   // deleteProduct,

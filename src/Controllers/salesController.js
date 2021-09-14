@@ -1,24 +1,24 @@
 const salesService = require('../Services/salesService');
 
 const HTTP_STATUS_OK = 200;
-// const HTTP_STATUS_CREATED = 201;
 const HTTP_STATUS_UNPROCESSABLE = 422;
+const HTTP_STATUS_NOT_FOUND = 404;
 
-// const getAllProducts = async (_req, res) => {
-//   const products = await productsService.getAllProducts();
+const getAllSales = async (_req, res) => {
+  const sales = await salesService.getAllSales();
 
-//   return res.status(HTTP_STATUS_OK).json(products);
-// };
+  return res.status(HTTP_STATUS_OK).json(sales);
+};
 
-// const getProductById = async (req, res) => {
-//   const { id } = req.params;
+const getSaleById = async (req, res) => {
+  const { id } = req.params;
 
-//   const product = await productsService.getProductById(id);
-//   if (product.err) {
-//     return res.status(HTTP_STATUS_UNPROCESSABLE).json(product);
-//   }
-//   return res.status(HTTP_STATUS_OK).json(product);
-// };
+  const sale = await salesService.getSaleById(id);
+  if (sale.err) {
+    return res.status(HTTP_STATUS_NOT_FOUND).json(sale);
+  }
+  return res.status(HTTP_STATUS_OK).json(sale);
+};
 
 const addSales = async (req, res) => {
   const sales = await salesService.addSales(req.body);
@@ -51,8 +51,8 @@ const addSales = async (req, res) => {
 // };
 
 module.exports = {
-  // getAllProducts,
-  // getProductById,
+  getAllSales,
+  getSaleById,
   addSales,
   // updateProduct,
   // deleteProduct,
