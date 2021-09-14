@@ -28,9 +28,9 @@ const create = async (name, quantity) => {
   const nameExists = await productsModel.findByName(name);
     if (nameExists) return { code: invalidData, message: productExists };
 
-  const person = await productsModel.create(name, quantity);
+  const product = await productsModel.create(name, quantity);
 
-  return person;
+  return product;
 };
 
 const actualize = async (name, quantity, id) => {
@@ -47,9 +47,15 @@ const actualize = async (name, quantity, id) => {
   return updatedData;
 };
 
+const remove = async (id) => {
+  const product = await productsModel.remove(id);
+  return product;
+};
+
 module.exports = { 
   create,
   getAll,
   getById,
   actualize,
+  remove,
 };

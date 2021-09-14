@@ -36,9 +36,18 @@ const actualize = async (req, res) => {
   res.status(HTTP_OK_STATUS).json(product);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { code, message, product } = await productService.getById(id);
+  if (!product) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
+  await productService.remove(id);
+  res.status(HTTP_OK_STATUS).end();
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   actualize,
+  remove,
 };

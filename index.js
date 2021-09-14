@@ -19,7 +19,7 @@ app.post('/products', productController.create);
 
 app.put('/products/:id', productController.actualize);
 
-// app.delete('/songs/:id', productController.remove);
+app.delete('/songs/:id', productController.remove);
 
 // app.get('/products', salesController.getAll);
 
