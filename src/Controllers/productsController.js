@@ -22,13 +22,13 @@ const getProductById = async (req, res) => {
 
 const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
-   
+
   const product = await productsService.addProduct(name, quantity);
   if (product.err) {
     return res.status(HTTP_STATUS_UNPROCESSABLE).json(product);
   }
 
- return res.status(HTTP_STATUS_CREATED).json(product);
+  return res.status(HTTP_STATUS_CREATED).json(product);
 };
 
 const updateProduct = async (req, res) => {

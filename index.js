@@ -1,30 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const {
-  getAllProducts,
-  getProductById,
-  addProduct,
-  updateProduct,
-  deleteProduct,
-
-} = require('./src/Controllers/productsController');
+const productRouter = require('./src/routes/productRouter');
+const salesRouter = require('./src/routes/salesRouter');
 
 const app = express();
 
 app.use(bodyParser.json());
 
+app.use('/products', productRouter);
+app.use('/sales', salesRouter);
+
 const PORT = '3000';
-
-app.get('/products', getAllProducts);
-
-app.get('/products/:id', getProductById);
-
-app.post('/products', addProduct);
-
-app.put('/products/:id', updateProduct);
-
-app.delete('/products/:id', deleteProduct);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
