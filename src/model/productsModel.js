@@ -14,7 +14,7 @@ module.exports = {
     const db = await mongoConnection();
     const productCollection = await db.collection('products');
 
-    const product = await productCollection.findOne({ name });
+    const product = await productCollection.findOne(name);
 
     return product;
   },
