@@ -33,14 +33,28 @@ const getById = async (id) => {
 const productUpdate = async (id, name, quantity) => {
   const valid = await validate.productValidate(name, quantity);
   if (valid) return valid;
-  
+
   const updatedProduct = await model.productUpdate(id, name, quantity);
   return updatedProduct;
 };
-  
+const productDelete = async (id) => {
+    const productId = await model.getById(id);
+    if (!productId) {
+      return {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        },
+      };
+    }
+    const deletedProduct = await model.productDelete(id);
+    return deletedProduct;
+  };
+
 module.exports = {
     create,
     getAll,
     getById,
     productUpdate,
+    productDelete,
 };
