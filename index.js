@@ -12,17 +12,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', controller.create); /* async (req, res) => {
-  const { name, quantity } = req.body;
-  const createProducts = await create(name, quantity);
-  console.log(createProducts);
-  return res.status(201).json(createProducts); 
-}); */
-
-app.get('/products', controller.getAll);/* async (req, res) => {
-  const productsAll = await getAll();
-  res.status(200).json(productsAll);
-}); */
+app.post('/products', controller.create); 
+app.get('/products', controller.getAll);
+app.get('/products/:id', controller.getById);
 
 app.listen(PORT, () => {
   console.log('Online');

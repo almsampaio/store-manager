@@ -1,12 +1,9 @@
-const model = require('../models/products'); // instancia as funçoes de /models/product
+const model = require('../models/products'); 
 const validate = require('../validations/productValidate');
 
 const create = async (name, quantity) => {
   const existingProduct = await model.findByName(name);
-  console.log(existingProduct);
   
-  // Caso esse autor já exista, retornamos um objeto de erro informando
-  // que não é possível criar o autor pois ele já existe
   if (existingProduct) {
     return {
       err: {
@@ -17,15 +14,26 @@ const create = async (name, quantity) => {
   }
   const valid = await validate.productValidate(name, quantity);
   if (valid) return valid;
-  
-  // Caso o autor não exista e, portanto, possa ser criado
-    // chamamos o model e retornamos o resultado
-    return model.create(name, quantity);
+  return model.create(name, quantity);
   };
 
 const getAll = async () => model.getAll();
+const getById = async (id) => {
+  console.log(id.length);
+  const productId = await model.getById(id);
+  if (!productId) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return model.getById(id);
+};
 
 module.exports = {
     create,
     getAll,
+    getById,
 };

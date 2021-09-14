@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const getConnection = require('./connection');
 
 const create = async (name, quantity) => 
@@ -6,27 +7,31 @@ const create = async (name, quantity) =>
     .then((result) => ({ _id: result.insertedId, name, quantity }));
 
 const findByName = async (name) => {
-      // Determinamos se devemos buscar com ou sem o nome do meio
-    
-      // Executamos a consulta e retornamos o resultado
-      const product = await getConnection()
-        .then((db) => db.collection('products').findOne({ name }));
-        console.log(product);
-    
-      // Caso nenhum author seja encontrado, devolvemos null
+  const product = await getConnection()
+  .then((db) => db.collection('products').findOne({ name }));
       if (!product) return null;
-    
-      // Caso contrário, retornamos o author encontrado
       return product; // ????
     };
 const getAll = async () => {
   const db = await getConnection(); 
-  const productsAll = await db.collection('products').find({}).toArray();
+  const productsList = await db.collection('products').find({}).toArray();
+  const productsAll = { products: [...productsList] };
   return productsAll;
+};
+
+const getById = async (id) => {
+  const idSize = 24;
+  if (id.length < idSize) return null;
+  const db = await getConnection(); 
+  // fonte: https:qastack.com.br/programming/8233014/how-do-i-search-for-an-object-by-its-objectid-in-the-mongo-console
+  const productsId = await db.collection('products').findOne({ _id: ObjectId(id) });
+  if (!productsId) return null;
+  return productsId;
 };
 
 module.exports = {
     create,
     getAll,
     findByName,
+    getById,
 };
