@@ -8,7 +8,7 @@ const validation = async (req, _res, next) => {
   if (error) return next(error);
 
   const product = await ProductModel.getByName(name);
-  console.log('Desafio 1', product);
+  
   if (product) return next({ message: 'Product already exists' });
 
   next();
