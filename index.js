@@ -32,6 +32,8 @@ app.post('/sales', salesController.create);
 
 app.put('/sales/:id', salesController.update);
 
+app.delete('/sales/:id', salesController.exclude);
+
 app.listen(PORT, () => {
   console.log('Aplicação tá on');
 });
