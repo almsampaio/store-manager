@@ -30,7 +30,6 @@ const update = async (id, name, quantity) => {
   const product = await db
   .collection('products').updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
   if (!product) return null;
-  console.log(name, quantity);
   return {
     _id: id,
     name,
