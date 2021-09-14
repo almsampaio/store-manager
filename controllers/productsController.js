@@ -44,8 +44,15 @@ const create = rescue(async (req, res) => {
   res.status(201).json(createProduct);
 });
 
+const getAll = rescue(async (_req, res) => {
+  const products = await service.getAll();
+
+  res.status(200).json(products);
+});
+
 module.exports = {
   create,
+  getAll,
 };
 
 // Consegui usar essa estrutura de erros no próprio Joi com referência ao: https://stackoverflow.com/questions/48720942/node-js-joi-how-to-display-a-custom-error-messages
