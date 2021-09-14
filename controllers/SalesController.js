@@ -20,13 +20,13 @@ const getById = async (req, res) => {
   res.status(status).json(sales);
 };
 
-// const update = async (req, res) => {
-//   const { id } = req.params;
-//   const { name, quantity } = req.body;
-//   const { status, code, message, product } = await ProductsService.update(id, name, quantity);
-//   if (!product) return res.status(status).json({ err: { code, message } });
-//   res.status(status).json(product);
-// };
+const update = async (req, res) => {
+  const { id } = req.params;
+  const itensSold = req.body;
+  const { status, code, message, sales } = await SalesService.update(id, itensSold);
+  if (!sales) return res.status(status).json({ err: { code, message } });
+  res.status(status).json(sales);
+};
 
 // const exclude = async (req, res) => {
 //   const { id } = req.params;
@@ -39,6 +39,6 @@ module.exports = {
  create,
  getAll,
  getById,
-//  update,
+ update,
 //  exclude,
 };

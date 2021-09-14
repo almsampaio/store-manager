@@ -28,24 +28,24 @@ const validatePost = async (itensSold) => {
 };
 
 const validateGet = async (id) => {
-  const codeErr = 'not_found';
   const statusErr = 404;
+  const codeErr = 'not_found';
   const sales = await SalesModel.getById(id);  
   if (!sales) return { status: statusErr, code: codeErr, message: errors.NOT_FOUND };
   return {};
 };
 
-// const validatePut = (name, quantity) => {
-//   switch (true) {
-//     case isLengthLetterThan(name, 5): return { status, code, message: errors.NAME_LENGTH };
-//     case isGreaterThan(quantity, 1): return { status, code, message: errors.QUANTITY_AMOUNT };
-//     case typeOf(quantity): return { status, code, message: errors.TYPEOF_QUANTITY };
-//     default: return {};
-//   }
-// };
+const validatePut = (itensSold) => {
+  const { quantity } = itensSold[0];
+  switch (true) {
+    case isGreaterThan(quantity, 1): return { status, code, message: errors.QUANTITY_AMOUNT };
+    case typeOf(quantity): return { status, code, message: errors.TYPEOF_QUANTITY };
+    default: return {};
+  }
+};
 
 module.exports = {
   validatePost,
   validateGet,
-  // validatePut,
+  validatePut,
 };

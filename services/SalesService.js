@@ -22,13 +22,13 @@ const getById = async (id) => {
   return { status: 200, sales };
 };
 
-// const update = async (id, name, quantity) => {
-//   const validations = ProductSchema.validatePut(name, quantity);
-//   if (validations.message) return validations;
+const update = async (id, itensSold) => {
+  const validations = SalesSchema.validatePut(itensSold);
+  if (validations.message) return validations;
 
-//   const product = await ProductsModel.update(id, name, quantity);
-//   return { status: 200, product };
-// };
+  const sales = await SalesModel.update(id, itensSold);
+  return { status: 200, sales };
+};
 
 // const exclude = async (id) => {
 //   const validations = await ProductSchema.validateGet(id);
@@ -43,6 +43,6 @@ module.exports = {
   create,
   getAll,
   getById,
-  // update,
+  update,
   // exclude,
 };

@@ -28,14 +28,14 @@ const getById = async (id) => {
   return sales;
 };
 
-// const update = async (id, name, quantity) => {
-//   if (!ObjectId.isValid(id)) return null;
+const update = async (id, itensSold) => {
+  if (!ObjectId.isValid(id)) return null;
 
-//   const db = await connect();
-//   await db.collection('sales')
-//     .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
-//     return { id, name, quantity };
-// };
+  const db = await connect();
+  await db.collection('sales')
+    .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+    return { _id: id, itensSold };
+};
 
 // const exclude = async (id) => {
 //   if (!ObjectId.isValid(id)) return null;
@@ -49,6 +49,6 @@ module.exports = {
   // findByName,
   getAll,
   getById,
-  // update,
+  update,
   // exclude,
 };
