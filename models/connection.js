@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 const MONGODB_URL = 'mongodb://mongodb:27017/StoreManager';
 const DB_NAME = 'StoreManager';
 
-const connection = () => MongoClient
+const getConnection = () => MongoClient
   .connect(MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -14,4 +14,4 @@ const connection = () => MongoClient
     process.exit();
   });
 
-module.exports = connection;
+module.exports = { getConnection };

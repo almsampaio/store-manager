@@ -1,5 +1,5 @@
 const { ObjectId } = require('bson');
-const getConnection = require('./connection');
+const { getConnection } = require('./connection');
 
 const getAll = async () => {
   const db = await getConnection();
