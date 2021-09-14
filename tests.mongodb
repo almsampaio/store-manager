@@ -1,0 +1,3 @@
+use('StoreManager')
+
+db.sales.find();
