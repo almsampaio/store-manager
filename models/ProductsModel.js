@@ -47,6 +47,18 @@ const getProductById = async (id) => {
   return product;
 };
 
+const searchIds = async (idsList) => {
+  const objectIds = idsList.map((id) => new ObjectId(id));
+  const ids = [];
+  const data = await connection().then((db) => db.collection('products')
+  .find({ _id: { $in: objectIds } }).toArray());
+  data.forEach((item) => {
+    const { _id } = item;
+    ids.push(_id.toString());
+  });
+  return ids;
+};
+
 const deleteProduct = async (id) => {
   if (!ObjectId.isValid(id)) {
     throw new Error(errMessage);
@@ -82,4 +94,5 @@ module.exports = {
   getProductById,
   updateProduct,
   deleteProduct,
+  searchIds,
 };

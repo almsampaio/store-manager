@@ -8,7 +8,8 @@ module.exports = (err, _req, res, _next) => {
   }
 
   if (err.code) {
-    res.status(422).json({ error: { message: err.message } });
+    return res.status(422)
+      .json({ err });
   }
 
   console.error(err);
