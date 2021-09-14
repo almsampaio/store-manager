@@ -8,7 +8,7 @@ const create = async (productsList) => {
     .then((db) => db.collection(DB_COLLECTION));
 
   const newSale = await SalesCollection
-    .insertMany([{ itensSold: [...productsList] }]); // Interação com o DB
+    .insertMany([{ itensSold: [...productsList] }]);
 
   return newSale.ops[0];
 };
@@ -18,7 +18,7 @@ const getAll = async () => {
     .then((db) => db.collection(DB_COLLECTION));
 
   const salesList = await SalesCollection
-    .find().toArray(); // Interação com o DB
+    .find().toArray();
 
   return salesList;
 };
@@ -30,7 +30,7 @@ const getById = async (id) => {
     .then((db) => db.collection(DB_COLLECTION));
 
   const foundSale = await SalesCollection
-    .findOne({ _id: ObjectId(id) }); // Interação com o DB
+    .findOne({ _id: ObjectId(id) });
 
   return foundSale;
 };
@@ -43,7 +43,7 @@ const update = async (saleId, productsList) => {
     .findOneAndUpdate(
       { _id: ObjectId(saleId) },
       { $set: { itensSold: productsList } },
-      { returnOriginal: false }, // Caso true ele exibe o objeto antes de ser alterado, falhando o teste. Fonte: https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndUpdate/
+      { returnOriginal: false },
     );
 
   console.log(updatedSale.value);
@@ -51,9 +51,25 @@ const update = async (saleId, productsList) => {
   return updatedSale.value;
 };
 
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const SalesCollection = await connection()
+    .then((db) => db.collection(DB_COLLECTION));
+
+  const removedSale = await SalesCollection
+    .findOne({ _id: ObjectId(id) });
+
+  await SalesCollection
+    .deleteOne({ _id: ObjectId(id) });
+
+  return removedSale;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };

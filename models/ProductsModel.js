@@ -8,7 +8,7 @@ const create = async (name, quantity) => {
     .then((db) => db.collection(DB_COLLECTION));
 
   const newProduct = await ProductsCollection
-    .insertOne({ name, quantity }); // Interação com o DB
+    .insertOne({ name, quantity });
 
   return newProduct.ops[0];
 };
@@ -18,7 +18,7 @@ const findByName = async (name) => {
     .then((db) => db.collection(DB_COLLECTION));
 
   const foundProduct = await ProductsCollection
-    .find({ name }).toArray(); // Interação com o DB
+    .find({ name }).toArray();
 
   return foundProduct;
 };
@@ -28,7 +28,7 @@ const getAll = async () => {
     .then((db) => db.collection(DB_COLLECTION));
 
   const productsList = await ProductsCollection
-    .find().toArray(); // Interação com o DB
+    .find().toArray();
 
   return productsList;
 };
@@ -40,7 +40,7 @@ const getById = async (id) => {
     .then((db) => db.collection(DB_COLLECTION));
 
   const foundProduct = await ProductsCollection
-    .findOne({ _id: ObjectId(id) }); // Interação com o DB
+    .findOne({ _id: ObjectId(id) });
 
   return foundProduct;
 };
@@ -67,10 +67,10 @@ const remove = async (id) => {
     .then((db) => db.collection(DB_COLLECTION));
 
   const removedProduct = await ProductsCollection
-    .findOne({ _id: ObjectId(id) }); // Interação com o DB
+    .findOne({ _id: ObjectId(id) });
 
   await ProductsCollection
-    .deleteOne({ _id: ObjectId(id) }); // Interação com o DB
+    .deleteOne({ _id: ObjectId(id) });
 
   return removedProduct;
 };

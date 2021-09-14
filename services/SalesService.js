@@ -20,23 +20,13 @@ const create = async (productsList) => {
   if (!productExists(productsList[0].productId)) return error;
   if (!isQuantityValid(productsList[0].quantity)) return error;
 
-  /*
-    const productsValidations = productsList
-      .every(async ({ productId, quantity }) => {
-        if (await !productExists(productId) || !isQuantityValid(quantity)) return false;
-      });
-
-    console.log(productsValidations);
-
-    return !productsValidations ? error : await SalesModel.create(productsList); */
-
-  const newSale = await SalesModel.create(productsList); // Interação com o Model
+  const newSale = await SalesModel.create(productsList);
 
   return newSale;
 };
 
 const getAll = async () => {
-  const salesList = await SalesModel.getAll(); // Interação com o Model
+  const salesList = await SalesModel.getAll();
 
   return salesList;
 };
@@ -71,9 +61,25 @@ const update = async (id, productsList) => {
   return updatedSale;
 };
 
+const remove = async (id) => {
+  const removedSale = await SalesModel.remove(id);
+
+  if (!removedSale) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    };
+  }
+
+  return removedSale;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };

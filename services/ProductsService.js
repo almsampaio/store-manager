@@ -55,7 +55,7 @@ const isQuantityValid = (quantity) => {
 };
 
 const create = async (name, quantity) => {
-  const newProduct = await ProductsModel.create(name, quantity); // Interação com o Model
+  const newProduct = await ProductsModel.create(name, quantity);
   const productExists = await productAlreadyExists(name);
   const nameValid = isNameValid(name);
   const quantityValid = isQuantityValid(quantity);
@@ -68,13 +68,13 @@ const create = async (name, quantity) => {
 };
 
 const getAll = async () => {
-  const productsList = await ProductsModel.getAll(); // Interação com o Model
+  const productsList = await ProductsModel.getAll();
 
   return productsList;
 };
 
 const getById = async (id) => {
-  const product = await ProductsModel.getById(id); // Interação com o Model
+  const product = await ProductsModel.getById(id);
 
   if (!product) {
     return {
@@ -89,7 +89,7 @@ const getById = async (id) => {
 };
 
 const update = async (id, name, quantity) => {
-  const updatedProduct = await ProductsModel.update(id, name, quantity); // Interação com o Model
+  const updatedProduct = await ProductsModel.update(id, name, quantity);
   const nameValid = isNameValid(name);
   const quantityValid = isQuantityValid(quantity);
 
