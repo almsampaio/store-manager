@@ -18,6 +18,6 @@ app.get('/products/:id', productController.getProductById);
 
 app.get('/products', productController.getProducts);
 
-// app.put('/products/:id', productController.addProduct, productController.updateProductById);
+app.put('/products/:id', productController.updateProductById);
 
 app.listen(SERVER_PORT, () => console.log(`Servidor rodando na porta: ${SERVER_PORT}`));

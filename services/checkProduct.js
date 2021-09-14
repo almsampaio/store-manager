@@ -5,7 +5,7 @@ const productModel = require('../models/productModel');
 const NAME_LENGTH = 5;
 const INVALID_QUANTITY = 0;
 
-const checkProduct = async (name, quantity) => {
+const checkProduct = (name, quantity) => {
   if (name.length < NAME_LENGTH) {
    return {
     err: { code: 'invalid_data', message: errors.NAME }, error: 422 };
@@ -16,7 +16,12 @@ const checkProduct = async (name, quantity) => {
   if (typeof quantity !== 'number') {
     return { err: { code: 'invalid_data', message: errors.TYPE_NUMBER }, error: 422 };
   }
+  return false;
+};
 
+const addProduct = async (name, quantity) => {
+  const check = checkProduct(name, quantity);
+  if (check) return check;
   const insertedProduct = await productModel.create(name, quantity);
 
   if (insertedProduct === false) {
@@ -35,8 +40,19 @@ const getProductById = async (id) => {
   return product;
 };
 
+const update = async (id, name, quantity) => {
+  const check = checkProduct(name, quantity);
+  if (check) return check;
+  const updateProduct = await productModel.update(id, name, quantity);
+  if (updateProduct === false) {
+    return { err: { code: 'invalid_data', message: errors.EXISTS }, error: 422 };
+}
+  return updateProduct;
+};
+
 module.exports = {
-  checkProduct,
+  addProduct,
   getAll,
   getProductById,
+  update,
 };

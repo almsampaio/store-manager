@@ -39,10 +39,18 @@ const create = async (name, quantity) => {
 };
 
 const update = async (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) return false;
+
   const connectionDb = await connection();
 
-  const newProduct = await connectionDb.collection('products')
+  await connectionDb.collection('products')
   .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+
+  const newProduct = {
+    _id: id,
+    name,
+    quantity,
+  };
 
   return newProduct;
 };
