@@ -27,9 +27,9 @@ const register = async (name, quantity) => {
   return createdProduct;
 };
 const update = async (id, name, quantity) => {
-    const person = await productModel.update(id, name, quantity);
+    const product = await productModel.update(id, name, quantity);
   
-    return person;
+    return product;
   };
 
 function validateName(req, res, next) {

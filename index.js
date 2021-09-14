@@ -17,6 +17,10 @@ app.get('/products/:id', productController.getById);
 app.put('/products/:id', validateName, validateQuantity, productController.update);
 app.delete('/products/:id', productController.remove);
 app.post('/sales', validateQuantitySale, salesController.register);
+app.get('/sales', salesController.getAll);
+app.get('/sales/:id', salesController.getById);
+app.put('/sales/:id', validateQuantitySale, salesController.update);
+
 app.listen(PORT, () => {
   console.log('🚀 Segura que nossa app tá rodando!');
 });
