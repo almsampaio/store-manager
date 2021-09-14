@@ -1,10 +1,21 @@
 const SalesModels = require('../models/sales');
 const validation = require('./salesValidations');
+const ProductModels = require('../models/products');
+
+const updateProduct = async (array) => {
+  array.forEach(async (product) => {
+    const { productId, quantity } = product;
+    const fullProduct = await ProductModels.getById(productId);
+    const { _id, name } = fullProduct;
+    await ProductModels.update(_id, name, (fullProduct.quantity - quantity));
+  });
+};
 
 const create = async (array) => {
   const validQuantity = validation.validateQuantity(array);
   if (validQuantity) return validQuantity;
   const sales = await SalesModels.create(array);
+  await updateProduct(array);
   return sales.ops[0];
 };
 
