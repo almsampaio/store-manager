@@ -18,9 +18,9 @@ const getAll = async (req, res) => {
 const create = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const { errorMessage, product } = await productService.create(name, quantity);
+  const { code, message, product } = await productService.create(name, quantity);
 
-  if (errorMessage) return res.status(HTTP_NO_BODY_STATUS).json({ message: errorMessage });
+  if (code && message) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
 
   res.status(HTTP_CREATED_STATUS).json(product);
 };
