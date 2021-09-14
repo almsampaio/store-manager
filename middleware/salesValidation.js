@@ -24,7 +24,6 @@ const idValidate = (req, _res, next) => {
   const { error } = validate.idValidate.validate(id);
 
   if (error) {
-    console.log(error);
     return next({
       err: { code: 'not_found', message: 'Sale not found' },
       statusCode: STATUS.STATUS_404_NOT_FOUND,
@@ -37,8 +36,9 @@ const idValidate = (req, _res, next) => {
 const salesAlreadyExists = async (req, _res, next) => {
   const { id } = req.params;
   const sales = await salesService.getAll();
-  const sale = sales.filter((ele) => ele.id === id);
-  if (!sale) {
+  const idAlias = '_id';
+  const sale = sales.filter((ele) => ele[idAlias].toString() === id);
+  if (sale.length === 0) {
     return next({
       err: { code: 'not_found', message: 'Sale not found' },
       statusCode: STATUS.STATUS_404_NOT_FOUND,
@@ -47,8 +47,23 @@ const salesAlreadyExists = async (req, _res, next) => {
   next();
 };
 
+const validateId = (req, _res, next) => {
+  const { id } = req.params;
+  const { error } = validate.idValidate.validate(id);
+
+  if (error) {
+    return next({
+      err: { code: 'invalid_data', message: 'Wrong sale ID format' },
+      statusCode: STATUS.STATUS_422_UNPROCESSABLE,
+    });
+  }
+
+  next();
+};
+
 module.exports = {
   SalesValidate,
   salesAlreadyExists,
   idValidate,
+  validateId,
 };

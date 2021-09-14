@@ -20,9 +20,13 @@ const update = async (id, Sale) => connection()
     { _id: ObjectId(id) }, { $set: { itensSold: Sale } },
   ));
 
+const deleteById = async (id) => connection()
+  .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  deleteById,
 };
