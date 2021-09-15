@@ -18,10 +18,11 @@ const findById = async (id) => {
   return sale;
 };
 
-const deleteById = async (id) => (
-  connection()
-    .then((db) => db.collection(collectionName).deleteOne(new ObjectId(id)))
-);
+const deleteById = async (id) => {
+  await connection()
+    .then((db) => db.collection(collectionName).deleteOne({ _id: { $eq: ObjectId(id) } }))
+    .catch((err) => console.log(err));
+};
 
 const create = async (itensSold) => {
   const db = await connection();
