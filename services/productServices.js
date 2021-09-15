@@ -1,5 +1,5 @@
 // service é o intermédio de model e controller
-const { createProduct, getAll, findByName } = require('../models/productsModel');
+const { createProduct, getAll, findByName, findById } = require('../models/productsModel');
 
 const create = async (name, quantity) => {
   const newProduct = await createProduct(name, quantity);
@@ -17,8 +17,14 @@ const getByName = async (name) => {
   return findProduct;
 };
 
+const getById = async (id) => {
+  const findProduct = await findById(id);
+  return findProduct;
+};
+
 module.exports = {
   create,
   getAllProducts,
   getByName,
+  getById,
 };

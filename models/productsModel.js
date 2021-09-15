@@ -1,11 +1,11 @@
-// const { ObjectId } = require('bson');
+const { ObjectId } = require('bson');
 const connection = require('./connection');
 
 const getAll = async () => {
-  const products = await connection().then((db) => db
+  const productsFound = await connection().then((db) => db
     .collection('products').find({}, { sort: { title: 1 } }).toArray())
     .then((res) => res).catch((err) => console.log(err));
-    return products;
+    return productsFound;
 };
 
 const createProduct = async (name, quantity) => {
@@ -19,17 +19,31 @@ const createProduct = async (name, quantity) => {
 const findByName = async (name) => {
   console.log('model findByName on!');
   const query = { name };
-  const findProduct = await connection().then((db) => db
+  const productFound = await connection().then((db) => db
     .collection('products').findOne(query))
     .then((res) => {
       console.log(res);
       return res;
     }).catch((err) => console.log(err));
-    return findProduct;
+    return productFound;
+};
+
+const findById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  console.log('model findById on!');
+  const query = { _id: ObjectId(id) };
+  const productFound = await connection().then((db) => db
+    .collection('products').findOne(query))
+    .then((res) => {
+      console.log(res);
+      return res;
+    }).catch((err) => console.log(err));
+  return productFound;
 };
 
 module.exports = {
   createProduct,
   getAll,
   findByName,
+  findById,
 };
