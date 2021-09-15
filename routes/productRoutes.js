@@ -4,7 +4,8 @@ const router = express.Router();
 // importação de controllers
 const { createProduct,
   getAll, getById,
-  updateProduct } = require('../controllers/productControllers');
+  updateProduct,
+  deleteProduct } = require('../controllers/productControllers');
 // importação de middlewares de validação
 const { validateName,
   validateProductExistence,
@@ -19,6 +20,7 @@ router.post('/', validateName,
 router.get('/', getAll);
 router.get('/:id', getById);
 router.put('/:id', validateName, validateQtyOfProducts, validateTypeOfQty, updateProduct);
+router.delete('/:id', deleteProduct);
 
 module.exports = router;
 

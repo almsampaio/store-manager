@@ -1,5 +1,6 @@
 // service é o intermédio de model e controller
-const { createProduct, getAll, findByName, findById, update } = require('../models/productsModel');
+const { createProduct, getAll, findByName, findById, update,
+  deleteProduct } = require('../models/productsModel');
 
 const create = async (name, quantity) => {
   const newProduct = await createProduct(name, quantity);
@@ -27,10 +28,15 @@ const updateProduct = async (objectProduct) => {
   return updatedProduct;
 };
 
+const deleteP = async (id) => {
+  const deletedProduct = await deleteProduct(id);
+  return deletedProduct;
+};
 module.exports = {
   create,
   getAllProducts,
   getByName,
   getById,
   updateProduct,
+  deleteP,
 };
