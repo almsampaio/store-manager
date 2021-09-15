@@ -22,7 +22,24 @@ const findOneByName = async (name) => {
   return productFound;
 };
 
+const findOneById = async (_id) => {
+  const productsCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection('products'));
+
+  const productFound = await productsCollection.findOne({ _id });
+  return productFound;
+};
+
+const getAll = async () => {
+  const productsCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection('products'));
+  const productsFound = await productsCollection.find().toArray();
+  return productsFound;
+};
+
 module.exports = {
   create,
   findOneByName,
+  getAll,
+  findOneById,
 };
