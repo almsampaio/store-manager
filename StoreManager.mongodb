@@ -1,0 +1,9 @@
+// Script para gerar um banco de dados chamado StoreManager
+const dataBase = "StoreManager";
+const collectionProducts = "products";
+const collectionSales = "sales";
+
+use(dataBase);
+
+db.createCollection(collectionProducts);
+db.createCollection(collectionSales);
