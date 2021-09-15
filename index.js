@@ -27,6 +27,7 @@ app.post('/sales', validQuantity, salesController.createSale);
 app.get('/sales', salesController.getAll);
 app.get('/sales/:id', salesController.getById);
 app.put('/sales/:id', validQuantity, salesController.updateSale);
+app.delete('/sales/:id', salesController.deleteSale);
 
 app.listen(PORT, () => {
   console.log(`Ouvindo a porta ${PORT}`);
