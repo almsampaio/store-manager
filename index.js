@@ -23,6 +23,7 @@ app.post('/products', Products.create);
 
 // Sales Routes
 
+app.get('/sales', Sales.getAll);
 app.post('/sales', Sales.create);
 
 const PORT = process.env.PORT || 3000;
