@@ -30,4 +30,9 @@ module.exports = {
     );
     return { _id: id, itensSold: body };
   },
+
+  async delete(id) {
+    const db = await connect();
+    await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+  },
 };

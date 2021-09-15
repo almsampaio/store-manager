@@ -49,4 +49,25 @@ module.exports = {
       });
     }
   },
+
+  async delete(req, res) {
+    const { id } = req.params;
+    try {
+      try {
+        const sale = await salesService.get(id);
+        await salesService.delete(id);
+        return res.status(200).json(sale);
+      } catch (error) {
+        throw new Error('Wrong sale ID format');
+      }
+    } catch (error) {
+      const code = 422;
+      return res.status(code).json({
+        err: {
+          message: error.message,
+          code: httpcodes[code],
+        },
+      });
+    }
+  },
 };

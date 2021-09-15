@@ -55,4 +55,9 @@ module.exports = {
     const product = await salesModel.update(id, body);
     return product;
   },
+  
+  async delete(id) {
+    const sale = await salesModel.delete(id);
+    return sale;
+  },
 };
