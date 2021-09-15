@@ -25,6 +25,13 @@ const create = rescue(async (req, res) => {
   res.status(200).json(createSale);
 });
 
+const getAll = rescue(async (_req, res) => {
+  const salesArray = await service.getAll();
+
+  res.status(200).json({ sales: salesArray });
+});
+
 module.exports = {
   create,
+  getAll,
 };
