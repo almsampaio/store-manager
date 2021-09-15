@@ -12,16 +12,13 @@ const formatGetResponse = (response) => {
 };
 
 const createProduct = async ({ name, quantity }) => {
-  // const validationFormat = validations.formatValidationInputProducts({ name, quantity });
-  // if (validationFormat) return validationFormat;
-  const validationName = validations.nameLengthValidation(name);
-  if (validationName) return validationName;
-  const isNameRepeat = await validations.isRepeated(name);
-  if (isNameRepeat) return isNameRepeat;
-  const validationQuantity = validations.quantityValidationProducts(quantity);
+  // const validationFormatInserted = validations.formatValidationInputProducts({ name, quantity });
+  // if (validationFormatInserted) return validationFormatInserted;
+  const validationsName = await validations.validationsNameProduct(name);
+  if (validationsName) return validationsName;
+
+  const validationQuantity = await validations.validationsQuantityInsertProduct(quantity);
   if (validationQuantity) return validationQuantity;
-  const validationQuantitySring = validations.quantityTypeValidationProducts(quantity);
-  if (validationQuantitySring) return validationQuantitySring;
   return productsModel.createProduct({ name, quantity });
 };
 
@@ -38,21 +35,24 @@ const getProducts = async (id) => {
 };
 
 const putProducts = async (id, name, quantity) => {
-  const validationName = validations.nameLengthValidation(name);
-  if (validationName) return validationName;
-  const validationQuantity = validations.quantityValidationProducts(quantity);
+  const validationsName = await validations.validationNameProduct(name);
+  if (validationsName) return validationsName;
+
+  const validationQuantity = await validations.validationsQuantityInsertProduct(quantity);
   if (validationQuantity) return validationQuantity;
-  const validationQuantitySring = validations.quantityTypeValidationProducts(quantity);
-  if (validationQuantitySring) return validationQuantitySring;
+
   const productByURLID = await validations.validateURLId(id);
   if (productByURLID.err) return productByURLID;
+
   return productsModel.putProducts(id, name, quantity);
 };
 
 const deleteProducts = async (id) => {
   const productByURLID = await validations.validateURLId(id);
   if (productByURLID.err) return productByURLID;
+
   const deletedProduct = await productsModel.deleteProducts(id);
+  
   return deletedProduct[0];
 };
 

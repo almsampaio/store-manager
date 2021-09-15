@@ -37,7 +37,7 @@ function nameLengthValidation(name) {
   return false;
 }
 
-async function isRepeated(name) {
+async function isNameRepeated(name) {
   const products = await productsModel.getAllProdutcts();
   const isUsed = products.find((product) => product.name === name);
   if (isUsed) {
@@ -52,7 +52,13 @@ async function isRepeated(name) {
   return false;
 }
 
-function quantityValidationProducts(quantity) {
+async function validationsNameProduct(name) {
+  if (nameLengthValidation(name)) return nameLengthValidation(name);
+  if (isNameRepeated(name)) return isNameRepeated(name);
+  return false;
+}
+
+function validationValueInsertQuantityProducts(quantity) {
   if (quantity <= 0) {
     return {
         err: {
@@ -65,7 +71,7 @@ function quantityValidationProducts(quantity) {
   return false;
 }
 
-function quantityTypeValidationProducts(quantity) {
+function validationQuantityTypeInsertProducts(quantity) {
   if (typeof quantity !== 'number') {
     return {
         err: {
@@ -76,6 +82,16 @@ function quantityTypeValidationProducts(quantity) {
       };
   }
   return false;
+}
+
+function validationsQuantityInsertProduct(quantity) {
+  if (validationValueInsertQuantityProducts(quantity)) {
+    return validationValueInsertQuantityProducts(quantity);
+  }
+
+  if (validationQuantityTypeInsertProducts(quantity)) {
+    return validationQuantityTypeInsertProducts(quantity);
+  }
 }
 
 async function validateURLId(id) {
@@ -196,10 +212,8 @@ async function validateUpdateProductsQuantitys(sale, verb) {
 
 module.exports = {
   formatValidationInputProducts,
-  nameLengthValidation,
-  isRepeated,
-  quantityValidationProducts,
-  quantityTypeValidationProducts,
+  validationsNameProduct,
+  validationsQuantityInsertProduct,
   productIdValidation,
   validateURLId,
   formatValidationInputSales,
