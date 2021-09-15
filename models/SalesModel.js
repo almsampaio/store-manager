@@ -17,6 +17,16 @@ const create = async (arraySold) => {
     };
 };
 
+const getAll = async () => {
+  const salesCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection(COLLECTION_SALES));
+
+  const sales = await salesCollection.find().toArray();
+
+  return { sales };
+};
+
 module.exports = {
+  getAll,
   create,
 };

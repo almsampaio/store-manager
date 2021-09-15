@@ -7,7 +7,7 @@ const mongoConnection = require('../../models/connection');
 
 const ProductModel = require('../../models/ProductModel');
 
-// const SalesModel = require('../../models/SalesModel');
+const SalesModel = require('../../models/SalesModel');
 
 // CREATE PRODUCT
 
@@ -436,10 +436,6 @@ describe('Testando a função `create` do model SalesModel', () => {
 
 // getAll sales
 
-const SalesModel = {
-  getAll: () => {}
-};
-
 describe.only('Testando a função `getAll` do model SalesModel', () => {
   let connectionMock; 
 
@@ -507,7 +503,7 @@ describe.only('Testando a função `getAll` do model SalesModel', () => {
       expect(sales).to.be.an('array');
     });
 
-    it('o array não é vazio', async () => {
+    it('o array não está vazio', async () => {
       const { sales } = await SalesModel.getAll();
 
       expect(sales).to.not.be.empty;
@@ -520,7 +516,7 @@ describe.only('Testando a função `getAll` do model SalesModel', () => {
       expect(firstSales).to.be.an('object');
     });
 
-    it('todos os objetos possuem os atributos "id", "name" e "quantity"', async () => {
+    it('todos os objetos possuem os atributos "id" e "itensSold"', async () => {
       const { sales } = await SalesModel.getAll();
       const [firstSales] = sales;
 
@@ -528,10 +524,10 @@ describe.only('Testando a função `getAll` do model SalesModel', () => {
     });
 
     it('o produto cadastrado está no array', async () => {
-      const { sales } = await SalesModel.getAll();
-      const [{ _id, itensSold: { productId, quantity } }] = sales;
+      const { sales }  = await SalesModel.getAll();
+      const { productId, quantity } = sales[0].itensSold[0];
 
-      expect({ productId, quantity }).to.deep.equal(expectedSales.itensSold);
+      expect({ productId, quantity }).to.deep.equal(expectedSales.itensSold[0]);
     });
   });
 });
