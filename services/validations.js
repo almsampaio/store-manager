@@ -128,16 +128,16 @@ async function validateURLId(id, item) {
   return getItemById(id, item);
 }
 
-async function productIdValidation(product) {
-  const productsDB = await productsModel.getAllProdutcts();
-  const arrayProductIdDB = productsDB.map(({ _id }) => _id.toString());
-  const arraySaleIdTypeds = product.map(({ productId }) => productId);
-  const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
-  if (!find) {
-    return WRONG_ID_FORMAT_MESSAGE;
-  }
-  return false;
-}
+// async function productIdValidation(product) {
+//   const productsDB = await productsModel.getAllProdutcts();
+//   const arrayProductIdDB = productsDB.map(({ _id }) => _id.toString());
+//   const arraySaleIdTypeds = product.map(({ productId }) => productId);
+//   const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
+//   if (!find) {
+//     return WRONG_ID_FORMAT_MESSAGE;
+//   }
+//   return false;
+// }
 
 function validationFormatInputSales(sale) {
   if (!Array.isArray(sale)) {
@@ -199,7 +199,7 @@ module.exports = {
   validationFormatInputsProducts,
   validationsNameProduct,
   validationsQuantityInsertProduct,
-  productIdValidation,
+  // productIdValidation,
 
   validateURLId,
 
