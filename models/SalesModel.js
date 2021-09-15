@@ -39,6 +39,25 @@ const getSales = async () => {
   return data;
 };
 
+const deleteSaleModel = async (id) => {
+  const errMessage = 'Wrong sale ID format';
+
+  if (!ObjectId.isValid(id)) {
+    console.log(id);
+    throw new Error(errMessage);
+  }
+
+  const deleteItem = await connection()
+    .then((db) => db.collection('sales')
+      .deleteOne({ _id: new ObjectId(id) }));
+
+    if (!deleteItem) throw new Error(errMessage);
+
+    const sales = await getSales();
+
+    return sales;
+};
+
 const addNewSale = async (productsSold) => {
   const data = await connection().then((db) => db.collection('sales'));
 
@@ -51,4 +70,5 @@ module.exports = {
   getSales,
   getSaleById,
   updateSale,
+  deleteSaleModel,
 };
