@@ -2,7 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 // importação de controllers
-const { createProduct, getAll, getById } = require('../controllers/productControllers');
+const { createProduct,
+  getAll, getById,
+  updateProduct } = require('../controllers/productControllers');
 // importação de middlewares de validação
 const { validateName,
   validateProductExistence,
@@ -16,6 +18,7 @@ router.post('/', validateName,
   createProduct);
 router.get('/', getAll);
 router.get('/:id', getById);
+router.put('/:id', validateName, validateQtyOfProducts, validateTypeOfQty, updateProduct);
 
 module.exports = router;
 
