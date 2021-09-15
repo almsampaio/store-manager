@@ -6,3 +6,4 @@ module.exports.deleteProduct = require('./deleteProduct');
 module.exports.addSale = require('./addSale');
 module.exports.getAllSales = require('./getAllSales');
 module.exports.getSale = require('./getSale');
+module.exports.updateSale = require('./updateSale');

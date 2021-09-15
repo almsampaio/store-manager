@@ -16,6 +16,23 @@ const getSaleById = async (id) => {
   return product;
 };
 
+const updateSale = async (req) => {
+  const { id } = req.params;
+  const [...items] = req.body;
+
+  await connection()
+    .then((db) => db.collection('sales').findOneAndUpdate(
+      { _id: id },
+      { $set: { itensSold: items } },
+      { returnDocument: 'after' },
+    ).then((result) => result.value));
+
+  const updatedSale = await connection().then((db) => db.collection('sales')
+      .findOne({ _id: id }));
+
+    return updatedSale;
+};
+
 const getSales = async () => {
   const data = await connection().then((db) => db.collection('sales')
     .find().toArray());
@@ -33,4 +50,5 @@ module.exports = {
   addNewSale,
   getSales,
   getSaleById,
+  updateSale,
 };
