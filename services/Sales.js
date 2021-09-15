@@ -1,3 +1,4 @@
+const validate = require('../lib/validation');
 const productsModel = require('../models/Products');
 const salesModel = require('../models/Sales');
 
@@ -11,7 +12,7 @@ async function validateIfIsPreviouslyRegistered(sales) {
   if (idsNotRegistered) {
     throw new Error(
       `It was not possible to register the sales because\
-there are no products registered in these id's: ${idsNotRegistered}`,
+ there are no products registered in these id's: ${idsNotRegistered}`,
     );
   }
 }
@@ -31,5 +32,15 @@ module.exports = {
     ));
     const createdSales = await salesModel.create(sales);
     return createdSales;
+  },
+
+  async get(id) {
+    if (id) {
+      const sale = await validate.id(id, async () => salesModel.get.byId(id), 'Sale not found');
+      return sale;
+    }
+
+    const sales = await salesModel.get.all();
+    return { sales };
   },
 };
