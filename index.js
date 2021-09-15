@@ -14,6 +14,7 @@ const {
   getAllSales,
   getOneSaleByID,
   putOneSaleByID,
+  deleteOneSaleByID,
 } = require('./CONTROLLERS/SalesController');
 
 const PORT = 3000;
@@ -42,6 +43,7 @@ app.post('/sales', postOneSale);
 app.get('/sales', getAllSales);
 app.get('/sales/:id', getOneSaleByID);
 app.put('/sales/:id', putOneSaleByID);
+app.delete('/sales/:id', deleteOneSaleByID);
 
 app.listen(PORT, () => {
   console.log(`Escutando na porta ${PORT}`);

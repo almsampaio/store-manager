@@ -22,6 +22,7 @@ async function findAllSalesInMongoDB() {
 }
 
 async function findOneSaleInMongoDB(id) {
+  if (!ObjectId.isValid(id)) return null;
   try {
     const db = await connection();
     const responseFromQuery = await db.collection('sales').findOne(new ObjectId(id));
@@ -47,9 +48,22 @@ async function updateOneSaleInMongoDB(id, saleToUpdate) {
   }
 }
 
+async function deleteOneSaleFromMongoDBByID(id, saleToDelete) {
+  try {
+    const db = await connection();
+    const queryResponse = db.collection('sales').deleteOne({ _id: new ObjectId(id) });
+    if (queryResponse && saleToDelete) return saleToDelete;
+    return null;
+  } catch (err) {
+    console.log(err);
+    return MONGO_ERROR;
+  }
+}
+
 module.exports = {
   insertOneSaleInMongoDB,
   findAllSalesInMongoDB,
   findOneSaleInMongoDB,
   updateOneSaleInMongoDB,
+  deleteOneSaleFromMongoDBByID,
 };

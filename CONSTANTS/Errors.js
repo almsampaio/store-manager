@@ -68,6 +68,14 @@ const ERROR_SALES_NOT_FOUND = {
   statusCode: STATUS_NOT_FOUND,
 };
 
+const ERROR_SALES_WRONG_ID = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format',
+  },
+  statusCode: STATUS_UNPROCESSABLE_ENTITY,
+};
+
 module.exports = {
   ERROR_MONGO,
   ERROR_NAME_LENGTH,
@@ -77,4 +85,5 @@ module.exports = {
   ERROR_PRODUCT_WRONG_ID,
   ERROR_SALES_WRONG_DATA,
   ERROR_SALES_NOT_FOUND,
+  ERROR_SALES_WRONG_ID,
 };

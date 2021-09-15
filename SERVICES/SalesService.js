@@ -3,6 +3,7 @@ const {
   ERROR_PRODUCT_QUANTITY_GREATER_THAN_0,
   ERROR_SALES_WRONG_DATA,
   ERROR_SALES_NOT_FOUND,
+  ERROR_SALES_WRONG_ID,
 } = require('../CONSTANTS/Errors');
 
 const {
@@ -14,6 +15,7 @@ const {
   findAllSalesInMongoDB,
   findOneSaleInMongoDB,
   updateOneSaleInMongoDB,
+  deleteOneSaleFromMongoDBByID,
 } = require('../MODELS/SalesModelMongo');
 
 function validateQuantity(quantity) {
@@ -66,9 +68,17 @@ async function updateOneSaleInSomeDBByID(id, saleToUpdate) {
   return arrayIsValid;
 }
 
+async function deleteOneSaleFromSomeDBByID(id) {
+  const saleToDelete = await findOneSaleInMongoDB(id);
+  if (!saleToDelete) return ERROR_SALES_WRONG_ID;
+  const queryResponse = await deleteOneSaleFromMongoDBByID(id, saleToDelete);
+  return queryResponse;
+}
+
 module.exports = {
   insertOneSaleIntoSomeDB,
   findAllSalesInSomeDB,
   getOneSaleInSomeDBByID,
   updateOneSaleInSomeDBByID,
+  deleteOneSaleFromSomeDBByID,
 };

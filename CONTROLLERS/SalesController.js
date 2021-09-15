@@ -8,6 +8,7 @@ const {
   findAllSalesInSomeDB,
   getOneSaleInSomeDBByID,
   updateOneSaleInSomeDBByID,
+  deleteOneSaleFromSomeDBByID,
 } = require('../SERVICES/SalesService');
 
 async function postOneSale(req, res) {
@@ -40,9 +41,17 @@ async function putOneSaleByID(req, res) {
   return res.status(STATUS_OK).json(sale);
 }
 
+async function deleteOneSaleByID(req, res) {
+  const { id } = req.params;
+  const sale = await deleteOneSaleFromSomeDBByID(id);
+  if (sale.err) return res.status(sale.statusCode).json({ err: sale.err });
+  return res.status(STATUS_OK).json(sale);
+}
+
 module.exports = {
   postOneSale,
   getAllSales,
   getOneSaleByID,
   putOneSaleByID,
+  deleteOneSaleByID,
 };
