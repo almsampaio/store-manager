@@ -32,8 +32,24 @@ async function findOneSaleInMongoDB(id) {
   }
 }
 
+async function updateOneSaleInMongoDB(id, saleToUpdate) {
+  try {
+    const db = await connection();
+    const responseFromQuery = await db.collection('sales')
+      .updateOne({ _id: new ObjectId(id) }, { $set: { itensSold: saleToUpdate } });
+    if (responseFromQuery) {
+      return { _id: id, itensSold: saleToUpdate };
+    }
+    return null;
+  } catch (err) {
+    console.log(err);
+    return MONGO_ERROR;
+  }
+}
+
 module.exports = {
   insertOneSaleInMongoDB,
   findAllSalesInMongoDB,
   findOneSaleInMongoDB,
+  updateOneSaleInMongoDB,
 };

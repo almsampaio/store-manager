@@ -13,6 +13,7 @@ const {
   insertOneSaleInMongoDB,
   findAllSalesInMongoDB,
   findOneSaleInMongoDB,
+  updateOneSaleInMongoDB,
 } = require('../MODELS/SalesModelMongo');
 
 function validateQuantity(quantity) {
@@ -56,8 +57,18 @@ async function getOneSaleInSomeDBByID(id) {
   return queryResponse;
 }
 
+async function updateOneSaleInSomeDBByID(id, saleToUpdate) {
+  const arrayIsValid = await checkValidateOfSales(saleToUpdate);
+  if (!arrayIsValid.err) {
+    const queryResponse = updateOneSaleInMongoDB(id, saleToUpdate);
+    return queryResponse;
+  }
+  return arrayIsValid;
+}
+
 module.exports = {
   insertOneSaleIntoSomeDB,
   findAllSalesInSomeDB,
   getOneSaleInSomeDBByID,
+  updateOneSaleInSomeDBByID,
 };
