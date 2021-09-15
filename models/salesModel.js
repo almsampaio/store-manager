@@ -5,8 +5,9 @@ const getAll = async () => connection()
     .then((db) => db.collection('sales').find().toArray());
 
 const create = async (sale) => {
+  const itensSold = sale;
  const newSale = await connection()
-    .then((db) => db.collection('sales').insertOne({ sale }));
+    .then((db) => db.collection('sales').insertOne({ itensSold }));
 
   return {
     _id: newSale.insertedId,
