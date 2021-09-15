@@ -33,12 +33,29 @@ const isSaleValid = async (itensSold) => {
 
 const getAll = async () => {
   const sales = await salesModel.getAll();
-  return sales;
+  return {
+    response: { sales },
+    status: 200,
+  };
 };
 
 const findById = async (id) => {
   const sale = await salesModel.findById(id);
-  return sale;
+  if (!sale) {
+    return {
+      response: {
+        err: {
+          code: 'not_found',
+          message: 'Sale not found',
+        },
+      },
+      status: 404,
+    };
+  }
+  return {
+    response: sale,
+    status: 200,
+  };
 };
 
 const deleteById = async (id) => {

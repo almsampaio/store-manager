@@ -4,15 +4,19 @@ const connection = require('./connection');
 
 const collectionName = 'sales';
 
-const getAll = async () => (
-  connection()
+const getAll = async () => {
+  const sales = await connection()
     .then((db) => db.collection(collectionName).find().toArray())
-);
+    .catch((err) => console.log(err));
+  return sales;
+};
 
-const findById = async (id) => (
-  connection()
-    .then((db) => db.collection(collectionName).findOne(new ObjectId(id)).toArray())
-);
+const findById = async (id) => {
+  const sale = await connection()
+    .then((db) => db.collection(collectionName).findOne({ _id: { $eq: ObjectId(id) } }))
+    .catch((err) => console.log(err));
+  return sale;
+};
 
 const deleteById = async (id) => (
   connection()
