@@ -31,7 +31,18 @@ const create = rescue(async (req, res) => {
   res.status(200).json(createSale);
 });
 
+const findById = rescue(async (req, res) => {
+  const { id } = req.params;
+
+  const sale = await service.findById(id);
+
+  if (sale.err) return res.status(422).json(sale);
+
+  res.status(200).json(sale);
+});
+
 module.exports = {
   getAll,
   create,
+  findById,
 };
