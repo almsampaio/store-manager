@@ -48,18 +48,6 @@ const getAllSales = async () => {
     { returnDocument: 'after' },
   );
   return newSale.value;
-
-  // const sales = await db.collection('sales').insertMany(
-  //     {
-  //       itensSold: [
-  //        ...data,
-  //       ],
-  //     },
-  // );
-  // return {
-  //   _id: sales.insertedIds[0],
-  //   ...sales.ops[0],
-  // };
 };
 
  const deleteSale = async (id) => {
