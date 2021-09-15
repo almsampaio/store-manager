@@ -51,6 +51,14 @@ const ERROR_PRODUCT_WRONG_ID = {
   statusCode: STATUS_UNPROCESSABLE_ENTITY,
 };
 
+const ERROR_SALES_WRONG_DATA = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong product ID or invalid quantity',
+  },
+  statusCode: STATUS_UNPROCESSABLE_ENTITY,
+};
+
 module.exports = {
   ERROR_MONGO,
   ERROR_NAME_LENGTH,
@@ -58,4 +66,5 @@ module.exports = {
   ERROR_PRODUCT_QUANTITY_GREATER_THAN_0,
   ERROR_PRODUCT_NOT_A_NUMBER,
   ERROR_PRODUCT_WRONG_ID,
+  ERROR_SALES_WRONG_DATA,
 };

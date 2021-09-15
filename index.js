@@ -9,6 +9,10 @@ const {
   deleteOneProductByID,
 } = require('./CONTROLLERS/ProductsController');
 
+const {
+  postOneSale,
+} = require('./CONTROLLERS/SalesController');
+
 const PORT = 3000;
 
 const app = express();
@@ -30,6 +34,8 @@ app.post('/products', postOneProduct);
 app.get('/products/:id', getOneProductByID);
 app.put('/products/:id', putOneProductByID);
 app.delete('/products/:id', deleteOneProductByID);
+
+app.post('/sales', postOneSale);
 
 app.listen(PORT, () => {
   console.log(`Escutando na porta ${PORT}`);
