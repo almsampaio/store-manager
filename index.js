@@ -17,9 +17,10 @@ app.post('/products/', productsController.createProduct);
 
 app.get('/products/', productsController.getProducts);
 app.get('/products/:id', productsController.getProducts);
-
-// app.put('/products/', productsController.putProducts);
+app.put('/products/', productsController.putProducts);
 app.put('/products/:id', productsController.putProducts);
+app.delete('/products/', productsController.deleteProducts);
+app.delete('/products/:id', productsController.deleteProducts);
 
 app.post('/sales/', salesController.createSale);
 

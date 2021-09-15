@@ -58,10 +58,20 @@ const putProducts = async (ID, name, quantity) => {
   };
 };
 
+const deleteProducts = async (id) => {
+  const toDelete = await getProductById(id);
+  const prodsCollection = await mongoConnection.getConnection()
+  .then((db) => db.collection('products'));
+  const del = await prodsCollection.deleteOne({ _id: ObjectId(id) });
+  if (!del) return null;
+  return toDelete;
+};
+
 module.exports = {
   getAllProdutcts,
   getProductById,
   createProduct,
   uptadeQuantityOfProduct,
   putProducts,
+  deleteProducts,
 };

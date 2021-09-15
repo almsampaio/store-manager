@@ -78,30 +78,23 @@ function quantityTypeValidationProducts(quantity) {
   return false;
 }
 
-function validateURLId(id) {
-    if (!ObjectId.isValid(id) || !id) {
-      return {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong id format',
-        },
-        status: 422,
-      };
-    }
-    return false;
-}
+async function validateURLId(id) {
+  const objMessageInvalidData = {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    },
+    status: 422,
+  };
+  if (!ObjectId.isValid(id) || !id) {
+    return objMessageInvalidData;
+  }
 
-async function validationGetProductById(product) {
-  if (product[0].length === 0) {
-      return {
-          err: {
-            code: 'invalid_data',
-            message: 'Wrong id format',
-          },
-          status: 422,
-        };
-    }
-    return false;
+  const getProductById = await productsModel.getProductById(id);
+  if (getProductById.length === 0) {
+    return objMessageInvalidData;
+  }
+  return getProductById;
 }
 
 async function productIdValidation(product) {
@@ -207,7 +200,6 @@ module.exports = {
   isRepeated,
   quantityValidationProducts,
   quantityTypeValidationProducts,
-  validationGetProductById,
   productIdValidation,
   validateURLId,
   formatValidationInputSales,
