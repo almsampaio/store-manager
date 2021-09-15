@@ -1,13 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const rescue = require('express-rescue');
 
 const app = express();
-app.use(bodyParser.json());
+const PORT = 3000;
 const productController = require('./controller/productController');
 const salesController = require('./controller/salesController');
 
-const PORT = 3000;
+app.use(bodyParser.json());
 
 // user
 app.post('/products', rescue(productController.createProduct));
