@@ -10,8 +10,8 @@ const getAll = async (_req, res) => {
 
 const createProduct = async (req, res) => {
   console.log('Controller createProduct()!');
-  const { name, qty } = req.body;
-  const product = await productServices.create(name, qty);
+  const { name, quantity } = req.body;
+  const product = await productServices.create(name, quantity);
   return res.status(STATUS_CREATE).send(product);
 };
 
