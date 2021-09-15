@@ -14,7 +14,7 @@ const createSale = async (sale) => {
   const validationInputFormat = validations.validationFormatInputSales(sale);
   if (validationInputFormat) return validationInputFormat;
 
-  const validationQuantity = validations.quantityValidationSales(sale);
+  const validationQuantity = validations.validationsQuantityService(sale);
   if (validationQuantity) return validationQuantity;
 
   const validationProductId = await validations.productIdValidationSales(sale);
@@ -29,7 +29,7 @@ const createSale = async (sale) => {
 
 const getSales = async (id) => {
   if (!id) {
-    const allproducts = await salesModel.getAllProdutcts();
+    const allproducts = await salesModel.getAllSales();
     return formatGetResponse(allproducts);
   }
 
@@ -39,7 +39,32 @@ const getSales = async (id) => {
   return formatGetResponse(productByURLID);
 };
 
+const putSales = async (arraySalesToUpdate, id) => {
+  const validationQuantity = validations.validationsQuantityService(arraySalesToUpdate);
+  
+  if (validationQuantity) return validationQuantity;
+
+  // const productByURLID = await validations.validateURLId(id, 'sales');
+  // if (productByURLID.err) return productByURLID;
+
+  // return formatGetResponse(productByURLID);
+};
+
+// const putProducts = async (id, name, quantity) => {
+//   const validationsName = await validations.validationsNameProduct('put', name, id);
+//   if (validationsName) return validationsName;
+
+//   const validationQuantity = await validations.validationsQuantityInsertProduct(quantity);
+//   if (validationQuantity) return validationQuantity;
+
+//   const productByURLID = await validations.validateURLId(id, 'products');
+//   if (productByURLID.err) return productByURLID;
+
+//   return productsModel.putProducts(id, name, quantity);
+// };
+
 module.exports = {
   createSale,
   getSales,
+  putSales,
 };

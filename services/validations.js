@@ -146,7 +146,7 @@ function validationFormatInputSales(sale) {
   return false;
 }
 
-function quantityValidationSales(sale) {
+function validationsQuantityService(sale) {
   const invalidQuantity = sale
   .find(({ quantity }) => typeof quantity === 'string' || quantity <= 0);
 
@@ -204,12 +204,12 @@ module.exports = {
   validateURLId,
 
   validationFormatInputSales,
-  quantityValidationSales,
+  validationsQuantityService,
   productIdValidationSales,
   validateUpdateProductsQuantitys,
 };
 
-// function quantityValidationSales(sale) {
+// function validationsQuantityService(sale) {
 //   const invalidQuantity = sale
 //   .find(({ quantity }) => typeof quantity === 'string' || quantity <= 0);
 

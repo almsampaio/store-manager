@@ -5,10 +5,15 @@ const productsModel = require('./productsModel');
 const salesCollection = async () => mongoConnection.getConnection()
     .then((db) => db.collection('sales'));
 
-const getAllSales = async () => salesCollection().collection('sales').find().toArray();
+const getAllSales = async () => {
+  const SalesCollection = await salesCollection();
+  return SalesCollection.find().toArray();
+};
 
-const getSaleById = async (id) => mongoConnection.getConnection()
-      .then((db) => db.collection('products').find({ _id: ObjectId(id) }).toArray());
+const getSaleById = async (id) => {
+  const SalesCollection = await salesCollection();
+  return SalesCollection.find({ _id: ObjectId(id) }).toArray();
+};
 
 const createSale = async (inputSale) => {
   const SalesCollection = await salesCollection();
