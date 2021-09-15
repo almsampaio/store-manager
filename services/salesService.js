@@ -10,8 +10,8 @@ const findById = async (id) => {
   if (!sale) {
     return {
       err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
+        code: 'not_found',
+        message: 'Sale not found',
       },
     };
   }
