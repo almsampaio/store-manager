@@ -1,13 +1,16 @@
+// const { ObjectId } = require('mongodb');
+
 const ProductsModel = require('../models/productsModel');
 
 const create = async ({ name, quantity }) => {
   const alreadyExists = await ProductsModel.findByName(name);
 
   if (alreadyExists) {
-    return { error: { 
-      code: 'invalid_data', 
-      message: 'Product already exists', 
-    },
+    return { 
+      error: { 
+        code: 'invalid_data', 
+        message: 'Product already exists', 
+      },
     };
   }
 
@@ -16,6 +19,29 @@ const create = async ({ name, quantity }) => {
   return { newProduct };
 };
 
+const getAllProducts = async () => {
+  const products = await ProductsModel.getAllProducts();
+
+  return products;
+};
+
+const findById = async (id) => {
+  const product = await ProductsModel.findById(id);
+
+  if (!product) {
+    return { 
+      error: { 
+        code: 'invalid_data', 
+        message: 'Wrong id format', 
+      }, 
+    };
+  }
+
+  return { product };
+};
+
 module.exports = {
   create,
+  getAllProducts,
+  findById,
 };
