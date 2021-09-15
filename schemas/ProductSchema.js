@@ -12,6 +12,11 @@ const codeErrors = {
   invalidData: 'invalid_data',
 };
 
+const findByIdFilter = async ({ productId }) => {
+  const foundId = await ProductModel.getById(productId);
+  return !!foundId;
+};
+
 const productNotFound = (product) => {
   if (!product) {
     return {
@@ -69,4 +74,5 @@ module.exports = {
   validate,
   productNotFound,
   validateRemove,
+  findByIdFilter,
 };

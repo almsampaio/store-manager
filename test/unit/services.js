@@ -904,58 +904,58 @@ describe.only('Testando a função `create` do service SalesService', () => {
       });
     });
 
-  //   describe('o produto não existe no banco de dados', () => {
-  //     const errFormat = {
-  //       err: {
-  //         code: 'invalid_data',
-  //         message: 'Wrong product ID or invalid quantity',
-  //       }
-  //     }
+    describe('o produto não existe no banco de dados', () => {
+      const errFormat = {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        }
+      }
 
-  //     const payloadSales = {
-  //       productId: '614117088ef1e8004d2e3d7b',
-  //       quantity: 0,
-  //     }
+      const payloadSales = {
+        productId: '614117088ef1e8004d2e3d7b',
+        quantity: 1,
+      }
 
-  //     before(async () => {
-  //       sinon.stub(SalesModel, 'create')
-  //         .resolves(errFormat);
+      before(async () => {
+        sinon.stub(SalesModel, 'create')
+          .resolves(errFormat);
 
-  //       await SalesService.create(payloadSales);
-  //     });
+        await SalesService.create(payloadSales);
+      });
   
-  //     after(() => {
-  //       SalesModel.create.restore();
-  //     });
+      after(() => {
+        SalesModel.create.restore();
+      });
 
-  //     it('retorna um objeto', async () => {
-  //       const response = await SalesService.create(payloadSales);
+      it('retorna um objeto', async () => {
+        const response = await SalesService.create(payloadSales);
 
-  //       expect(response).to.be.a('object');
-  //     });
+        expect(response).to.be.a('object');
+      });
 
-  //     it('o objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
-  //       const response = await SalesService.create(payloadSales);
-  //       const { err } = response;
+      it('o objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err } = response;
 
-  //       expect(err).to.have.property('code');
-  //       expect(err).to.have.property('message');
-  //     });
+        expect(err).to.have.property('code');
+        expect(err).to.have.property('message');
+      });
 
-  //     it('a chave "message" possui a mensagem correta', async () => {
-  //       const response = await SalesService.create(payloadSales);
-  //       const { err: { message } } = response;
+      it('a chave "message" possui a mensagem correta', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { message } } = response;
 
-  //       expect(message).to.equal(errFormat.err.message);
-  //     });
+        expect(message).to.equal(errFormat.err.message);
+      });
 
-  //     it('a chave "code" deste objeto possui o código correto', async () => {
-  //       const response = await SalesService.create(payloadSales);
-  //       const { err: { code } } = response;
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await SalesService.create(payloadSales);
+        const { err: { code } } = response;
 
-  //       expect(code).to.equal(errFormat.err.code);
-  //     });
-  //   });
+        expect(code).to.equal(errFormat.err.code);
+      });
+    });
   });
 
   describe('quando é inserido com sucesso', () => {
