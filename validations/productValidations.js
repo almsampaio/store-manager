@@ -1,4 +1,4 @@
-const { listProductName } = require('../models/productModel');
+const { listProductName, listProductId } = require('../models/productModel');
 
 const nameInvalid = {
   err: {
@@ -28,24 +28,43 @@ const quantityNotString = {
   },
 };
 
-const nameExist = async (name) => {
-    const product = await listProductName(name);
-    console.log(product);
-    return product;
+const IdnoExist = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong id format',
+  },
 };
 
-console.log(nameExist('Name Is Exists'));
+const nameExist = async (name) => {
+  const product = await listProductName(name);
+  return product;
+};
 
 const status = 422;
 
-const productValidations = async (name, quantity) => {
+const productValidationsGet = async (name, quantity) => {
 if (name.length < 5) return { status, message: nameInvalid };
 if (quantity < 1) return { status, message: quantityInvalid };
-if (await nameExist(name)) return { status, message: nameExistErr };
 if (typeof quantity === 'string') return { status, message: quantityNotString };
+if (await nameExist(name)) return { status, message: nameExistErr };
 return {};
 };
 
+const productValidationsPut = (name, quantity) => {
+  if (name.length < 5) return { status, message: nameInvalid };
+  if (quantity < 1) return { status, message: quantityInvalid };
+  if (typeof quantity === 'string') return { status, message: quantityNotString };
+  return {};
+  };
+
+const productIdValidation = async (id) => {
+  const productId = await listProductId(id);
+  if (!productId) return { status, message: IdnoExist };
+  return {};
+};
+
 module.exports = {
-    productValidations,
+    productValidationsGet,
+    productValidationsPut,
+    productIdValidation,
 };
