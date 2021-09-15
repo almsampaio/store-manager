@@ -1,5 +1,13 @@
 const { ObjectId } = require('mongodb');
 const productsModel = require('../models/productsModel');
+const {
+  WRONG_INPUT_FORMAT_MESSAGE,
+  WRONG_NAME_LENGTH_MESSAGE,
+  NAME_ALREADY_EXISTS_MESSAGE,
+  WRONG_QUANTITY_VALUE_SIZE_MESSAGE,
+  WRONG_QUANTITY_INPUT_TYPE_MESSAGE,
+  WRONG_ID_FORMAT_MESSAGE,
+} = require('./objectsMessagesErros');
 
 function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
   let find = false;
@@ -13,73 +21,75 @@ function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
 
 function formatValidationInputProducts(product) {
   if (!product.name || !product.quantity) {
-    return {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong input format',
-        },
-        status: 422,
-      };
+    return WRONG_INPUT_FORMAT_MESSAGE;
   }
   return false;
 }
 
-function nameLengthValidation(name) {
+function validationNameLength(name) {
   if (name.length < 5) {
-    return {
-        err: {
-          code: 'invalid_data',
-          message: '"name" length must be at least 5 characters long',
-        },
-        status: 422,
-      };
+    return WRONG_NAME_LENGTH_MESSAGE;
   }
   return false;
 }
 
-async function isNameRepeated(name) {
+async function validationIsNameRepeated(name) {
   const products = await productsModel.getAllProdutcts();
   const isUsed = products.find((product) => product.name === name);
   if (isUsed) {
-    return {
-      err: {
-        code: 'invalid_data',
-        message: 'Product already exists',
-      },
-      status: 422,
-    };
+    return NAME_ALREADY_EXISTS_MESSAGE;
   }
   return false;
 }
 
-async function validationsNameProduct(name) {
-  if (nameLengthValidation(name)) return nameLengthValidation(name);
-  if (isNameRepeated(name)) return isNameRepeated(name);
+async function validationNameByPost(name) {
+  const validation = await validationIsNameRepeated(name);
+  if (validation) return validation;
+  return false;
+}
+
+async function validationNameByPut(name, id) {
+  const validation = await validationIsNameRepeated(name);
+  if (validation) {
+    const getProductById = await productsModel.getProductById(id);
+    const nameCurrentltProduct = getProductById[0].name;
+    if (nameCurrentltProduct !== name) return validationIsNameRepeated(name);
+    return false;
+  }
+  return false;
+}
+
+async function validationsNameRepeatByVerbs(name, id, verb) {
+  if (verb === 'post') {
+    const validationByPost = await validationNameByPost(name);
+    if (validationByPost) return validationByPost;
+  }
+
+  const validationByPut = await validationNameByPut(name, id);
+  if (validationByPut) return validationByPut;
+
+  return false;
+}
+
+async function validationsNameProduct(verb, name, id) {
+  if (validationNameLength(name)) return validationNameLength(name);
+
+  const validationRepeatedName = await validationsNameRepeatByVerbs(name, id, verb);
+  if (validationRepeatedName) return validationRepeatedName;
+
   return false;
 }
 
 function validationValueInsertQuantityProducts(quantity) {
   if (quantity <= 0) {
-    return {
-        err: {
-          code: 'invalid_data',
-          message: '"quantity" must be larger than or equal to 1',
-        },
-        status: 422,
-      };
+    return WRONG_QUANTITY_VALUE_SIZE_MESSAGE;
   }
   return false;
 }
 
 function validationQuantityTypeInsertProducts(quantity) {
   if (typeof quantity !== 'number') {
-    return {
-        err: {
-          code: 'invalid_data',
-          message: '"quantity" must be a number',
-        },
-        status: 422,
-      };
+    return WRONG_QUANTITY_INPUT_TYPE_MESSAGE;
   }
   return false;
 }
@@ -95,20 +105,13 @@ function validationsQuantityInsertProduct(quantity) {
 }
 
 async function validateURLId(id) {
-  const objMessageInvalidData = {
-    err: {
-      code: 'invalid_data',
-      message: 'Wrong id format',
-    },
-    status: 422,
-  };
   if (!ObjectId.isValid(id) || !id) {
-    return objMessageInvalidData;
+    return WRONG_ID_FORMAT_MESSAGE;
   }
 
   const getProductById = await productsModel.getProductById(id);
   if (getProductById.length === 0) {
-    return objMessageInvalidData;
+    return WRONG_ID_FORMAT_MESSAGE;
   }
   return getProductById;
 }
@@ -119,26 +122,14 @@ async function productIdValidation(product) {
   const arraySaleIdTypeds = product.map(({ productId }) => productId);
   const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
   if (!find) {
-    return {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-      status: 422,
-    };
+    return WRONG_ID_FORMAT_MESSAGE;
   }
   return false;
 }
 
 function formatValidationInputSales(sale) {
   if (!Array.isArray(sale)) {
-    return {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong input format',
-        },
-        status: 422,
-      };
+    return WRONG_INPUT_FORMAT_MESSAGE;
   }
   return false;
 }
