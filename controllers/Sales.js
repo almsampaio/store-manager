@@ -58,9 +58,32 @@ const deleteSale = rescue(async (req, res) => {
   return res.status(200).json(deletedSale);
 });
 
+const updateSale = rescue(async (req, res) => {
+  const data = req.body;
+  data.forEach((sale) => {
+    const { error } = Joi.object({
+      productId: Joi.string().required(),
+      quantity: Joi.number().integer().min(1).required(),
+    })
+      .validate(sale);
+    
+    if (error) {
+      const errorMsg = 'Wrong product ID or invalid quantity';
+      const invalidJson = invalid.InvalidData(errorMsg);
+      return res.status(422).json(invalidJson);
+    }
+  });
+    const { id } = req.params;
+
+    const newSale = await service.update(id, data);
+  
+    return res.status(200).json(newSale);
+});
+
 module.exports = {
   create,
   getAllSales,
   findById,
   deleteSale,
+  updateSale,
 };

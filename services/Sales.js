@@ -16,6 +16,7 @@ const findById = async (id) => {
     }
     return sale;
 };
+const update = async (id, data) => Sale.update(id, data);
 
 const deleteSale = async (id) => Sale.deleteSale(id);
 
@@ -24,4 +25,5 @@ module.exports = {
   getAllSales,
   findById,
   deleteSale,
+  update,
 };

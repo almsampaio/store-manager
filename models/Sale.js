@@ -39,6 +39,29 @@ const getAllSales = async () => {
   return productData;
  };
 
+ const update = async (productId, data) => {
+  const db = await connection();
+
+  const newSale = await db.collection('sales').findOneAndUpdate(
+    { _id: ObjectId(productId) },
+    { $set: { itensSold: [...data] } },
+    { returnDocument: 'after' },
+  );
+  return newSale.value;
+
+  // const sales = await db.collection('sales').insertMany(
+  //     {
+  //       itensSold: [
+  //        ...data,
+  //       ],
+  //     },
+  // );
+  // return {
+  //   _id: sales.insertedIds[0],
+  //   ...sales.ops[0],
+  // };
+};
+
  const deleteSale = async (id) => {
   const db = await connection();
   const query = { _id: ObjectId(id) };
@@ -51,4 +74,5 @@ module.exports = {
   getAllSales,
   findById,
   deleteSale,
+  update,
 };
