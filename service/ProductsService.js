@@ -22,6 +22,7 @@ const getAllProductsService = async () => {
 const getProductByIdService = async (id) => {
     if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
     const productById = await ProductsModel.getProductByIdModel(id);
+    if (productById === null || productById === undefined) return 'ID_NOT_EXISTS';
     return productById;
 };
 

@@ -2,16 +2,36 @@ const { ObjectId } = require('mongodb');
 const salesModel = require('../model/SalesModel');
 const { getProductByIdService } = require('./ProductsService');
 
-const createSaleService = async (productId, quantity) => {
-    const res = await getProductByIdService(productId);
+// id valido porem inexistente: 6142456ec299286e92234b9f
+
+const checkProductInDatabase = (item) => {
+    const arrPromises = [];
+    for (let index = 0; index < item.length; index += 1) {
+         if (item[index].quantity <= 0 || typeof (item[index].quantity) !== 'number') {
+            return 'ERR_QTY';
+        }
+        const product = getProductByIdService(item[index].productId);
+        arrPromises.push(product);
+    }
+    return arrPromises;
+};
+
+const createSaleService = async (item) => {
+    const productOrErrorMessage = checkProductInDatabase(item);
+
+    if (productOrErrorMessage === 'ERR_QTY') return productOrErrorMessage;
+
+    const res = await Promise.all(productOrErrorMessage);
+    const isValid = res.every((prod) => {
+        if (prod === 'ERR_QTY' || prod === 'ID_NOT_EXISTS') return false;
+        return true;
+    });
     
-    if (res === 'ID_NOT_EXISTS') return res;
-    if (quantity <= 0) return 'ERR_SALE_QTY_BELOW_ZERO';    
-    if (typeof (quantity) !== 'number') return 'ERR_QTY_NOT_NUMBER';
-    
-    const result = await salesModel.createSalesModel(productId, quantity);
-    return result;
-}; 
+    if (isValid) {
+        const result = await salesModel.createSalesModel(res);
+        return result;
+    } return 'ID_NOT_EXISTS';
+};
 
 const getAllSalesService = async () => {
     const allsales = await salesModel.getAllSalesModel();
@@ -20,8 +40,8 @@ const getAllSalesService = async () => {
 
 const getSaleByIdService = async (id) => {
     if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
-
     const sale = await salesModel.getSaleByIdModel(id);
+    if (sale === null) return 'ID_NOT_EXISTS';
     return sale;
 };
 

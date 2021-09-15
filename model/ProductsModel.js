@@ -23,7 +23,6 @@ const getAllProductsModel = async () => {
 const getProductByIdModel = async (id) => {
     const db = await connection();
     const productById = await db.collection('products').findOne(new ObjectId(id));
-    console.log('productById Model', productById);
     return productById;
 };
 

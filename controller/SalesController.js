@@ -1,22 +1,20 @@
 const salesService = require('../service/SalesService');
 
-const SALE_ERR_STATUS_MESSAGE = require('../util/ProdStatusMessages');
+const SALE_ERR_STATUS_MESSAGE = require('../util/SalesStatusMessage');
 
 const createSaleController = async (req, res) => {
     const item = req.body;
-    const { productId, quantity } = item;
 
-    const sale = await salesService.createSaleService(productId, quantity);
+    const sale = await salesService.createSaleService(item);
+    console.log('sale', sale);
     
     switch (sale) {
         case 'ID_NOT_EXISTS': 
-            return res.status(404).json(SALE_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
-        case 'ERR_SALE_QTY_BELOW_ZERO': 
-            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.WRONG_PRODUCTID_INVALID_QTY);
-        case 'ERR_QTY_NOT_NUMBER': 
-            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.WRONG_PRODUCTID_INVALID_QTY);
+            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
+        case 'ERR_QTY': 
+            return res.status(422).json(SALE_ERR_STATUS_MESSAGE.ERR_QTY);
         default: 
-            return res.status(201).json(sale);
+            return res.status(200).json(sale);
     }    
 };
 
