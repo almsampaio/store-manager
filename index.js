@@ -7,7 +7,19 @@ const {
   updateProduct,
   deleteProduct,
 } = require('./controllers/Products');
-const { validateName, validateQuantity } = require('./middlewares/validation');
+const {
+  create: createSale,
+  getAll: getAllSale,
+  findById: findSaleById,
+  updateSale,
+  deleteSale,
+} = require('./controllers/Sales');
+const {
+  validateName,
+  validateQuantity,
+  validateSaleType,
+  validateSaleNumbers,
+} = require('./middlewares/validation');
 
 const app = express();
 
@@ -20,13 +32,19 @@ app.get('/', (_request, response) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.clear();
-  console.log(`O pai tá ON, na porta ${PORT}`);
-});
-
+app.post('/products', validateName, validateQuantity, create);
 app.get('/products', getAll);
 app.get('/products/:id', findById);
-app.post('/products', validateName, validateQuantity, create);
 app.put('/products/:id', validateName, validateQuantity, updateProduct);
 app.delete('/products/:id', deleteProduct);
+
+app.post('/sales', validateSaleType, validateSaleNumbers, createSale);
+app.get('/sales', getAllSale);
+app.get('/sales/:id', findSaleById);
+app.put('/sales/:id', validateSaleType, validateSaleNumbers, updateSale);
+app.delete('/sales/:id', deleteSale);
+
+app.listen(PORT, () => {
+  console.clear();
+  console.log(`Rodando na porta: ${PORT}`);
+});

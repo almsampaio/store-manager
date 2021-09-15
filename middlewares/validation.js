@@ -46,7 +46,65 @@ const validateQuantity = (req, res, next) => {
   next();
 };
 
+const validateSaleType = (req, res, next) => {
+  const products = req.body;
+
+  for (let index = 0; index < products.length; index += 1) {
+    if (typeof products[index].quantity !== 'number') {
+      return res.status(UNPROCESSABLE_ENTITY_STATUS).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+      });
+    }
+  }
+
+  // products.forEach((product) => {
+  //   if (typeof product.quantity !== 'number') {
+  //     return res.status(UNPROCESSABLE_ENTITY_STATUS).json({
+  //       err: {
+  //         code: 'invalid_data',
+  //         message: 'Wrong product ID or invalid quantity',
+  //       },
+  //     });
+  //   }
+  // });
+
+  next();
+};
+
+const validateSaleNumbers = (req, res, next) => {
+  const products = req.body;
+
+  for (let index = 0; index < products.length; index += 1) {
+    if (products[index].quantity <= 0) {
+      return res.status(UNPROCESSABLE_ENTITY_STATUS).json({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+      });
+    }
+  }
+
+  // products.forEach((product) => {
+  //   if (product.quantity <= 0) {
+  //     return res.status(UNPROCESSABLE_ENTITY_STATUS).json({
+  //       err: {
+  //         code: 'invalid_data',
+  //         message: 'Wrong product ID or invalid quantity',
+  //       },
+  //     });
+  //   }
+  // });
+
+  next();
+};
+
 module.exports = {
   validateName,
   validateQuantity,
+  validateSaleType,
+  validateSaleNumbers,
 };

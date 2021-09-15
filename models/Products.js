@@ -15,7 +15,7 @@ const findByName = async (name) => {
 };
 
 const findById = async (id) => {
-  if (!ObjectId.isValid(id)) return false;
+  if (!ObjectId.isValid(id)) return null;
 
   const db = await connection();
   const product = await db.collection('products').findOne({ _id: ObjectId(id) });
@@ -32,9 +32,10 @@ const updateProduct = async (id, name, quantity) => {
   if (!ObjectId.isValid(id)) return null;
 
   const db = await connection();
-  const updated = await db.collection('products')
+  await db.collection('products')
     .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
-  return updated;
+  const updatedProduct = await findById(id);
+  return updatedProduct;
 };
 
 const deleteProduct = async (id) => {

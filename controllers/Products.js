@@ -27,7 +27,8 @@ const findById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const { status, data } = await update(id, req.body);
+  const { name, quantity } = req.body;
+  const { status, data } = await update(id, name, quantity);
   res.status(status).json(data);
 };
 

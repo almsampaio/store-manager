@@ -43,8 +43,8 @@ const findProductsById = async (id) => {
   return { status: OK_STATUS, data: product };
 };
 
-const update = async (id, data) => {
-  const product = await updateProduct(id, data);
+const update = async (id, name, quantity) => {
+  const product = await updateProduct(id, name, quantity);
   return { status: OK_STATUS, data: product };
 };
 
