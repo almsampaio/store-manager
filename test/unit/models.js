@@ -436,7 +436,7 @@ describe('Testando a função `create` do model SalesModel', () => {
 
 // getAll sales
 
-describe.only('Testando a função `getAll` do model SalesModel', () => {
+describe('Testando a função `getAll` do model SalesModel', () => {
   let connectionMock; 
 
   const DBServer = new MongoMemoryServer();

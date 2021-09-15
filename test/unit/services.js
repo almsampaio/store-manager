@@ -7,7 +7,7 @@ const ProductSchema = require('../../schemas/ProductSchema');
 
 const SalesModel = require('../../models/SalesModel');
 const SalesSchema = require('../../schemas/SalesSchema');
-const SalesService = require('../../services/SalesService');
+// const SalesService = require('../../services/SalesService');
 
 // CREATE PRODUCT
 describe('Testando a função `create` do service ProductService', () => {
@@ -904,5 +904,87 @@ describe('Testando a função `create` do service SalesService', () => {
       expect(itensSold[0]).to.include.all.keys('productId', 'quantity');
     });
 
+  });
+});
+
+// getAll SALES
+
+const SalesService = {
+  getAll: () => {}
+};
+
+describe.only('Testando a função getAll do service SalesService' ,() => {
+  describe('quanto não existe nenhuma venda cadastrada' ,() => {
+    before(() => {
+      sinon.stub(SalesModel, 'getAll')
+        .resolves({sales: []});
+    });
+
+    after(() => {
+      SalesModel.getAll.restore();
+    });
+
+    it('retorna o object "sales" contento um array', async () => {
+      const response = await SalesService.getAll();
+      const { sales } = response;
+
+      expect(sales).to.be.an('array');
+    });
+
+    it('o array está vazio', async () => {
+      const response = await SalesService.getAll();
+      const { sales } = response;
+
+      expect(sales).to.be.empty;
+    });
+  });
+
+  describe('quanto existem produtos cadastrados' ,() => {
+    before(() => {
+      sinon.stub(SalesModel, 'getAll')
+        .resolves({
+          sales: [
+            {
+              _id: '804cb554311d68f491ba5791',
+              itensSold: [
+                {
+                  productId: '604cb554311d68f491ba5781',
+                  quantity: 1,
+                }
+              ]
+            },
+          ]
+      });
+    });
+
+    it('retorna o object "sales" contento um array', async () => {
+      const response = await SalesService.getAll();
+      const { sales } = response;
+
+      expect(sales).to.be.an('array');
+    });
+
+    it('o array retornado não está vazio', async () => {
+      const response = await SalesService.getAll();
+      const { sales } = response;
+
+      expect(sales).to.not.be.empty;
+    });
+
+    it('o array retornado possui dados do tipo objeto', async () => {
+      const response = await SalesService.getAll();
+      const { sales } = response;
+      const  [firstSales] = sales;
+
+      expect(firstSales).to.be.an('object');
+    });
+
+    it('todos os objetos possuem os atributos "id" e "itensSold"', async () => {
+      const response = await SalesService.getAll();
+      const { sales } = response;
+      const  [firstSales] = sales;
+
+      expect(firstSales).to.include.all.keys('_id', 'itensSold');
+    });
   });
 });
