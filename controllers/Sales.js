@@ -16,4 +16,21 @@ module.exports = {
       });
     }
   },
+
+  async get(req, res) {
+    const { id } = req.params;
+    try {
+      const sales = await salesService.get(id);
+      return res.status(200).json(sales);
+    } catch (error) {
+      let code = 422;
+      if (error.message === 'Sale not found') code = 404;
+      return res.status(code).json({
+        err: {
+          message: error.message,
+          code: httpcodes[code],
+        },
+      });
+    }
+  },
 };
