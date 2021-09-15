@@ -6,15 +6,15 @@ const errorMessage = {
     message: 'Wrong product ID or invalid quantity' },
   statusCode: 422 };
 
-const createSale = async (productsSold) => {
-  const createdSale = await saleModel.create(productsSold);
-  return { createdSale };
-};
-
 function checkIfSaleIsValid(product) {
   const { quantity } = product;
     return quantity <= 0 || typeof (quantity) !== 'number';
 }
+
+const createSale = async (productsSold) => {
+  const createdSale = await saleModel.create(productsSold);
+  return { createdSale };
+};
 
 const create = (productsSold) => {
   const isInvalid = productsSold.some(checkIfSaleIsValid);
@@ -32,8 +32,20 @@ const getById = async (id) => {
   return sale;
 };
 
+const updateSale = async (id, itensSold) => {
+  const updatedSale = await saleModel.update(id, itensSold);
+  return { updatedSale };
+};
+
+const update = async (id, itensSold) => {
+  const isInvalid = itensSold.some(checkIfSaleIsValid);
+  if (isInvalid) return errorMessage;
+  return updateSale(id, itensSold);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

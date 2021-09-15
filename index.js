@@ -24,6 +24,7 @@ app.post('/products', productController.create);
 app.post('/sales', saleController.create);
 
 app.put('/products/:id', productController.update);
+app.put('/sales/:id', saleController.update);
 
 app.delete('/products/:id', productController.remove);
 
