@@ -1,0 +1,16 @@
+const STATUS_OK = 200;
+const STATUS_CREATE = 201;
+const STATUS_BAD_REQUEST = 400;
+const STATUS_UNAUTHORIZED = 401;
+const STATUS_NOT_FOUND = 404;
+const STATUS_UNPROCESSABLE = 422;
+
+module.exports = {
+  STATUS_OK,
+  STATUS_CREATE,
+  STATUS_BAD_REQUEST,
+  STATUS_UNAUTHORIZED,
+  STATUS_NOT_FOUND,
+  STATUS_UNPROCESSABLE,
+};
+// https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status
