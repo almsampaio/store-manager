@@ -1,4 +1,16 @@
+const { ObjectId } = require('mongodb');
 const salesModel = require('../models/sales');
+
+const validateId = (id) => {
+  if (!ObjectId.isValid(id)) {
+    return {
+      err1: { err: 
+       { code: 'not_found', message: 'Sale not found' } },
+      err2: { errCode: 404 },
+     };
+  }
+  return {};
+};
 
 const validateQuantity = (itemSaled) => {
   const equalToZero = itemSaled.some(({ quantity }) => quantity === 0);
@@ -21,18 +33,39 @@ const validateQuantity = (itemSaled) => {
   return {};
 };
 
-const create = async (itemSaled) => {
-  const validateQuantitySaled = validateQuantity(itemSaled);
+const create = async (itensSold) => {
+  const validateQuantitySaled = validateQuantity(itensSold);
   if (validateQuantitySaled.err1) return validateQuantitySaled;
 
-  const sale = await salesModel.create(itemSaled);
+  const sale = await salesModel.create(itensSold);
   const formatedSale = {
     _id: sale.insertedId,
-    itensSold: itemSaled,
+    itensSold,
   };
   return formatedSale;
 };
 
+const getAll = async () => {
+  const getAllProducts = await salesModel.getAll();
+  const allProducts = {
+    sales: getAllProducts,
+  };
+  console.log({
+    nome: 'getAllProducts',
+    getAllProducts: allProducts.sales[0],
+  });
+  return allProducts;
+};
+
+const getById = async (id) => {
+  const idNotValid = validateId(id);
+  if (idNotValid.err1) return idNotValid;
+  const getProductById = await salesModel.getById(id);
+  return getProductById;
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };
