@@ -16,26 +16,18 @@ const updateProduct = async (array, string) => {
   });
 };
 
-const verifyStock = async (array) => {
-  const verify = array.some(async (product) => {
-    const fullProduct = await ProductModels.getById(product.productId);
-    return product.quantity > fullProduct.quantity;
-  });
-  if (verify) {
-    return {
-      err: {
-        code: 'stock_problem',
-        message: 'Such amount is not permitted to sell',
-      },
-    };
-  }
-};
+// const verifyStock = async (array) => {
+//   const itensSold = await array.forEach(async (item) => {
+//     const product = await ProductModels.getById(item.productId);
+//     if ((parseInt(product.quantity) - parseInt(item.quantity)) < 0) isNotValid = true;
+//   })
+// };
 
 const create = async (array) => {
   const validQuantity = validation.validateQuantity(array);
   if (validQuantity) return validQuantity;
-  const verify = await verifyStock(array);
-  if (verify) return verify;
+  // const verify = await verifyStock(array);
+  // if (verify) return verify;
   const sales = await SalesModels.create(array);
   await updateProduct(array, 'create');
   return sales.ops[0];
