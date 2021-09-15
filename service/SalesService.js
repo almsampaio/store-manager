@@ -28,7 +28,10 @@ const createSaleService = async (item) => {
     });
     
     if (isValid) {
-        const result = await salesModel.createSalesModel(res);
+        const a = res.map(({ _id }, index) => (
+            { productId: _id, quantity: item[index].quantity }
+            ));
+        const result = await salesModel.createSalesModel(a);
         return result;
     } return 'ID_NOT_EXISTS';
 };
@@ -51,9 +54,16 @@ const deleteSaleService = async (id) => {
     return deletedsale;
 };
 
+const updateSaleService = async (id, productId, quantity) => {
+    if (quantity <= 0) return 'ERR_QTY';
+    const updatedSale = await salesModel.updateSaleModel(id, productId, quantity);
+    return updatedSale;
+};
+
 module.exports = {
     createSaleService,
     getAllSalesService,
     getSaleByIdService,
     deleteSaleService,
+    updateSaleService,
 };

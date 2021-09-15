@@ -31,9 +31,18 @@ const deleteSaleModel = async (id) => {
     return getId;    
 };
 
+const updateSaleModel = async (id, productId, quantity) => {
+    console.log(productId, quantity);
+    const objId = ObjectId(id);
+    const db = await connection();
+    const result = db.collection('sales').findOne({ _id: objId });
+    return result;
+};
+
 module.exports = { 
     createSalesModel, 
     getAllSalesModel,
     getSaleByIdModel,
     deleteSaleModel,
+    updateSaleModel,
 };

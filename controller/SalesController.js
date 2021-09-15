@@ -43,10 +43,24 @@ const deleteSaleController = async (req, res) => {
      return res.status(200).json(deletedSale);
 };
 
+const updateSaleController = async (req, res) => {
+    const { id } = req.params;
+    const [arrFromBody] = req.body;
+    const { productId, quantity } = arrFromBody;
+
+    const updatedSale = await salesService.updateSaleService(id, productId, quantity);
+
+    if (updatedSale === 'ERR_QTY') {
+        return res.status(422).json(SALE_ERR_STATUS_MESSAGE.ERR_QTY);
+    }
+
+    return res.status(200).json(updatedSale);
+};
+
 module.exports = {
     createSaleController,
     getAllSalesController,
     getSaleByIdController,
     deleteSaleController,
-    // updateSaleController,
+    updateSaleController,
 };
