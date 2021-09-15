@@ -1,8 +1,17 @@
 const salesModel = require('../models/salesModel');
 const validations = require('./validations');
 
+const formatGetResponse = (response) => {
+  if (response.length === 1) {
+    return response[0];
+  }
+  return {
+    sales: response,
+  };
+};
+
 const createSale = async (sale) => {
-  const validationInputFormat = validations.formatValidationInputSales(sale);
+  const validationInputFormat = validations.validationFormatInputSales(sale);
   if (validationInputFormat) return validationInputFormat;
 
   const validationQuantity = validations.quantityValidationSales(sale);
@@ -18,6 +27,19 @@ const createSale = async (sale) => {
   return salesModel.createSale(sale);
 };
 
+const getSales = async (id) => {
+  if (!id) {
+    const allproducts = await salesModel.getAllProdutcts();
+    return formatGetResponse(allproducts);
+  }
+
+  const productByURLID = await validations.validateURLId(id, 'sales');
+  if (productByURLID.err) return productByURLID;
+
+  return formatGetResponse(productByURLID);
+};
+
 module.exports = {
   createSale,
+  getSales,
 };

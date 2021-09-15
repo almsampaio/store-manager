@@ -12,13 +12,12 @@ const formatGetResponse = (response) => {
 };
 
 const createProduct = async ({ name, quantity }) => {
-  // const validationFormatInserted = validations.formatValidationInputProducts({ name, quantity });
-  // if (validationFormatInserted) return validationFormatInserted;
   const validationsName = await validations.validationsNameProduct('post', name);
   if (validationsName) return validationsName;
 
   const validationQuantity = await validations.validationsQuantityInsertProduct(quantity);
   if (validationQuantity) return validationQuantity;
+
   return productsModel.createProduct({ name, quantity });
 };
 
@@ -28,7 +27,7 @@ const getProducts = async (id) => {
     return formatGetResponse(allproducts);
   }
 
-  const productByURLID = await validations.validateURLId(id);
+  const productByURLID = await validations.validateURLId(id, 'products');
   if (productByURLID.err) return productByURLID;
 
   return formatGetResponse(productByURLID);
@@ -41,14 +40,14 @@ const putProducts = async (id, name, quantity) => {
   const validationQuantity = await validations.validationsQuantityInsertProduct(quantity);
   if (validationQuantity) return validationQuantity;
 
-  const productByURLID = await validations.validateURLId(id);
+  const productByURLID = await validations.validateURLId(id, 'products');
   if (productByURLID.err) return productByURLID;
 
   return productsModel.putProducts(id, name, quantity);
 };
 
 const deleteProducts = async (id) => {
-  const productByURLID = await validations.validateURLId(id);
+  const productByURLID = await validations.validateURLId(id, 'products');
   if (productByURLID.err) return productByURLID;
 
   const deletedProduct = await productsModel.deleteProducts(id);

@@ -46,6 +46,22 @@ const WRONG_ID_FORMAT_MESSAGE = {
   status: 422,
 };
 
+const WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong product ID or invalid quantity',
+  },
+  status: 422,
+};
+
+const NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE = {
+  err: {
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell',
+  },
+  status: 422,
+};
+
 module.exports = {
   WRONG_INPUT_FORMAT_MESSAGE,
   WRONG_NAME_LENGTH_MESSAGE,
@@ -53,4 +69,6 @@ module.exports = {
   WRONG_QUANTITY_VALUE_SIZE_MESSAGE,
   WRONG_QUANTITY_INPUT_TYPE_MESSAGE,
   WRONG_ID_FORMAT_MESSAGE,
+  WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE,
+  NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE,
 };

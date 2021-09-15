@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb');
 const productsModel = require('../models/productsModel');
+const salesModel = require('../models/salesModel');
 const {
   WRONG_INPUT_FORMAT_MESSAGE,
   WRONG_NAME_LENGTH_MESSAGE,
@@ -7,6 +8,8 @@ const {
   WRONG_QUANTITY_VALUE_SIZE_MESSAGE,
   WRONG_QUANTITY_INPUT_TYPE_MESSAGE,
   WRONG_ID_FORMAT_MESSAGE,
+  WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE,
+  NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE,
 } = require('./objectsMessagesErros');
 
 function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
@@ -19,7 +22,7 @@ function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
   return find;
 }
 
-function formatValidationInputProducts(product) {
+function validationFormatInputsProducts(product) {
   if (!product.name || !product.quantity) {
     return WRONG_INPUT_FORMAT_MESSAGE;
   }
@@ -102,18 +105,27 @@ function validationsQuantityInsertProduct(quantity) {
   if (validationQuantityTypeInsertProducts(quantity)) {
     return validationQuantityTypeInsertProducts(quantity);
   }
+  return false;
 }
 
-async function validateURLId(id) {
+async function getItemById(id, item) {
+  if (item === 'products') {
+    const getProductById = await productsModel.getProductById(id);
+    if (getProductById.length === 0) return WRONG_ID_FORMAT_MESSAGE;
+    return getProductById;
+  }
+
+  const getSaleById = await salesModel.getSaleById(id);
+    if (getSaleById.length === 0) return WRONG_ID_FORMAT_MESSAGE;
+  return getSaleById;
+}
+
+async function validateURLId(id, item) {
   if (!ObjectId.isValid(id) || !id) {
     return WRONG_ID_FORMAT_MESSAGE;
   }
 
-  const getProductById = await productsModel.getProductById(id);
-  if (getProductById.length === 0) {
-    return WRONG_ID_FORMAT_MESSAGE;
-  }
-  return getProductById;
+  return getItemById(id, item);
 }
 
 async function productIdValidation(product) {
@@ -127,7 +139,7 @@ async function productIdValidation(product) {
   return false;
 }
 
-function formatValidationInputSales(sale) {
+function validationFormatInputSales(sale) {
   if (!Array.isArray(sale)) {
     return WRONG_INPUT_FORMAT_MESSAGE;
   }
@@ -139,13 +151,7 @@ function quantityValidationSales(sale) {
   .find(({ quantity }) => typeof quantity === 'string' || quantity <= 0);
 
   if (invalidQuantity) {
-    return {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong product ID or invalid quantity',
-        },
-        status: 422,
-      };
+    return WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE;
   }
   return false;
 }
@@ -156,13 +162,7 @@ async function productIdValidationSales(sale) {
   const arraySaleIdTypeds = sale.map(({ productId }) => productId);
   const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
   if (!find) {
-    return {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong product ID or invalid quantity',
-        },
-        status: 422,
-      };
+    return WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE;
   }
   return false;
 }
@@ -173,13 +173,7 @@ function testNegativeQuantity(id, qtd, getProductsDB, _verb) {
     .find((el) => el.idProduct === id);
   const subtract = productToUpdate.quantity - qtd;
   if (subtract < 0) {
-    return {
-        err: {
-          code: 'stock_problem',
-          message: 'Such amount is not permitted to sell',
-        },
-        status: 422,
-      };
+    return NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE;
   }
   return false;
 }
@@ -202,13 +196,42 @@ async function validateUpdateProductsQuantitys(sale, verb) {
 }
 
 module.exports = {
-  formatValidationInputProducts,
+  validationFormatInputsProducts,
   validationsNameProduct,
   validationsQuantityInsertProduct,
   productIdValidation,
+
   validateURLId,
-  formatValidationInputSales,
+
+  validationFormatInputSales,
   quantityValidationSales,
   productIdValidationSales,
   validateUpdateProductsQuantitys,
 };
+
+// function quantityValidationSales(sale) {
+//   const invalidQuantity = sale
+//   .find(({ quantity }) => typeof quantity === 'string' || quantity <= 0);
+
+//   if (invalidQuantity) {
+//     return WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE;
+//   }
+//   return false;
+// }
+
+// async function validateUpdateProductsQuantitys(sale, verb) {
+//   const getProductsDB = await productsModel.getAllProdutcts();
+//   if (verb === 'post' || verb === 'put') {
+//     const arrayGetToPossiblesNegativeQuantitys = sale
+//     .map(({ productId, quantity }) => {
+//       const testeAmountProduct = testNegativeQuantity(productId, quantity, getProductsDB, verb);
+//       return testeAmountProduct;
+//     });
+
+//   const error = arrayGetToPossiblesNegativeQuantitys
+//     .find((element) => element !== false);
+
+//   if (error) return error;
+//   }
+//   return false;
+// }
