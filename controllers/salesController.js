@@ -2,6 +2,15 @@ const salesService = require('../services/salesService');
 
 const VALID_NAME_STATUS_200 = 200;
 const INVALID_NAME_STATUS_422 = 422;
+const INVALID_REQUEST_422 = 422;
+const VALID_REQUEST_200 = 200;
+
+const printMessageOfError422 = (res, product, statusNumber) => {
+  const MESSAGE_ERROR_JSON = { err: product.err };
+    if (product.status === 422) {
+      return res.status(statusNumber).json(MESSAGE_ERROR_JSON);
+    }
+};
 
 const createSale = async (req, res) => {
   const saleArray = req.body;
@@ -15,6 +24,19 @@ const createSale = async (req, res) => {
   return res.status(VALID_NAME_STATUS_200).json(sale);
  };
 
+const getSales = async (req, res) => {
+  const { id } = req.params;
+
+  const sales = await salesService.getsales(id);
+
+  if (sales.err) {
+    return printMessageOfError422(res, sales, INVALID_REQUEST_422);
+  }
+
+  return res.status(VALID_REQUEST_200).json(sales);
+ };
+
  module.exports = {
    createSale,
+   getSales,
  };
