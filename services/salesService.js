@@ -65,7 +65,6 @@ const deleteById = async (id) => {
 
 const create = async (itensSold) => {
   const { isValid, errorInfo } = await isSaleValid(itensSold);
-  console.log('este é o isValid:  ', isValid);
   if (!isValid) {
     return { response: errorInfo, status: 422 };
   }
@@ -74,10 +73,18 @@ const create = async (itensSold) => {
 };
 
 const update = async (id, itensSold) => {
-  const productUpdated = await salesModel.update(id, itensSold);
+  const { isValid, errorInfo } = await isSaleValid(itensSold);
+  if (!isValid) {
+    return { response: errorInfo, status: 422 };
+  }
+  const { status, response } = await findById(id);
+  if (status === 404) {
+    return { response, status };
+  }
+  const saleUpdated = await salesModel.update(id, itensSold);
   return {
-    response: productUpdated,
-    status: 201,
+    response: saleUpdated,
+    status: 200,
   };
 };
 

@@ -19,8 +19,9 @@ const createSale = async (req, res) => {
 
 const updateSale = async (req, res) => {
   const { id } = req.params;
-  const { name, quantity } = req.body;
-  const result = await salesService.update(id, name, quantity);
+  const itensSold = req.body;
+  console.log(itensSold);
+  const result = await salesService.update(id, itensSold);
   return res.status(result.status).json(result.response);
 };
 
