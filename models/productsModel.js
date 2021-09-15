@@ -39,6 +39,20 @@ const deleteProductByID = async (id) => {
     await db.collection('products').deleteOne({ _id: ObjectId(id) });
 };
 
+const updateProductByQuantityAddSale = async (id, saleQuantity) => {
+    if (!ObjectId.isValid(id)) return null;
+    const db = await connection.mongoDB();
+     await db.collection('products')
+    .updateMany({ _id: ObjectId(id) }, { $inc: { quantity: -saleQuantity } });
+};
+
+const updateProductByQuantityRemoveSale = async (id, saleQuantity) => {
+    if (!ObjectId.isValid(id)) return null;
+    const db = await connection.mongoDB();
+     await db.collection('products')
+    .updateMany({ _id: ObjectId(id) }, { $inc: { quantity: saleQuantity } });
+};
+
 module.exports = { 
     createNewProduct,
      searchProductByName, 
@@ -46,4 +60,6 @@ module.exports = {
      getById,
      updateProductById,
      deleteProductByID,
+     updateProductByQuantityAddSale,
+     updateProductByQuantityRemoveSale,
     };
