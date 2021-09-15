@@ -43,4 +43,16 @@ module.exports = {
     const sales = await salesModel.get.all();
     return { sales };
   },
+
+  async update(id, body) {
+    const errorMessage = 'Wrong product ID or invalid quantity';
+    const foundSale = await salesModel.get.byId(id);
+    if (!foundSale) throw new Error('Sale does not exist');
+    body.forEach(({ quantity }) => {
+      validate.minValue({ quantity }, 1, errorMessage);
+      validate.typeOfNumber({ quantity }, errorMessage);
+    });
+    const product = await salesModel.update(id, body);
+    return product;
+  },
 };

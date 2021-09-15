@@ -21,4 +21,13 @@ module.exports = {
       return sale;
     },
   },
+
+  async update(id, body) {
+    const db = await connect();
+    await db.collection('sales').updateOne(
+      { _id: ObjectId(id) },
+      { $set: { itensSold: body } },
+    );
+    return { _id: id, itensSold: body };
+  },
 };
