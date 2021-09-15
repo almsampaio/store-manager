@@ -2,9 +2,7 @@ const ProductsModel = require('../models/ProductsModel');
 const SalesModel = require('../models/SalesModel');
 
 const errors = {
-  QUANTITY_AMOUNT: 'Wrong product ID or invalid quantity',
-  TYPEOF_QUANTITY: 'Wrong product ID or invalid quantity',
-  INVALID_PRODUCT: 'Wrong product ID or invalid quantity',
+  SALES_ERROR: 'Wrong product ID or invalid quantity',
   WRONG_ID: 'Wrong sale ID format',
   NOT_FOUND: 'Sale not found',
 };
@@ -13,17 +11,29 @@ const code = 'invalid_data';
 
 const isGreaterThan = (value, min) => (value < min);
 const typeOf = (value) => (typeof value === 'string');
-const isExist = async (value) => {
+const isItExist = async (value) => {
   const product = await ProductsModel.getById(value);
   if (!product) return true;
+};
+
+const checkStock = async (productId, quantity) => {
+  const currentProduct = await ProductsModel.getById(productId);
+  if (!currentProduct) return true;
+  
+  const newQuantity = currentProduct.quantity - quantity;
+  await ProductsModel.update(productId, currentProduct.name, newQuantity);
+  return false;
 };
 
 const validatePost = async (itensSold) => {
   const { productId, quantity } = itensSold[0];
   switch (true) {
-    case isGreaterThan(quantity, 1): return { status, code, message: errors.QUANTITY_AMOUNT };
-    case typeOf(quantity): return { status, code, message: errors.TYPEOF_QUANTITY };
-    case (await isExist(productId)): return { status, code, message: errors.INVALID_PRODUCT };
+    case isGreaterThan(quantity, 1): return { status, code, message: errors.SALES_ERROR };
+    case typeOf(quantity): return { status, code, message: errors.SALES_ERROR };
+    case (await isItExist(productId)): return { status, code, message: errors.SALES_ERROR };
+    case (await (checkStock(productId, quantity))): return {
+      status, code, message: errors.SALES_ERROR,
+    };
     default: return {};
   }
 };
@@ -39,8 +49,8 @@ const validateGet = async (id) => {
 const validatePut = (itensSold) => {
   const { quantity } = itensSold[0];
   switch (true) {
-    case isGreaterThan(quantity, 1): return { status, code, message: errors.QUANTITY_AMOUNT };
-    case typeOf(quantity): return { status, code, message: errors.TYPEOF_QUANTITY };
+    case isGreaterThan(quantity, 1): return { status, code, message: errors.SALES_ERROR };
+    case typeOf(quantity): return { status, code, message: errors.SALES_ERROR };
     default: return {};
   }
 };
@@ -48,6 +58,12 @@ const validatePut = (itensSold) => {
 const validateDelete = async (id) => {
   const sales = await SalesModel.getById(id);  
   if (!sales) return { status, code, message: errors.WRONG_ID };
+
+  const { productId, quantity } = sales.itensSold[0];
+  const currentProduct = await ProductsModel.getById(productId);
+  const newQuantity = currentProduct.quantity + quantity;
+  await ProductsModel.update(productId, currentProduct.name, newQuantity);
+
   return {};
 };
 
