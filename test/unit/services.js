@@ -3,6 +3,7 @@ const { expect } = require('chai');
 
 const ProductModel = require('../../models/ProductModel');
 const ProductService = require('../../services/ProductService');
+const ProductSchema = require('../../schemas/ProductSchema');
 
 const SalesModel = require('../../models/SalesModel');
 const SalesSchema = require('../../schemas/SalesSchema');
@@ -16,20 +17,6 @@ describe('Testando a função `create` do service ProductService', () => {
         name: 'abc',
         quantity: 10,
       }
-
-      before(() => {
-        sinon.stub(ProductModel, 'create')
-          .resolves({
-            err: {
-              code: 'invalid_data',
-              message: '"name" length must be at least 5 characters long',
-            }
-          });
-      });
-  
-      after(() => {
-        ProductModel.create.restore();
-      });
 
       it('retorna um objeto', async () => {
         const response = await ProductService.create(payloadProduct);
@@ -65,20 +52,6 @@ describe('Testando a função `create` do service ProductService', () => {
         quantity: 0,
       }
 
-      before(() => {
-        sinon.stub(ProductModel, 'create')
-          .resolves({
-            err: {
-              code: 'invalid_data',
-              message: '"quantity" must be larger than or equal to 1',
-            }
-          });
-      });
-  
-      after(() => {
-        ProductModel.create.restore();
-      });
-
       it('retorna um objeto', async () => {
         const response = await ProductService.create(payloadProduct);
 
@@ -112,20 +85,6 @@ describe('Testando a função `create` do service ProductService', () => {
         name: 'abcdef',
         quantity: '1',
       }
-
-      before(() => {
-        sinon.stub(ProductModel, 'create')
-          .resolves({
-            err: {
-              code: 'invalid_data',
-              message: '"quantity" must be a number',
-            }
-          });
-      });
-  
-      after(() => {
-        ProductModel.create.restore();
-      });
 
       it('retorna um objeto', async () => {
         const response = await ProductService.create(payloadProduct);
@@ -163,19 +122,16 @@ describe('Testando a função `create` do service ProductService', () => {
       }
 
       before(async () => {
-        sinon.stub(ProductModel, 'create')
+        sinon.stub(ProductSchema, 'productExists')
           .resolves({
-            err: {
-              code: 'invalid_data',
-              message: 'Product already exists',
-            }
-          });
+              err: { code: 'invalid_data', message: 'Product already exists' },
+          })
 
         await ProductService.create(payloadProduct);
       });
   
       after(() => {
-        ProductModel.create.restore();
+        ProductSchema.productExists.restore();
       });
 
       it('retorna um objeto', async () => {
@@ -209,6 +165,7 @@ describe('Testando a função `create` do service ProductService', () => {
   });
 
   describe('quando é inserido com sucesso', () => {
+    const ID_EXAMPLE = '604cb554311d68f491ba5781';
 
     const payloadProduct = {
       name: 'abcdefgh',
@@ -216,18 +173,20 @@ describe('Testando a função `create` do service ProductService', () => {
     }
 
     before(() => {
-      const ID_EXAMPLE = '604cb554311d68f491ba5781';
-
       sinon.stub(ProductModel, 'create')
         .resolves({
           _id: ID_EXAMPLE,
           name: payloadProduct.name,
           quantity: payloadProduct.quantity,
         });
+
+        sinon.stub(ProductSchema, 'productExists')
+        .resolves({});
     });
 
     after(() => {
       ProductModel.create.restore();
+      ProductSchema.productExists.restore();
     });
 
     it('retorna um objeto', async () => {
@@ -702,7 +661,7 @@ describe('Testando a função `remove` do model ProductService', () => {
 
 // create sales
 
-describe.only('Testando a função `create` do service SalesService', () => {
+describe('Testando a função `create` do service SalesService', () => {
   const ID_EXAMPLE = '604cb554311d68f491ba5781';
 
   describe('quando o parâmetro passado não é um array', () => {
@@ -896,7 +855,7 @@ describe.only('Testando a função `create` do service SalesService', () => {
       productId: '614117088ef1e8004d2e3d7b',
       quantity: 100,
     }];
-    
+
     const ID_EXAMPLE = '604cb554311d68f491ba5781';
     
     before(() => {
