@@ -2,7 +2,7 @@ const rescue = require('express-rescue');
 const salesServices = require('../services/sales');
 
 const HTTP_OK_STATUS = 200;
-const HTTP_NOT_FOUND = 404; // 404
+const HTTP_NOT_FOUND = 404;
 const UNPROCESSABLE_ENTITY = 422;
 
 const getAll = async (req, res) => {
@@ -33,8 +33,20 @@ const create = rescue(async (req, res) => {
   res.status(HTTP_OK_STATUS).json(createSales);
 });
 
+const update = rescue(async (req, res) => {
+  const { id } = req.params;
+  const salesArray = req.body;
+
+  const updateSale = await salesServices.update(id, salesArray);
+
+  if (updateSale.err) return res.status(UNPROCESSABLE_ENTITY).json(updateSale);
+
+  res.status(HTTP_OK_STATUS).json(updateSale);
+});
+
 module.exports = {
   getAll,
   findById,
   create,
+  update,
 };

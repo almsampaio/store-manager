@@ -19,8 +19,18 @@ const create = async (salesArray) => {
   return sales;
 };
 
+const update = async (id, salesArray) => {
+  const validQuantity = salesValid.validQuantity(salesArray);
+  if (validQuantity) return validQuantity;
+
+  await salesModels.update(id, salesArray);
+
+  return { _id: id, itensSold: salesArray };
+};
+
 module.exports = {
   create,
   findById,
   getAll,
+  update,
 };

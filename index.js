@@ -36,6 +36,8 @@ app.get('/sales', SalesControllers.getAll);
 app.get('/sales/:id', SalesControllers.findById);
 
 // 7 - Crie um endpoint para atualizar uma venda
+app.put('/sales/:id', SalesControllers.update);
+
 // 8 - Crie um endpoint para deletar uma venda
 // 9 - Atualize a quantidade de produtos
 // 10 - Valide a quantidade de produtos
