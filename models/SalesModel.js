@@ -1,4 +1,4 @@
-const { ObjectId } = require('mongodb');
+// const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
 
 const COLLECTION_SALES = 'sales';

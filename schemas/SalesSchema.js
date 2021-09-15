@@ -1,5 +1,5 @@
-const SalesModel = require('../models/SalesModel');
-const ProductModel = require('../models/ProductModel');
+// const SalesModel = require('../models/SalesModel');
+// const ProductModel = require('../models/ProductModel');
 const ProductSchema = require('./ProductSchema');
 
 const messageErrors = {
@@ -41,16 +41,17 @@ const filterAsync = (array, filter) =>
 
 const everyAsync = async (arr, filter) => (await filterAsync(arr, filter)).length === arr.length;
 
-const validate = async ({ itensSold }) => {
+const validate = async (itensSold) => {
   const { findByIdFilter } = ProductSchema;
-  const wrongProductId = await everyAsync(itensSold, findByIdFilter);
-
+  
   if (!Array.isArray(itensSold)) {
     return {
       err: { code: codeErrors.invalidData, message: messageErrors.bodyIsNotArray },
     };
   }
 
+  const wrongProductId = await everyAsync(itensSold, findByIdFilter);
+  
   if (itensSold.find(quantityValidate) || !wrongProductId) {
     return {
       err: { code: codeErrors.invalidData, message: messageErrors.invalidQuantityOrProductID },

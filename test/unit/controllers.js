@@ -461,10 +461,14 @@ describe('Testando a função `remove` do controller ProductController', () => {
 
 // CREATE SALES
 
-describe.only('Testando a função `create` do controller SalesController', () => {
+describe('Testando a função `create` do controller SalesController', () => {
   describe('quando o payload informado não é válido', () => {
     const response = {};
     const request = {};
+
+    const err = {
+      err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' }
+    }
   
     before(() => {
       request.body = [{
@@ -472,10 +476,6 @@ describe.only('Testando a função `create` do controller SalesController', () =
         quantity: 'string',
       }];
 
-      const err = {
-        err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' }
-      }
-  
       response.status = sinon.stub()
         .returns(response);
       response.json = sinon.stub()
@@ -497,9 +497,6 @@ describe.only('Testando a função `create` do controller SalesController', () =
 
     it('é chamado o método `json` passando o objeto "err" como parâmetro', async () => {
       await SalesController.create(request, response);
-      const err = {
-        err: { code: 'invalid_data', message: '"quantity" must be a number' }
-      }
 
       expect(response.json.calledWith(err)).to.be.equal(true);
     });
@@ -530,7 +527,7 @@ describe.only('Testando a função `create` do controller SalesController', () =
         .returns();
 
       sinon.stub(SalesService, 'create')
-      .resolves([{
+      .resolves({
         _id: ID_EXAMPLE,
         itensSold: [
           {
@@ -538,7 +535,7 @@ describe.only('Testando a função `create` do controller SalesController', () =
             quantity: salesPayload.quantity,
           }
         ]
-      }]);
+      });
     });
 
     after(() => {
@@ -551,12 +548,20 @@ describe.only('Testando a função `create` do controller SalesController', () =
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
-    it('é chamado o método `json` passando os dados do produto criado como parâmetro', async () => {
-      await SalesController.create(request, response);
-      const product = { productId: salesPayload.productId,
-      quantity: salesPayload.quantity };
+    it('é chamado o método `json` passando os dados da venda criada como parâmetro', async () => {
+      const SALES = { 
+        _id: ID_EXAMPLE,
+        itensSold: [
+          {
+            productId: salesPayload.productId,
+            quantity: salesPayload.quantity 
+          }
+        ]};
 
-      expect(response.json.calledWith(product)).to.be.equal(true);
+      await SalesController.create(request, response);
+      
+
+      expect(response.json.calledWith(SALES)).to.be.equal(true);
     });
   });
 });
