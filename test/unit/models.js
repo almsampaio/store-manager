@@ -54,6 +54,33 @@ describe('Products', () => {
     });
   });
 
+  describe('testa a busca de produtos pelo nome', () => {
+    it('quando retorna o nome correto', async () => {
+      await ProductModel.createProduct('Flavio', 8000);
+      const { name } = await ProductModel.getProductByName('Flavio');
+      expect(name).to.be.equal('Flavio');
+    });
+  });
+
+  describe('Testa funcao updateProduct', () => {
+    it('testa se atualizou', async () => {
+      const { _id: id } = await ProductModel.createProduct('Flavio', 8000);
+      await ProductModel.updateProduct(id, 'Jao', 5);
+      const { quantity } = await ProductModel.getProductById(id);
+      expect(quantity).to.be.equal(5);
+    });
+  });
+
+  describe('testa funcao delete', () => {
+    it('testa se deleta corretamente', async () => {
+      const { _id: id } = await ProductModel.createProduct('Flavio', 8000);
+      await ProductModel.deleteProduct(id);
+      const response = ProductModel.getProductById(id);
+
+      expect(response).to.be.equal(null);
+    })
+  });
+
 
   describe('Obtem lista completa de produtos, getAll()', () => {
     it('retorna um array', async () => {
