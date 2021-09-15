@@ -1,5 +1,6 @@
 const salesModels = require('../models/salesModels');
 const modelsProducts = require('../models/productsModel');
+const servicesProducts = require('../services/productsServices');
 
 const getAll = async (_req, res) => {
     const sales = await salesModels.getAll();
@@ -9,9 +10,8 @@ const getAll = async (_req, res) => {
 const createNewSales = async (req, res) => {
     const sales = await salesModels.createNewSales(...req.body);
     res.status(200).json(sales);
-    req.body.forEach(async (elem) => {
-        await modelsProducts.updateProductByQuantityAddSale(elem.productId, elem.quantity);
-      });
+    servicesProducts
+    .updateQuantityProducyBySale(req.body, modelsProducts.updateProductByQuantityAddSale);
 };
 
 const getSaleById = async (req, res) => {
@@ -42,11 +42,10 @@ const deleteSaleById = async (req, res) => {
      return res.status(422)
     .json({ err: { code: 'invalid_data', message: 'Wrong sale ID format' } });
 }
-    sale.itensSold.forEach(async (elem) => {
-        await modelsProducts.updateProductByQuantityRemoveSale(elem.productId, elem.quantity);
-    });
    res.status(200).json(sale);
    await salesModels.deleteSaleByID(id);
+   servicesProducts
+   .updateQuantityProducyBySale(sale.itensSold, modelsProducts.updateProductByQuantityRemoveSale);
 };
 
 module.exports = {

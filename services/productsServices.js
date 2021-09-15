@@ -21,9 +21,16 @@ const getById = async (id) => {
     return product;
 };
 
+const updateQuantityProducyBySale = (array, fn) => {
+    array.forEach(async (elem) => {
+        await fn(elem.productId, elem.quantity);
+      });
+};
+
 module.exports = { 
     validateNewProductName, 
     validateNewQuantityName,
     verifyProductAlreadyExists,
     getById,
+    updateQuantityProducyBySale,
 };
