@@ -10,6 +10,10 @@ const create = async (sale) => {
   };
 };
 
+const getAll = async () => connection()
+    .then((db) => db.collection('sales').find().toArray());
+
 module.exports = {
   create,
+  getAll,
 };
