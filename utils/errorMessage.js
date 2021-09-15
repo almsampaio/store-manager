@@ -15,4 +15,16 @@ const errorMessage = {
   
   module.exports = {
     errorMessage,
+    // invalidData,
+    // productExists,
+    // minimumQty,
+    // qtyMustBeANumber,
+    // wrongIdFormat,
+    // nameMinimumLength,
+    // problemIdOrQty,
+    // notFound,
+    // saleNotFound,
+    // wrongSaleIdFormat,
+    // amountNotpermitted,
+    // stockProblem,
   }; 

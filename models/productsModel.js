@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb');
 const connect = require('./connection');
 
 const getAll = async () => {
-    const products = await connect().then((db) => db.collection('products').find({}).toArray());
+    const products = await connect().then((db) => db.collection('products').find().toArray());
     return products;
 };
 
@@ -19,7 +19,9 @@ const findByName = async (name) => {
 
 const create = async (name, quantity) => {
     const db = await connect();
-    const product = await db.collection('products').insertOne({ name, quantity });
+    console.log('db ------- productModel', db);
+    const [product] = await db.collection('products').insertOne({ name, quantity });
+    console.log('product ------- productModel', product);
     return { id: product.insertedId, name, quantity };
 };
 

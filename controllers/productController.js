@@ -1,3 +1,10 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+
 const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
 // const HTTP_NOT_FOUND_STATUS = 404;
@@ -20,9 +27,11 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
-
+  console.log('name, quantity ----- productController', name, quantity);
   const { code, message, product } = await productService.create(name, quantity);
+  // const RESPOSTA = await productService.create(name, quantity);
 
+  // console.log('RESPOSTA ---- productController', RESPOSTA);
   if (code && message) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
 
   res.status(HTTP_CREATED_STATUS).json(product);

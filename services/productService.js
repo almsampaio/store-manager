@@ -1,7 +1,9 @@
 const productsModel = require('../models/productsModel');
 
+const errorMessage = require('../utils/errorMessage');
+
 const { invalidData, nameMinimumLength, minimumQty,
-  qtyMustBeANumber, productExists, wrongIdFormat } = require('../utils/errorMessage');
+  qtyMustBeANumber, productExists, wrongIdFormat } = errorMessage;
 
 const getAll = async (_req, _res) => {
     const products = await productsModel.getAll();
@@ -16,19 +18,24 @@ const getById = async (id) => {
 
 const create = async (name, quantity) => {
   if (name.length < 6) {
+    console.log('name.length ------- productService', name.length);
     return { code: invalidData, message: nameMinimumLength };
   }
   if (quantity <= 0) {
+    console.log('quantity ------- productService', quantity);
     return { code: invalidData, message: minimumQty };
   }
   if (typeof quantity !== 'number') {
+    console.log('typeof quantity ------- productService', typeof quantity);
     return { code: invalidData, message: qtyMustBeANumber };
   }
 
   const nameExists = await productsModel.findByName(name);
-    if (nameExists) return { code: invalidData, message: productExists };
+  console.log('nameExists ------- productService', nameExists);
+    if (!nameExists) return { code: invalidData, message: productExists };
 
   const product = await productsModel.create(name, quantity);
+  console.log('product ------- productService', product);
 
   return product;
 };
