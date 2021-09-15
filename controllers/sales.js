@@ -4,6 +4,9 @@ const SalesServices = require('../services/sales');
 const create = rescue(async (req, res) => {
   const sales = req.body;
   const createSales = await SalesServices.create(sales);
+  if (createSales.err && createSales.err.code === 'stock_problem') {
+    return res.status(404).json(createSales);
+  }
   if (createSales.err) return res.status(422).json(createSales);
   res.status(200).json(createSales);
 });
