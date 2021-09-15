@@ -4,15 +4,8 @@ const connect = require('./connection');
 const create = async (itensSold) => {
   const db = await connect();
   const sales = await db.collection('sales').insertOne({ itensSold });
-
   return { _id: sales.insertedId, itensSold };
 };
-
-// const findByName = async (name) => {
-//   const db = await connect();
-//   const product = await db.collection('sales').findOne({ name });
-//   return product;
-// };
 
 const getAll = async () => {
   const db = await connect();
@@ -46,7 +39,6 @@ const exclude = async (id) => {
 
 module.exports = {
   create,
-  // findByName,
   getAll,
   getById,
   update,
