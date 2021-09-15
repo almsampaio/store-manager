@@ -59,7 +59,7 @@ const getAll = async () => {
   return products;
 };
 
-const getById = async ({ _id }) => {
+const getById = async (_id) => {
   const product = await ProductsModel.findOneById(_id);
   if (product === null) {
     return { err: { code: 'invalid_data',

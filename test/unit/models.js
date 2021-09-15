@@ -89,4 +89,13 @@ describe('Testa o metodo findOneByName', () => {
     expect(response.name).to.be.equal(produto.name);
     expect(response.quantity).to.be.equal(produto.quantity);
   });
+});
+
+describe('Busca todos os produtos no DB', () => {
+  describe('Quando nao existe nenhum produto cadastrado', () => {
+    it('retorna um array', () => {
+      const produto = await ProductsModel.getAll();
+      expect(produto).to.be.a('array');
+    })
+  })
 })
