@@ -43,14 +43,15 @@ const updateSale = async (id, itensSold) => {
 
 const deleteSale = async (id) => {
   const product = await salesModel.getById(id);
-  const { productId, quantity } = product.itensSold[0];
-  const getProduct = await productModel.getById(productId);
-  const resultQuantity = getProduct.quantity + quantity;
-  const data = { name: getProduct.name, quantity: resultQuantity };
-  const result = await salesModel.deleteSale(id);
-
   if (!product) return { status: HTTP_UNPROCESSABLE_STATUS, message: 'Wrong sale ID format' };
+  const { productId, quantity } = product.itensSold[0];
+
+  const getProduct = await productModel.getById(productId);
+  const findQuantity = getProduct.quantity + quantity;
+  const data = { name: getProduct.name, quantity: findQuantity };
   await productModel.updateProduct(productId, data); 
+
+  const result = await salesModel.deleteSale(id);
   return { status: HTTP_OK_STATUS, data: result };
 };
 
