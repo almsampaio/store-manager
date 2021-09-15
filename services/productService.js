@@ -4,4 +4,8 @@ const createProd = async (name, quantity) => productModel.createProd(name, quant
   .then(({ ops }) => ops[0]);
 const getAllProducts = async () => productModel.getAllProducts();
 
-module.exports = { createProd, getAllProducts };
+const findAllProducts = async () => productModel.findAllProducts();
+
+// const findOneProduct = async () => productModel.findOneProduct();
+
+module.exports = { createProd, getAllProducts, findAllProducts/* , findOneProduct */ };

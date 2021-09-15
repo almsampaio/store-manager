@@ -25,6 +25,12 @@ const messageErro = {
       message: '"quantity" must be a number',
     },
   },
+  wrongIdFormat: {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    },
+  },
 };
 
 const validateName = (name, products) => {
@@ -51,4 +57,4 @@ const validate = async (req, res, next) => {
   res.status(422).json(isNameValid || isQuantitvalid);
 };
 
-module.exports = { validate };
+module.exports = { validate/* , messageErro */ };
