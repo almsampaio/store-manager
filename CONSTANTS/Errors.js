@@ -1,6 +1,7 @@
 const {
   STATUS_INTERNAL_SERVER_ERROR,
   STATUS_UNPROCESSABLE_ENTITY,
+  STATUS_NOT_FOUND,
 } = require('./httpStatusCode');
 
 const ERROR_MONGO = {
@@ -59,6 +60,14 @@ const ERROR_SALES_WRONG_DATA = {
   statusCode: STATUS_UNPROCESSABLE_ENTITY,
 };
 
+const ERROR_SALES_NOT_FOUND = {
+  err: {
+    code: 'not_found',
+    message: 'Sale not found',
+  },
+  statusCode: STATUS_NOT_FOUND,
+};
+
 module.exports = {
   ERROR_MONGO,
   ERROR_NAME_LENGTH,
@@ -67,4 +76,5 @@ module.exports = {
   ERROR_PRODUCT_NOT_A_NUMBER,
   ERROR_PRODUCT_WRONG_ID,
   ERROR_SALES_WRONG_DATA,
+  ERROR_SALES_NOT_FOUND,
 };

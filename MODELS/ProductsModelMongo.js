@@ -37,9 +37,7 @@ async function findAllProductsInMongoDB() {
 }
 
 async function findOneProductInMongoDBByID(id) {
-  if (!ObjectId.isValid(id)) {
-    return null;
-  }
+  if (!ObjectId.isValid(id)) return null;
   try {
     const db = await connection();
     const responseOfQuery = await db.collection('products').findOne(new ObjectId(id));

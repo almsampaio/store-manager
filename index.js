@@ -11,6 +11,8 @@ const {
 
 const {
   postOneSale,
+  getAllSales,
+  getOneSaleByID,
 } = require('./CONTROLLERS/SalesController');
 
 const PORT = 3000;
@@ -29,13 +31,15 @@ app.get('/Ping', (_req, res) => {
   return res.status(200).send('Pong');
 });
 
-app.get('/products', getAllProducts);
 app.post('/products', postOneProduct);
+app.get('/products', getAllProducts);
 app.get('/products/:id', getOneProductByID);
 app.put('/products/:id', putOneProductByID);
 app.delete('/products/:id', deleteOneProductByID);
 
 app.post('/sales', postOneSale);
+app.get('/sales', getAllSales);
+app.get('/sales/:id', getOneSaleByID);
 
 app.listen(PORT, () => {
   console.log(`Escutando na porta ${PORT}`);

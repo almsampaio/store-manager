@@ -2,6 +2,7 @@ const {
   ERROR_PRODUCT_NOT_A_NUMBER,
   ERROR_PRODUCT_QUANTITY_GREATER_THAN_0,
   ERROR_SALES_WRONG_DATA,
+  ERROR_SALES_NOT_FOUND,
 } = require('../CONSTANTS/Errors');
 
 const {
@@ -10,6 +11,8 @@ const {
 
 const {
   insertOneSaleInMongoDB,
+  findAllSalesInMongoDB,
+  findOneSaleInMongoDB,
 } = require('../MODELS/SalesModelMongo');
 
 function validateQuantity(quantity) {
@@ -34,7 +37,7 @@ async function checkValidateOfSales(salesToInsert) {
   return true;
 }
 
-async function insertManySalesIntoSomeDB(salesToInsert) {
+async function insertOneSaleIntoSomeDB(salesToInsert) {
   const arrayIsValid = await checkValidateOfSales(salesToInsert);
   if (!arrayIsValid.err) {
     const responseOfInsertSales = await insertOneSaleInMongoDB(salesToInsert);
@@ -43,6 +46,18 @@ async function insertManySalesIntoSomeDB(salesToInsert) {
   return arrayIsValid;
 }
 
+async function findAllSalesInSomeDB() {
+  return findAllSalesInMongoDB();
+}
+
+async function getOneSaleInSomeDBByID(id) {
+  const queryResponse = await findOneSaleInMongoDB(id);
+  if (!queryResponse) return ERROR_SALES_NOT_FOUND;
+  return queryResponse;
+}
+
 module.exports = {
-  insertManySalesIntoSomeDB,
+  insertOneSaleIntoSomeDB,
+  findAllSalesInSomeDB,
+  getOneSaleInSomeDBByID,
 };
