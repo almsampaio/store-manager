@@ -19,7 +19,7 @@ const findProductById = async (id) => connection()
     .catch(() => null);
 
 const changeProductInfo = async (id, name, quantity) => {
-  const newProduct = {_id: id, name, quantity}
+  const newProduct = { _id: id, name, quantity };
 
   return connection()
     .then((db) => db.collection('products').updateOne(
