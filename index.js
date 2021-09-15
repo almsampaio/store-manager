@@ -7,10 +7,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(productsRoutes);
 
-const { PORT, MSG, LOCALE } = process.env;
+const { PORT } = process.env;
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
-app.listen(PORT, () => console.log(MSG, LOCALE));
+app.listen(PORT, () => console.log('Server Online  "http://localhost:3001"'));
