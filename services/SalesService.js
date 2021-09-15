@@ -49,7 +49,7 @@ const deleteSale = async (id) => {
   const getProduct = await productModel.getById(productId);
   const findQuantity = getProduct.quantity + quantity;
   const data = { name: getProduct.name, quantity: findQuantity };
-  await productModel.updateProduct(productId, data); 
+  await productModel.updateProduct(productId, data.name, data.quantity); 
 
   const result = await salesModel.deleteSale(id);
   return { status: HTTP_OK_STATUS, data: result };
