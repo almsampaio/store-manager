@@ -17,8 +17,11 @@ const findById = async (id) => {
     return sale;
 };
 
+const deleteSale = async (id) => Sale.deleteSale(id);
+
 module.exports = {
   create,
   getAllSales,
   findById,
+  deleteSale,
 };

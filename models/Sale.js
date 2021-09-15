@@ -32,15 +32,23 @@ const getAllSales = async () => {
   }
 
   const productData = await connection().then((db) =>
-    db.collection('products').findOne(new ObjectId(id)));
+    db.collection('sales').findOne(new ObjectId(id)));
 
   if (!productData) return null;
 
   return productData;
  };
 
+ const deleteSale = async (id) => {
+  const db = await connection();
+  const query = { _id: ObjectId(id) };
+  const newProduct = await db.collection('sales').deleteOne(query);
+  return newProduct;
+ };
+
 module.exports = {
   create,
   getAllSales,
   findById,
+  deleteSale,
 };

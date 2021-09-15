@@ -29,6 +29,8 @@ app.get('/sales', Sales.getAllSales);
 
 app.get('/sales/:id', Sales.findById);
 
+app.delete('/sales/:id', Sales.deleteSale);
+
 const PORT = 3000;
 
 app.listen(PORT, () => {
