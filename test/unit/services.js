@@ -5,6 +5,7 @@ const ProductModel = require('../../models/ProductModel');
 const ProductService = require('../../services/ProductService');
 
 const SalesModel = require('../../models/SalesModel');
+const SalesSchema = require('../../schemas/SalesSchema');
 const SalesService = require('../../services/SalesService');
 
 // CREATE PRODUCT
@@ -701,56 +702,66 @@ describe('Testando a função `remove` do model ProductService', () => {
 
 // create sales
 
-describe('Testando a função `create` do service SalesService', () => {
-  describe('quando o payload informado não é válido', () => {
-    describe('o parâmetro passado não é um array', () => {
-      const errFormat = {
-        err: {
-          code: 'invalid_data',
-          message: 'body must be an array',
-        }
+describe.only('Testando a função `create` do service SalesService', () => {
+  const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+  describe('quando o parâmetro passado não é um array', () => {
+    const errFormat = {
+      err: {
+        code: 'invalid_data',
+        message: 'body must be an array',
       }
+    }
 
-      const payloadSales = {
-        productId: '614117088ef1e8004d2e3d7b',
-        quantity: -10,
-      };
+    const payloadSales = {
+      productId:
+      '614117088ef1e8004d2e3d7b',
+      quantity: 10,
+    };
 
-      before(() => {
-        sinon.stub(SalesModel, 'create')
-          .resolves(errFormat);
-      });
-  
-      after(() => {
-        SalesModel.create.restore();
-      });
+    it('retorna um objeto', async () => {
+      const response = await SalesService.create(payloadSales);
 
-      it('retorna um objeto', async () => {
-        const response = await SalesService.create(payloadSales);
+      expect(response).to.be.a('object');
+    });
 
-        expect(response).to.be.a('object');
-      });
+    it('o objeto retornado possui um objeto "err" com as chaves "code" e "message"', async () => {
+      const { err } = await SalesService.create(payloadSales);
 
-      it('o objeto retornado possui um objeto "err" com as chaves "code" e "message"', async () => {
-        const { err } = await SalesService.create(payloadSales);
+      expect(err).to.have.property('message');
+      expect(err).to.have.property('code');
+    });
 
-        expect(err).to.have.property('message');
-        expect(err).to.have.property('code');
-      });
+    it('a chave "message" possui a mensagem correta', async () => {
+      const response = await SalesService.create(payloadSales);
+      const { err: { message } } = response;
 
-      it('a chave "message" possui a mensagem correta', async () => {
-        const response = await SalesService.create(payloadSales);
-        const { err: { message } } = response;
+      expect(message).to.equal(errFormat.err.message);
+    });
 
-        expect(message).to.equal(errFormat.err.message);
-      });
+    it('a chave "code" deste objeto possui o código correto', async () => {
+      const response = await SalesService.create(payloadSales);
+      const { err: { code } } = response;
 
-      it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await SalesService.create(payloadSales);
-        const { err: { code } } = response;
+      expect(code).to.equal(errFormat.err.code);
+    });
+  });
 
-        expect(code).to.equal(errFormat.err.code);
-      });
+  describe('quando o payload informado não é válido', () => {
+    const errFormat = {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      }
+    }
+
+    before(() => {
+      sinon.stub(SalesSchema, 'validate')
+        .resolves(errFormat);
+    });
+
+    after(() => {
+      SalesSchema.validate.restore();
     });
 
     describe('a quantidade é menor que 0', () => {
@@ -765,15 +776,6 @@ describe('Testando a função `create` do service SalesService', () => {
         productId: '614117088ef1e8004d2e3d7b',
         quantity: -10,
       }];
-
-      before(() => {
-        sinon.stub(SalesModel, 'create')
-          .resolves(errFormat);
-      });
-  
-      after(() => {
-        SalesModel.create.restore();
-      });
 
       it('retorna um objeto', async () => {
         const response = await SalesService.create(payloadSales);
@@ -811,19 +813,10 @@ describe('Testando a função `create` do service SalesService', () => {
         }
       }
 
-      const payloadSales = {
+      const payloadSales = [{
         productId: '614117088ef1e8004d2e3d7b',
         quantity: 0,
-      }
-
-      before(() => {
-        sinon.stub(SalesModel, 'create')
-          .resolves(errFormat);
-      });
-  
-      after(() => {
-        SalesModel.create.restore();
-      });
+      }]
 
       it('retorna um objeto', async () => {
         const response = await SalesService.create(payloadSales);
@@ -861,19 +854,10 @@ describe('Testando a função `create` do service SalesService', () => {
         }
       }
 
-      const payloadSales = {
+      const payloadSales = [{
         productId: '614117088ef1e8004d2e3d7b',
-        quantity: 0,
-      }
-
-      before(() => {
-        sinon.stub(SalesModel, 'create')
-          .resolves(errFormat);
-      });
-  
-      after(() => {
-        SalesModel.create.restore();
-      });
+        quantity: '0',
+      }];
 
       it('retorna um objeto', async () => {
         const response = await SalesService.create(payloadSales);
@@ -904,69 +888,18 @@ describe('Testando a função `create` do service SalesService', () => {
       });
     });
 
-    describe('o produto não existe no banco de dados', () => {
-      const errFormat = {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong product ID or invalid quantity',
-        }
-      }
-
-      const payloadSales = {
-        productId: '614117088ef1e8004d2e3d7b',
-        quantity: 1,
-      }
-
-      before(async () => {
-        sinon.stub(SalesModel, 'create')
-          .resolves(errFormat);
-
-        await SalesService.create(payloadSales);
-      });
-  
-      after(() => {
-        SalesModel.create.restore();
-      });
-
-      it('retorna um objeto', async () => {
-        const response = await SalesService.create(payloadSales);
-
-        expect(response).to.be.a('object');
-      });
-
-      it('o objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
-        const response = await SalesService.create(payloadSales);
-        const { err } = response;
-
-        expect(err).to.have.property('code');
-        expect(err).to.have.property('message');
-      });
-
-      it('a chave "message" possui a mensagem correta', async () => {
-        const response = await SalesService.create(payloadSales);
-        const { err: { message } } = response;
-
-        expect(message).to.equal(errFormat.err.message);
-      });
-
-      it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await SalesService.create(payloadSales);
-        const { err: { code } } = response;
-
-        expect(code).to.equal(errFormat.err.code);
-      });
-    });
   });
 
   describe('quando é inserido com sucesso', () => {
 
-    const payloadSales = {
+    const payloadSales = [{
       productId: '614117088ef1e8004d2e3d7b',
       quantity: 100,
-    }
-
+    }];
+    
+    const ID_EXAMPLE = '604cb554311d68f491ba5781';
+    
     before(() => {
-      const ID_EXAMPLE = '604cb554311d68f491ba5781';
 
       sinon.stub(SalesModel, 'create')
         .resolves({
@@ -978,10 +911,14 @@ describe('Testando a função `create` do service SalesService', () => {
             },
           ],
         });
+
+      sinon.stub(SalesSchema, 'validate')
+        .resolves({});
     });
 
     after(() => {
       SalesModel.create.restore();
+      SalesSchema.validate.restore();
     });
 
     it('retorna um objeto', async () => {
