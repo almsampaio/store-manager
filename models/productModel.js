@@ -27,9 +27,7 @@ const findOneById = async (_id) => {
   if (!ObjectId.isValid(_id)) return null;
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('products'));
-  console.log(_id);
   const productFound = await productsCollection.findOne({ _id: ObjectId(_id) });
-  console.log(productFound);
   return productFound;
 };
 
@@ -40,9 +38,19 @@ const getAll = async () => {
   return { products: productsFound };
 };
 
+const updateById = async ({ _id, name, quantity }) => {
+  if (!ObjectId.isValid(_id)) return null;
+  const productsCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection('products'));
+  const productFound = await productsCollection
+    .updateOne({ _id: ObjectId(_id) }, { $set: { name, quantity } });
+  return productFound;
+};
+
 module.exports = {
   create,
   findOneByName,
   getAll,
   findOneById,
+  updateById,
 };

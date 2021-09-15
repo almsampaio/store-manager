@@ -68,8 +68,25 @@ const getById = async (_id) => {
     return product;
   };
 
+  const updateById = async ({ _id, name, quantity }) => {
+    const isNameValid = await nameIsValid(name);
+    const isQuantityValid = quantityIsValid(quantity);
+
+    if (isQuantityValid !== true) return isQuantityValid;
+    
+    if (isNameValid !== true) return isNameValid;
+
+    const product = await ProductsModel.updateById({ _id, name, quantity });
+    if (product === null) {
+      return { err: { code: 'invalid_data',
+      message: 'Wrong id format' } };
+    }
+      return product;
+    };
+
 module.exports = {
   create,
   getAll,
   getById,
+  updateById,
 };
