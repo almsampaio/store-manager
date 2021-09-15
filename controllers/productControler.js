@@ -35,9 +35,24 @@ const updateUi = async (req, res) => {
   await productModel.updateProduct(id, { name, quantity });
   return res.status(HTTP_OK_STATUS).json({ _id: id, name, quantity });
 };
+
+const deleteId = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const validatedId = await productService.validId(id);
+
+  if (!validatedId) {
+    return res.status(422).json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
+  }
+  
+  await productModel.deleteProduct(id);
+  res.status(HTTP_OK_STATUS).json({ _id: id, name, quantity });
+};
+
 module.exports = {
   validatedNameAndQuantity,
   getAllProducts,
   validateId,
   updateUi,
+  deleteId,
 };
