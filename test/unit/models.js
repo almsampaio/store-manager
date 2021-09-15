@@ -31,11 +31,12 @@ after(() => {
 
 describe('Testa se o nome do banco é StorageManager', () => {
   it('the connect goes correctly', async () => {
-    const conn = await mongoConnection.getConnection();
-    const receivedDbName = conn.databaseName;
-    expect(receivedDbName).to.be.eq('StoreManager');
+    const connectionDone = await mongoConnection.getConnection();
+    const dbName = connectionDone.databaseName;
+    expect(dbName).to.be.eq('StoreManager');
   });
 })
+
 
 describe('Products', () => {
   describe('Insere um novo produto no BD', () => {
@@ -75,9 +76,10 @@ describe('Products', () => {
     it('testa se deleta corretamente', async () => {
       const { _id: id } = await ProductModel.createProduct('Flavio', 8000);
       await ProductModel.deleteProduct(id);
-      const response = ProductModel.getProductById(id);
+      const response = await ProductModel.getProductById(id);
 
       expect(response).to.be.equal(null);
+
     })
   });
 
@@ -202,6 +204,4 @@ describe('Sales', () => {
       expect(quantity).to.be.equal(2);
     });
   });
-
-
 });
