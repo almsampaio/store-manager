@@ -7,7 +7,7 @@ const ProductSchema = require('../../schemas/ProductSchema');
 
 const SalesModel = require('../../models/SalesModel');
 const SalesSchema = require('../../schemas/SalesSchema');
-// const SalesService = require('../../services/SalesService');
+const SalesService = require('../../services/SalesService');
 
 // CREATE PRODUCT
 describe('Testando a função `create` do service ProductService', () => {
@@ -908,10 +908,6 @@ describe('Testando a função `create` do service SalesService', () => {
 });
 
 // getAll SALES
-
-const SalesService = {
-  getAll: () => {}
-};
 
 describe.only('Testando a função getAll do service SalesService' ,() => {
   describe('quanto não existe nenhuma venda cadastrada' ,() => {

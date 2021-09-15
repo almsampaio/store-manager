@@ -13,6 +13,9 @@ const create = async (arraySold) => {
   return sales;
 };
 
+const getAll = async () => SalesModel.getAll();
+
 module.exports = {
+  getAll,
   create,
 };
