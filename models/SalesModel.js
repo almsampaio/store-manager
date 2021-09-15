@@ -37,12 +37,12 @@ const update = async (id, itensSold) => {
     return { _id: id, itensSold };
 };
 
-// const exclude = async (id) => {
-//   if (!ObjectId.isValid(id)) return null;
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
 
-//   const db = await connect();
-//   await db.collection('sales').deleteOne({ _id: ObjectId(id) });
-// };
+  const db = await connect();
+  await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+};
 
 module.exports = {
   create,
@@ -50,5 +50,5 @@ module.exports = {
   getAll,
   getById,
   update,
-  // exclude,
+  exclude,
 };

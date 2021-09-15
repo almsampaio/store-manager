@@ -28,17 +28,17 @@ const update = async (req, res) => {
   res.status(status).json(sales);
 };
 
-// const exclude = async (req, res) => {
-//   const { id } = req.params;
-//   const { status, code, message, product } = await ProductsService.exclude(id);
-//   if (!product) return res.status(status).json({ err: { code, message } });
-//   res.status(status).json(product);
-// };
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  const { status, code, message, sales } = await SalesService.exclude(id);
+  if (!sales) return res.status(status).json({ err: { code, message } });
+  res.status(status).json(sales);
+};
 
 module.exports = {
  create,
  getAll,
  getById,
  update,
-//  exclude,
+ exclude,
 };

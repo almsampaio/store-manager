@@ -30,19 +30,19 @@ const update = async (id, itensSold) => {
   return { status: 200, sales };
 };
 
-// const exclude = async (id) => {
-//   const validations = await ProductSchema.validateGet(id);
-//   if (validations.message) return validations;
+const exclude = async (id) => {
+  const validations = await SalesSchema.validateDelete(id);
+  if (validations.message) return validations;
 
-//   const product = await ProductsModel.getById(id);
-//   await ProductsModel.exclude(id);
-//   return { status: 200, product };
-// };
+  const sales = await SalesModel.getById(id);
+  await SalesModel.exclude(id);
+  return { status: 200, sales };
+};
 
 module.exports = {
   create,
   getAll,
   getById,
   update,
-  // exclude,
+  exclude,
 };

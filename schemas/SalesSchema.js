@@ -5,6 +5,7 @@ const errors = {
   QUANTITY_AMOUNT: 'Wrong product ID or invalid quantity',
   TYPEOF_QUANTITY: 'Wrong product ID or invalid quantity',
   INVALID_PRODUCT: 'Wrong product ID or invalid quantity',
+  WRONG_ID: 'Wrong sale ID format',
   NOT_FOUND: 'Sale not found',
 };
 const status = 422;
@@ -44,8 +45,15 @@ const validatePut = (itensSold) => {
   }
 };
 
+const validateDelete = async (id) => {
+  const sales = await SalesModel.getById(id);  
+  if (!sales) return { status, code, message: errors.WRONG_ID };
+  return {};
+};
+
 module.exports = {
   validatePost,
   validateGet,
   validatePut,
+  validateDelete,
 };
