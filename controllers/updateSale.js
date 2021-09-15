@@ -32,7 +32,11 @@ module.exports = [
   }),
 
   rescue(async (req, res) => {
-      const product = await updateSale(req);
-      res.status(200).json(product);
+    const { id } = req.params;
+
+    const newData = req.body;
+
+      const sale = await updateSale(id, newData);
+      res.status(200).json(sale);
   }),
 ];

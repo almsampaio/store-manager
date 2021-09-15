@@ -16,21 +16,19 @@ const getSaleById = async (id) => {
   return product;
 };
 
-const updateSale = async (req) => {
-  const { id } = req.params;
-  const [...items] = req.body;
-
+const updateSale = async (id, newData) => {
   await connection()
-    .then((db) => db.collection('sales').findOneAndUpdate(
-      { _id: id },
-      { $set: { itensSold: items } },
-      { returnDocument: 'after' },
-    ).then((result) => result.value));
+    .then((db) => db.collection('sales')
+          .findOneAndUpdate(
+            { _id: new ObjectId(id) },
+            { $set: { itensSold: newData } },
+            { returnDocument: 'after' },
+          ).then((result) => result.value));
 
   const updatedSale = await connection().then((db) => db.collection('sales')
-      .findOne({ _id: id }));
+    .findOne({ _id: new ObjectId(id) }));
 
-    return updatedSale;
+  return updatedSale;
 };
 
 const getSales = async () => {
@@ -43,7 +41,6 @@ const deleteSaleModel = async (id) => {
   const errMessage = 'Wrong sale ID format';
 
   if (!ObjectId.isValid(id)) {
-    console.log(id);
     throw new Error(errMessage);
   }
 

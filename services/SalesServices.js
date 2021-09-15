@@ -11,6 +11,7 @@ const saleSchema = Joi.object({
 const validateJoi = (productsSold) => {
   const joiValidate = productsSold.map((product) => saleSchema
     .validate({ quantity: parseInt(product.quantity, 10) }));
+
     joiValidate.forEach((item) => {
       const { error } = item;
 
