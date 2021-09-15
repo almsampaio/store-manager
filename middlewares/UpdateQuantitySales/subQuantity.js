@@ -2,7 +2,7 @@ const {
   updateSubProductsServices,
 } = require('../../services/sales/salesServices');
 
-const subProducts = async (req, res, next) => {
+const subProducts = async (req, _res, next) => {
   const products = req.body;
 
   await Promise

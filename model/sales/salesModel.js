@@ -33,6 +33,16 @@ const readByIdModel = async (id) => {
   return result;
 };
 
+const readByIdModelProducts = async (productId) => {
+  if (!ObjectId.isValid(productId)) {
+    return null;
+  }
+
+  const db = await connection();
+  const result = await db.collection('products').findOne({ _id: ObjectId(productId) });
+  return result;
+};
+
 const updateModel = async (id, itensSold) => {
   if (!ObjectId.isValid(id)) {
     return null;
@@ -83,6 +93,7 @@ module.exports = {
   createModel,
   readByAllModel,
   readByIdModel,
+  readByIdModelProducts,
   updateModel,
   updateProductsModel,
   deleteModel,

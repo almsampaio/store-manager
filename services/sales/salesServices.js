@@ -2,6 +2,7 @@ const {
   createModel,
   readByAllModel,
   readByIdModel,
+  readByIdModelProducts,
   updateModel,
   updateProductsModel,
   deleteModel,
@@ -30,6 +31,13 @@ const readByIdServices = async (id) => {
   }
 
   return { data };
+};
+
+const readByIdServicesProducts = async (productId, quantity) => {
+  const { quantity: stock } = await readByIdModelProducts(productId);
+  const calcSimulate = stock - quantity;
+
+  return { calcSimulate };
 };
 
 const updateAddProductsServices = async (productId, quantity) => {
@@ -72,6 +80,7 @@ module.exports = {
   createServices,
   readByAllServices,
   readByIdServices,
+  readByIdServicesProducts,
   updateAddProductsServices,
   updateSubProductsServices,
   updateServices,

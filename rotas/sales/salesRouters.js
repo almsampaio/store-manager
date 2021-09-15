@@ -15,6 +15,7 @@ const {
 
 const { addProducts } = require('../../middlewares/UpdateQuantitySales/addQuantity');
 const { subProducts } = require('../../middlewares/UpdateQuantitySales/subQuantity');
+const { validateStock } = require('../../middlewares/validates/stock');
 
 const router = Router();
 
@@ -22,6 +23,7 @@ router.post(
   '/',
   validateTypeQuantitySales,
   validateQuantitySales,
+  validateStock,
   subProducts,
   createController,
 );
