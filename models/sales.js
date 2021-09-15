@@ -29,4 +29,18 @@ const findSaleAndUpdate = async (id, sales) => {
   return sale.value;
 };
 
-module.exports = { createSale, findSales, findSalesById, findSaleAndUpdate };
+const findSaleAndDelete = async (id) => {
+  const db = await connection();
+  const sale = await db.collection('sales').findOneAndDelete(
+    { _id: ObjectId(id) },
+  );
+  return sale.value;
+};
+
+module.exports = {
+  createSale,
+  findSales,
+  findSalesById,
+  findSaleAndUpdate,
+  findSaleAndDelete,
+};

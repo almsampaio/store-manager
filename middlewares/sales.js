@@ -13,7 +13,6 @@ const isValidPayload = (req, _res, next) => {
   req.body.forEach((sale) => {
     const { productId, quantity } = sale;
     const { error } = salesSchema.validate({ productId, quantity });
-
     if (error || !existsProductId(productId)) {
       return next(error);
     }

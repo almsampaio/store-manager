@@ -1,4 +1,5 @@
-const { createSale, findSales, findSalesById, findSaleAndUpdate } = require('../models/sales');
+const { ObjectId } = require('mongodb');
+const salesModel = require('../models/sales');
 const StatusCodes = require('../utils/httpStatusCodes');
 
 const insertSales = async (sales) => {
@@ -6,26 +7,37 @@ const insertSales = async (sales) => {
   sales.forEach(async (sale) => {
     salesObject.itensSold.push(sale);
   });
-  const response = await createSale(salesObject);
+  const response = await salesModel.createSale(salesObject);
   return response;
 };
 
-const getSales = async () => findSales();
+const getSales = async () => salesModel.findSales();
 
 const getSaleById = async (id) => {
-  const sale = await findSalesById(id);
-  if (!sale) {
-    return ({
-      err: {
-        statusCode: StatusCodes.notFound,
-        code: 'invalid_data',
-        message: 'Sale not found',
-      },
-    });
-  }
+  const err = {
+    err: {
+      statusCode: StatusCodes.notFound,
+      code: 'not_found',
+      message: 'Sale not found',
+    },
+  };
+
+  if (!ObjectId.isValid(id)) return err;
+
+  const sale = await salesModel.findSalesById(id);
+  if (!sale) return err;
+
   return sale;
 };
 
-const updateSale = async (id, sales) => findSaleAndUpdate(id, sales);
+const updateSale = async (id, sales) => salesModel.findSaleAndUpdate(id, sales);
 
-module.exports = { insertSales, getSales, getSaleById, updateSale };
+const deleteSale = async (id) => salesModel.findSaleAndDelete(id);
+
+module.exports = {
+  insertSales,
+  getSales,
+  getSaleById,
+  updateSale,
+  deleteSale,
+};

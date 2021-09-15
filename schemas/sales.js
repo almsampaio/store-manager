@@ -25,7 +25,7 @@ const salesSchema = Joi.object({
 
 const saleIdSchema = Joi.object({
   id: Joi.string().length(ID_LENGTH).hex().required()
-    .error(() => ({ message: 'Sale not found' })),
+    .error(() => ({ message: 'Wrong sale ID format' })),
 });
 
 module.exports = { salesSchema, saleIdSchema };
