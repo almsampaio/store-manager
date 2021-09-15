@@ -7,7 +7,6 @@ const create = async ({ name, quantity }) => {
 
   const { insertedId: _id } = await productsCollection
     .insertOne({ name, quantity });
-  console.log(name);
   return {
     _id,
     name,
@@ -42,9 +41,9 @@ const updateById = async ({ _id, name, quantity }) => {
   if (!ObjectId.isValid(_id)) return null;
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('products'));
-  const productFound = await productsCollection
+  await productsCollection
     .updateOne({ _id: ObjectId(_id) }, { $set: { name, quantity } });
-  return productFound;
+  return { _id, name, quantity };
 };
 
 module.exports = {
