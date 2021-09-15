@@ -25,10 +25,9 @@ const findByName = async (nameProduct) => {
 };
 
 const deleteById = async (id) => {
-  const productDeleted = await connection()
+  await connection()
     .then((db) => db.collection(collectionName).deleteOne({ _id: { $eq: ObjectId(id) } }))
     .catch((err) => console.log(err));
-  console.log('informação da deleção', productDeleted);
 };
 
 const create = async (name, quantity) => {
