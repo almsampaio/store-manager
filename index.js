@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const ProductController = require('./controllers/ProductController');
+const SalesController = require('./controllers/SalesController');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.get('/products/:id', ProductController.getById);
 app.post('/products', ProductController.create);
 app.put('/products/:id', ProductController.update);
 app.delete('/products/:id', ProductController.remove);
+app.post('/sales', SalesController.create);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log('Example app listening on port port!'));

@@ -4,6 +4,9 @@ const { expect } = require('chai');
 const ProductController = require('../../controllers/ProductController');
 const ProductService = require('../../services/ProductService');
 
+const SalesController = require('../../controllers/SalesController');
+const SalesService = require('../../services/SalesService');
+
 // CREATE PRODUCT
 
 describe('Testando a função `create` do controller ProductController', () => {
@@ -453,5 +456,107 @@ describe('Testando a função `remove` do controller ProductController', () => {
       expect(response.json.calledWith(productFormat)).to.be.equal(true);
     });
 
+  });
+});
+
+// CREATE SALES
+
+describe.only('Testando a função `create` do controller SalesController', () => {
+  describe('quando o payload informado não é válido', () => {
+    const response = {};
+    const request = {};
+  
+    before(() => {
+      request.body = [{
+        productId: '614116aa8ef1e8004d2e3d7a',
+        quantity: 'string',
+      }];
+
+      const err = {
+        err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' }
+      }
+  
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(SalesService, 'create')
+      .resolves(err);
+    });
+
+    after(() => {
+      SalesService.create.restore();
+    });
+
+    it('é chamado o método `status` passando o código 422 como parâmetro', async () => {
+      await SalesController.create(request, response);
+
+      expect(response.status.calledWith(422)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando o objeto "err" como parâmetro', async () => {
+      await SalesController.create(request, response);
+      const err = {
+        err: { code: 'invalid_data', message: '"quantity" must be a number' }
+      }
+
+      expect(response.json.calledWith(err)).to.be.equal(true);
+    });
+  });
+
+  describe('quando é inserido com sucesso', () => {
+    const response = {};
+    const request = {};
+
+    const ID_EXAMPLE = '814116aa8ef1e8004d2e3d7b';
+
+    const salesPayload = {
+      productId: '614116aa8ef1e8004d2e3d7a',
+      quantity: 100,
+    }
+
+    before(() => {
+      request.body = [
+        {
+          productId: salesPayload.productId,
+          quantity: salesPayload.quantity,
+        }
+      ];
+  
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(SalesService, 'create')
+      .resolves([{
+        _id: ID_EXAMPLE,
+        itensSold: [
+          {
+            productId: salesPayload.productId,
+            quantity: salesPayload.quantity,
+          }
+        ]
+      }]);
+    });
+
+    after(() => {
+      SalesService.create.restore();
+    });
+
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
+      await SalesController.create(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando os dados do produto criado como parâmetro', async () => {
+      await SalesController.create(request, response);
+      const product = { productId: salesPayload.productId,
+      quantity: salesPayload.quantity };
+
+      expect(response.json.calledWith(product)).to.be.equal(true);
+    });
   });
 });

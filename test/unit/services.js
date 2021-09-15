@@ -701,7 +701,7 @@ describe('Testando a função `remove` do model ProductService', () => {
 
 // create sales
 
-describe.only('Testando a função `create` do service SalesService', () => {
+describe('Testando a função `create` do service SalesService', () => {
   describe('quando o payload informado não é válido', () => {
     describe('o parâmetro passado não é um array', () => {
       const errFormat = {
