@@ -7,7 +7,7 @@ const mongoConnection = require('../../models/connection');
 
 const ProductModel = require('../../models/ProductModel');
 
-const SalesModel = require('../../models/SalesModel');
+// const SalesModel = require('../../models/SalesModel');
 
 // CREATE PRODUCT
 
@@ -430,6 +430,108 @@ describe('Testando a função `create` do model SalesModel', () => {
       const createdProduct = await connectionMock.collection('sales').findOne({_id: ObjectId(_id)});
 
       expect(createdProduct.itensSold[0]).to.be.include(payloadSales[0]);
+    });
+  });
+});
+
+// getAll sales
+
+const SalesModel = {
+  getAll: () => {}
+};
+
+describe.only('Testando a função `getAll` do model SalesModel', () => {
+  let connectionMock; 
+
+  const DBServer = new MongoMemoryServer();
+  const DB_NAME = 'StoreManager';
+  const collection = 'sales';
+
+  before( async () => {
+    const URLMock = await DBServer.getUri();
+    connectionMock = await MongoClient.connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then((conn) => conn.db(DB_NAME));
+
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quanto não existe nenhuma venda cadastrado', () => {
+    it('retorna o object "sales" contento um array', async () => {
+      const { sales } = await SalesModel.getAll();
+
+      expect(sales).to.be.an('array');
+    });
+
+    it('o array está vazio', async () => {
+      const { sales } = await SalesModel.getAll();
+      
+      expect(sales).to.be.empty;
+    });
+  });
+
+  describe('quanto existem vendas cadastradas', () => {
+    const expectedSales = {
+      _id: '604cb554311d68f491ba5781',
+      itensSold: [
+        {
+          productId: '604cb554311d68f491ba5781',
+          quantity: 1,
+        }
+      ]
+    };
+
+    before(async () => {
+      await connectionMock.collection(collection).insertOne({ ...expectedSales });
+    });
+
+    after(async () => {
+      await connectionMock.collection(collection).drop();
+    });
+
+    it('retorna o object "sales"', async () => {
+      const sales  = await SalesModel.getAll();
+
+      expect(sales).to.be.an('object');
+    });
+
+    it('o object retornado "sales" contém um array', async () => {
+      const { sales } = await SalesModel.getAll();
+
+      expect(sales).to.be.an('array');
+    });
+
+    it('o array não é vazio', async () => {
+      const { sales } = await SalesModel.getAll();
+
+      expect(sales).to.not.be.empty;
+    });
+
+    it('o array possui dados do tipo objeto', async () => {
+      const { sales } = await SalesModel.getAll();
+      const [firstSales] = sales;
+
+      expect(firstSales).to.be.an('object');
+    });
+
+    it('todos os objetos possuem os atributos "id", "name" e "quantity"', async () => {
+      const { sales } = await SalesModel.getAll();
+      const [firstSales] = sales;
+
+      expect(firstSales).to.include.all.keys(['_id', 'itensSold'])
+    });
+
+    it('o produto cadastrado está no array', async () => {
+      const { sales } = await SalesModel.getAll();
+      const [{ _id, itensSold: { productId, quantity } }] = sales;
+
+      expect({ productId, quantity }).to.deep.equal(expectedSales.itensSold);
     });
   });
 });
