@@ -4,7 +4,7 @@ const conexao = require('./conexao');
 const listarProdutos = async () => {
   const db = await conexao();
   const produtos = await db.collection('products').find({}).toArray();
-  return produtos;
+  return { "products": produtos};
 };
 
 const listarProdutosPorID = async (id) => {
@@ -12,6 +12,7 @@ const listarProdutosPorID = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await conexao();
   const produto = await db.collection('products').findOne({ _id: ObjectId(id) });
+  if (!produto) return false;
   return produto;
 };
 

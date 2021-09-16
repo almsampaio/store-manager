@@ -1,6 +1,12 @@
 // Conectando a camada Services com a camada Models
 const produtosModel = require('../models/produtosModel');
 
+const listarProdutosPorID = async (id) => {
+  const produto = await produtosModel.listarProdutosPorID(id);
+  if (produto === false || produto === null) return 'não encontrado';
+  return produto;
+};
+
 const criarProduto = async (name, quantity) => {
   // Validar que não é possível criar um produto com o nome menor que 5 caracteres
   if (name.length < 5) return 'menor que cinco';
@@ -21,4 +27,5 @@ const criarProduto = async (name, quantity) => {
 
 module.exports = {
   criarProduto,
+  listarProdutosPorID,
 };

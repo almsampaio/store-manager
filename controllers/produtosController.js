@@ -8,6 +8,7 @@ const maiorQueCinco = '"name" length must be at least 5 characters long';
 const jaExiste = 'Product already exists';
 const maiorIgualUm = '"quantity" must be larger than or equal to 1';
 const serNumero = '"quantity" must be a number';
+const naoEncontrado = 'Wrong id format'
 
 const listarProdutos = async (_req, res) => {
   const produtos = await produtosModel.listarProdutos();
@@ -16,7 +17,10 @@ const listarProdutos = async (_req, res) => {
 
 const listarProdutosPorID = async (req, res) => {
   const { id } = req.params;
-  const produto = await produtosModel.listarProdutosPorID(id);
+  const produto = await produtosService.listarProdutosPorID(id);
+  if (produto === 'não encontrado') {
+    return res.status(422).json({ err: { code: 'invalid_data', message: naoEncontrado } });
+  }
   return res.status(200).json(produto);
 };
 
