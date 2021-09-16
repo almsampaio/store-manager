@@ -16,6 +16,8 @@ app.get('/products/:id', controllerProduct.findProductId);
 
 app.put('/products/:id', controllerProduct.updateProduct);
 
+app.delete('/products/:id', controllerProduct.deleteProduct);
+
 app.use((err, _req, res, _next) => {
   const { message, code, status } = err;
   return res.status(status).json({ err: { code, message } });
