@@ -5,13 +5,13 @@ const { lessThanFive,
 
 const productValidate = async (name, quantity) => {
   if (name.length < 5) {
-    return lessThanFive(name);
+    return lessThanFive();
   } 
   if (quantity <= 0) {
-    return validateQuantity(quantity);
+    return validateQuantity();
   }
   if (typeof (quantity) !== 'number') {
-    return validateTypeQuantity(quantity);
+    return validateTypeQuantity();
   }
 };
 
