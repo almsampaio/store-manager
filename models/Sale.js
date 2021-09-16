@@ -54,3 +54,15 @@ exports.createSale = async (salesArr) => {
     itensSold: salesArr,
   };
 };
+
+exports.deleteSale = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await connection();
+
+  await db
+    .collection(COLLECTION)
+    .deleteOne({ _id: ObjectId(id) });
+
+  return { ok: 1 };
+};

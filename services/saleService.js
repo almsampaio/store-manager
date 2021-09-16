@@ -48,3 +48,13 @@ exports.update = async (id, productId, newQuantity) => {
 
   return { sale };
 };
+
+exports.delete = async (id) => {
+  const deletedSale = await Sale.deleteSale(id);
+
+  if (!deletedSale) {
+    return { message: 'Wrong sale ID format', code: 'invalid_data' }; 
+  }
+
+  return deletedSale;
+};

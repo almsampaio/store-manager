@@ -44,3 +44,15 @@ exports.updateSale = async (req, res) => {
 
   res.status(200).json(sale);
 };
+
+exports.deleteSale = async (req, res) => {
+  const { id } = req.params;
+
+  const { message, code } = await saleService.delete(id);
+
+  if (message) {
+    return res.status(422).json({ err: { code, message } });
+  }
+
+  res.status(200).end();
+};

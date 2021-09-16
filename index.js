@@ -33,7 +33,8 @@ app.route('/sales')
   app
   .route('/sales/:id')
   .get(saleController.getById)
-  .put(saleController.updateSale);
+  .put(saleController.updateSale)
+  .delete(saleController.deleteSale);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
