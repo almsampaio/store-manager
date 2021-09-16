@@ -4,6 +4,7 @@ const addProduct = async (req, res) => {
   const { name, quantity } = req.body; 
 
   const { product, status, message } = await productService.addProduct(name, quantity);
+
   if (!product) return res.status(status).json(message);
   res.status(201).json(product);
 };
@@ -27,7 +28,6 @@ const updateProduct = async (req, res) => {
   const { id } = req.params;
 
   const { product, message } = await productService.updateProduct(id, name, quantity);
-  console.log(product);
   if (!product) return res.status(422).json(message);
 
   res.status(200).json(product);

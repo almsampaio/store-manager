@@ -29,7 +29,15 @@ const saleValidationNotExist = async (id) => {
   return {};
 };
 
+const SaleValidationPut = ([{ quantity }]) => {
+  console.log(quantity);
+  if (quantity < 1) return { status, message: quantityInvalid };
+  if (typeof quantity === 'string') return { status, message: quantityInvalid };
+  return {};
+};
+
 module.exports = {
 salesValidations,
 saleValidationNotExist,
+SaleValidationPut,
 };

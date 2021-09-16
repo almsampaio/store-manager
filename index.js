@@ -20,5 +20,6 @@ app.post('/products', productController.addProduct);
 app.post('/sales', salesController.addSale);
 app.get('/sales', salesController.listSales);
 app.get('/sales/:id', salesController.listSaleId);
+app.put('/sales/:id', salesController.updateSales);
 
 app.listen(3000, () => console.log('Project Store Manager'));
