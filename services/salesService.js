@@ -25,8 +25,23 @@ const getAll = async () => {
   return result;
 };
 
+const updateOne = async (id, saleContent) => {
+  verifyQuantity(saleContent);
+  const result = await salesModel.updateOne(id, saleContent);
+  if (!result) return errors.wrongIdOrQuantity;
+  return result;
+};
+
+const delOne = async (id) => {
+  const result = await salesModel.delOne(id);
+  if (!result || result.status) throw errors.wrongSaleIdFormat;
+  return result;
+};
+
 module.exports = {
   createSales,
   getOne,
   getAll,
+  updateOne,
+  delOne,
 };

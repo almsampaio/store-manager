@@ -18,20 +18,23 @@ const getAll = async (req, res) => {
   return res.status(200).json(result);
 };
 
-// const updateOne = (req, res) => {
-//   const result = req.params;
-//   return res.status(1).json(result);
-// };
+const updateOne = async (req, res) => {
+  const { id } = req.params;
+  const saleContent = req.body;
+  const result = await salesService.updateOne(id, saleContent);
+  return res.status(200).json(result);
+};
 
-// const delOne = (req, res) => {
-//   const result = req.params;
-//   return res.status(1).json(result);
-// };
+const delOne = async (req, res) => {
+  const { id } = req.params;
+  const result = await salesService.delOne(id);
+  return res.status(200).json(result);
+};
 
 module.exports = {
   createSales,
   getOne,
   getAll,
-  // updateOne,
-  // delOne,
+  updateOne,
+  delOne,
 };

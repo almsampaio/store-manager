@@ -40,6 +40,12 @@ const saleNotFound = {
   status: 404,
 };
 
+const wrongSaleIdFormat = {
+  code: 'invalid_data',
+  message: 'Wrong sale ID format',
+  status: 422,
+};
+
 module.exports = {
   shortName,
   productAlreadyExists,
@@ -48,4 +54,5 @@ module.exports = {
   wrongIdFormat,
   wrongIdOrQuantity,
   saleNotFound,
+  wrongSaleIdFormat,
 };

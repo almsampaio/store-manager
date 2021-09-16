@@ -20,8 +20,8 @@ app.delete('/products/:id', rescue(productController.delOne));
 app.post('/sales', rescue(salesController.createSales));
 app.get('/sales/:id', rescue(salesController.getOne));
 app.get('/sales/', rescue(salesController.getAll));
-// app.put('/sales/:id', salesController.updateOne);
-// app.delete('/sales/:id', salesController.delOne);
+app.put('/sales/:id', rescue(salesController.updateOne));
+app.delete('/sales/:id', rescue(salesController.delOne));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => response.send());
