@@ -1,9 +1,6 @@
 const { ObjectId } = require('mongodb');
-const Db = require('mongodb/lib/db');
 const salesModel = require('../model/SalesModel');
 const { getProductByIdService } = require('./ProductsService');
-
-// id valido porem inexistente: 6142456ec299286e92234b9f
 
 const checkProductInDatabase = (item) => {
     const arrPromises = [];
