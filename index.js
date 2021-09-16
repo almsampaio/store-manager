@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productsController = require('./controllers/productsController');
+const salesController = require('./controllers/salesController');
 
 const app = express();
 const PORT = 3000;
@@ -18,6 +19,7 @@ app.get('/products/:id', productsController.getById);
 app.put('/products/:id', productsController.updateProduct);
 
 app.post('/products', productsController.create);
+app.post('/sales', salesController.create);
 
 app.delete('/products/:id', productsController.deleteProduct);
 
