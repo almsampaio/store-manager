@@ -984,3 +984,118 @@ describe('Testando a função getAll do service SalesService' ,() => {
     });
   });
 });
+
+// getById Sales
+
+describe.only('Testando a função `getById` do service SalesService', () => {
+  const ID_EXAMPLE = '604cb554311d68f491ba5781';
+  const ERROR = {
+    err: {
+      code: 'not_fount',
+      message: 'Sale not found',
+    }
+  }
+
+  describe('quanto não é encontrado uma venda para o ID', () => {
+    before(() => {
+      sinon.stub(SalesModel, 'getById')
+        .resolves(null);
+    });
+
+    after(() => {
+      SalesModel.getById.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui as keys `code` e `message`', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+      const { err } = response;
+
+      expect(err).to.include.all.keys('code', 'message');
+    });
+
+    it('a key `code` do objeto retornado é uma string', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+      const { err: { code } } = response;
+
+      expect(code).to.be.a('string');
+    });
+
+    it('a `string` da key `code` é `not_found`', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+      const { err: { code } } = response;
+
+      expect(code).to.equal(ERROR.err.code);
+    });
+
+    it('a key `message` do objeto retornado é uma string', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+      const { err: { message } } = response;
+
+      expect(message).to.be.a('string');
+    });
+
+    it('a string da key `message` é `Sale not found`', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+      const { err: { message } } = response;
+
+      expect(message).to.equal(ERROR.err.message);
+    });
+  });
+
+  describe('quanto é encontrado uma venda para o ID', () => {
+    const SalesPayload = {
+      _id: ID_EXAMPLE,
+      itensSold: [
+        {
+          productId: '904cb554311d68f491ba5782',
+          quantity: 1,
+        },
+      ],
+    };
+
+    before(() => {
+      sinon.stub(SalesModel, 'getById')
+        .resolves(SalesPayload);
+    });
+
+    after(() => {
+      SalesModel.getById.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto possui as keys `_id` e `itensSold`', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+
+      expect(response).to.include.all.keys('_id', 'itensSold');
+    });
+
+    it('a key `itensSold` é um array não vazio', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+
+      const { itensSold } = response;
+
+      expect(itensSold).to.be.an('array').that.is.not.empty();
+    });
+
+    it('os elementos do array `itensSold` possuem as keys `productId` e `quantity`', async () => {
+      const response = await SalesService.getById(ID_EXAMPLE);
+
+      const { itensSold } = response;
+
+      const [firstElementArrayItensSold] = itensSold;
+
+      expect(firstElementArrayItensSold).to.include.all.keys('productId', 'quantity');
+    });
+  });
+});
