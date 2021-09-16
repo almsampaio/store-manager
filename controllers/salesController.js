@@ -41,8 +41,31 @@ const findById = rescue(async (req, res) => {
   res.status(200).json(sale);
 });
 
+const update = rescue(async (req, res) => {
+  const { id } = req.params;
+  
+  const newSale = req.body;
+  let validateInfo = null; 
+
+  newSale.forEach((sale) => {
+    if (typeof sale.quantity !== 'number' || sale.quantity <= 0) {
+      validateInfo = ERROR_MESSAGES_QUANTITY;
+      return validateInfo;
+    }
+  });
+
+  if (validateInfo) return res.status(422).json(validateInfo);
+
+  const updateSale = await service.update(id, newSale);
+
+  if (updateSale.err) return res.status(422).json(updateSale);
+
+  res.status(200).json(updateSale);
+});
+
 module.exports = {
   getAll,
   create,
   findById,
+  update,
 };
