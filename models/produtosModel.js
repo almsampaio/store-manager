@@ -4,7 +4,7 @@ const conexao = require('./conexao');
 const listarProdutos = async () => {
   const db = await conexao();
   const produtos = await db.collection('products').find({}).toArray();
-  return { "products": produtos};
+  return { 'products': produtos };
 };
 
 const listarProdutosPorID = async (id) => {
