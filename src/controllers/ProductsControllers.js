@@ -26,20 +26,28 @@ const findById = rescue(async (req, res, next) => {
 
   if (error) return next(error);
 
-  return res.status(STATUS_OK).json(product);
+   res.status(STATUS_OK).json(product);
 });
 
 const updateOne = rescue(async (req, res, next) => {
   const { name, quantity } = req.body;
   const { id } = req.params;
 
-  console.log(name, quantity);
-
   const { error, updated } = await ProductsService.updateOne(id, { name, quantity });
 
   if (error) return next(error);
 
-  return res.status(STATUS_OK).json(updated);
+   res.status(STATUS_OK).json(updated);
+});
+
+const eliminate = rescue(async (req, res, next) => {
+  const { id } = req.params;
+
+  const { error, eliminated } = await ProductsService.eliminate(id);
+
+  if (error) return next(error);
+
+  res.status(STATUS_OK).json(eliminated);
 });
 
 module.exports = {
@@ -47,4 +55,5 @@ module.exports = {
   getAllProducts,
   findById,
   updateOne,
+  eliminate,
 };

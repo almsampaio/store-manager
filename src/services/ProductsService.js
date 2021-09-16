@@ -55,9 +55,25 @@ const updateOne = async (id, { name, quantity }) => {
   return { updated };
 };
 
+const eliminate = async (id) => {
+const eliminated = await ProductsModel.eliminate(id);
+
+  if (!eliminated) {
+    return {
+      error: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+
+  return { eliminated };
+};
+
 module.exports = {
   create,
   getAllProducts,
   findById,
   updateOne,
+  eliminate,
 };
