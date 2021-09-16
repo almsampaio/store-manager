@@ -26,6 +26,11 @@ const update = async (id, productId, quantity) => {
 };
 
 const exclude = async (id) => {
+  const sale = await salesModel.getById(id);
+  const { productId, quantity } = sale.itensSold[0];
+  const product = await productModel.getById(productId);
+  const updateQuantityProduct = product.quantity + quantity;
+  await productModel.update(productId, product.name, updateQuantityProduct);
   await salesModel.exclude(id);
 };
 
