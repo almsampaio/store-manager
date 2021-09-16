@@ -19,8 +19,24 @@ const findById = async (id) => {
   return sale;
 };
 
+const update = async (id, itens) => {
+  const sale = await Sales.findById(id);
+
+  if (!sale) {
+    return {
+      err: {
+      code: 'not_found',
+      message: 'Sale not found',
+      },
+    };
+  }
+
+  return Sales.update(id, itens);
+};
+
 module.exports = {
   getAll,
   create,
   findById,
+  update,
 };
