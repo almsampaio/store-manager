@@ -5,7 +5,7 @@ const validateName = async (name, quantity) => {
       return '"name" length must be at least 5 characters long';
     }
 
-    const existingName = await productModel.exist(name);
+    const existingName = await productModel.existingName(name);
 
     if (existingName !== null) {
       return 'Product already exists';
@@ -25,7 +25,7 @@ const validateName = async (name, quantity) => {
 const addValidation = async (name, quantity) => {
   const answer = await validateName(name, quantity);
 
-  const existingName = await productModel.exist(name);
+  const existingName = await productModel.existingName(name);
 
   if (existingName !== null) {
       return 'Product already exists';
@@ -44,6 +44,16 @@ const updateValidation = async (id, name, quantity) => {
       return update;
   }
   return answer;
-};  
+};
 
-module.exports = { validateName, addValidation, updateValidation }; 
+const deleteValidation = async (id) => {
+  const existingId = await productModel.existingId(id);
+
+  if (existingId === null) {
+      return 'Wrong id format';
+  }
+  const update = await productModel.exclude(id);
+  return update;
+}; 
+
+module.exports = { validateName, addValidation, updateValidation, deleteValidation }; 
