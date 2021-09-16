@@ -29,16 +29,19 @@ const productExists = {
 
 const createProduct = async (name, quantity) => {
   const newProducts = await productModel.create(name, quantity);
+  console.log(newProducts);
   if (newProducts.statusCode === 422) return productExists;
     return { product: newProducts };
 };
 
-const create = (name, quantity) => {
+const create = async (name, quantity) => {
   if (name.length <= 5) return nameLength;
   if (quantity <= 0) return quantityLessThanOne;
   if (!quantity) return quantityRequired;
   if (typeof (quantity) !== 'number') return quantityIsANumber;
-  return createProduct(name, quantity);
+  const createProductvar = await createProduct(name, quantity);
+  console.log(createProductvar);
+  return createProductvar;
 };
 
 module.exports = {
