@@ -523,19 +523,19 @@ describe('Testando a função `getAll` do model SalesModel', () => {
       expect(firstSales).to.include.all.keys(['_id', 'itensSold'])
     });
 
-    // it('o array `itensSold` possui objetos com as keys `productId` e `quantity`', async () => {
-    //   const response = await SalesModel.getById(ID_EXAMPLE);
+    it('o array `itensSold` possui objetos com as keys `productId` e `quantity`', async () => {
+      const response = await SalesModel.getAll();
 
-    //   const { sales } = response;
+      const { sales } = response;
 
-    //   const [firstElementArraySales] = sales;
+      const [firstElementArraySales] = sales;
 
-    //   const { itensSold } = firstElementArraySales;
+      const { itensSold } = firstElementArraySales;
 
-    //   const [firstElementArrayItensSold] = itensSold
+      const [firstElementArrayItensSold] = itensSold
 
-    //   expect(firstElementArrayItensSold).to.be.an('object').that.to.include.all.keys('productId', 'quantity');
-    // });
+      expect(firstElementArrayItensSold).to.be.an('object').that.to.include.all.keys('productId', 'quantity');
+    });
 
     it('o produto cadastrado está no array', async () => {
       const { sales }  = await SalesModel.getAll();
@@ -548,7 +548,7 @@ describe('Testando a função `getAll` do model SalesModel', () => {
 
 // getById Sales
 
-describe.only('Testando a função `getById` do model SalesModel', () => {
+describe('Testando a função `getById` do model SalesModel', () => {
   const DBServer = new MongoMemoryServer();
   let connectionMock;
   const DB_NAME = 'StoreManager';
