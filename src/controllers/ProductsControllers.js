@@ -1,4 +1,5 @@
 const rescue = require('express-rescue');
+const { STATUS_OK, CREATE } = require('../constants/HTTPCodeErrors');
 
 const ProductsService = require('../services/ProductsService');
 
@@ -9,13 +10,13 @@ const create = rescue(async (req, res, next) => {
 
   if (error) return next(error);
 
-  res.status(201).json(newProduct);
+  res.status(CREATE).json(newProduct);
 });
 
 const getAllProducts = rescue(async (req, res) => {
   const products = await ProductsService.getAllProducts();
 
-  res.status(200).json(products);
+  res.status(STATUS_OK).json(products);
 });
 
 const findById = rescue(async (req, res, next) => {
@@ -25,11 +26,25 @@ const findById = rescue(async (req, res, next) => {
 
   if (error) return next(error);
 
-  return res.status(200).json(product);
+  return res.status(STATUS_OK).json(product);
+});
+
+const updateOne = rescue(async (req, res, next) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+
+  console.log(name, quantity);
+
+  const { error, updated } = await ProductsService.updateOne(id, { name, quantity });
+
+  if (error) return next(error);
+
+  return res.status(STATUS_OK).json(updated);
 });
 
 module.exports = {
   create,
   getAllProducts,
   findById,
+  updateOne,
 };

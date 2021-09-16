@@ -40,8 +40,24 @@ const findById = async (id) => {
   return { product };
 };
 
+const updateOne = async (id, { name, quantity }) => {
+  const updated = await ProductsModel.updateOne(id, { name, quantity });
+
+  if (!updated) {
+    return {
+      error: { 
+        code: 'not_found', 
+        message: 'Wrong id format or id not exist', 
+      }, 
+    };
+  }
+
+  return { updated };
+};
+
 module.exports = {
   create,
   getAllProducts,
   findById,
+  updateOne,
 };
