@@ -23,14 +23,8 @@ function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
   return find;
 }
 
-function validationFormatInputsProducts(name, quantity) {
-  if (!name || !quantity) {
-    return WRONG_INPUT_FORMAT_MESSAGE;
-  }
-  return false;
-}
-
 function validationNameLength(name) {
+  if (name === undefined) return WRONG_INPUT_FORMAT_MESSAGE;
   if (name.length < 5) {
     return WRONG_NAME_LENGTH_MESSAGE;
   }
@@ -199,7 +193,6 @@ async function validateUpdateProductsQuantitys(sale, verb) {
 }
 
 module.exports = {
-  validationFormatInputsProducts,
   validationsNameProduct,
   validationsQuantityInsertProduct,
   // productIdValidation,
