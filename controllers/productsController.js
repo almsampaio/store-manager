@@ -67,9 +67,37 @@ const update = async (req, res) => {
   }
 };
 
+async function validateID(req, res, next) {
+  try {
+    const { id } = req.params;
+    const productId = await productService.getByID(id);
+
+    if (!productId) {
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+        err: { 
+         code: 'invalid_data', 
+          message: 'Wrong id format' } });
+    }
+     res.status(StatusCodes.OK).json(productId);
+  } catch (error) {
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+      err: { 
+        code: 'invalid_data', 
+        message: 'Wrong id format' } });
+  }
+  next();
+}
+
+async function deleteProduct(req, _res) {
+  const { id } = req.params;
+  await productService.deleteProduct(id);
+}
+
 module.exports = {
   createProduct,
   getAllProducts,
   getByID,
   update,
+  validateID,
+  deleteProduct,
 };
