@@ -21,4 +21,6 @@ app.get('/products/:id', productController.getById);
 
 app.put('/products/:id', productController.update);
 
+app.delete('/products/:id', productController.remove);
+
 app.listen(PORT, () => console.log(`O pai tá ON na Porta ${PORT}`));

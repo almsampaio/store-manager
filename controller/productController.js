@@ -40,9 +40,20 @@ const update = async (req, res) => {
   res.status(HTTP_OK_STATUS).json(product);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { err } = await productService.remove(id);
+  if (err) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY_STATUS)
+      .json({ err }); 
+  }
+  res.status(HTTP_OK_STATUS).end();
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };

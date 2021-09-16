@@ -27,8 +27,14 @@ const getById = async (id) => {
 
 const update = async (id, name, quantity) => {
   const db = await connection();
-  const updatedProduct = db.collection('products').findOne(ObjectID(id));
+  const updatedProduct = await db.collection('products').findOne(ObjectID(id));
   return { _id: updatedProduct.insertedId, name, quantity };
+};
+
+const remove = async (id) => {
+  if (!ObjectID.isValid(id)) return null;
+  const db = await connection();
+  return db.collection('products').deleteOne({ _id: ObjectID(id) });
 };
 
 module.exports = {
@@ -37,4 +43,5 @@ module.exports = {
   getAll,
   getById,
   update,
+  remove,
 };
