@@ -28,4 +28,14 @@ const create = async (req, res) => {
   return res.status(UNPROCESSABLE_ENTITY).json(sales);
 };
 
-module.exports = { getAll, getById, create };
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+  const sale = req.body;
+  const sales = await salesService.updateSale(id, sale);
+  if (!sales.err) {
+    return res.status(OK).json(sales);
+  }
+  return res.status(UNPROCESSABLE_ENTITY).json(sales);
+};
+
+module.exports = { getAll, getById, create, updateSale };
