@@ -42,13 +42,13 @@ const update = async (id, itensSold) => {
 
 const remove = async (id) => {
     const saleId = await salesSchema.validateSaleIdRemove(id);
-
-     await salesSchema.subProductQuantity(id);
-
-  //  console.log(testando);
-
+    
     if (saleId) { return saleId; }
-
+    
+    await salesSchema.subProductQuantity(id);
+    
+    //  console.log(testando);
+    
     const removedSale = await salesModel.remove(id);
 
     return removedSale;
