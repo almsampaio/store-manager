@@ -31,9 +31,12 @@ const atualizarProduto = async (id, name, quantity) => {
 };
 
 const deletarProduto = async (id) => {
+  // Verificando se o id é válido
+  if (!ObjectId.isValid(id)) return null;
   const db = await conexao();
   const produto = await db.collection('products').findOneAndDelete({ _id: ObjectId(id) });
-  return produto;
+  if (!produto) return false;
+  return produto.value;
 };
 
 const buscarPeloNome = async (name) => {

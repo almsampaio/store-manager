@@ -45,14 +45,26 @@ const criarProduto = async (req, res) => {
 const atualizarProduto = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
-  const produto = await produtosModel.atualizarProduto(id, name, quantity);
+  const produto = await produtosService.atualizarProduto(id, name, quantity);
+  if (produto === 'menor que cinco') {
+    return res.status(422).json({ err: { code: 'invalid_data', message: maiorQueCinco } });
+  }
+  if (produto === 'menor ou igual a zero') {
+    return res.status(422).json({ err: { code: 'invalid_data', message: maiorIgualUm } });
+  }
+  if (produto === 'NaN') {
+    return res.status(422).json({ err: { code: 'invalid_data', message: serNumero } });
+  }
   return res.status(200).json(produto);
 };
 
 const deletarProduto = async (req, res) => {
   const { id } = req.params;
-  const produto = await produtosModel.deletarProduto(id);
-  return res.status(200).json(produto.value);
+  const produto = await produtosService.deletarProduto(id);
+  if (produto === 'não encontrado') {
+    return res.status(422).json({ err: { code: 'invalid_data', message: naoEncontrado } });
+  }
+  return res.status(200).json(produto);
 };
 
 module.exports = {

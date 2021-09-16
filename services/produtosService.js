@@ -25,7 +25,29 @@ const criarProduto = async (name, quantity) => {
   return produto;
 };
 
+const atualizarProduto = async (id, name, quantity) => {
+  // Validar que não é possível atualizar um produto com o nome menor que 5 caracteres
+  if (name.length < 5) return 'menor que cinco';
+
+  // Validar que não é possível atualizar um produto com quantidade menor ou igual a zero
+  if (quantity <= 0) return 'menor ou igual a zero';
+
+   // Validar que não é possível atualizar um produto com uma string no campo quantidade
+   if (typeof quantity !== 'number') return 'NaN';
+
+  const produto = await produtosModel.atualizarProduto(id, name, quantity);
+  return produto;
+};
+
+const deletarProduto = async (id) => {
+  const produto = await produtosModel.deletarProduto(id);
+  if (produto === false || produto === null) return 'não encontrado';
+  return produto;
+};
+
 module.exports = {
   criarProduto,
   listarProdutosPorID,
+  atualizarProduto,
+  deletarProduto,
 };
