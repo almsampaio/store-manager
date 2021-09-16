@@ -41,6 +41,20 @@ const getAll = async () => {
   return data;
 };
 
+const getById = async (id) => {
+  const data = await prodModel.getProductById(id);
+
+  if (!data || data === {} || data === undefined) {
+    return { isValid: false,
+      err: {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    } };
+  }
+
+  return data;
+};
+
 const create = async (name, quantity) => {
   const validated = validate(name);
   const validQuantity = validateQuantity(quantity);
@@ -64,4 +78,5 @@ const create = async (name, quantity) => {
 module.exports = {
   getAll,
   create,
+  getById,
 };

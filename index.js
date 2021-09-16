@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { create, getAll } = require('./controlers/productControlles');
+const { create, getAll, getById } = require('./controlers/productControlles');
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,7 +12,7 @@ app.get('/', (_request, response) => {
 });
 
 app.get('/products', getAll);
-
+app.get('/products/:id', getById);
 app.post('/products', create);
 
 const PORT = process.env.PORT || 3000;
