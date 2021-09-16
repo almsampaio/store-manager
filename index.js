@@ -26,6 +26,7 @@ app.post('/products', Products.create);
 app.get('/sales', Sales.getAll);
 app.get('/sales/:id', Sales.findById);
 app.put('/sales/:id', Sales.update);
+app.delete('/sales/:id', Sales.deleteInfo);
 app.post('/sales', Sales.create);
 
 const PORT = process.env.PORT || 3000;
