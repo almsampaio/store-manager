@@ -20,9 +20,9 @@ const findByName = async (name) => {
 const create = async (name, quantity) => {
     const db = await connect();
     console.log('db ------- productModel', db);
-    const [product] = await db.collection('products').insertOne({ name, quantity });
+    const product = await db.collection('products').insertOne({ name, quantity });
     console.log('product ------- productModel', product);
-    return { id: product.insertedId, name, quantity };
+    return { _id: product.insertedId, name, quantity };
 };
 
 const updateById = async (name, quantity, id) => {
@@ -35,7 +35,7 @@ const updateById = async (name, quantity, id) => {
 const remove = async (id) => {
     const db = await connect();
     const result = await db.collection('products').deleteOne({ _id: ObjectId(id) });
-    return { id: result.insertId, name: result.name, quantity: result.quantity };
+    return { _id: result.insertId, name: result.name, quantity: result.quantity };
 };
 
 module.exports = { 
