@@ -20,10 +20,22 @@ const createProduct = async (req, res) => {
   return res.status(VALID_NAME_STATUS_201).json(products);
 };
 
-const getProducts = async (req, res) => {
+const getAllProducts = async (_req, res) => {
+  const products = await productsService.getAllProducts();
+
+  if (products.err) {
+    return printMessageOfError422(res, products, INVALID_REQUEST_422);
+  }
+
+  return res.status(VALID_REQUEST_200).json(products);
+};
+
+const getProductsId = async (req, res) => {
   const { id } = req.params;
 
-  const products = await productsService.getProducts(id);
+  console.log(id);
+
+  const products = await productsService.getProductsId(id);
 
   if (products.err) {
     return printMessageOfError422(res, products, INVALID_REQUEST_422);
@@ -58,7 +70,8 @@ const deleteProducts = async (req, res) => {
 };
 module.exports = {
   createProduct,
-  getProducts,
+  getAllProducts,
+  getProductsId,
   putProducts,
   deleteProducts,
 };

@@ -2,15 +2,6 @@ const productsModel = require('../models/productsModel');
 
 const validations = require('./validations');
 
-const formatGetResponse = (response) => {
-  if (response.length === 1) {
-    return response[0];
-  }
-  return {
-    products: response,
-  };
-};
-
 const createProduct = async ({ name, quantity }) => {
   const validationsName = await validations.validationsNameProduct('post', name);
   if (validationsName) return validationsName;
@@ -21,16 +12,15 @@ const createProduct = async ({ name, quantity }) => {
   return productsModel.createProduct({ name, quantity });
 };
 
-const getProducts = async (id) => {
-  if (!id) {
-    const allproducts = await productsModel.getAllProdutcts();
-    return formatGetResponse(allproducts);
-  }
+const getAllProducts = async () => productsModel.getAllProdutcts();
 
+const getProductsId = async (id) => {
   const productByURLID = await validations.validateURLId(id, 'products');
   if (productByURLID.err) return productByURLID;
 
-  return formatGetResponse(productByURLID);
+  const GetProductsId = await productsModel.getProductById(id);
+
+  return GetProductsId;
 };
 
 const putProducts = async (id, name, quantity) => {
@@ -52,12 +42,13 @@ const deleteProducts = async (id) => {
 
   const deletedProduct = await productsModel.deleteProducts(id);
 
-  return deletedProduct[0];
+  return deletedProduct;
 };
 
 module.exports = {
   createProduct,
-  getProducts,
+  getAllProducts,
+  getProductsId,
   putProducts,
   deleteProducts,
 };

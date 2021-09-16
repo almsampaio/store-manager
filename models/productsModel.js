@@ -9,13 +9,40 @@ const serialize = ({ _id, name, quantity }) => (
   }
 );
 
-const getAllProdutcts = async () => mongoConnection.getConnection()
+const getAllProdutcts = async () => {
+  const getALL = await mongoConnection.getConnection()
       .then((db) => db.collection('products').find().toArray())
           .then((products) => products.map(serialize));
 
-const getProductById = async (id) => mongoConnection.getConnection()
-      .then((db) => db.collection('products').find({ _id: ObjectId(id) }).toArray())
-          .then((products) => products.map(serialize));
+  console.log(getALL);
+  if (!getALL) return null;
+
+  return {
+    products: getALL,
+  };
+};
+
+const getProductById = async (id) => {
+  const getById = await mongoConnection.getConnection()
+  .then((db) => db.collection('products').find({ _id: ObjectId(id) }).toArray())
+      .then((products) => products.map(serialize));
+
+  if (!getById) return null;
+
+  // Estava retornando assim
+  /*
+    [
+      {
+          "_id": "614385e90f63e3641d2b070d",
+          "name": "Produto 4",
+          "quantity": 50
+      }
+    ]
+
+  */
+
+  return getById[0];
+};
 
 const uptadeQuantityOfProduct = async (item, verb) => {
   const prodsCollection = await mongoConnection.getConnection()

@@ -32,7 +32,8 @@ function validationNameLength(name) {
 }
 
 async function validationIsNameRepeated(name) {
-  const products = await productsModel.getAllProdutcts();
+  const allProducts = await productsModel.getAllProdutcts();
+  const { products } = allProducts;
   const isUsed = products.find((product) => product.name === name);
   if (isUsed) {
     return NAME_ALREADY_EXISTS_MESSAGE;
@@ -50,7 +51,7 @@ async function validationNameByPut(name, id) {
   const validation = await validationIsNameRepeated(name);
   if (validation) {
     const getProductById = await productsModel.getProductById(id);
-    const nameCurrentltProduct = getProductById[0].name;
+    const nameCurrentltProduct = getProductById.name;
     if (nameCurrentltProduct !== name) return validationIsNameRepeated(name);
     return false;
   }
@@ -106,7 +107,7 @@ function validationsQuantityInsertProduct(quantity) {
 async function getItemById(id, item) {
   if (item === 'products') {
     const getProductById = await productsModel.getProductById(id);
-    if (getProductById.length === 0) return WRONG_ID_FORMAT_MESSAGE;
+    if (!getProductById) return WRONG_ID_FORMAT_MESSAGE;
     return getProductById;
   }
 
@@ -163,8 +164,9 @@ function validatioQuantitySale(sale) {
 }
 
 async function productIdValidationSales(sale) {
-  const productsDB = await productsModel.getAllProdutcts();
-  const arrayProductIdDB = productsDB.map(({ _id }) => _id.toString());
+  const allProducts = await productsModel.getAllProdutcts();
+  const { products } = allProducts;
+  const arrayProductIdDB = products.map(({ _id }) => _id.toString());
   const arraySaleIdTypeds = sale.map(({ productId }) => productId);
   const find = findIdExisting(arraySaleIdTypeds, arrayProductIdDB);
   if (!find) {
@@ -187,11 +189,12 @@ function testNegativeQuantity(id, qtd, getProductsDB) {
 }
 
 async function validateUpdateProductsQuantitys(sale, verb) {
-  const getProductsDB = await productsModel.getAllProdutcts();
+  const allProducts = await productsModel.getAllProdutcts();
+  const { products } = allProducts;
   if (verb === 'post' || verb === 'put') {
     const arrayGetToPossiblesNegativeQuantitys = sale
     .map(({ productId, quantity }) => {
-      const testeAmountProduct = testNegativeQuantity(productId, quantity, getProductsDB);
+      const testeAmountProduct = testNegativeQuantity(productId, quantity, products);
       return testeAmountProduct;
     });
 
