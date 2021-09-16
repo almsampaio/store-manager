@@ -12,6 +12,9 @@ const formatGetResponse = (response) => {
 };
 
 const createProduct = async ({ name, quantity }) => {
+  const validationFormatInputsProducts = validations.validationFormatInputsProducts(name, quantity);
+  if (validationFormatInputsProducts) return validationFormatInputsProducts;
+
   const validationsName = await validations.validationsNameProduct('post', name);
   if (validationsName) return validationsName;
 

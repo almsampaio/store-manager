@@ -21,7 +21,7 @@ const createSale = async (inputSale) => {
     const ret = await SalesCollection
     .insertOne({ itensSold: inputSale }).then((r) => r.ops[0]);
 
-  productsModel.uptadeQuantityOfProduct(inputSale);
+  productsModel.uptadeQuantityOfProduct(inputSale, 'post');
 
   return ret;
 };
@@ -33,22 +33,35 @@ const putSales = async (arraySalesToUpdate, id) => {
   const upt = await SalesCollection
   .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: arraySalesToUpdate } });
 
-  productsModel.uptadeQuantityOfProduct(arraySalesToUpdate, id);
+  productsModel.uptadeQuantityOfProduct(arraySalesToUpdate, 'put');
 
   // const getP = await productsModel.getAllProdutcts();
   // console.log('Depois Allproducts', getP);
 
   // console.log(upt);
 
-  if (upt) {
+  if (!upt) return null;
+
  return {
     _id: id,
     itensSold: arraySalesToUpdate,
 
   };
-}
+};
 
-  return null;
+const deleteSales = async (id) => {
+  const SalesCollection = await salesCollection();
+  // const getP1 = await productsModel.getAllProdutcts();
+  // console.log('AAAAAAAAAAAAantes Allproducts', getP1);
+
+  const saleWillBeDeleted = await getSaleById(id);
+  const dlt = await SalesCollection.deleteOne({ _id: ObjectId(id) });
+
+  if (!dlt) return null;
+
+  productsModel.uptadeQuantityOfProduct(saleWillBeDeleted, 'delete');
+
+  return saleWillBeDeleted;
 };
 
 module.exports = {
@@ -56,4 +69,5 @@ module.exports = {
   getAllSales,
   createSale,
   putSales,
+  deleteSales,
 };

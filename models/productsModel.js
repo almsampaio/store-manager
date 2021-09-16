@@ -17,21 +17,21 @@ const getProductById = async (id) => mongoConnection.getConnection()
       .then((db) => db.collection('products').find({ _id: ObjectId(id) }).toArray())
           .then((products) => products.map(serialize));
 
-const uptadeQuantityOfProduct = async (item) => {
+const uptadeQuantityOfProduct = async (item, verb) => {
   const prodsCollection = await mongoConnection.getConnection()
   .then((db) => db.collection('products'));
-
-  console.log('item que modifica os quantitys dos produtos', item);
-  const gp1 = await getAllProdutcts();
-  console.log('productsAntes', gp1);
-
+  if (verb === 'delete') {
+    const { itensSold } = item[0];
+    itensSold.forEach(async (element) => {
+      await prodsCollection
+      .updateOne({ _id: ObjectId(element.productId) }, { $inc: { quantity: +element.quantity } });
+    });
+    return null;
+  }
   item.forEach(async (element) => {
     await prodsCollection
     .updateOne({ _id: ObjectId(element.productId) }, { $inc: { quantity: -element.quantity } });
   });
-
-  const gp2 = await getAllProdutcts();
-  console.log('depois', gp2);
 
   return null;
 };

@@ -71,26 +71,19 @@ const putSales = async (arraySalesToUpdate, id) => {
   .validateUpdateProductsQuantitys(newArraySale, 'put');
   if (validateUpdateProductsQuantitys) return validateUpdateProductsQuantitys;
 
-  return salesModel.putSales(newArraySale, id);
-
-  // return formatGetResponse(productByURLID);
+  return salesModel.putSales(arraySalesToUpdate, id);
 };
 
-// const putProducts = async (id, name, quantity) => {
-//   const validationsName = await validations.validationsNameProduct('put', name, id);
-//   if (validationsName) return validationsName;
+const deleteSales = async (id) => {
+  const productByURLID = await validations.validateURLId(id, 'sales');
+  if (productByURLID.err) return productByURLID;
 
-//   const validationQuantity = await validations.validationsQuantityInsertProduct(quantity);
-//   if (validationQuantity) return validationQuantity;
-
-//   const productByURLID = await validations.validateURLId(id, 'products');
-//   if (productByURLID.err) return productByURLID;
-
-//   return productsModel.putProducts(id, name, quantity);
-// };
+  return salesModel.deleteSales(id);
+};
 
 module.exports = {
   createSale,
   getSales,
   putSales,
+  deleteSales,
 };

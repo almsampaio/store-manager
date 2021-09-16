@@ -62,6 +62,14 @@ const NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE = {
   status: 422,
 };
 
+const WRONG_SALE_ID_FORMAT_MESSAGE = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format',
+  },
+  status: 422,
+};
+
 module.exports = {
   WRONG_INPUT_FORMAT_MESSAGE,
   WRONG_NAME_LENGTH_MESSAGE,
@@ -71,4 +79,5 @@ module.exports = {
   WRONG_ID_FORMAT_MESSAGE,
   WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE,
   NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE,
+  WRONG_SALE_ID_FORMAT_MESSAGE,
 };

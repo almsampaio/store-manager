@@ -10,6 +10,7 @@ const {
   WRONG_ID_FORMAT_MESSAGE,
   WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE,
   NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE,
+  WRONG_SALE_ID_FORMAT_MESSAGE,
 } = require('./objectsMessagesErros');
 
 function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
@@ -22,8 +23,8 @@ function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
   return find;
 }
 
-function validationFormatInputsProducts(product) {
-  if (!product.name || !product.quantity) {
+function validationFormatInputsProducts(name, quantity) {
+  if (!name || !quantity) {
     return WRONG_INPUT_FORMAT_MESSAGE;
   }
   return false;
@@ -116,7 +117,7 @@ async function getItemById(id, item) {
   }
 
   const getSaleById = await salesModel.getSaleById(id);
-    if (getSaleById.length === 0) return WRONG_ID_FORMAT_MESSAGE;
+    if (getSaleById.length === 0) return WRONG_SALE_ID_FORMAT_MESSAGE;
   return getSaleById;
 }
 
@@ -167,17 +168,7 @@ async function productIdValidationSales(sale) {
   return false;
 }
 
-function testNegativeQuantity(id, qtd, getProductsDB, verb) {
-  if (verb === 'post') {
-    const productToUpdate = getProductsDB.map(({ _id, name, quantity }) => (
-      { idProduct: _id.toString(), name, quantity }))
-      .find((el) => el.idProduct === id);
-    const subtract = productToUpdate.quantity - qtd;
-    if (subtract < 0) {
-      return NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE;
-    }
-  }
-
+function testNegativeQuantity(id, qtd, getProductsDB) {
   const productToUpdate = getProductsDB.map(({ _id, name, quantity }) => (
     { idProduct: _id.toString(), name, quantity }))
     .find((el) => el.idProduct === id);
@@ -195,7 +186,7 @@ async function validateUpdateProductsQuantitys(sale, verb) {
   if (verb === 'post' || verb === 'put') {
     const arrayGetToPossiblesNegativeQuantitys = sale
     .map(({ productId, quantity }) => {
-      const testeAmountProduct = testNegativeQuantity(productId, quantity, getProductsDB, verb);
+      const testeAmountProduct = testNegativeQuantity(productId, quantity, getProductsDB);
       return testeAmountProduct;
     });
 
