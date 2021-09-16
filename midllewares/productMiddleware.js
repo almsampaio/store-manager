@@ -25,4 +25,4 @@ const validate = async (req, res, next) => {
   res.status(422).json(isNameValid || isQuantitvalid);
 };
 
-module.exports = { validate/* , messageErro */ };
+module.exports = { validate, messageErro };

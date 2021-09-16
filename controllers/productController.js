@@ -8,16 +8,16 @@ const createProduct = async (req, res) => {
 };
 
 const findAllProducts = async (_req, res) => {
-  const allProducts = await await productService.findAllProducts();
+  const allProducts = await productService.findAllProducts();
 
   return res.status(200).json(allProducts);
 };
 
-// const findOneProduct = async (req, res) => {
-//   const { id } = req.params;
-//   const product = await productService.findOneProduct(id);
+const findOneProduct = async (req, res) => {
+  const { id } = req.params;
+  const product = await productService.findOneProduct(id);
 
-//   return res.status(200).json(product);
-// };
+  return res.status(200).json(product);
+};
 
-module.exports = { createProduct, findAllProducts/* , findOneProduct */ };
+module.exports = { createProduct, findAllProducts, findOneProduct };
