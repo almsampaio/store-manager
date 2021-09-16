@@ -27,3 +27,12 @@ exports.createSale = async (req, res) => {
 
   res.status(200).json(sale);
 };
+
+exports.updateSale = async (req, res) => {
+  const { id } = req.params;
+  const [toUpdate] = req.body;
+
+  const updatedSale = await saleService.update(id, toUpdate.productId, toUpdate.quantity);
+
+  res.status(200).json(updatedSale);
+};

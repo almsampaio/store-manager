@@ -31,3 +31,13 @@ exports.getById = async (id) => {
 
   return { sale };
 };
+
+exports.update = async (id, productId, newQuantity) => {
+  const sale = await Sale.updateSale(id, productId, newQuantity);
+
+  if (sale === null) {
+    return { message: 'Wrong product ID or invalid quantity', code: 'invalid_data' }; 
+  }
+
+  return sale;
+};

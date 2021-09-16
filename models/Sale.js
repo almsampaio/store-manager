@@ -21,6 +21,29 @@ exports.getById = async (id) => {
   return sale;
 };
 
+exports.updateSale = async (id, productId, newQuantity) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await connection();
+
+  const { result } = await db
+    .collection(COLLECTION)
+    .updateOne(
+      { _id: ObjectId(id) },
+      { $set: { 'itensSold.$[elemento].quantity': newQuantity } },
+      { arrayFilters: [{ 'elemento.productId': productId }] },
+    );
+
+  if (result.ok) {
+    return {
+      _id: id,
+      itensSold: [{ productId, quantity: newQuantity }],
+    };
+  }
+
+  return null;
+};
+
 exports.createSale = async (salesArr) => {
   const db = await connection();
 
