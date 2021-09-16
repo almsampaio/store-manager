@@ -28,6 +28,7 @@ app.post('/sales', salesValidateQuantity, salesController.create);
 app.get('/sales', salesController.getAll);
 app.get('/sales/:id', salesController.getById);
 app.put('/sales/:id', salesValidateQuantity, salesController.update);
+app.delete('/sales/:id', salesController.exclude);
 
 app.listen(3000, () => {
   console.log('#vqv app rodando na 3000');
