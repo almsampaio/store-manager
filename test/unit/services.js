@@ -991,7 +991,7 @@ describe.only('Testando a função `getById` do service SalesService', () => {
   const ID_EXAMPLE = '604cb554311d68f491ba5781';
   const ERROR = {
     err: {
-      code: 'not_fount',
+      code: 'not_found',
       message: 'Sale not found',
     }
   }
@@ -1085,7 +1085,7 @@ describe.only('Testando a função `getById` do service SalesService', () => {
 
       const { itensSold } = response;
 
-      expect(itensSold).to.be.an('array').that.is.not.empty();
+     expect(itensSold).to.be.an('array').that.is.not.empty;
     });
 
     it('os elementos do array `itensSold` possuem as keys `productId` e `quantity`', async () => {

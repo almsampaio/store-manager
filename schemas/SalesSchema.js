@@ -1,32 +1,15 @@
-// const SalesModel = require('../models/SalesModel');
-// const ProductModel = require('../models/ProductModel');
 const ProductSchema = require('./ProductSchema');
 
 const messageErrors = {
   bodyIsNotArray: 'body must be an array',
   invalidQuantityOrProductID: 'Wrong product ID or invalid quantity',
+  saleNotFound: 'Sale not found',
 };
 
 const codeErrors = {
   invalidData: 'invalid_data',
+  notFound: 'not_found',
 };
-
-// const arraySales = {
-//   itensSold: [
-//     { 
-//       productId: '614116aa8ef1e8004d2e3d7a',
-//       quantity: 5,
-//     },
-//     {
-//       productId: '1',
-//       quantity: 5,
-//     },
-//     {
-//       productId: '614117088ef1e8004d2e3d7b',
-//       quantity: 5,
-//     },
-//   ],
-// };
 
 const quantityValidate = ({ quantity }) => typeof quantity !== 'number' || quantity <= 0;
 
@@ -61,8 +44,18 @@ const validate = async (itensSold) => {
   return {};
 };
 
-// validate(arraySales).then((data) => console.log(data));
+const saleNotFound = (sale) => {
+  if (!sale) {
+    return { err: { 
+      code: codeErrors.notFound,
+      message: messageErrors.saleNotFound,
+    },
+  };
+  }
+  return {};
+};
 
 module.exports = {
   validate,
+  saleNotFound,
 };
