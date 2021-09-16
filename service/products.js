@@ -51,8 +51,21 @@ const findProductId = async (id) => {
   return product;
 };
 
+const updateProduct = async (id, name, quantity) => {
+  const { error } = validateProduct.validate({ name, quantity });
+
+  if (error) {
+    const { message } = error.details[0];
+    throw util(message, 'invalid_data', 422);
+  }
+
+  const value = await productModel.updateProduct(id, name, quantity);
+  return value;
+};
+
 module.exports = {
   createProduct,
   findProducts,
   findProductId,
+  updateProduct,
 };

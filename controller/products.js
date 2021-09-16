@@ -24,8 +24,18 @@ const findProductId = rescue(
   },
 );
 
+const updateProduct = rescue(
+  async (req, res) => {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const update = await serviceProdut.updateProduct(id, name, quantity);
+    return res.status(200).json(update);
+  },
+);
+
 module.exports = {
   createProduct,
   findProducts,
   findProductId,
+  updateProduct,
 };
