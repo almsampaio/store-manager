@@ -909,7 +909,7 @@ describe('Testando a função `create` do service SalesService', () => {
 
 // getAll SALES
 
-describe.only('Testando a função getAll do service SalesService' ,() => {
+describe('Testando a função getAll do service SalesService' ,() => {
   describe('quanto não existe nenhuma venda cadastrada' ,() => {
     before(() => {
       sinon.stub(SalesModel, 'getAll')

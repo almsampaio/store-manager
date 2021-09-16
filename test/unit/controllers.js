@@ -565,3 +565,93 @@ describe('Testando a função `create` do controller SalesController', () => {
     });
   });
 });
+
+// getAll Sales
+
+describe.only('Testando a função getAll do controller SalesController', () => {
+  describe('quando não existe vendas no banco de dados', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      request.body = {};
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(SalesService, 'getAll').returns({ sales: [] });
+    });
+
+    after(() => {
+      SalesService.getAll.restore();
+    });
+
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
+      await SalesController.getAll(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando um objeto como parâmetro', async () => {
+      await SalesController.getAll(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando o objeto "products", com um array vazia, como parâmetro', async () => {
+      await SalesController.getAll(request, response);
+
+      expect(response.json.calledWith({ sales: [] })).to.be.equal(true);
+    });
+
+  });
+
+  describe('quando existem vendas no banco de dados', () => {
+    const request = {};
+    const response = {};
+    const sales = {
+      sales: [
+        {
+          _id: '604cb554311d68f491ba5781',
+          itensSold: [
+            { 
+              productId: '904cb554311d68f491ba5789',
+              quantity: 100,
+            }
+          ]
+        },
+      ]
+    };
+
+    before(() => {
+      request.body = {};
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      
+      sinon.stub(SalesService, 'getAll').resolves(sales);
+    });
+
+    after(() => {
+      SalesService.getAll.restore();
+    });
+
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
+      await SalesController.getAll(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando um objeto como parâmetro', async () => {
+      await SalesController.getAll(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando o objeto vendas como parâmetro, contendo a lista de vendas', async () => {
+      await SalesController.getAll(request, response);
+
+      expect(response.json.calledWith(sales)).to.be.equal(true);
+    });
+  });
+});
