@@ -23,11 +23,12 @@ const add = async (sale) => {
 
 const update = async (id, sale) => {
   if (!ObjectId.isValid(id)) return null;
-  
+
   const db = await getConnection();
   const updateSale = await db.collection('sales')
     .updateOne({ _id: ObjectId(id) }, { $set: { sale } });
-  return { id: updateSale.insertedId, itensSold: sale };
+  
+    return { id: updateSale.insertedId, itensSold: sale };
 };
 
 module.exports = {

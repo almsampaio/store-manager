@@ -13,7 +13,7 @@ const getById = async (req, res) => {
 
   if (!sale) {
     return res.status(404).json({ err: 
-      { message: 'Sale not found', code: 'invalid_data' },
+      { message: 'Sale not found', code: 'not_found' },
     });
   }
 
@@ -25,7 +25,7 @@ const add = async (req, res) => {
 
   if (addSales.err) return res.status(422).json(addSales);
   
-  return res.status(201).json(addSales);
+  return res.status(200).json(addSales);
 };
 
 const update = async (req, res) => {
@@ -35,4 +35,14 @@ const update = async (req, res) => {
   return res.status(200).json(updateSale);
 };
 
-module.exports = { getAll, getById, add, update };
+const remove = async (req, res) => {
+  const { id } = req.params;
+
+  const removeSale = await services.remove(id);
+
+  if (removeSale.err) return res.status(404).json(removeSale);
+
+  return res.status(200).json(removeSale);
+};
+
+module.exports = { getAll, getById, add, update, remove };

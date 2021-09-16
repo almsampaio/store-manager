@@ -1,3 +1,4 @@
+// validation products
 const validateName = (req, res, next) => {
   const { name } = req.body;
 
@@ -39,8 +40,9 @@ const validateQuantity = (req, res, next) => {
   next();
 };
 
+// validation sales
 const validateQuantitySales = (req, res, next) => {
-  const { sales } = req.body;
+  const sales = req.body;
 
   sales.forEach((sale) => {
     if (sale.quantity <= 0 || typeof (sale.quantity) === 'string') {
