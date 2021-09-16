@@ -61,7 +61,7 @@ const deleteSales = async (id) => {
 
   productsModel.uptadeQuantityOfProduct(saleWillBeDeleted, 'delete');
 
-  return saleWillBeDeleted;
+  return saleWillBeDeleted[0];
 };
 
 module.exports = {

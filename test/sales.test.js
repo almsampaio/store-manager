@@ -318,6 +318,7 @@ describe('6 - Crie um endpoint para listar as vendas', () => {
       .then((responseOne) => {
         const { body } = responseOne;
         const responseAll = JSON.parse(body);
+        console.log('teeeeeeste', responseAll);
         const idSales = responseAll.sales[0]._id;
         const idFirstProductSales = responseAll.sales[0].itensSold[0].productId;
         const quantityFirstProductSales = responseAll.sales[0].itensSold[0].quantity;
@@ -697,7 +698,7 @@ describe.skip('9 - Atualize a quantidade de produtos', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que é possível a quantidade do produto atualize ao fazer uma compra', async () => {
+  it('Será validado que é possível a quantidade do produto atualize ao fazer uma compra', async () => {
     let result;
     let responseProductId;
 
@@ -730,7 +731,7 @@ describe.skip('9 - Atualize a quantidade de produtos', () => {
       });
   });
 
-  it.skip('Será validado que é possível a quantidade do produto atualize ao deletar uma compra', async () => {
+  it('Será validado que é possível a quantidade do produto atualize ao deletar uma compra', async () => {
     let result;
     let resultSales;
     let responseProductId;
@@ -807,7 +808,7 @@ describe.skip('10 - Valida a quantidade de produtos', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que o estoque do produto nunca fique com a quantidade menor que zero', async () => {
+  it('Será validado que o estoque do produto nunca fique com a quantidade menor que zero', async () => {
     let result;
     let responseProductId;
 

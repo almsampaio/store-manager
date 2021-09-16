@@ -117,7 +117,18 @@ async function getItemById(id, item) {
 
 async function validateURLId(id, item) {
   if (!ObjectId.isValid(id) || !id) {
-    return WRONG_ID_FORMAT_MESSAGE;
+    let objMessageError;
+    switch (item) {
+      case 'products':
+        objMessageError = WRONG_ID_FORMAT_MESSAGE;
+        break;
+      case 'sales':
+        objMessageError = WRONG_SALE_ID_FORMAT_MESSAGE;
+        break;
+      default:
+        objMessageError = WRONG_ID_FORMAT_MESSAGE;
+    }
+    return objMessageError;
   }
 
   return getItemById(id, item);
