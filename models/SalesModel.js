@@ -17,7 +17,6 @@ const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connect();
   const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
-  console.log('model', sale);
   return sale;
 };
 

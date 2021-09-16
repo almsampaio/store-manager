@@ -1,7 +1,6 @@
 const salesService = require('../services/salesService');
 
 const create = async (req, res) => {
-  //  const { product } = await productModel.findSales(req.body);
   const sales = await salesService.create(req.body);
   res.status(200).json(sales);
 };
@@ -14,7 +13,6 @@ const getAll = async (_req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
   const sale = await salesService.getById(id);
-  console.log(sale);
   if (!sale) {
     return res.status(404).json({
       err: {

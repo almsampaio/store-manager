@@ -6,6 +6,7 @@ const {
   validateName,
   validateQuantity,
 } = require('./middlewares/productsMiddlewares');
+const { salesValidateQuantity } = require('./middlewares/salesMiddlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -23,7 +24,7 @@ app.put('/products/:id', validateName, validateQuantity, productController.updat
 app.delete('/products/:id', productController.exclude);
 
 // Sales
-app.post('/sales', salesController.create);
+app.post('/sales', salesValidateQuantity, salesController.create);
 app.get('/sales', salesController.getAll);
 app.get('/sales/:id', salesController.getById);
 
