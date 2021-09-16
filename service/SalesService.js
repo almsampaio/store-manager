@@ -51,8 +51,9 @@ const getSaleByIdService = async (id) => {
 };
 
 const deleteSaleService = async (id) => {
-    if (!ObjectId.isValid(id)) return 'ID_NOT_EXISTS';
+    if (!ObjectId.isValid(id)) return 'WRONG_ID_FORMAT';
     const deletedsale = await salesModel.deleteSaleModel(id);
+    if (deletedsale === null) return 'ID_NOT_EXISTS';
     return deletedsale;
 };
 

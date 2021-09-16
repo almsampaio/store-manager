@@ -37,8 +37,11 @@ const deleteSaleController = async (req, res) => {
     const { id } = req.params;
     const deletedSale = await salesService.deleteSaleService(id);
  
+    if (deletedSale === 'WRONG_ID_FORMAT') {
+        return res.status(422).json(SALE_ERR_STATUS_MESSAGE.WRONG_ID_FORMAT);
+    }
     if (deletedSale === 'ID_NOT_EXISTS') {
-        return res.status(422).json(SALE_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
+        return res.status(404).json(SALE_ERR_STATUS_MESSAGE.ID_NOT_EXISTS);
     }
      return res.status(200).json(deletedSale);
 };

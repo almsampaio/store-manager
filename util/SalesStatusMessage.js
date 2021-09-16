@@ -27,6 +27,12 @@ const SALE_ERR_STATUS_MESSAGE = {
             message: 'Sale not found',
         }, 
     },
+    WRONG_ID_FORMAT: { 
+        err: { 
+            code: 'invalid_data', 
+            message: 'Wrong sale ID format',
+        }, 
+    },
 };
 
 module.exports = SALE_ERR_STATUS_MESSAGE;
