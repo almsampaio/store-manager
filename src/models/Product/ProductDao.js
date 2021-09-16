@@ -1,4 +1,4 @@
-const { ObjectId } = require('bson');
+const { ObjectId } = require('mongodb');
 const Connection = require('../../config/databaseMongo');
 
 const getAll = async () => {
