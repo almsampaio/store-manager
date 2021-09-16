@@ -37,16 +37,20 @@ const getSales = async (req, res) => {
  };
 
  const putSales = async (req, res) => {
-  // const { id } = req.params;
-  // const saleArray = req.body;
-  // const sale = await salesService.putSales(saleArray, id);
-  // if (sale.err) {
-  //   const MESSAGE_ERROR_JSON = { err: sale.err };
-  //   if (sale.status === 422) {
-  //     return res.status(INVALID_NAME_STATUS_422).json(MESSAGE_ERROR_JSON);
-  //   }
-  // }
-  // return res.status(VALID_NAME_STATUS_200).json(sale);
+  const { id } = req.params;
+  const saleArray = req.body;
+
+  // console.log(id),
+  // console.log(saleArray);
+  const sale = await salesService.putSales(saleArray, id);
+  // console.log(sale);
+  if (sale.err) {
+    const MESSAGE_ERROR_JSON = { err: sale.err };
+    if (sale.status === 422) {
+      return res.status(INVALID_NAME_STATUS_422).json(MESSAGE_ERROR_JSON);
+    }
+  }
+  return res.status(VALID_NAME_STATUS_200).json(sale);
 };
 
  module.exports = {

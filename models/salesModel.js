@@ -26,8 +26,34 @@ const createSale = async (inputSale) => {
   return ret;
 };
 
+const putSales = async (arraySalesToUpdate, id) => {
+  const SalesCollection = await salesCollection();
+  // const getP1 = await productsModel.getAllProdutcts();
+  // console.log('AAAAAAAAAAAAantes Allproducts', getP1);
+  const upt = await SalesCollection
+  .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: arraySalesToUpdate } });
+
+  productsModel.uptadeQuantityOfProduct(arraySalesToUpdate, id);
+
+  // const getP = await productsModel.getAllProdutcts();
+  // console.log('Depois Allproducts', getP);
+
+  // console.log(upt);
+
+  if (upt) {
+ return {
+    _id: id,
+    itensSold: arraySalesToUpdate,
+
+  };
+}
+
+  return null;
+};
+
 module.exports = {
   getSaleById,
   getAllSales,
   createSale,
+  putSales,
 };

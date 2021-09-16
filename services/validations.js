@@ -146,7 +146,7 @@ function validationFormatInputSales(sale) {
   return false;
 }
 
-function validationsQuantityService(sale) {
+function validatioQuantitySale(sale) {
   const invalidQuantity = sale
   .find(({ quantity }) => typeof quantity === 'string' || quantity <= 0);
 
@@ -167,14 +167,26 @@ async function productIdValidationSales(sale) {
   return false;
 }
 
-function testNegativeQuantity(id, qtd, getProductsDB, _verb) {
+function testNegativeQuantity(id, qtd, getProductsDB, verb) {
+  if (verb === 'post') {
+    const productToUpdate = getProductsDB.map(({ _id, name, quantity }) => (
+      { idProduct: _id.toString(), name, quantity }))
+      .find((el) => el.idProduct === id);
+    const subtract = productToUpdate.quantity - qtd;
+    if (subtract < 0) {
+      return NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE;
+    }
+  }
+
   const productToUpdate = getProductsDB.map(({ _id, name, quantity }) => (
     { idProduct: _id.toString(), name, quantity }))
     .find((el) => el.idProduct === id);
+
   const subtract = productToUpdate.quantity - qtd;
   if (subtract < 0) {
     return NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE;
   }
+
   return false;
 }
 
@@ -204,34 +216,7 @@ module.exports = {
   validateURLId,
 
   validationFormatInputSales,
-  validationsQuantityService,
+  validatioQuantitySale,
   productIdValidationSales,
   validateUpdateProductsQuantitys,
 };
-
-// function validationsQuantityService(sale) {
-//   const invalidQuantity = sale
-//   .find(({ quantity }) => typeof quantity === 'string' || quantity <= 0);
-
-//   if (invalidQuantity) {
-//     return WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE;
-//   }
-//   return false;
-// }
-
-// async function validateUpdateProductsQuantitys(sale, verb) {
-//   const getProductsDB = await productsModel.getAllProdutcts();
-//   if (verb === 'post' || verb === 'put') {
-//     const arrayGetToPossiblesNegativeQuantitys = sale
-//     .map(({ productId, quantity }) => {
-//       const testeAmountProduct = testNegativeQuantity(productId, quantity, getProductsDB, verb);
-//       return testeAmountProduct;
-//     });
-
-//   const error = arrayGetToPossiblesNegativeQuantitys
-//     .find((element) => element !== false);
-
-//   if (error) return error;
-//   }
-//   return false;
-// }

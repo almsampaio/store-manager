@@ -14,7 +14,7 @@ const createSale = async (sale) => {
   const validationInputFormat = validations.validationFormatInputSales(sale);
   if (validationInputFormat) return validationInputFormat;
 
-  const validationQuantity = validations.validationsQuantityService(sale);
+  const validationQuantity = validations.validatioQuantitySale(sale);
   if (validationQuantity) return validationQuantity;
 
   const validationProductId = await validations.productIdValidationSales(sale);
@@ -39,13 +39,39 @@ const getSales = async (id) => {
   return formatGetResponse(productByURLID);
 };
 
+async function PutBodyFormatedQuantity(sale, id) {
+  const arrayWithDiferenceOldAndNewQuantity = [];
+
+  const oldArraySale = await salesModel.getSaleById(id);
+  const oldItensSold = oldArraySale[0].itensSold;
+
+  for (let i = 0; i < sale.length; i += 1) {
+  arrayWithDiferenceOldAndNewQuantity.push({
+    productId: sale[i].productId,
+    quantity: sale[i].quantity - oldItensSold[i].quantity,
+  });
+ }
+
+  return arrayWithDiferenceOldAndNewQuantity;
+}
+
 const putSales = async (arraySalesToUpdate, id) => {
-  const validationQuantity = validations.validationsQuantityService(arraySalesToUpdate);
-  
+  const validationQuantity = validations.validatioQuantitySale(arraySalesToUpdate);
   if (validationQuantity) return validationQuantity;
 
-  // const productByURLID = await validations.validateURLId(id, 'sales');
-  // if (productByURLID.err) return productByURLID;
+  const productByURLID = await validations.validateURLId(id, 'sales');
+  if (productByURLID.err) return productByURLID;
+
+  // const validationProductId = await validations.productIdValidationSales(arraySalesToUpdate);
+  // if (validationProductId) return validationProductId;
+
+  const newArraySale = await PutBodyFormatedQuantity(arraySalesToUpdate, id);
+
+  const validateUpdateProductsQuantitys = await validations
+  .validateUpdateProductsQuantitys(newArraySale, 'put');
+  if (validateUpdateProductsQuantitys) return validateUpdateProductsQuantitys;
+
+  return salesModel.putSales(newArraySale, id);
 
   // return formatGetResponse(productByURLID);
 };
