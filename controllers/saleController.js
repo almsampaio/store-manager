@@ -32,7 +32,15 @@ exports.updateSale = async (req, res) => {
   const { id } = req.params;
   const [toUpdate] = req.body;
 
-  const updatedSale = await saleService.update(id, toUpdate.productId, toUpdate.quantity);
+  const {
+    message,
+    code,
+    sale,
+  } = await saleService.update(id, toUpdate.productId, toUpdate.quantity);
 
-  res.status(200).json(updatedSale);
+  if (message) {
+    return res.status(422).json({ err: { code, message } });
+  }
+
+  res.status(200).json(sale);
 };

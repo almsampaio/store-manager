@@ -33,11 +33,18 @@ exports.getById = async (id) => {
 };
 
 exports.update = async (id, productId, newQuantity) => {
+  if (!validateSaleQuantity([{ productId, quantity: newQuantity }])) {
+    return {
+      message: 'Wrong product ID or invalid quantity',
+      code: 'invalid_data',
+    };
+  }
+
   const sale = await Sale.updateSale(id, productId, newQuantity);
 
   if (sale === null) {
     return { message: 'Wrong product ID or invalid quantity', code: 'invalid_data' }; 
   }
 
-  return sale;
+  return { sale };
 };
