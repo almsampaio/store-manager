@@ -6,6 +6,7 @@ const salesController = require('./controllers/salesController');
 const app = express();
 app.use(bodyParser.json());
 
+app.delete('/sales/:id', salesController.remove);
 app.put('/sales/:id', salesController.update);
 app.get('/sales/:id', salesController.find);
 app.get('/sales', salesController.getAll);
