@@ -1,5 +1,11 @@
 const SalesService = require('../services/SalesService');
 
+const getAll = async (_req, res) => {
+  const sales = await SalesService.getAll();
+
+  res.status(200).json(sales);
+};
+
 const create = async (req, res) => {
   const salesArray = req.body;
 
@@ -11,5 +17,6 @@ const create = async (req, res) => {
 };
 
 module.exports = { 
+  getAll,
   create,
 };
