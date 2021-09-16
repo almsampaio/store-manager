@@ -32,11 +32,11 @@ const getById = async (id) => {
 
   if (!ObjectId.isValid(id)) return null;
 
-  const sales = await salesCollection.findOne({ _id: ObjectId(id) });
+  const sale = await salesCollection.findOne({ _id: ObjectId(id) });
 
-  if (!sales) return null;
+  if (!sale) return null;
 
-  return { sales };
+  return sale;
 };
 
 module.exports = {

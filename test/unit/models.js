@@ -523,6 +523,20 @@ describe('Testando a função `getAll` do model SalesModel', () => {
       expect(firstSales).to.include.all.keys(['_id', 'itensSold'])
     });
 
+    // it('o array `itensSold` possui objetos com as keys `productId` e `quantity`', async () => {
+    //   const response = await SalesModel.getById(ID_EXAMPLE);
+
+    //   const { sales } = response;
+
+    //   const [firstElementArraySales] = sales;
+
+    //   const { itensSold } = firstElementArraySales;
+
+    //   const [firstElementArrayItensSold] = itensSold
+
+    //   expect(firstElementArrayItensSold).to.be.an('object').that.to.include.all.keys('productId', 'quantity');
+    // });
+
     it('o produto cadastrado está no array', async () => {
       const { sales }  = await SalesModel.getAll();
       const { productId, quantity } = sales[0].itensSold[0];
@@ -540,7 +554,7 @@ describe.only('Testando a função `getById` do model SalesModel', () => {
   const DB_NAME = 'StoreManager';
   const COLLECTION_NAME = 'sales';
 
-  const ID_EXAMPLE = '604cb554311d68f491ba5781';
+  const ID_EXAMPLE = '61421d0665c10eb507c91e30';
   const ID_EXAMPLE_INVALID = '1';
 
   before(async () => {
@@ -575,29 +589,15 @@ describe.only('Testando a função `getById` do model SalesModel', () => {
   });
 
   describe('quando existe uma venda para o ID informado', () => {
-    const SALES = {
-      sales: [
-        {
-          _id: ID_EXAMPLE,
-          itensSold: [
-            {
-              productId: '704cb554311d68f491ba5782',
-              quantity: 1,
-            },
-          ],
-        },
-      ],
-    };
 
     before(async () => {
       const moviesCollection = await connectionMock.collection(COLLECTION_NAME);
       await moviesCollection.insertOne({
-        sales: [
-          {
-            _id: ObjectId(ID_EXAMPLE),
-            itensSold: SALES.itensSold,
-          }
-        ]
+        _id: ObjectId(ID_EXAMPLE),
+        itensSold: [{
+          productId: '704cb554311d68f491ba5782',
+          quantity: 1,
+        }]
       });
     });
 
@@ -607,48 +607,28 @@ describe.only('Testando a função `getById` do model SalesModel', () => {
       expect(response).to.be.an('object');
     });
 
-    it('o objeto retornado possui o array não vazio `sales` ', async () => {
+    it('o objeto retornado possui as keys `_id` e `itensSold`', async () => {
       const response = await SalesModel.getById(ID_EXAMPLE);
 
-      const { sales } = response;
-
-      expect(sales).to.be.an('array').that.is.not.empty;
+      expect(response).to.include.all.keys('_id', 'itensSold');
     });
 
-    it('o array sales possui objetos com as keys `_id` e `itensSold`', async () => {
+    it('o objeto retornado possui o array não vazio `itensSold` ', async () => {
       const response = await SalesModel.getById(ID_EXAMPLE);
 
-      const { sales } = response;
-
-      [firstElementArraySales] = sales;
-
-      expect(firstElementArraySales).to.include.all.keys('_id', 'itensSold');
-    });
-
-    it('o objeto `itensSold` é um array não vazio', async () => {
-      const response = await SalesModel.getById(ID_EXAMPLE);
-
-      const { sales } = response;
-
-      [firstElementArraySales] = sales;
-
-      const { itensSold } = firstElementArraySales;
+      const { itensSold } = response;
 
       expect(itensSold).to.be.an('array').that.is.not.empty;
     });
 
-    it('o array `itensSold` possui objetos com as keys `productId` e `quantity`', async () => {
+    it('o array itensSold possui objetos com as keys `productId` e `quantity`', async () => {
       const response = await SalesModel.getById(ID_EXAMPLE);
 
-      const { sales } = response;
+      const { itensSold } = response;
 
-      const [firstElementArraySales] = sales;
+      [firstElementArrayItensSold] = itensSold;
 
-      const { itensSold } = firstElementArraySales;
-
-      const [firstElementArrayItensSold] = itensSold
-
-      expect(firstElementArrayItensSold).to.be.an('object').that.to.include.all.keys('productId', 'quantity');
+      expect(firstElementArrayItensSold).to.include.all.keys('productId', 'quantity');
     });
   });
 });
