@@ -14,6 +14,19 @@ const createSales = async (itens) => {
   return result;
 };
 
+const getOne = async (id) => {
+  const result = await salesModel.getOne(id);
+  if (!result) return errors.saleNotFound;
+  return result;
+};
+
+const getAll = async () => {
+  const result = await salesModel.getAll();
+  return result;
+};
+
 module.exports = {
   createSales,
+  getOne,
+  getAll,
 };

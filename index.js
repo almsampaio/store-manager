@@ -18,8 +18,8 @@ app.put('/products/:id', rescue(productController.updateOne));
 app.delete('/products/:id', rescue(productController.delOne));
 // sales
 app.post('/sales', rescue(salesController.createSales));
-// app.get('/sales/:id', salesController.getOne);
-// app.get('/sales/', salesController.getAll);
+app.get('/sales/:id', rescue(salesController.getOne));
+app.get('/sales/', rescue(salesController.getAll));
 // app.put('/sales/:id', salesController.updateOne);
 // app.delete('/sales/:id', salesController.delOne);
 
