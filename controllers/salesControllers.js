@@ -32,6 +32,7 @@ const update = async (req, res) => {
   const { id } = req.params;
 
   const updateSale = await model.update(id, req.body);
+
   return res.status(200).json(updateSale);
 };
 

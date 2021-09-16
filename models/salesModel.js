@@ -15,20 +15,21 @@ const getById = async (id) => {
   return product;
 };
 
-const add = async (sale) => {
+const add = async (itensSold) => {
   const db = await getConnection();
-  const addSale = await db.collection('sales').insertOne({ sale });
-  return { _id: addSale.insertedId, itensSold: sale };
+  const addSale = await db.collection('sales').insertOne({ itensSold });
+  return { _id: addSale.insertedId, itensSold };
 };
 
-const update = async (id, sale) => {
+const update = async (id, itensSold) => {
   if (!ObjectId.isValid(id)) return null;
 
   const db = await getConnection();
   const updateSale = await db.collection('sales')
-    .updateOne({ _id: ObjectId(id) }, { $set: { sale } });
+    .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+    console.log(updateSale);
   
-    return { id: updateSale.insertedId, itensSold: sale };
+    return { _id: id, itensSold };
 };
 
 module.exports = {
