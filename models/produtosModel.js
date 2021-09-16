@@ -24,7 +24,7 @@ const criarProduto = async (name, quantity) => {
 const atualizarProduto = async (id, name, quantity) => {
   const db = await conexao();
   await db.collection('products').updateOne(
-    { _id: ObjectId(id) }, { $set: { name, quantity } }
+    { _id: ObjectId(id) }, { $set: { name, quantity } },
   );
   return { _id: id, name, quantity };
 };

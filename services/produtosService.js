@@ -21,4 +21,4 @@ const criarProduto = async (name, quantity) => {
 
 module.exports = {
   criarProduto,
-}
+};
