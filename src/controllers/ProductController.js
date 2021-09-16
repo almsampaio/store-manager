@@ -41,8 +41,25 @@ const create = async (request, response) => {
   }
 };
 
+const update = async (request, response) => {
+  const { id } = request.params;
+  const { name, quantity } = request.body;
+
+  try {
+    const productUpdated = await ProductService.update(id, name, quantity);
+    return response.status(HTTP_STATUS_OK).json(productUpdated);
+  } catch (error) {
+    const err = {
+      code: 'invalid_data',
+      message: error.message,
+    };
+    return response.status(HTTP_STATUS_UNPROCESSABLE_ENTITY).json({ err });
+  }
+};
+
 module.exports = {
   listAll,
   findById,
   create,
+  update,
 };

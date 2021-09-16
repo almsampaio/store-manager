@@ -28,9 +28,24 @@ const create = async (product) => {
   return productSaved;
 };
 
+const update = async (id, product) => {
+  const { name, quantity } = product;
+  if (!ObjectId.isValid(id)) return null;
+
+  const mongo = await Connection();
+  const result = await mongo
+    .collection('products')
+    .replaceOne({ _id: ObjectId(id) }, { name, quantity });
+
+  const [productUpdated] = result.ops;
+
+  return productUpdated;
+};
+
 module.exports = {
   getAll,
   findById,
   findByName,
   create,
+  update,
 };

@@ -22,8 +22,14 @@ const register = async (name, quantity) => {
   return ProductDao.create(product);
 };
 
+const update = async (id, name, quantity) => {
+  const product = new ProductModel(name, quantity);
+  return ProductDao.update(id, product);
+};
+
 module.exports = {
   listAll,
   findById,
   register,
+  update,
 };

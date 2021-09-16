@@ -16,5 +16,6 @@ app.get('/', async (_request, response) => {
 app.get('/products/:id', ProductController.findById);
 app.get('/products', ProductController.listAll);
 app.post('/products', ProductController.create);
+app.put('/products/:id', ProductController.update);
 
 app.listen(SERVER_PORT);
