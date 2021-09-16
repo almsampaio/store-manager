@@ -19,8 +19,8 @@ module.exports = {
     return sales;
   },
 
-  async update(id, name, quantity) {
-    const updatedSale = await salesModel.update(id, name, quantity);
+  async update(id, itensSold) {
+    const updatedSale = await salesModel.update(id, itensSold);
 
     return updatedSale;
   },

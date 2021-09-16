@@ -25,9 +25,9 @@ module.exports = {
 
   async update(request, response) {
     const { id } = request.params;
-    const { name, quantity } = request.body;
+    const itensSold = request.body;
 
-    const updatedSale = await salesService.update(id, name, quantity);
+    const updatedSale = await salesService.update(id, itensSold);
 
     return response.status(200).json(updatedSale);
   },
