@@ -11,7 +11,7 @@ const create = async (req, res) => {
       code: 'invalid_data',
       message,
     },
-  }); 
+  });
 }
 
   return res.status(200).json(sales);
@@ -32,13 +32,29 @@ const find = async (req, res) => {
       code: 'not_found',
       message,
     },
-  }); 
+  });
 }
   return res.status(200).json(sale);
 };
+
+const update = async (req, res) => {
+  const { body } = req;
+  const { id } = req.params;
+
+  const { sale, message } = await salesService.update(id, body);
+  if (message) return res.status(422).json({
+    err: {
+      code: 'invalid_data',
+      message
+    }
+  })
+
+  return res.status(200).json(sale);
+}
 
 module.exports = {
   create,
   getAll,
   find,
+  update,
 };
