@@ -531,3 +531,124 @@ describe('Testando a função `getAll` do model SalesModel', () => {
     });
   });
 });
+
+// getById Sales
+
+describe.only('Testando a função `getById` do model SalesModel', () => {
+  const DBServer = new MongoMemoryServer();
+  let connectionMock;
+  const DB_NAME = 'StoreManager';
+  const COLLECTION_NAME = 'sales';
+
+  const ID_EXAMPLE = '604cb554311d68f491ba5781';
+  const ID_EXAMPLE_INVALID = '1';
+
+  before(async () => {
+    const URLMock = await DBServer.getUri();
+    connectionMock = await MongoClient
+     .connect(URLMock, {
+       useNewUrlParser: true,
+       useUnifiedTopology: true
+     })
+     .then((conn) => conn.db(DB_NAME));
+
+     sinon.stub(mongoConnection, 'getConnection')
+     .resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quando não existe uma venda para o ID informado ou ele é inválido', () => {
+    it('retorna `null` para ID válido inexistente', async () => {
+      const response = await SalesModel.getById(ID_EXAMPLE);
+
+      expect(response).to.be.equal(null);
+    });
+
+    it('retorna `null` para ID inválido', async () => {
+      const response = await SalesModel.getById(ID_EXAMPLE_INVALID);
+
+      expect(response).to.be.equal(null);
+    });
+  });
+
+  describe('quando existe uma venda para o ID informado', () => {
+    const SALES = {
+      sales: [
+        {
+          _id: ID_EXAMPLE,
+          itensSold: [
+            {
+              productId: '704cb554311d68f491ba5782',
+              quantity: 1,
+            },
+          ],
+        },
+      ],
+    };
+
+    before(async () => {
+      const moviesCollection = await connectionMock.collection(COLLECTION_NAME);
+      await moviesCollection.insertOne({
+        sales: [
+          {
+            _id: ObjectId(ID_EXAMPLE),
+            itensSold: SALES.itensSold,
+          }
+        ]
+      });
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await SalesModel.getById(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui o array não vazio `sales` ', async () => {
+      const response = await SalesModel.getById(ID_EXAMPLE);
+
+      const { sales } = response;
+
+      expect(sales).to.be.an('array').that.is.not.empty;
+    });
+
+    it('o array sales possui objetos com as keys `_id` e `itensSold`', async () => {
+      const response = await SalesModel.getById(ID_EXAMPLE);
+
+      const { sales } = response;
+
+      [firstElementArraySales] = sales;
+
+      expect(firstElementArraySales).to.include.all.keys('_id', 'itensSold');
+    });
+
+    it('o objeto `itensSold` é um array não vazio', async () => {
+      const response = await SalesModel.getById(ID_EXAMPLE);
+
+      const { sales } = response;
+
+      [firstElementArraySales] = sales;
+
+      const { itensSold } = firstElementArraySales;
+
+      expect(itensSold).to.be.an('array').that.is.not.empty;
+    });
+
+    it('o array `itensSold` possui objetos com as keys `productId` e `quantity`', async () => {
+      const response = await SalesModel.getById(ID_EXAMPLE);
+
+      const { sales } = response;
+
+      const [firstElementArraySales] = sales;
+
+      const { itensSold } = firstElementArraySales;
+
+      const [firstElementArrayItensSold] = itensSold
+
+      expect(firstElementArrayItensSold).to.be.an('object').that.to.include.all.keys('productId', 'quantity');
+    });
+  });
+});
