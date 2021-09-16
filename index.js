@@ -1,4 +1,18 @@
-// não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (_request, response) => {
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const ProductController = require('./src/controllers/ProductController');
+
+const { SERVER_PORT } = require('./src/config/server');
+
+const app = express();
+app.use(bodyParser.json());
+
+app.get('/', async (_request, response) => {
   response.send();
 });
+
+// Products
+app.post('/products', ProductController.create);
+
+app.listen(SERVER_PORT);
