@@ -1,11 +1,11 @@
-const { createProductModel, getByName } = require('../models');
+const productModel = require('../models/productModel');
 const {
   STATUS_UNPROCESSABLE_ENTITY,
   STATUS_CREATE,
 } = require('../utils/status');
 
-const createService = async (name, quantity) => {
-  const findOne = await getByName(name);
+const create = async (name, quantity) => {
+  const findOne = await productModel.getByName(name);
   if (findOne) {
     return {
       status: STATUS_UNPROCESSABLE_ENTITY,
@@ -18,11 +18,21 @@ const createService = async (name, quantity) => {
     };
   }
 
-  const createProduct = await createProductModel(name, quantity);
+  const product = await productModel.create(name, quantity);
   return {
     status: STATUS_CREATE,
-    message: createProduct,
+    message: product,
   };
 };
 
-module.exports = createService;
+const getAll = async () => {
+  const product = await productModel.getAll();
+  return product;
+};
+
+const getById = async (id) => {
+  const product = await productModel.getById(id);
+  return product;
+};
+
+module.exports = { create, getById, getAll };

@@ -1,16 +1,21 @@
-const createService = require('../services/productService');
+const productService = require('../services/productService');
+const { STATUS_OK } = require('../utils/status');
 
-const createProductController = async (req, res) => {
+const create = async (req, res) => {
   const { name, quantity } = req.body;
-  const create = await createService(name, quantity);
-  return res.status(create.status).json(create.message);
-};
-const getAllProducts = async (req, res) => {
-  const create = {
-    status: 200,
-    message: 'testando',
-  };
-  return res.status(create.status).json(create.message);
+  const product = await productService.create(name, quantity);
+  return res.status(product.status).json(product.message);
 };
 
-module.exports = { createProductController, getAllProducts };
+const getAll = async (_req, res) => {
+  const product = await productService.getAll();
+  return res.status(STATUS_OK).json({ products: product });
+};
+
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const product = await productService.getById(id);
+  return res.status(STATUS_OK).json(product);
+};
+
+module.exports = { create, getAll, getById };

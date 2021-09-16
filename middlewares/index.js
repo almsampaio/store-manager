@@ -1,3 +1,3 @@
-const { validName, validQuantity } = require('./productMid');
+const { validName, validQuantity, validId } = require('./productMid');
 
-module.exports = { validName, validQuantity };
+module.exports = { validName, validQuantity, validId };

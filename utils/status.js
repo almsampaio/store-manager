@@ -1,4 +1,5 @@
 module.exports = {
   STATUS_CREATE: 201,
+  STATUS_OK: 200,
   STATUS_UNPROCESSABLE_ENTITY: 422,
 };

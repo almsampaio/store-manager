@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { STATUS_UNPROCESSABLE_ENTITY } = require('../utils/status');
 
 const validName = (req, res, next) => {
@@ -34,7 +35,21 @@ const validQuantity = (req, res, next) => {
   next();
 };
 
+const validId = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(STATUS_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+  next();
+};
+
 module.exports = {
   validName,
   validQuantity,
+  validId,
 };
