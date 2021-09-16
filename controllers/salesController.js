@@ -34,9 +34,19 @@ const updateSales = async (req, res) => {
   res.status(200).json(sales);
 };
 
+const excludeSales = async (req, res) => {
+  const { id } = req.params;
+
+  const { sales, message, status } = await salesService.excludeSales(id);
+  if (!sales) return res.status(status).json(message);
+
+  res.status(200).json(sales);
+};
+
 module.exports = {
   addSale,
   listSales,
   listSaleId,
   updateSales,
+  excludeSales,
 };

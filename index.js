@@ -21,5 +21,8 @@ app.post('/sales', salesController.addSale);
 app.get('/sales', salesController.listSales);
 app.get('/sales/:id', salesController.listSaleId);
 app.put('/sales/:id', salesController.updateSales);
+app.delete('/sales/:id', salesController.excludeSales);
 
 app.listen(3000, () => console.log('Project Store Manager'));
+
+// obtive ajudar nos endpoints dos requisitos 3,4,5 do colega Rafael Ribeiro, agradeço pela paciência meu caro.

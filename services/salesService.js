@@ -3,6 +3,7 @@ const {
   salesValidations, 
   saleValidationNotExist, 
   SaleValidationPut,
+  saleExcludeValidation,
 } = require('../validations/saleValidations');
 
 const addSale = async (itensSold) => {
@@ -28,11 +29,21 @@ const listSaleId = async (id) => {
 };
 
 const updateSales = async (id, itensSold) => {
-  const validations = await SaleValidationPut(itensSold);
+  const validations = SaleValidationPut(itensSold);
   if (validations.message) return validations;
 
   const sales = await salesModel.updateSales(id, itensSold);
  
+  return { sales };
+};
+
+const excludeSales = async (id) => {
+  const validations = await saleExcludeValidation(id);
+  if (validations.message) return validations;
+  
+  const sales = await salesModel.listSaleId(id);
+  await salesModel.excludeSales(id);
+
   return { sales };
 };
 
@@ -41,4 +52,5 @@ module.exports = {
   listSales,
   listSaleId,
   updateSales,
+  excludeSales,
 };

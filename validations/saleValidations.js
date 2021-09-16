@@ -14,6 +14,13 @@ const quantityInvalid = {
     },
   };
 
+  const saleExclude = {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong sale ID format',
+    },
+  };
+
   const status = 422;
   const statusNotFound = 404;
 
@@ -29,6 +36,12 @@ const saleValidationNotExist = async (id) => {
   return {};
 };
 
+const saleExcludeValidation = async (id) => {
+  const productId = await listSaleId(id);
+  if (!productId) return { status, message: saleExclude };
+  return {};
+};
+
 const SaleValidationPut = ([{ quantity }]) => {
   console.log(quantity);
   if (quantity < 1) return { status, message: quantityInvalid };
@@ -40,4 +53,5 @@ module.exports = {
 salesValidations,
 saleValidationNotExist,
 SaleValidationPut,
+saleExcludeValidation,
 };
