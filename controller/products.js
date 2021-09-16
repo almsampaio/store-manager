@@ -9,6 +9,23 @@ const createProduct = rescue(
   },
 );
 
+const findProducts = rescue(
+  async (_req, res) => {
+    const products = await serviceProdut.findProducts();
+    return res.status(200).json({ products });
+  },
+);
+
+const findProductId = rescue(
+  async (req, res) => {
+    const { id } = req.params;
+    const products = await serviceProdut.findProductId(id);
+    return res.status(200).json(products);
+  },
+);
+
 module.exports = {
   createProduct,
+  findProducts,
+  findProductId,
 };

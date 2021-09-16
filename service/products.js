@@ -2,6 +2,8 @@ const joi = require('@hapi/joi');
 const productModel = require('../model/products');
 const util = require('../util');
 
+const validetionId = /[0-9a-z]{24}/;
+
 const validateProduct = joi.object({
   name: joi.string().min(5),
   quantity: joi.number().integer().min(1),
@@ -28,6 +30,29 @@ const createProduct = async (name, quantity) => {
   return value;
 };
 
+const findProducts = async () => {
+  const products = await productModel.findProducts();
+  return products;
+};
+
+const findProductId = async (id) => {
+  if (!validetionId.test(id)) {
+    throw util(
+      'Wrong id format',
+      'invalid_data',
+      422,
+    );
+  }
+
+  const product = await productModel.findProductId(id);
+
+  if (!product) throw util('Wrong id format', 'invalid_data', 422);
+
+  return product;
+};
+
 module.exports = {
   createProduct,
+  findProducts,
+  findProductId,
 };
