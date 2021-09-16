@@ -20,4 +20,16 @@ const getIdSales = async (_id) => {
   return findByIdSales;
 };
 
-module.exports = { createSale, getSales, getIdSales };
+const editSale = async (_id, itensSold) => {
+  // if (!ObjectId.isValid(_id)) return null;
+  const db = await connection();
+  const edit = db.collection('sales').updateOne(
+    {
+      _id: ObjectId(_id) }, 
+    { $set: { itensSold } },
+  );
+  console.log(edit);
+  return { _id, itensSold };
+};
+
+module.exports = { createSale, getSales, getIdSales, editSale };

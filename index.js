@@ -28,4 +28,6 @@ app.get('/sales', salesController.getSales);
 
 app.get('/sales/:_id', salesController.getIdSales);
 
+app.put('/sales/:_id', salesController.editSale);
+
 app.listen(3000, console.log(`aplicação rodando na porta ${3000}`));

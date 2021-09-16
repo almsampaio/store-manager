@@ -48,4 +48,12 @@ const getIdSales = async (_id) => {
   return findId;
 };
 
-module.exports = { createSale, getSales, getIdSales };
+const editSale = async (_id, itensSold) => {
+  const { quantity } = itensSold[0];
+  const ValidQuantity = isValidQuantity(quantity);
+  if (ValidQuantity.err) return ValidQuantity;
+  const edit = await modelSales.editSale(_id, itensSold);
+  return edit;
+};
+
+module.exports = { createSale, getSales, getIdSales, editSale };
