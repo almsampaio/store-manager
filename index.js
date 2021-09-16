@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParse = require('body-parser');
 const controllerProduct = require('./controller/products');
+const controllerSales = require('./controller/sales');
 
 const port = 3000;
 
@@ -17,6 +18,8 @@ app.get('/products/:id', controllerProduct.findProductId);
 app.put('/products/:id', controllerProduct.updateProduct);
 
 app.delete('/products/:id', controllerProduct.deleteProduct);
+
+app.post('/sales', controllerSales.createSale);
 
 app.use((err, _req, res, _next) => {
   const { message, code, status } = err;
