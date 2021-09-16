@@ -13,8 +13,19 @@ const find = async (id) => connection()
     .then((db) => db.collection('sales').findOne(new ObjectId(id)))
     .catch(() => null);
 
+const update = async (id, itensSold) => {
+  await connection()
+  .then((db) => db.collection('sales').updateOne({_id: ObjectId(id)}, {$set: {itensSold}}))
+  .then(result => result);
+
+  const updatedSale = await find(id);
+  return updatedSale;
+}
+
+
 module.exports = {
   create,
   getAll,
   find,
+  update,
 };
