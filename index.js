@@ -19,4 +19,6 @@ app.get('/products', productController.getAll);
 
 app.get('/products/:id', productController.getById);
 
+app.put('/products/:id', productController.update);
+
 app.listen(PORT, () => console.log(`O pai tá ON na Porta ${PORT}`));
