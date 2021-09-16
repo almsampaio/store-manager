@@ -1,4 +1,5 @@
 const { ObjectId } = require('mongodb');
+const Db = require('mongodb/lib/db');
 const salesModel = require('../model/SalesModel');
 const { getProductByIdService } = require('./ProductsService');
 
@@ -56,9 +57,14 @@ const deleteSaleService = async (id) => {
 };
 
 const updateSaleService = async (id, productId, quantity) => {
-    if (quantity <= 0 || typeof (quantity) !== 'number') return 'ERR_QTY';
+    if (
+        !ObjectId.isValid(productId)
+        || quantity <= 0 
+        || typeof (quantity) !== 'number'
+        ) return 'ERR_QTY';
 
     const updatedSale = await salesModel.updateSaleModel(id, productId, quantity);
+    
     return updatedSale;
 };
 

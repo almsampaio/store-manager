@@ -35,13 +35,17 @@ const updateSaleModel = async (id, productId, quantity) => {
     const objId = ObjectId(id);    
     const objProdId = ObjectId(productId);
     const db = await connection();
-    const result = await db.collection('sales').updateOne(
+    await db.collection('sales').updateOne(
         { _id: objId },
         { $set: { 'itensSold.$[elemento].quantity': quantity } },
         { arrayFilters: [{ 'elemento.productId': objProdId }] },
         );
     
-    return result;
+    const objectToResponse = {
+        _id: id,
+        itensSold: [{ productId, quantity }] };
+
+    return objectToResponse;
 };
 
 module.exports = { 
