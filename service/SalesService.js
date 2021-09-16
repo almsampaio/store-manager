@@ -28,7 +28,8 @@ const createSaleService = async (item) => {
     });
     
     if (isValid) {
-        const a = res.map(({ _id }, index) => (
+        const a = res
+          .map(({ _id }, index) => (
             { productId: _id, quantity: item[index].quantity }
             ));
         const result = await salesModel.createSalesModel(a);
@@ -55,7 +56,8 @@ const deleteSaleService = async (id) => {
 };
 
 const updateSaleService = async (id, productId, quantity) => {
-    if (quantity <= 0) return 'ERR_QTY';
+    if (quantity <= 0 || typeof (quantity) !== 'number') return 'ERR_QTY';
+
     const updatedSale = await salesModel.updateSaleModel(id, productId, quantity);
     return updatedSale;
 };

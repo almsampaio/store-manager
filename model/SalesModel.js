@@ -32,10 +32,15 @@ const deleteSaleModel = async (id) => {
 };
 
 const updateSaleModel = async (id, productId, quantity) => {
-    console.log(productId, quantity);
-    const objId = ObjectId(id);
+    const objId = ObjectId(id);    
+    const objProdId = ObjectId(productId);
     const db = await connection();
-    const result = db.collection('sales').findOne({ _id: objId });
+    const result = await db.collection('sales').updateOne(
+        { _id: objId },
+        { $set: { 'itensSold.$[elemento].quantity': quantity } },
+        { arrayFilters: [{ 'elemento.productId': objProdId }] },
+        );
+    
     return result;
 };
 
