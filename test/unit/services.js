@@ -987,7 +987,7 @@ describe('Testando a função getAll do service SalesService' ,() => {
 
 // getById Sales
 
-describe.only('Testando a função `getById` do service SalesService', () => {
+describe('Testando a função `getById` do service SalesService', () => {
   const ID_EXAMPLE = '604cb554311d68f491ba5781';
   const ERROR = {
     err: {

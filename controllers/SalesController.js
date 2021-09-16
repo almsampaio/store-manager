@@ -6,6 +6,16 @@ const getAll = async (_req, res) => {
   res.status(200).json(sales);
 };
 
+// const getById = async (req, res) => {
+//   const { id } = req.params;
+
+//   const product = await SalesService.getById(id);
+
+//   if (product.err) return res.status(404).json(product);
+
+//   res.status(200).json(product);
+// };
+
 const create = async (req, res) => {
   const salesArray = req.body;
 
@@ -18,5 +28,6 @@ const create = async (req, res) => {
 
 module.exports = { 
   getAll,
+  getById,
   create,
 };

@@ -19,11 +19,6 @@ const getById = async (id) => {
   const sale = await SalesModel.getById(id);
 
   if (SalesSchema.saleNotFound(sale).err) return SalesSchema.saleNotFound(sale);
-  // console.log(sale);
-
-  // if (ProductSchema.productNotFound(product).err) {
-  //   return ProductSchema.productNotFound(product);
-  // }
 
   return sale;
 };

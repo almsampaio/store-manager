@@ -655,3 +655,106 @@ describe('Testando a função getAll do controller SalesController', () => {
     });
   });
 });
+
+// getById Sales
+
+describe.only('Testando a função `getById` do controller SalesController', () => {
+  describe('quando não existem vendas no banco de dados', () => {
+    const request = {};
+    const response = {};
+
+    const SalesServicePayload = {
+      err: {
+        code: 'not_found',
+        message: 'Sale not found'
+      }
+    }
+
+    before(() => {
+      request.params = {
+        id: '604cb554311d68f491ba5781'
+      };
+
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(SalesService, 'getById')
+        .resolves(SalesServicePayload);
+    });
+
+    after(() => {
+      SalesService.getById.restore();
+    });
+
+    it('é chamado o método `status` passando 404 com o parâmetro', async () => {
+      await SalesController.getById(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando um objeto',async () => {
+      await SalesController.getById(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+
+    it('o objeto passado como parâmetro para o método `json` possui as keys `message` e `code`',async () => {
+      await SalesController.getById(request, response);
+
+      expect(response.json.calledWith(SalesServicePayload)).to.be.equal(true);
+    });
+  });
+
+  describe('quando existem produtos no banco de dados', () => {
+    const response = {};
+    const request = {};
+
+    const SalesServicePayload = {
+      _id: '604cb554311d68f491ba5781',
+      itensSold: [
+        { 
+          productId: '704cb554311d68f491ba5782',
+          quantity: 1,
+        }
+      ]
+    }
+
+    before(() => {
+      request.params = {
+        id: '604cb554311d68f491ba5781'
+      };
+
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+      
+      sinon.stub(SalesService, 'getById')
+        .resolves(SalesServicePayload);
+    });
+
+    after(() => {
+      SalesService.getById.restore();
+    });
+
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
+      await SalesController.getById(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando um objeto como parâmetro', async () => {
+      await SalesController.getById(request, response);
+
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+    });
+
+    it('o objeto passado como parâmetro para o método json possui as keys _id, name e quantity', async () => {
+      await SalesController.getById(request, response);
+
+      expect(response.json.calledWith(SalesServicePayload)).to.be.equal(true);
+    });
+  });
+});
