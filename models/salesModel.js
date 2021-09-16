@@ -22,10 +22,20 @@ const update = async (id, itensSold) => {
   return updatedSale;
 }
 
+const remove = async (id) => {
+  const sale = await find(id);
+
+  return connection()
+    .then((db) => db.collection('sales').deleteOne({_id: ObjectId(id)}))
+    .then(() => sale)
+    .catch(() => null);
+}
+
 
 module.exports = {
   create,
   getAll,
   find,
   update,
+  remove,
 };
