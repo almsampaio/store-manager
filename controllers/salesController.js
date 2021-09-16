@@ -1,7 +1,22 @@
 const salesService = require('../services/salesService');
 
 const OK = 200;
+const NOT_FOUND = 404;
 const UNPROCESSABLE_ENTITY = 422;
+
+const getAll = async (_req, res) => {
+  const sales = await salesService.getAll();
+  res.status(OK).json(sales);
+};
+
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const sale = await salesService.getById(id);
+  if (!sale.err) {
+    res.status(OK).json(sale);
+  }
+  return res.status(NOT_FOUND).json(sale);
+};
 
 const create = async (req, res) => {
   const sale = req.body;
@@ -13,4 +28,4 @@ const create = async (req, res) => {
   return res.status(UNPROCESSABLE_ENTITY).json(sales);
 };
 
-module.exports = { create };
+module.exports = { getAll, getById, create };

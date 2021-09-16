@@ -13,8 +13,10 @@ app.get('/', (_request, response) => {
   response.send();
 });
 app.get('/products', productsController.getAll);
+app.get('/sales', salesController.getAll);
 
 app.get('/products/:id', productsController.getById);
+app.get('/sales/:id', salesController.getById);
 
 app.put('/products/:id', productsController.updateProduct);
 
