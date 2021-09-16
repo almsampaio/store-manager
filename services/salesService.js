@@ -37,9 +37,21 @@ const update = async (id, products) => {
   return { sale };
 }
 
+const remove = async (id) => {
+  const saleExists = await salesModel.find(id);
+
+  if (!saleExists) return {
+    message: 'Wrong sale ID format'
+  }
+
+  const sale = await salesModel.remove(id);
+  return { sale };
+}
+
 module.exports = {
   create,
   getAll,
   find,
   update,
+  remove,
 };
