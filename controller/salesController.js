@@ -28,4 +28,11 @@ const editSale = async (req, res) => {
   return res.status(200).json({ _id, itensSold });
 };
 
-module.exports = { createSales, getSales, getIdSales, editSale };
+const deleteSale = async (req, res) => {
+  const { _id } = req.params;
+  const deletee = await salesService.deleteSale(_id);
+  if (deletee.err) return res.status(422).json(deletee);
+  res.status(200).json(deletee);
+};
+
+module.exports = { createSales, getSales, getIdSales, editSale, deleteSale };
