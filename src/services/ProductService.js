@@ -27,9 +27,16 @@ const update = async (id, name, quantity) => {
   return ProductDao.update(id, product);
 };
 
+const remove = async (id) => {
+  const product = await ProductDao.remove(id);
+  if (!product) throw new Error('Wrong id format');
+  return product;
+};
+
 module.exports = {
   listAll,
   findById,
   register,
   update,
+  remove,
 };

@@ -42,10 +42,21 @@ const update = async (id, product) => {
   return productUpdated;
 };
 
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const mongo = await Connection();
+  const result = await mongo.collection('products')
+    .deleteOne({ _id: ObjectId(id) });
+
+  return result;
+};
+
 module.exports = {
   getAll,
   findById,
   findByName,
   create,
   update,
+  remove,
 };

@@ -57,9 +57,25 @@ const update = async (request, response) => {
   }
 };
 
+const remove = async (request, response) => {
+  const { id } = request.params;
+
+  try {
+    const productDeleted = await ProductService.remove(id);
+    return response.status(HTTP_STATUS_OK).json(productDeleted);
+  } catch (error) {
+    const err = {
+      code: 'invalid_data',
+      message: error.message,
+    };
+    return response.status(HTTP_STATUS_UNPROCESSABLE_ENTITY).json({ err });
+  }
+};
+
 module.exports = {
   listAll,
   findById,
   create,
   update,
+  remove,
 };
