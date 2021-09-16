@@ -45,9 +45,21 @@ const update = async (id, itensSold) => {
   };
 };
 
+const deleteInfo = async (id) => {
+  const sale = await findById(id);
+
+  if (!sale) return null;
+
+  await connection()
+    .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }));
+
+  return sale;
+};
+
 module.exports = {
   getAll,
   create,
   findById,
   update,
+  deleteInfo,
 };
