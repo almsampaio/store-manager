@@ -14,7 +14,10 @@ const typeOfQuantityError = { err:
 };
 const productWithSameNameError = { err:
   { code: invalidData, message: 'Product already exists' },
-}; 
+};
+const wrongIdError = { err:
+  { code: invalidData, message: 'Wrong id format' },
+};
 
 const create = async (name, quantity) => {
   if (name.length < nameMinimumLength) return nameLengthError;
@@ -26,6 +29,16 @@ const create = async (name, quantity) => {
   return { product: insertedProduct };
 };
 
+const getAll = async () => productModel.getAll();
+
+const getById = async (id) => {
+ const productById = await productModel.getById(id);
+ if (!productById) return wrongIdError;
+ return { product: productById };
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };

@@ -15,4 +15,8 @@ app.get('/', (_request, response) => {
 
 app.post('/products', productController.create);
 
+app.get('/products', productController.getAll);
+
+app.get('/products/:id', productController.getById);
+
 app.listen(PORT, () => console.log(`O pai tá ON na Porta ${PORT}`));
