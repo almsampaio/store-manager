@@ -1,15 +1,6 @@
-const ObjectId = require('mongodb').ObjectID;
+// const ObjectId = require('mongodb').ObjectID;
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
-
-const getNewProduct = (productData) => {
-  const { _id, name, quantity } = productData;
-
-  return {
-    _id,
-    name,
-    quantity,
-  };
-};
 
 const getProductName = async (name) =>
   connection()
@@ -18,8 +9,8 @@ const getProductName = async (name) =>
 const createProduct = async (name, quantity) => 
   connection()
     .then((db) => db.collection('products').insertOne({ name, quantity })
-      .then((result) => getNewProduct({ _id: result.insertedId, name, quantity })));
-
+    .then((result) => result.ops[0]));
+    
 const getAll = async () =>
   connection()
     .then((db) => db.collection('products').find({}).toArray());
@@ -33,12 +24,10 @@ const getOne = async (id) => {
 
 const updateOne = async (id, name, quantity) => {
   if (!ObjectId.isValid(id)) return null;
-  const result = connection()
-    .then((db) => 
-      db.collection('products')
-        .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } })
-        .then(() => getNewProduct({ _id: id, name, quantity })));
-  return result;
+  connection().then((db) => 
+    db.collection('products')
+      .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
+  return { _id: id, name, quantity };
 };
 
 const delOne = async (id) => {

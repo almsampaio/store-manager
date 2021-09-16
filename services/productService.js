@@ -1,13 +1,15 @@
 const productModel = require('../models/productModel');
 const errors = require('../utils/errors');
 
-const verifyName = async (name) => {
+const verifyName = (name) => {
   const minLenghtName = 5;
   if (!name) throw errors.shortName;
   if (name.length < minLenghtName) throw errors.shortName;
+};
+
+const nameAlredyExist = async (name) => {
   const product = await productModel.getProductName(name);
-  const productExists = product.filter(({ name: prodName }) => prodName === name && prodName);
-  if (productExists.length > 0) throw errors.productAlreadyExists;
+  if (product.length) throw errors.productAlreadyExists;
 };
 
 const verifyQuantity = (quantity) => {
@@ -17,7 +19,8 @@ const verifyQuantity = (quantity) => {
   
 const createProduct = async (name, quantity) => {
   verifyQuantity(quantity);
-  await verifyName(name);
+  verifyName(name);
+  await nameAlredyExist(name);
   const result = await productModel.createProduct(name, quantity);
   return result;
 };

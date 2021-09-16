@@ -27,6 +27,12 @@ const wrongIdFormat = {
   message: 'Wrong id format',
   status: 422,
 };
+
+const wrongIdOrQuantity = {
+  code: 'invalid_data',
+  message: 'Wrong product ID or invalid quantity',
+  status: 422,
+};
 // const invalidEmail = {
 //   status: 400,
 //   message: '"email" must be a valid email',
@@ -113,6 +119,7 @@ module.exports = {
   shortQuantity,
   quantityMustBeNumber,
   wrongIdFormat,
+  wrongIdOrQuantity,
   // invalidEmail,
   // requiredEmail,
   // emailAlreadyRegistered,
