@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productController = require('./controllers/productController');
+const salesController = require('./controllers/salesController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,5 +16,7 @@ app.get('/products/:id', productController.listProductId);
 app.put('/products/:id', productController.updateProduct);
 app.delete('/products/:id', productController.excludeProduct);
 app.post('/products', productController.addProduct);
+
+app.post('/sales', salesController.addSale);
 
 app.listen(3000, () => console.log('Project Store Manager'));
