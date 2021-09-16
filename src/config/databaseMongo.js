@@ -3,7 +3,8 @@ const { MongoClient } = require('mongodb');
 const { MONGO_PORT } = require('./server');
 
 const DB_NAME = 'StoreManager';
-const URL = `mongodb://localhost:${MONGO_PORT}`;
+// const URL = `mongodb://localhost:${MONGO_PORT}`;
+const URL = `mongodb://mongodb:${MONGO_PORT}/StoreManager`;
 const optionsMongoClient = { useNewUrlParser: true, useUnifiedTopology: true };
 
 let database = null;
