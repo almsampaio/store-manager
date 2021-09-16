@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
-const messageErro = require('../utils/errosMsg');
+// const messageErro = require('../utils/errosMsg');
 
 const getAllProducts = async () =>
   connection().then((db) => db.collection('products').find().toArray());
@@ -13,8 +13,8 @@ const findAllProducts = async () =>
   connection().then((db) => db.collection('products').find().toArray());
 
 const findOneProduct = (id) => {
-  if (!ObjectId(id)) {
-    return messageErro.wrongIdFormat;
+  if (!ObjectId.isValid(id)) {
+    return null;
   }
   
   return connection().then((db) =>
