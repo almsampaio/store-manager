@@ -6,8 +6,9 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/products', productController.getAllProducts);
-app.post('/products', productController.createProduct);
 app.get('/products/:id', productController.getProductById);
+app.post('/products', productController.createProduct);
+app.put('/products/:id', productController.updateProduct);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

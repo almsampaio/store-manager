@@ -14,7 +14,7 @@ const getAll = async () => {
 };
 
 const getId = async (id) => {
-    const db = await connectionDB.connect();
+    const db = await connectionDB();
     const product = await db.collection('products').findOne({ _id: ObjectId(id) });
     return product;
 };
@@ -25,7 +25,11 @@ const add = async (name, quantity) => {
     return { _id: product.insertedId, name, quantity };
 };
 
-const update = async () => {};
+const update = async (id, name, quantity) => {
+    const db = await connectionDB();
+    await db.collection('products').updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+    return { _id: id, name, quantity };
+};
 
 const exclude = async () => {};
 

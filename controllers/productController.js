@@ -21,12 +21,23 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
     const { name, quantity } = req.body;
-    const createMSG = await productService.validateName(name, quantity);
+    const responseMSG = await productService.addValidation(name, quantity);
 
-    if (typeof (createMSG) === 'string') {
-        return res.status(status.UNPROCESSABLE_ENTITY).json(generalError.error(createMSG));
+    if (typeof (responseMSG) === 'string') {
+        return res.status(status.UNPROCESSABLE_ENTITY).json(generalError.error(responseMSG));
     } 
-        return res.status(status.CREATED).json(createMSG);
+        return res.status(status.CREATED).json(responseMSG);
 };
 
-module.exports = { getAllProducts, createProduct, getProductById }; 
+const updateProduct = async (req, res) => {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const responseMSG = await productService.updateValidation(id, name, quantity);
+
+    if (typeof (responseMSG) === 'string') {
+        return res.status(status.UNPROCESSABLE_ENTITY).json(generalError.error(responseMSG));
+    } 
+        return res.status(status.OK).json(responseMSG);
+};
+
+module.exports = { getAllProducts, createProduct, getProductById, updateProduct }; 
