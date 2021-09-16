@@ -25,5 +25,6 @@ app.post('/products', productsController.create);
 app.post('/sales', salesController.create);
 
 app.delete('/products/:id', productsController.deleteProduct);
+app.delete('/sales/:id', salesController.deleteSale);
 
 app.listen(PORT, () => console.log('Servidor no ar!'));
