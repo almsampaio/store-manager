@@ -18,5 +18,4 @@ const conexao = async () => MongoClient
     process.exit(1);
   });
 
-
 module.exports = conexao;

@@ -1,5 +1,5 @@
-const conexao = require('./conexao');
 const { ObjectId } = require('bson');
+const conexao = require('./conexao');
 
 const listarProdutos = async () => {
   const db = await conexao();
@@ -9,7 +9,7 @@ const listarProdutos = async () => {
 
 const listarProdutosPorID = async (id) => {
   // Verificando se o id é válido
-  if(!ObjectId.isValid(id)) return null;
+  if (!ObjectId.isValid(id)) return null;
   const db = await conexao();
   const produto = await db.collection('products').findOne({ _id: ObjectId(id) });
   return produto;
@@ -23,9 +23,10 @@ const criarProduto = async (name, quantity) => {
 
 const atualizarProduto = async (id, name, quantity) => {
   const db = await conexao();
-  const produto = await db.collection('products').updateOne(
-    { _id: ObjectId(id) }, { $set: { name, quantity } });
-  return { _id: id, name, quantity};
+  await db.collection('products').updateOne(
+    { _id: ObjectId(id) }, { $set: { name, quantity } }
+  );
+  return { _id: id, name, quantity };
 };
 
 const deletarProduto = async (id) => {
@@ -47,4 +48,4 @@ module.exports = {
   atualizarProduto,
   deletarProduto,
   buscarPeloNome,
-}
+};

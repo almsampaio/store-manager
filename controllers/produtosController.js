@@ -16,35 +16,20 @@ const listarProdutosPorID = async (req, res) => {
 
 const criarProduto = async (req, res) => {
   const { name, quantity } = req.body;
-    
   const produto = await produtosService.criarProduto(name, quantity);
   if (produto === 'menor que cinco') return res.status(422).json({
-    err: {
-      code: 'invalid_data',
-      message: '"name" length must be at least 5 characters long'
-    }
+    err: { code: 'invalid_data',
+    message: '"name" length must be at least 5 characters long' }
   });
 
    if (!produto) return res.status(422).json({
-    err: {
-      code: 'invalid_data',
-      message: 'Product already exists'
-    }
-  });
+    err: { code: 'invalid_data', message: 'Product already exists' } });
 
   if (produto === 'menor ou igual a zero') return res.status(422).json({
-    err: {
-      code: 'invalid_data',
-      message: '"quantity" must be larger than or equal to 1'
-    }
-  });
+    err: { code: 'invalid_data', message: '"quantity" must be larger than or equal to 1' } });
 
   if (produto === 'NaN') return res.status(422).json({
-    err: {
-      code: 'invalid_data',
-      message: '"quantity" must be a number'
-    }
-  });
+    err: { code: 'invalid_data', message: '"quantity" must be a number' } });
 
   return res.status(201).json(produto);
 };
