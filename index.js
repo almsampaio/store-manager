@@ -21,6 +21,7 @@ app.put('/products/:id', ProductController.update);
 app.delete('/products/:id', ProductController.remove);
 
 app.post('/sales', SalesController.create);
+app.get('/sales', SalesController.getAll);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log('Example app listening on port port!'));

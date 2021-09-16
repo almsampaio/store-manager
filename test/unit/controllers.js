@@ -568,7 +568,7 @@ describe('Testando a função `create` do controller SalesController', () => {
 
 // getAll Sales
 
-describe.only('Testando a função getAll do controller SalesController', () => {
+describe('Testando a função getAll do controller SalesController', () => {
   describe('quando não existe vendas no banco de dados', () => {
     const request = {};
     const response = {};
