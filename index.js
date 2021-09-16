@@ -18,5 +18,7 @@ app.delete('/products/:id', productController.excludeProduct);
 app.post('/products', productController.addProduct);
 
 app.post('/sales', salesController.addSale);
+app.get('/sales', salesController.listSales);
+app.get('/sales/:id', salesController.listSaleId);
 
 app.listen(3000, () => console.log('Project Store Manager'));
