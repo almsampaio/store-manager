@@ -34,10 +34,15 @@ const update = async (id, itensSold) => {
 
   if (!sale) return null;
 
-  const updatedSale = connection()
+   await connection()
     .then((db) => db.collection('sales').updateOne({ _id: ObjectId(id) }, { $set: { itensSold } }));
 
-  return updatedSale;
+  console.log('Model', { id, itensSold });
+
+  return {
+    _id: id,
+    itensSold,
+  };
 };
 
 module.exports = {
