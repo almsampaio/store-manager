@@ -6,7 +6,7 @@ module.exports = {
     const db = await mongoConnection();
     const salesCollection = await db.collection('sales');
 
-    const insertedSaleId = await salesCollection.insertOne({ sales });
+    const insertedSaleId = await salesCollection.insertOne({ itensSold: sales });
 
     const { _id } = insertedSaleId.ops[0];
 

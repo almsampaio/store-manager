@@ -13,30 +13,30 @@ module.exports = {
     const { id } = request.params;
 
     if (id) {
-      const product = await salesService.index(id);
+      const sales = await salesService.index(id);
 
-      return response.status(200).json(product);
+      return response.status(200).json({ sales });
     }
 
-    const products = await salesService.index();
+    const sales = await salesService.index();
 
-    return response.status(200).json({ products });
+    return response.status(200).json({ sales });
   },
 
   async update(request, response) {
     const { id } = request.params;
     const { name, quantity } = request.body;
 
-    const updatedProduct = await salesService.update(id, name, quantity);
+    const updatedSale = await salesService.update(id, name, quantity);
 
-    return response.status(200).json(updatedProduct);
+    return response.status(200).json(updatedSale);
   },
 
   async delete(request, response) {
     const { id } = request.params;
 
-    const deletedProduct = await salesService.delete(id);
+    const deletedSale = await salesService.delete(id);
 
-    return response.status(200).json(deletedProduct);
+    return response.status(200).json(deletedSale);
   },
 };

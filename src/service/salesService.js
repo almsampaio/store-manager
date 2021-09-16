@@ -9,25 +9,25 @@ module.exports = {
 
   async index(id) {
     if (id) {
-      const product = await salesModel.find(id);
+      const sales = await salesModel.find(id);
 
-      return product;
+      return sales;
     }
 
-    const products = await salesModel.findAll();
+    const sales = await salesModel.findAll();
 
-    return products;
+    return sales;
   },
 
   async update(id, name, quantity) {
-    const updatedProduct = await salesModel.update(id, name, quantity);
+    const updatedSale = await salesModel.update(id, name, quantity);
 
-    return updatedProduct;
+    return updatedSale;
   },
 
   async delete(id) {
-    const deletedProduct = await salesModel.delete(id);
+    const deletedSale = await salesModel.delete(id);
 
-    return deletedProduct;
+    return deletedSale;
   },
 };

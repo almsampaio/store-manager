@@ -1,5 +1,7 @@
 const { ObjectId } = require('mongodb');
 
+const mongoConnection = require('../../model/connection');
+
 function quantityMustBeGreateThenOne(quantity) {
   if (Number(quantity) < 1) {
     return true;
@@ -39,4 +41,28 @@ function productValidation(req, res, next) {
   next();
 }
 
-module.exports = { productValidation };
+async function saleExistsValidation(req, res, next) {
+  const { id } = req.params;
+
+  const db = await mongoConnection();
+  const salesCollection = await db.collection('sales');
+
+  let sale = null;
+
+  if (ObjectId.isValid(id)) {
+    sale = await salesCollection.findOne({ _id: ObjectId(id) });
+  } 
+  
+  if (sale === null) {
+    return res.status(404).json({
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    });
+  }
+
+  next();
+}
+
+module.exports = { productValidation, saleExistsValidation };
