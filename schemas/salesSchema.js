@@ -1,4 +1,5 @@
    const salesModel = require('../models/salesModel');
+   const productsModel = require('../models/productsModel');
 
 const errors = {
     quantityErrorValue: 'Wrong product ID or invalid quantity',
@@ -46,8 +47,37 @@ const validateSaleIdRemove = async (id) => {
     }
 };
 
+// Requisito 9 = Atualizar a quantidade de produtos
+
+const sumProductQuantity = async (itensSold) => {
+    const existingSale = itensSold.find((item) => item);
+    
+    const listSale = await productsModel.getById(existingSale.productId);
+
+ //   console.log(existingSale.productId);
+ //   console.log(listSale); 
+    const setQuantity = listSale.quantity - existingSale.quantity;
+
+    return productsModel.update(existingSale.productId, listSale.name, setQuantity);
+};
+
+const subProductQuantity = async (id) => {
+    const listSale = await salesModel.getById(id);
+    const { productId, quantity } = listSale.itensSold[0];
+
+    const listProduct = await productsModel.getById(productId);
+
+    const setQuantity = quantity + listProduct.quantity;
+    
+  //  console.log(setQuantity);
+    
+    return productsModel.update(productId, listProduct.name, setQuantity);
+};
+
 module.exports = {
     validateQuantity,
     validateSaleDoesntExistId,
     validateSaleIdRemove,
+    sumProductQuantity,
+    subProductQuantity,
 };

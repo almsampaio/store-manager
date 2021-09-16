@@ -3,9 +3,13 @@ const salesSchema = require('../schemas/salesSchema');
 
 const create = async (itensSold) => {
     const quantityVerified = salesSchema.validateQuantity(itensSold);
+    
+     await salesSchema.sumProductQuantity(itensSold);
+
+  //  console.log(testando);
 
     if (quantityVerified) { return quantityVerified; }
-
+    
     const createdSales = await salesModel.create(itensSold);
     
     return createdSales;
@@ -38,6 +42,10 @@ const update = async (id, itensSold) => {
 
 const remove = async (id) => {
     const saleId = await salesSchema.validateSaleIdRemove(id);
+
+     await salesSchema.subProductQuantity(id);
+
+  //  console.log(testando);
 
     if (saleId) { return saleId; }
 
