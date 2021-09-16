@@ -13,6 +13,8 @@ app.get('/', async (_request, response) => {
 });
 
 // Products
+app.get('/products/:id', ProductController.findById);
+app.get('/products', ProductController.listAll);
 app.post('/products', ProductController.create);
 
 app.listen(SERVER_PORT);

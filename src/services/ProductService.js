@@ -1,20 +1,29 @@
 const ProductModel = require('../models/Product/ProductModel');
 const ProductDao = require('../models/Product/ProductDao');
-const { findByName } = require('../models/Product/ProductDao');
 
-async function productIsExists(name) {
-  const product = await findByName(name);
+const listAll = async () => ProductDao.getAll();
+
+const findById = async (id) => {
+    const product = await ProductDao.findById(id);
+    if (!product) throw new Error('Wrong id format');
+    return product;
+};
+
+const productIsExists = async (name) => {
+  const product = await ProductDao.findByName(name);
   return !!product;
-}
+};
 
-async function register(name, quantity) {
+const register = async (name, quantity) => {
   const isExists = await productIsExists(name);
   if (isExists) throw new Error('Product already exists');
 
   const product = new ProductModel(name, quantity);
   return ProductDao.create(product);
-}
+};
 
 module.exports = {
+  listAll,
+  findById,
   register,
 };
