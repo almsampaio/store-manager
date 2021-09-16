@@ -47,8 +47,6 @@ const remove = async (id) => {
     
     await salesSchema.subProductQuantity(id);
     
-    //  console.log(testando);
-    
     const removedSale = await salesModel.remove(id);
 
     return removedSale;
