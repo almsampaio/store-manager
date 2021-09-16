@@ -8,7 +8,7 @@ const create = async (products) => {
   if (quantity <= 0 || typeof quantity !== 'number' || !isProductRegistered) {
  return {
     message: 'Wrong product ID or invalid quantity',
-  }; 
+  };
 }
 
   const sales = await salesModel.create(products);
@@ -26,8 +26,20 @@ const find = async (id) => {
   return { sale };
 };
 
+const update = async (id, products) => {
+  const [{ quantity }] = products;
+
+  if (quantity <= 0 || typeof quantity !== 'number') return {
+    message: 'Wrong product ID or invalid quantity'
+  }
+
+  const sale = await salesModel.update(id, products);
+  return { sale };
+}
+
 module.exports = {
   create,
   getAll,
   find,
+  update,
 };
