@@ -31,6 +31,11 @@ module.exports = {
       typeof quantity === 'string',
     ));
     const createdSales = await salesModel.create(sales);
+    const recalculateProductsQuantity = sales.map(async (sale) => {
+      const { name, quantity } = await productsModel.get.byId(sale.productId);
+      return productsModel.update(sale.productId, { name, quantity: quantity - sale.quantity });
+    });
+    await Promise.all(recalculateProductsQuantity);
     return createdSales;
   },
 
@@ -57,7 +62,15 @@ module.exports = {
   },
   
   async delete(id) {
-    const sale = await salesModel.delete(id);
-    return sale;
+    const sale = await salesModel.get.byId(id);
+    const recalculateProductsQuantity = sale.itensSold.map(async (productSale) => {
+      const { name, quantity } = await productsModel.get.byId(productSale.productId);
+      return productsModel.update(
+        productSale.productId, { name, quantity: quantity + productSale.quantity },
+      );
+    });
+    await Promise.all(recalculateProductsQuantity);
+    const saleDeleted = await salesModel.delete(id);
+    return saleDeleted;
   },
 };
