@@ -7,7 +7,11 @@ module.exports = {
       const sales = await salesService.create(req.body);
       return res.status(200).json(sales);
     } catch (error) {
-      const code = 422;
+      let code = 422;
+      if (error.message === 'Such amount is not permitted to sell') {
+        code = 404;
+        httpcodes[code] = 'stock_problem';
+      }
       return res.status(code).json({
         err: {
           message: error.message,

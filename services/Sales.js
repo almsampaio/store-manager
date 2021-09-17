@@ -33,6 +33,7 @@ module.exports = {
     const createdSales = await salesModel.create(sales);
     const recalculateProductsQuantity = sales.map(async (sale) => {
       const { name, quantity } = await productsModel.get.byId(sale.productId);
+      if (quantity - sale.quantity < 1) throw new Error('Such amount is not permitted to sell');
       return productsModel.update(sale.productId, { name, quantity: quantity - sale.quantity });
     });
     await Promise.all(recalculateProductsQuantity);
