@@ -3,9 +3,9 @@ const productsModel = require('../models/productsModel');
 const errors = {
     productLength: '"name" length must be at least 5 characters long',
     productExist: 'Product already exists',
+    productDoesntExistId: 'Wrong id format',
     quantityMoreZero: '"quantity" must be larger than or equal to 1',
     quantityIsNumber: '"quantity" must be a number',
-    productDoesntExistId: 'Wrong id format',
 };
 
 const codeError = 'invalid_data';

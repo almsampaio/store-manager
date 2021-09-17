@@ -4,9 +4,11 @@ const salesSchema = require('../schemas/salesSchema');
 const create = async (itensSold) => {
     const quantityVerified = salesSchema.validateQuantity(itensSold);
     
-     await salesSchema.sumProductQuantity(itensSold);
+   const stockSale = await salesSchema.validateStockQuantity(itensSold);
 
-  //  console.log(testando);
+    if (stockSale) { return stockSale; }
+
+    await salesSchema.sumProductQuantity(itensSold);
 
     if (quantityVerified) { return quantityVerified; }
     

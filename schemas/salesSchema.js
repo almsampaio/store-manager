@@ -5,10 +5,12 @@ const errors = {
     quantityErrorValue: 'Wrong product ID or invalid quantity',
     saleDoesnExistId: 'Sale not found',
     idFormatDoesnExist: 'Wrong sale ID format',
+    quantityStockMoreZero: 'Such amount is not permitted to sell',
 };
 
 const codeError = 'invalid_data';
 const codeNotFound = 'not_found';
+const codeErrorStock = 'stock_problem';
 
 const validateQuantity = (itensSold) => {
     const quantityVerified = itensSold.find((item) => 
@@ -74,10 +76,31 @@ const subProductQuantity = async (id) => {
     return productsModel.update(productId, listProduct.name, setQuantity);
 };
 
+// Requisito 10: Validando a quantidade de produtos
+
+const validateStockQuantity = async (itensSold) => {
+    const existingSale = itensSold.find((item) => item);
+    
+    const listSale = await productsModel.getAll();
+
+    const getListSale = listSale.find((sale) => sale);
+    
+   // console.log(existingSale);
+
+    if (getListSale.quantity <= existingSale.quantity) {
+   //     console.log(existingSale);
+        return { err: {
+            code: codeErrorStock,
+            message: errors.quantityStockMoreZero,
+        } };
+    }
+};
+
 module.exports = {
     validateQuantity,
     validateSaleDoesntExistId,
     validateSaleIdRemove,
     sumProductQuantity,
     subProductQuantity,
+    validateStockQuantity,
 };
