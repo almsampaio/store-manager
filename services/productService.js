@@ -5,12 +5,6 @@ const validateName = async (name, quantity) => {
       return '"name" length must be at least 5 characters long';
     }
 
-    const existingName = await productModel.existingName(name);
-
-    if (existingName !== null) {
-      return 'Product already exists';
-    }
-
     if (quantity <= 0) {
       return '"quantity" must be larger than or equal to 1';
     }

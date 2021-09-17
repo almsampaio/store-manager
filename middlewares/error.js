@@ -1,8 +1,15 @@
 const error = (msg) => ({
-    err: {
-      code: 'invalid_data',
-      message: msg,
-    },
-  });
+  err: {
+    code: 'invalid_data',
+    message: msg,
+  },
+});
 
-module.exports = { error }; 
+const notFound = (msg) => ({
+  err: {
+    code: 'not_found',
+    message: msg,
+  },
+});
+
+module.exports = { error, notFound }; 
