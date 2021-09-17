@@ -7,8 +7,11 @@ const createNewProduct = async (name, quantity) => productsModel.create(name, qu
 
  const getProductsById = async (id) => productsModel.getProductsById(id);
 
+ const update = async (id, name, quantity) => productsModel.update(id, name, quantity);
+
 module.exports = {
   createNewProduct,
   getProducts,
   getProductsById,
+  update,
 };
