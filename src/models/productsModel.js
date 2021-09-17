@@ -6,11 +6,9 @@ const create = async ({ name, quantity }) => {
 
   const newProduct = await db.collection('products').insertOne({ name, quantity });
 
-  return {
-    _id: newProduct.insertedId,
-    name,
-    quantity,
-  };
+  const result = await newProduct.ops[0];
+  
+  return result;
 };
 
 const findByName = async (name) => {

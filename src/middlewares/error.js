@@ -1,22 +1,27 @@
-const { UNPROCESSABLE, INTERNAL_SERVER_ERROR } = require('../constants/HTTPCodeErrors');
+const { UNPROCESSABLE, INTERNAL_SERVER_ERROR, NOT_FOUND } = require('../constants/HTTPCodeErrors');
 
 module.exports = (err, _req, res, _next) => {
+  const errorCode = {
+    invalid_data: 422,
+    not_found: 404,
+    stock_problem: 404,
+  };
+  
   if (err.isJoi) {
     return res
-      .status(UNPROCESSABLE)
+      .status(errorCode.invalid_data)
       .json({ err: { code: 'invalid_data', message: err.details[0].message } });
   }
 
-  // const status = errorCode[err.code] || 500;
+  const status = errorCode[err.code] || 500;
 
   if (err) {
     return res
-      .status(UNPROCESSABLE)
+      .status(status)
       .json({ err: { code: err.code, message: err.message } });
   }
 
   console.log(err);
 
-  // Retornamos o status 500 Internal Server Error, e uma mensagem avisando que houve um erro.
   res.status(INTERNAL_SERVER_ERROR).json({ message: 'Erro interno do servidor' });
 };
