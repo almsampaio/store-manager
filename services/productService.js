@@ -1,7 +1,7 @@
 const productsModel = require('../models/productsModel');
 
 const {
-  invalidData,
+  // invalidData,
   productExists,
   // minimumQty,
   // qtyMustBeANumber,
@@ -17,18 +17,18 @@ const {
 
   const {
     HTTP_OK_STATUS,
-    // HTTP_CREATED_STATUS,
+    HTTP_CREATED_STATUS,
     HTTP_NO_BODY_STATUS,
   } = require('../utils/httpStatus');
 
-const getAll = async (_req, _res) => {
+const getAll = async () => {
     const products = await productsModel.getAll();
     return { status: HTTP_OK_STATUS, products };
 };
 
 const getById = async (id) => {
   const product = await productsModel.getById(id);
-  if (!product) return { status: HTTP_NO_BODY_STATUS, message: wrongIdFormat };
+  if (!product) return { err: { status: HTTP_NO_BODY_STATUS, message: wrongIdFormat } };
   return { product };
 };
 
@@ -48,16 +48,16 @@ const create = async (name, quantity) => {
 
   const nameExists = await productsModel.findByName(name);
   console.log('nameExists ------- productService', nameExists);
-    if (!nameExists) {
+    if (nameExists) {
  return { status: HTTP_NO_BODY_STATUS,
-       code: invalidData,
+      //  code: invalidData,
 message: productExists }; 
 }
 
   const product = await productsModel.create(name, quantity);
   console.log('product ------- productService', product);
 
-  return { status: HTTP_OK_STATUS, product };
+  return { status: HTTP_CREATED_STATUS, product };
 };
 
 // const actualize = async (name, quantity, id) => {
@@ -76,7 +76,7 @@ message: productExists };
 
 const remove = async (id) => {
   const result = await productsModel.getById(id);
-  if (!result) return { status: HTTP_NO_BODY_STATUS };
+  if (!result) return { status: HTTP_NO_BODY_STATUS, message: wrongIdFormat };
   const product = await productsModel.remove(id);
   return { status: HTTP_OK_STATUS, product };
 };

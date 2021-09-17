@@ -1,9 +1,17 @@
-const errorMessage = require('../utils/errorMessage');
-
-const { invalidData, nameMinimumLength, minimumQty,
-  qtyMustBeANumber, 
-  // productExists, wrongIdFormat 
-} = errorMessage;
+const {
+  invalidData,
+  // productExists,
+  minimumQty,
+  qtyMustBeANumber,
+  // wrongIdFormat,
+  nameMinimumLength,
+  // problemIdOrQty,
+  // notFound,
+  // saleNotFound,
+  // wrongSaleIdFormat,
+  // amountNotpermitted,
+  // stockProblem,
+} = require('../utils/errorMessage');
 
 const {
   // HTTP_OK_STATUS,

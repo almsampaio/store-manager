@@ -18,25 +18,28 @@ const {
 const getAll = async (_req, res) => {
   const { status, products } = await productService.getAll();
 
-  return res.status(status).json(products);
+  return res.status(status).send(products);
 };
 
 const getById = async (req, res) => {
   const { id } = req.params;
   const { product, message, status } = await productService.getById(id);
-  if (message) return res.status(status).json({ code: invalidData, message: wrongIdFormat });
-  res.status(status).json(product);
+  if (message) {
+ return res.status(status)
+  .json({ err: { code: invalidData, message: wrongIdFormat } }); 
+}
+  res.status(status).send(product);
 };
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
-  const { code, message, product, status } = await productService.create(name, quantity);
+  const { message, product, status } = await productService.create(name, quantity);
   // const RESPOSTA = await productService.create(name, quantity);
 
   // console.log('RESPOSTA ---- productController', RESPOSTA);
-  if (code && message) return res.status(status).json({ code, message });
+  if (message) return res.status(status).json({ err: { code: wrongIdFormat, message } });
 
-  res.status(status).json(product);
+  res.status(status).send(product);
 };
 
 // const actualize = async (req, res) => {

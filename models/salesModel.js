@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+// const {  ObjectId } = require('mongodb');
 // const connect = require('./connection');
 
 // const getAll = async () => {
@@ -7,9 +7,9 @@
 // };
 
 // const getById = async (id) => {
-//     if (!ObjectId.isValid(id)) return null;
+//     if (! ObjectId.isValid(id)) return null;
 //     return connect()
-//       .then((db) => db.collection('sales').findOne({ _id: ObjectId(id) }));
+//       .then((db) => db.collection('sales').findOne({ _id:  ObjectId(id) }));
 // };
 
 // const findByName = async (name) => {
@@ -28,13 +28,13 @@
 // const updateById = async (name, quantity, id) => {
 //     const db = await connect();
 //     await db.collection('sales')
-//       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+//       .updateOne({ _id:  ObjectId(id) }, { $set: { name, quantity } });
 //     return { id, name, quantity };
 // };
 
 // const remove = async (id) => {
 //     const db = await connect();
-//     const result = await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+//     const result = await db.collection('sales').deleteOne({ _id:  ObjectId(id) });
 //     return { id: result.insertId, name: result.name, quantity: result.quantity };
 // };
 
