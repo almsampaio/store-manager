@@ -215,3 +215,39 @@ describe('products - testa o deleteProduct', () => {
     });
   });
 });
+
+// tests for salesServices
+const salesService = require('../../services/salesService');
+const salesModel = require('../../models/salesModel');
+
+describe('sales - testa o service addSales', () => {
+  describe('ao tentar cadastrar uma venda inválida', () => {
+    it('quando a quantidade é inválida', async () => {});
+    it('quando o produto é inválido', async () => {});
+    it('quando não há estoque', async () => {});
+  });
+  describe('ao cadastrar uma venda válida', () => {
+    it('cadastro ocorre com sucesso', async () => {});
+  })
+});
+
+describe('sales - testa o service updateSales', () => {
+  describe('ao tentar atualizar uma venda inválida', () => {
+    it('quando a quantidade é inválida', async () => {});
+    it('quando o produto é inválido', async () => {});
+    it('quando a venda não existe', async () => {});
+    it('quando não há estoque', async () => {});
+  });
+  describe('ao atualizar uma venda válida', () => {
+    it('venda é atualizada', async () => {})
+  });
+});
+
+describe('sales - testa o service deleteSales', () => {
+  describe('ao tentar deletar uma venda inválida', () => {
+    it('venda não existe', async () => {});
+  })
+  describe('ao tentar deletar uma venda válida', () => {
+    it('venda é deletada com sucesso', async () => {});
+  })
+});
