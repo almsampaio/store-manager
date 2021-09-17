@@ -1099,3 +1099,240 @@ describe('Testando a função `getById` do service SalesService', () => {
     });
   });
 });
+
+// update Sales
+
+describe.only('Testando a função `update` do service SalesService', () => {
+  describe('quando o payload informado não é válido', () => {
+    describe('o id informado é inválido', () => {
+      const payloadSale = [{
+        productId: '5f3ff849d94d4a17da707008',
+        quantity: 3,
+      }]
+
+      const ID_INVALID = '1';
+
+      before(() => {
+        sinon.stub(SalesModel, 'update')
+          .resolves(null);
+      });
+  
+      after(() => {
+        SalesModel.update.restore();
+      });
+
+      it('retorna null', async () => {
+        const response = await SaleService.update(ID_INVALID, payloadSale);
+
+        expect(response).to.be.a('object');
+      });
+
+    });
+
+    describe('pois a quantidade é um valor menor que 0', async () => {
+      const payloadSale = [{
+        productId: '5f3ff849d94d4a17da707008',
+        quantity: -3,
+      }]
+
+      const ERROR = {
+          err: {
+            code: 'invalid_data',
+            message: 'Wrong product ID or invalid quantity'
+          }
+      }
+
+      const ID = '613ffccffc43b8f78e54a01f';
+
+      before(() => {
+        sinon.stub(SalesModel, 'update')
+          .resolves(ERROR);
+      });
+  
+      after(() => {
+        SalesModel.update.restore();
+      });
+
+      it('retorna um objeto', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const { err } = await SaleService.update(ID, payloadSale);
+
+        expect(err).to.have.property('code');
+        expect(err).to.have.property('message');
+      });
+
+      it('a chave "message" possui a mensagem correta', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+        const { err: { message } } = response;
+
+        expect(message).to.equal(ERROR.err.message);
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+        const { err: { code } } = response;
+
+        expect(code).to.equal(ERROR.err.code);
+      });
+    });
+
+    describe('pois a quantidade é um valor igual a 0', async () => {
+      const payloadSale = [{
+        productId: '5f3ff849d94d4a17da707008',
+        quantity: 0,
+      }]
+
+      const ERROR = {
+          err: {
+            code: 'invalid_data',
+            message: 'Wrong product ID or invalid quantity'
+          }
+      }
+
+      const ID = '613ffccffc43b8f78e54a01f';
+
+      before(() => {
+        sinon.stub(SalesModel, 'update')
+          .resolves(ERROR);
+      });
+  
+      after(() => {
+        SalesModel.update.restore();
+      });
+
+      it('retorna um objeto', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const { err } = await SaleService.update(ID, payloadSale);
+
+        expect(err).to.have.property('code');
+        expect(err).to.have.property('message');
+      });
+
+      it('a chave "message" possui a mensagem correta', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+        const { err: { message } } = response;
+
+        expect(message).to.equal(ERROR.err.message);
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+        const { err: { code } } = response;
+
+        expect(code).to.equal(ERROR.err.code);
+      });
+    });
+
+    describe('pois a quantidade não é um número', () => {
+      const payloadSale = [{
+        productId: '5f3ff849d94d4a17da707008',
+        quantity: 'string',
+      }]
+
+      const ERROR = {
+          err: {
+            code: 'invalid_data',
+            message: 'Wrong product ID or invalid quantity'
+          }
+      }
+
+      const ID = '613ffccffc43b8f78e54a01f';
+
+      before(() => {
+        sinon.stub(SalesModel, 'update')
+          .resolves(ERROR);
+      });
+  
+      after(() => {
+        SalesModel.update.restore();
+      });
+
+      it('retorna um objeto', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+
+        expect(response).to.be.a('object');
+      });
+
+      it('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+        const { err } = response;
+
+        expect(err).to.have.property('code');
+        expect(err).to.have.property('message');
+      });
+
+      it('a chave "message" possui a mensagem correta', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+        const { err: { message } } = response;
+
+        expect(message).to.equal(ERROR.err.message);
+      });
+
+      it('a chave "code" deste objeto possui o código correto', async () => {
+        const response = await SaleService.update(ID, payloadSale);
+        const { err: { code } } = response;
+
+        expect(code).to.equal(ERROR.err.message);
+      });
+    });
+  });
+
+  describe('quando uma venda é atualizada com sucesso', () => {
+
+    const payloadSale = [{
+      productId: '5f3ff849d94d4a17da707008',
+      quantity: 1,
+    }]
+
+    const ID = '613ffccffc43b8f78e54a01f';
+
+    before(() => {
+      sinon.stub(SalesModel, 'update')
+        .resolves({
+          _id: ID,
+          itensSold: [
+            {
+              productId: payloadSale.productId,
+              quantity: payloadSale.quantity,
+            },
+          ],
+        });
+    });
+
+    after(() => {
+      SalesModel.update.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await SaleService.update(ID, payloadSale);
+
+      expect(response).to.be.a('object');
+    });
+
+    it('o objeto possui as keys `_id`, `itensSold`', async () => {
+      const response = await SaleService.update(ID, payloadSale);
+
+      expect(response).to.include.all.keys('_id', 'itensSold');
+    });
+
+    it('o array `itensSold` possui objetos com as keys `productId` e `quantity`', async () => {
+      const response = await SaleService.update(ID, payloadSale);
+
+      const { itensSold } = response;
+
+      const [firstElementArrayItensSold] = itensSold;
+
+      expect(firstElementArrayItensSold).to.include.all.keys('productId', 'quantity');
+    });
+  });
+});

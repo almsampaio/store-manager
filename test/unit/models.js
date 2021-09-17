@@ -635,7 +635,7 @@ describe('Testando a função `getById` do model SalesModel', () => {
 
 // update Sale
 
-describe.only('Testando a função `update` do model SalesModel', () => {
+describe('Testando a função `update` do model SalesModel', () => {
   let connectionMock;
   const INVALID_ID = '1';
   const VALID_ID = '613ffccffc43b8f78e54a01f';
