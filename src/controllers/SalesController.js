@@ -1,5 +1,5 @@
 const rescue = require('express-rescue');
-const { STATUS_OK, CREATE } = require('../constants/HTTPCodeErrors');
+const { CREATE } = require('../constants/HTTPCodeErrors');
 
 const SalesService = require('../services/SalesService');
 
