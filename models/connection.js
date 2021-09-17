@@ -5,8 +5,8 @@ const OPTIONS = {
   useUnifiedTopology: true,
 };
 
-const MONGO_DB_URL = 'mongodb://127.0.0.1:27017/StoreManager';
-const DB_NAME = 'StoreManager';
+const MONGO_DB_URL = process.env.DB_URL;
+const DB_NAME = process.env.DB_NAME;
 
 let db = null;
 
