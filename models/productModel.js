@@ -22,13 +22,35 @@ const createProduct = async (name, quantity) => {
   if (checkProduct) return false;
 
   const db = await connection();
-  const result = await db.collection('products').insertOne({ name, quantity });
+  const { ops } = await db.collection('products').insertOne({ name, quantity });
 
-  return result.ops[0];
+  return ops[0];
+};
+
+const updateProductById = async (id, name, quantity) => {
+  const db = await connection();
+  if (!ObjectId.isValid(id)) return null;
+
+  await db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+};
+
+const removeProductById = async (id) => {
+  const db = await connection();
+  if (!ObjectId.isValid(id)) return null;
+
+  const product = await db.collection('products').findOne({ _id: ObjectId(id) });
+  if (!product) return false;
+
+  await db.collection('products').deleteOne({ _id: ObjectId(id) });
+
+  return product;
 };
 
 module.exports = {
   getAllProduct,
   createProduct,
   getProductById,
+  updateProductById,
+  removeProductById,
 };

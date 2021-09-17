@@ -1,40 +1,5 @@
 const prodModel = require('../models/productModel');
-
-const validate = (name) => {
-  if (!name || name.length < 5 || typeof name !== 'string') {
-    return { isValid: false,
-      err: {
-      code: 'invalid_data',
-      message: '"name" length must be at least 5 characters long',
-    } };
-  }
-
-  return {
-    isValid: true,
-  };
-};
-
-const validateQuantity = (quantity) => {
-  if (quantity < 1 || !quantity) {
-    return { isValid: false,
-      err: {
-      code: 'invalid_data',
-      message: '"quantity" must be larger than or equal to 1',
-    } };
-  }
-
-  if (typeof quantity !== 'number') {
-    return { isValid: false,
-      err: {
-      code: 'invalid_data',
-      message: '"quantity" must be a number',
-    } };
-  }
-
-  return {
-    isValid: true,
-  };
-};
+const { validateName, validateQuantity, validateData } = require('./validates');
 
 const getAll = async () => {
   const data = await prodModel.getAllProduct();
@@ -43,40 +8,52 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const data = await prodModel.getProductById(id);
-
-  if (!data || data === {} || data === undefined) {
-    return { isValid: false,
-      err: {
-      code: 'invalid_data',
-      message: 'Wrong id format',
-    } };
-  }
+  const validated = await validateData(data, 'invalid_data', 'Wrong id format');
+  if (validated.err) return validated;
 
   return data;
 };
 
 const create = async (name, quantity) => {
-  const validated = validate(name);
-  const validQuantity = validateQuantity(quantity);
+  const validName = validateName(name);
+  if (!validName.isValid) return validName;
 
-  if (!validated.isValid) return validated;
+  const validQuantity = validateQuantity(quantity);
   if (!validQuantity.isValid) return validQuantity;
 
-  const result = await prodModel.createProduct(name, quantity);
+  const product = await prodModel.createProduct(name, quantity);
+  const validated = await validateData(product, 'invalid_data', 'Product already exists');
+  if (validated.err) return validated;
 
-  if (!result) {
-    return { isValid: false,
-      err: {
-      code: 'invalid_data',
-      message: 'Product already exists',
-    } };
-  }
+  return { id: product.id, ...product };
+};
 
-  return { id: result.id, ...result };
+const update = async (id, name, quantity) => {
+  const validName = validateName(name);
+  if (!validName.isValid) return validName;
+
+  const validQuantity = validateQuantity(quantity);
+  if (!validQuantity.isValid) return validQuantity;
+
+  const newProduct = await prodModel.updateProductById(id, name, quantity);
+  if (!newProduct) return false;
+
+  return true;
+};
+
+const remove = async (id) => {
+  const product = await prodModel.removeProductById(id);
+
+  const validated = await validateData(product, 'invalid_data', 'Wrong id format');
+  if (validated.err) return validated;
+
+  return product;
 };
 
 module.exports = {
   getAll,
   create,
   getById,
+  update,
+  remove,
 };
