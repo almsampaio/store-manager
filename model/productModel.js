@@ -27,8 +27,9 @@ const getById = async (id) => {
 
 const update = async (id, name, quantity) => {
   const db = await connection();
-  const updatedProduct = await db.collection('products').findOne(ObjectID(id));
-  return { _id: updatedProduct.insertedId, name, quantity };
+  await db.collection('products')
+    .updateOne({ _id: ObjectID(id) }, { $set: { name, quantity } });
+  return { _id: ObjectID(id), name, quantity };
 };
 
 const remove = async (id) => {

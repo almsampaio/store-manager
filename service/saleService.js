@@ -26,8 +26,17 @@ const getById = async (id) => {
   return { sale: saleById };
  };
 
+ const update = async (id, updatedItensSoldArray) => {
+  const isNotValid = updatedItensSoldArray.find((item) =>
+    item.quantity < minimumQuantity || typeof (item.quantity) !== 'number');
+  if (isNotValid) return quantityError;
+  const updatedSale = await saleModel.update(id, updatedItensSoldArray);
+  return { sale: updatedSale };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
