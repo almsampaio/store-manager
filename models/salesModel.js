@@ -10,20 +10,20 @@ const existingName = async (name) => {
 const existingId = async (id) => {
     if (!ObjectId.isValid(id)) { return null; }
     const db = await connectionDB();
-    const product = await db.collection('products').findOne({ _id: ObjectId(id) });
-    return product;
+    const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
+    return sale;
 };
 
 const getAll = async () => {
     const db = await connectionDB();
-    const products = await db.collection('products').find().toArray();
-    return products;
+    const sales = await db.collection('sales').find().toArray();
+    return sales;
 };
 
 const getId = async (id) => {
     const db = await connectionDB();
-    const idProduct = await db.collection('products').findOne({ _id: ObjectId(id) });
-    return idProduct;
+    const idSale = await db.collection('sales').findOne({ _id: ObjectId(id) });
+    return idSale;
 };
 
 const add = async (salesArray) => {
@@ -33,10 +33,11 @@ const add = async (salesArray) => {
     return { _id: sale.insertedId, itensSold };
 };
 
-const update = async (id, name, quantity) => {
-    const db = await connectionDB();
-    await db.collection('products').updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
-    return { _id: id, name, quantity };
+const update = async (id, salesArray) => {
+    const db = await connectionDB.connect();
+    const itensSold = salesArray;
+    await db.collection('sales').updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+    return { _id: id, itensSold };
 };
 
 const exclude = async (id) => {

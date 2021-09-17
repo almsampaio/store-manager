@@ -1,10 +1,32 @@
 const status = require('http-status');
+const salesModel = require('../models/salesModel');
 const salesService = require('../services/salesService');
 const generalError = require('../middlewares/error');
 
+const getAllSales = async (_req, res) => {
+    const sales = await salesModel.getAll();
+    return res.status(status.OK).json({ sales });
+};
+
+const getSaleById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const sale = await salesModel.getId(id);
+        const msg = 'Sale not found';
+        if (sale === null) {
+            return res.status(status.NOT_FOUND)
+            .json(generalError.notFound(msg)); 
+        } 
+        return res.status(status.OK).json(sale);
+    } catch (error) {
+        const msg = 'Sale not found';
+        return res.status(status.NOT_FOUND).json(generalError.notFound(msg));
+    }
+};
+
 const createSales = async (req, res) => {
-    const salesObject = req.body;
-    const responseMSG = await salesService.addValidation(salesObject);
+    const objectSales = req.body;
+    const responseMSG = await salesService.addValidation(objectSales);
 
     if (typeof (responseMSG) === 'string') {
         return res.status(status.UNPROCESSABLE_ENTITY).json(generalError.error(responseMSG));
@@ -12,4 +34,4 @@ const createSales = async (req, res) => {
     return res.status(status.OK).json(responseMSG);
 };
 
-module.exports = { createSales }; 
+module.exports = { getAllSales, getSaleById, createSales };
