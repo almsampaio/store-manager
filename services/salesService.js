@@ -26,4 +26,15 @@ const addValidation = async (array) => {
         return answer;
 };
 
-module.exports = { addValidation }; 
+const updateValidation = async (id, array) => {
+    const objectSales = array[0];
+
+    const answer = await validateQuantity(objectSales.quantity);
+    if (answer === null) {
+        const update = await salesModel.update(id, array);
+        return update;
+    }
+    return answer;
+};
+
+module.exports = { addValidation, updateValidation }; 

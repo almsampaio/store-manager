@@ -34,4 +34,14 @@ const createSales = async (req, res) => {
     return res.status(status.OK).json(responseMSG);
 };
 
-module.exports = { getAllSales, getSaleById, createSales };
+const updateSale = async (req, res) => {
+    const { id } = req.params;
+    const array = req.body;
+    const responseMSG = await salesService.updateValidation(id, array);
+    if (typeof (responseMSG) === 'string') {
+        return res.status(status.UNPROCESSABLE_ENTITY).json(generalError.error(responseMSG));
+    } 
+        return res.status(status.OK).json(responseMSG);
+};
+
+module.exports = { getAllSales, getSaleById, createSales, updateSale };

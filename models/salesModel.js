@@ -34,7 +34,7 @@ const add = async (salesArray) => {
 };
 
 const update = async (id, salesArray) => {
-    const db = await connectionDB.connect();
+    const db = await connectionDB();
     const itensSold = salesArray;
     await db.collection('sales').updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
     return { _id: id, itensSold };
