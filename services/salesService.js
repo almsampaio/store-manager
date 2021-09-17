@@ -1,34 +1,47 @@
 const salesModel = require('../models/salesModel');
 const productsService = require('./productsService');
 
-// const teste = () => {
-//   const infos = {
-//     status: 422,
-//     quantity: 10,
-//   };
-//   if (infos.status === 422 || !Number.isInteger(infos.quantity) || infos.quantity < 1) {
-//     console.log('entrou');
-//   } else { console.log('não entrou'); }
-// };
-// teste(); productExists.status === 422 ||
+const updateProductQuantity = async (itensSold) => {
+  await itensSold.forEach(async (item) => {
+    const { response: { name, quantity } } = await productsService.findById(item.productId);
+    await productsService.update(item.productId, name, (quantity - item.quantity));
+  });
+};
+
+const validationInfoGenerator = async (isValid, itensSold) => {
+  if (isValid.quantity && isValid.exists) {
+    await updateProductQuantity(itensSold);
+    return { isValid: true };
+  }
+  if (!isValid.exists) {
+    return { errorInfo: { err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+      },
+      status: 422 };
+  }
+  return { errorInfo: { err: {
+          code: 'stock_problem',
+          message: 'Such amount is not permitted to sell',
+        },
+      },
+      status: 404 };
+};
 
 const isSaleValid = async (itensSold) => {
   const isValid = await itensSold.reduce(async (acc, item) => {
-    const productExists = await productsService.findById(item.productId);
-    if (productExists.status === 422 || !Number.isInteger(item.quantity) || item.quantity < 1) {
-      return false;
+    const productSearched = await productsService.findById(item.productId);
+    if (productSearched.status === 422 || !Number.isInteger(item.quantity) || item.quantity < 1) {
+      return { ...acc, exists: false };
+    }
+    if ((productSearched.response.quantity - item.quantity) < 0) {
+      return { ...acc, quantity: false };
     }
     return acc;
-  }, true);
-  return {
-    errorInfo: {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong product ID or invalid quantity',
-      },
-    },
-    isValid,
-  };
+  }, { exists: true, quantity: true });
+
+  return validationInfoGenerator(isValid, itensSold);
 };
 
 const getAll = async () => {
@@ -85,9 +98,9 @@ const create = async (itensSold) => {
 };
 
 const update = async (id, itensSold) => {
-  const { isValid, errorInfo } = await isSaleValid(itensSold);
+  const { isValid, errorInfo, status: statusValidation } = await isSaleValid(itensSold);
   if (!isValid) {
-    return { response: errorInfo, status: 422 };
+    return { response: errorInfo, status: statusValidation };
   }
   const { status, response } = await findById(id);
   if (status === 404) {
