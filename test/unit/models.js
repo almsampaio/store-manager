@@ -1,73 +1,164 @@
-// const sinon = require('sinon');
-// const { expect } = require('chai');
-// const { MongoClient } = require('mongodb');
-// const { MongoMemoryServer } = require('mongodb-memory-server');
+const sinon = require('sinon');
+const { expect } = require('chai');
+const { MongoClient, ObjectId } = require('mongodb');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
-// const mongoConnection = require('../../models/connection');
-// const productsModel = require('../../models/products');
+const mongoConnection = require('../../models/connection');
+const productModels = require('../../models/products');
 
-// describe('Insere um produto no banco de dados', () => {
-//   before (async () => {
-//     const DBServer = new MongoMemoryServer();
-//     const URLMock = await DBServer.getUri();
+describe('Ao chamar os models de products', () => {
+  const DBServer = new MongoMemoryServer();
+  let connectionMock;
 
-//     connectionMock = await MongoClient 
-//       .connect(URLMock, {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//       })
-//       .then((conn) => conn.db('StoreManager'));
+  let id;
+  let testProduct;
 
-//     sinon.stub(mongoConnection, 'connection').resolves(connectionMock);
-//   });
+  beforeEach(async () => {
+    const URLMock = await DBServer.getUri();
+    connectionMock = await MongoClient
+      .connect(URLMock, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .then((conn) => conn.db('StoreManager'));
 
-//   after(() => mongoConnection.connection.restore());
+      sinon.stub(mongoConnection, 'connection').resolves(connectionMock);
+  });
 
-//   describe('Retorna um objeto quando', () => {
-//     it('O produto é adicionado com sucesso', async () => {
-//       const response = await productsModel.createProduct('teste', 5);
+  afterEach(() => mongoConnection.connection.restore());
 
-//       expect(response).to.be.have.property('_id');
-//       expect(response.name).to.be.equal('teste');
-//       expect(response.quantity).to.be.equal(5);
-//     });
-//   });
-// });
+  describe('chamando a função "createProduct"', () => {
+    describe('com sucesso', () => {
+        const mockProduct = {
+        name: 'product test',
+        quantity: 10,
+      };
 
-// describe('Busca um produto no banco de dados', () => {
-//   let connectionMock;
+      it('não possui produtos cadastrados', async () => {
+        const result = await productModels.getProducts();
 
-//   before (async () => {
-//     const DBServer = new MongoMemoryServer();
-//     const URLMock = await DBServer.getUri();
-//     const OPTIONS = {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     };
+        expect(result).to.be.deep.equal([]);
+      });
 
-//     connectionMock = await MongoClient
-//       .connect(URLMock, OPTIONS)
-//       .then((conn) => conn.db('StoreManager'));
+      it('cadastra um produto com sucesso', async () => {
+        const { name, quantity } = mockProduct;
 
-//     sinon.stub(mongoConnection, 'connection');
-//   });
+        await productModels.createProduct(name, quantity);
 
-//   after(() => mongoConnection.connection.restore());
+        const result = await productModels.getProductByName('product test');
 
-//   describe('Pelo nome', () => {
+        expect(result).to.deep.include.keys('_id', 'name', 'quantity');
 
-//     before(async () => await productsModel.createProduct('produto', 100));
+        testProduct = result;
+        id = ObjectId(result._id);
+      });
 
-//     it('Possue nome "teste"', async () => {
-//       const product = await productsModel.getProductByName('produto');
+      it('encontra o produto cadastrado', async () => {
+        const result = await productModels.getProductByName(mockProduct.name);
+        const { name, quantity } = result;
+        
+        expect(name).to.be.equal(mockProduct.name);
+        expect(quantity).to.be.equal(mockProduct.quantity);
+      });
+    });
+  });
 
-//       expect(product.name).to.be.equal('produto');
-//     });
+  describe('chamando a função "getProductByName"', () => {
+    describe('busca o produto pelo Id', () => {
+      it('retorna o produto correspondente', async () => {
+        const result = await productModels.getProductById(id);
 
-//     it('Possue quantidade "100"', async () => {
-//       const product = await productsModel.getProductByName('produto');
+        expect(result).to.deep.include.keys('_id', 'name', 'quantity');
+        expect(result).to.be.deep.equal(testProduct);
+      });
 
-//       expect(product.quantity).to.be.equal(100);
-//     })
-//   });
-// });
+      it('retorna null caso o Id seja inválido', async () => {
+        const result = await productModels.getProductById('1234');
+
+        expect(result).to.be.null;
+      });
+    });
+  });
+
+  describe('chamando a função "getProducts"', () => {
+    it('retorna todos os produtos cadastrados', async () => {
+      const result = await productModels.getProducts();
+
+      expect(result).to.be.deep.equal([testProduct]);
+    });
+  });
+
+  describe('chamando a função "updateProduct"', () => {
+    it('retorna null caso o Id seja inválido', async () => {
+      const result = await productModels.updateProduct('1234', 'falha ao alterar', 20);
+
+      expect(result).to.be.null;
+    });
+
+    it('o produto não é alterado', async () => {
+      const result = await productModels.getProductById(id);
+
+      expect(result).to.be.deep.equal(testProduct);
+    });
+
+    it('altera o produto passando dados válidos', async () => {
+      const result = await productModels.updateProduct(id, 'produto alterado', 50);
+
+      const produtoAlterado = { _id: id, name: 'produto alterado', quantity: 50 };
+
+      expect(result).to.be.deep.equal(produtoAlterado);
+
+      testProduct = produtoAlterado;
+    });
+  });
+
+  describe('chamando a função "deleteById"', () => {
+    it('retorna null caso o Id seja inválido', async () => {
+      const result = await productModels.deleteById('1234');
+
+      expect(result).to.be.null;
+    });
+
+    it('produto não é deletado', async () => {
+      const result = await productModels.getProductById(id);
+
+      expect(result).to.be.deep.equal(testProduct);
+    });
+
+    it('deleta o produto ao passar um Id válido e retorna os dados excluídos', async () => {
+      const result = await productModels.deleteById(id);
+
+      expect(result).to.be.deep.equal(testProduct);
+    });
+
+    it('o produto não existe mais no banco', async () => {
+      const result = await productModels.getProductById(id);
+
+      expect(result).to.be.null;
+    });
+  });
+
+  describe('chamando a função "updateSoldProduct"', async () => {
+    beforeEach(async () => {
+      await productModels.createProduct('produto', 50);
+      const result = await productModels.getProductByName('produto');
+      testProduct = result;
+      id = ObjectId(result._id);
+    });
+    
+    it('retorna null caso o Id seja inválido', async () => {
+      const result = await productModels.updateSoldProduct('1234');
+
+      expect(result).to.be.null;
+    });
+
+    it('retorna o objeto alterado com sucesso caso os dados sejam válidos', async () => {
+      const result = await productModels.updateSoldProduct(id, -20);
+
+      const produtoAlterado = { _id: id, name: 'produto', quantity: 30 };
+
+
+      expect(result).to.be.deep.equal(produtoAlterado);
+    });
+  });
+});
