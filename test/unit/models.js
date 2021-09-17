@@ -684,5 +684,15 @@ describe.only('Testando a função `update` do model SalesModel', () => {
 
       expect(response).to.include.all.keys('_id', 'itensSold');
     });
+
+    it('o array `itensSold` possui objetos com as keys `productId` e `quantity`', async () => {
+      const response = await SalesModel.update(VALID_ID, payloadSale);
+
+      const { itensSold } = response;
+
+      const [firstElementArrayItensSold] = itensSold;
+
+      expect(firstElementArrayItensSold).to.include.all.keys('productId', 'quantity');
+    });
   });
 });
