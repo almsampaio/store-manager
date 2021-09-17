@@ -50,10 +50,14 @@ const deleteById = async (_id) => {
   if (!ObjectId.isValid(_id)) return null;
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('products'));
+  try {
     const { name, quantity } = findOneById(_id);
   await productsCollection
     .deleteOne({ _id: ObjectId(_id) });
   return { _id, name, quantity };
+  } catch (err) {
+    return null;
+  }
 };
 
 module.exports = {

@@ -84,9 +84,18 @@ const getById = async (_id) => {
       return product;
     };
 
+  const deleteById = async (_id) => {
+    const deletedProduct = await ProductsModel.deleteById(_id);
+    if (deletedProduct === null) {
+      return { err: { code: { message: 'wrong if format' } } };
+    }
+    return deletedProduct;
+  };
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
+  deleteById,
 };
