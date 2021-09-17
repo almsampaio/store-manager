@@ -55,7 +55,6 @@ const isSaleValid = async (itensSold, id) => {
     if (productSearched.status === 422 || !Number.isInteger(item.quantity) || item.quantity < 1) {
       return { ...acc, exists: false };
     }
-    console.log('teste de quantidade', (productSearched.response.quantity - item.quantity));
     if ((productSearched.response.quantity - item.quantity) < 0) {
       return { ...acc, quantity: false };
     }
@@ -92,9 +91,9 @@ const deleteById = async (id) => {
 };
 
 const create = async (itensSold) => {
-  const { isValid, errorInfo } = await isSaleValid(itensSold);
+  const { isValid, errorInfo, status } = await isSaleValid(itensSold);
   if (!isValid) {
-    return { response: errorInfo, status: 422 };
+    return { response: errorInfo, status };
   }
   const saleCreated = await salesModel.create(itensSold);
   return { response: saleCreated, status: 200 };
