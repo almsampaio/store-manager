@@ -632,3 +632,57 @@ describe('Testando a função `getById` do model SalesModel', () => {
     });
   });
 });
+
+// update Sale
+
+describe.only('Testando a função `update` do model SalesModel', () => {
+  let connectionMock;
+  const INVALID_ID = '1';
+  const VALID_ID = '613ffccffc43b8f78e54a01f';
+
+  let payloadSale = [{
+    productId: '5f3ff849d94d4a17da707008',
+    quantity: 3,
+  }]
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+    const DB_NAME = 'StoreManager';
+
+    connectionMock = await MongoClient
+    .connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then((conn) => conn.db(DB_NAME));
+  
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quando a venda não é atualizada', () => {
+    it('id inválido', async () => {
+      const response = await SalesModel.update(INVALID_ID, payloadSale);
+
+      expect(response).to.be.null;
+    });
+  });
+
+  describe('quando a venda é atualizada com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const response = await SalesModel.update(VALID_ID, payloadSale);
+
+      expect(response).to.be.a('object');
+    });
+
+    it('o objeto possui as keys `_id` e `itensSold`', async () => {
+      const response = await SalesModel.update(VALID_ID, payloadSale);
+
+      expect(response).to.include.all.keys('_id', 'itensSold');
+    });
+  });
+});
