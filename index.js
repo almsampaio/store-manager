@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const productController = require('./controllers/productController');
-const salesController = require('./controllers/salesController');
+// const salesController = require('./controllers/salesController');
+// const { validateNome, validateQty } = require('./middlewares/middleware');
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,23 +16,25 @@ app.get('/products', productController.getAll);
 
 app.get('/products/:id', productController.getById);
 
-app.post('/products', productController.create);
+// app.post('/products', validateNome,
+//   validateQty, productController.create);
 
-app.put('/products/:id', productController.actualize);
+// app.put('/products/:id', validateNome,
+//   validateQty, productController.actualize);
 
 app.delete('/products/:id', productController.remove);
 
-app.get('/sales', salesController.getAll);
+// app.get('/sales', salesController.getAll);
 
-app.get('/sales/:id', salesController.getById);
+// app.get('/sales/:id', salesController.getById);
 
-app.post('/sales', salesController.create);
+// app.post('/sales', salesController.create);
 
-app.put('/sales/:id', salesController.actualize);
+// app.put('/sales/:id', salesController.actualize);
 
-app.post('/sales', salesController.create);
+// app.post('/sales', salesController.create);
 
-app.delete('/sales/:id', salesController.remove);
+// app.delete('/sales/:id', salesController.remove);
 
 app.listen(PORT, () => {
   console.log('Servidor rodando');
