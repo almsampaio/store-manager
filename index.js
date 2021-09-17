@@ -5,9 +5,10 @@ const error = require('./src/middlewares/error');
 
 require('dotenv').config();
 
-const { products } = require('./src/routes');
+const { products, sales } = require('./src/routes');
 
-const { PORT } = process.env;
+// const { PORT } = process.env;
+const PORT = 3000;
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', products);
+app.use('/sales', sales);
 
 app.use(error);
 
