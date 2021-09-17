@@ -1,5 +1,5 @@
 // Onde tem as queries - contato direto com o banco
-
+const { ObjectId } = require('bson');
 const connection = require('./connection');
 
 const create = async (name, quantity) => {
@@ -12,6 +12,23 @@ const create = async (name, quantity) => {
   return { _id: result.insertedId, name, quantity };
 };
 
+// ref aula ao vivo  27.2
+const getAllProducts = async () => {
+  const db = await connection();
+  const products = await db.collection('products').find({}).toArray();
+  return products;
+};
+
+const getProductById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await connection();
+  const product = await db.collection('products').findOne({ _id: ObjectId(id) });
+  return product;
+};
+
 module.exports = {
   create,
+  getAllProducts,
+  getProductById,
 };

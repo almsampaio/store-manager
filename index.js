@@ -13,6 +13,8 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+app.get('/products', productController.getAllProducts);
+app.get('/products/:id', productController.getProductById);
 app.post('/products', productController.create);
 
 app.listen(PORT, () => {
