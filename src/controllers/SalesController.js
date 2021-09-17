@@ -4,9 +4,12 @@ const { STATUS_OK } = require('../constants/HTTPCodeErrors');
 const SalesService = require('../services/SalesService');
 
 const create = rescue(async (req, res) => {
-  const { body } = req;
+  const sale = req.body.map(({ productId, quantity }) => ({
+    productId,
+    quantity,
+  }));
 
-  const newSale = await SalesService.create(body);
+  const newSale = await SalesService.create(sale);
 
   res.status(STATUS_OK).json(newSale);
 });
@@ -29,14 +32,27 @@ const findById = rescue(async (req, res, next) => {
   if (error) {
     return next(error);
   }
-  
+
   return res.status(STATUS_OK).json(sale);
+});
+
+const updateOne = rescue(async (req, res) => {
+  const itenSold = req.body;
+  // const itenSold = [{
+  //   productId, quantity,
+  // }];
+  // console.log(productId, quantity);
+  const { id } = req.params;
+
+  const updated = await SalesService.updateOne(id, itenSold);
+
+  return res.status(STATUS_OK).json(updated);
 });
 
 module.exports = {
   create,
   getAllSales,
   findById,
-  // updateOne,
+  updateOne,
   // eliminate,
 };

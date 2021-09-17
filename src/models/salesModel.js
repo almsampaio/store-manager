@@ -33,11 +33,34 @@ const getAllSales = async () => {
   };
 };
 
+const updateOne = async (id, itenSold) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  
+  const [{ productId, quantity }] = itenSold;
+
+  const db = await connection();
+  await db.collection('sales')
+  .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: { productId, quantity } } });
+  console.log('porra');
+  
+  const newProduct = {
+    _id: id,
+    itensSold: [{
+    productId,
+    quantity,
+    }],
+  };
+
+  return newProduct;
+};
+
 module.exports = { 
   create, 
   // findByName,
   getAllSales,
   findById,
-  // updateOne,
+  updateOne,
   // eliminate,
  };

@@ -35,12 +35,19 @@ const findById = async (id) => {
   }
 
   return { sale };
-}; 
+};
+
+const updateOne = async (id, itenSold) => {
+  console.log(id);
+  const updated = await SalesModel.updateOne(id, itenSold);
+
+  return updated;
+};
 
 module.exports = {
   create,
   getAllSales,
   findById,
-  // updateOne,
+  updateOne,
   // eliminate,
 };

@@ -7,7 +7,7 @@ module.exports = (err, _req, res, _next) => {
       .json({ err: { code: 'invalid_data', message: err.details[0].message } });
   }
 
-  const status = err.HTTPCode || 422;
+  const status = err.HTTPCode || UNPROCESSABLE;
 
   if (err) {
     return res
