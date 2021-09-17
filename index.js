@@ -21,6 +21,10 @@ app.delete('/products/:id', controllerProduct.deleteProduct);
 
 app.post('/sales', controllerSales.createSale);
 
+app.get('/sales', controllerSales.findSales);
+
+app.get('/sales/:id', controllerSales.findSalesId);
+
 app.use((err, _req, res, _next) => {
   const { message, code, status } = err;
   return res.status(status).json({ err: { code, message } });
