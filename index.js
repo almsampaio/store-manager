@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const ProductController = require('./controllers/ProductController');
 const SalesController = require('./controllers/SalesController');
