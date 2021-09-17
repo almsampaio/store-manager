@@ -16,5 +16,7 @@ app.get('/', (_request, response) => {
 app.post('/products', validtion.isValidName, validtion.isValidQuanty, productControlle.addProduct);
 app.get('/products', productControlle.findAll);
 app.get('/products/:id', productControlle.findById);
+app.put('/products/:id', validtion.isValidName, validtion.isValidQuanty,
+  productControlle.updateProduct);
 
 app.listen(PORT, () => console.log(`On-line na porta ${PORT}`));
