@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 
 const productController = require('./controllers/productController');
 // const salesController = require('./controllers/salesController');
-// const { validateNome, validateQty } = require('./middlewares/middleware');
 const productsRoutes = require('./routes/productRouter');
 
 const app = express();
@@ -15,13 +14,7 @@ app.use('/products', productsRoutes);
 
 // app.get('/products/:id', productController.getById);
 
-// app.post('/products', validateNome,
-//   validateQty, productController.create);
-
-// app.put('/products/:id', validateNome,
-//   validateQty, productController.actualize);
-
-app.delete('/products/:id', productController.remove);
+// app.delete('/products/:id', productController.remove);
 
 // app.get('/sales', salesController.getAll);
 

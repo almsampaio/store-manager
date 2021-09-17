@@ -2,12 +2,16 @@ const express = require('express');
 
 const productController = require('../controllers/productController');
 
+// const { validateNome, validateQty } = require('../middlewares/middleware');
+
 const routes = express.Router();
 
 routes.get('/', productController.getAll);
-routes.post('/', productController.create);
 routes.get('/:id', productController.getById);
-// routes.put('/:id', productController.update);
 routes.delete('/:id', productController.remove);
+// routes.post('/', validateNome,
+//   validateQty, productController.create);
+// routes.put('/:id', validateNome,
+//   validateQty, productController.actualize);
 
 module.exports = routes;
