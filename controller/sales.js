@@ -24,7 +24,6 @@ const findSalesId = rescue(
   },
 );
 
-
 module.exports = {
   createSale,
   findSales,
