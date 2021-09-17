@@ -46,10 +46,21 @@ const updateById = async ({ _id, name, quantity }) => {
   return { _id, name, quantity };
 };
 
+const deleteById = async (_id) => {
+  if (!ObjectId.isValid(_id)) return null;
+  const productsCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection('products'));
+    const { name, quantity } = findOneById(_id);
+  await productsCollection
+    .deleteOne({ _id: ObjectId(_id) });
+  return { _id, name, quantity };
+};
+
 module.exports = {
   create,
   findOneByName,
   getAll,
   findOneById,
   updateById,
+  deleteById,
 };
