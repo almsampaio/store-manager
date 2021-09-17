@@ -28,6 +28,7 @@ const findById = async (id) => {
     return {
       error: {
         code: 'not_found',
+        HTTPCode: 404,
         message: 'Sale not found',
       },
     };
