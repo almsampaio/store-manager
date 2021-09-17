@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productController = require('./controller/productController');
+const saleController = require('./controller/saleController');
 
 const app = express();
 
@@ -22,5 +23,7 @@ app.get('/products/:id', productController.getById);
 app.put('/products/:id', productController.update);
 
 app.delete('/products/:id', productController.remove);
+
+app.post('/sales', saleController.create);
 
 app.listen(PORT, () => console.log(`O pai tá ON na Porta ${PORT}`));
