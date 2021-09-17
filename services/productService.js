@@ -1,11 +1,19 @@
 const productsModel = require('../models/productsModel');
 
-const errorMessage = require('../utils/errorMessage');
-
-const { invalidData, 
-  // nameMinimumLength, minimumQty,
-  // qtyMustBeANumber, productExists, 
-  wrongIdFormat } = errorMessage;
+const {
+  invalidData,
+  productExists,
+  minimumQty,
+  qtyMustBeANumber,
+  wrongIdFormat,
+  nameMinimumLength,
+  problemIdOrQty,
+  notFound,
+  saleNotFound,
+  wrongSaleIdFormat,
+  amountNotpermitted,
+  stockProblem,
+} = require('../utils/errorMessage');
 
   const {
     HTTP_OK_STATUS,
@@ -20,11 +28,11 @@ const getAll = async (_req, _res) => {
 
 const getById = async (id) => {
   const product = await productsModel.getById(id);
-  if (!product) return { status: HTTP_NO_BODY_STATUS, code: invalidData, message: wrongIdFormat };
-  return { status: HTTP_OK_STATUS, product };
+  if (!product) return { status: HTTP_NO_BODY_STATUS, message: wrongIdFormat };
+  return { product };
 };
 
-// const create = async (name, quantity) => {
+const create = async (name, quantity) => {
   // if (name.length < 6) {
   //   console.log('name.length ------- productService', name.length);
   //   return { code: invalidData, message: nameMinimumLength };
@@ -38,15 +46,19 @@ const getById = async (id) => {
   //   return { code: invalidData, message: qtyMustBeANumber };
   // }
 
-//   const nameExists = await productsModel.findByName(name);
-//   console.log('nameExists ------- productService', nameExists);
-//     if (!nameExists) return { code: invalidData, message: productExists };
+  const nameExists = await productsModel.findByName(name);
+  console.log('nameExists ------- productService', nameExists);
+    if (!nameExists) {
+ return { status: HTTP_NO_BODY_STATUS,
+       code: invalidData,
+message: productExists }; 
+}
 
-//   const product = await productsModel.create(name, quantity);
-//   console.log('product ------- productService', product);
+  const product = await productsModel.create(name, quantity);
+  console.log('product ------- productService', product);
 
-//   return product;
-// };
+  return { status: HTTP_OK_STATUS, product };
+};
 
 // const actualize = async (name, quantity, id) => {
 //   if (name.length < 6) {
@@ -64,13 +76,13 @@ const getById = async (id) => {
 
 const remove = async (id) => {
   const result = await productsModel.getById(id);
-  if (!result) return { status: HTTP_NO_BODY_STATUS, message: wrongIdFormat, code: invalidData };
+  if (!result) return { status: HTTP_NO_BODY_STATUS };
   const product = await productsModel.remove(id);
   return { status: HTTP_OK_STATUS, product };
 };
 
 module.exports = { 
-  // create,
+  create,
   getAll,
   getById,
   // actualize,

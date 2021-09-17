@@ -3,21 +3,19 @@ const bodyParser = require('body-parser');
 
 const productController = require('./controllers/productController');
 // const salesController = require('./controllers/salesController');
-// const { validateNome, validateQty } = require('./middlewares/middleware');
+const { validateNome, validateQty } = require('./middlewares/middleware');
 
 const app = express();
 app.use(bodyParser.json());
 
-const DEFAULT_PORT = '3000';
-
-const PORT = process.env.PORT || DEFAULT_PORT;
+const PORT = '3000';
 
 app.get('/products', productController.getAll);
 
 app.get('/products/:id', productController.getById);
 
-// app.post('/products', validateNome,
-//   validateQty, productController.create);
+app.post('/products', validateNome,
+  validateQty, productController.create);
 
 // app.put('/products/:id', validateNome,
 //   validateQty, productController.actualize);

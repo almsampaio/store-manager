@@ -1,5 +1,20 @@
 const productService = require('../services/productService');
 
+const {
+  invalidData,
+  productExists,
+  minimumQty,
+  qtyMustBeANumber,
+  wrongIdFormat,
+  nameMinimumLength,
+  problemIdOrQty,
+  notFound,
+  saleNotFound,
+  wrongSaleIdFormat,
+  amountNotpermitted,
+  stockProblem,
+} = require('../utils/errorMessage');
+
 const getAll = async (_req, res) => {
   const { status, products } = await productService.getAll();
 
@@ -8,22 +23,21 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const { code, message, product, status } = await productService.getById(id);
-  if (code && message) return res.status(status).json({ code, message });
+  const { product, message, status } = await productService.getById(id);
+  if (message) return res.status(status).json({ code: invalidData, message: wrongIdFormat });
   res.status(status).json(product);
 };
 
-// const create = async (req, res) => {
-//   const { name, quantity } = req.body;
-//   console.log('name, quantity ----- productController', name, quantity);
-//   const { code, message, product } = await productService.create(name, quantity);
-//   // const RESPOSTA = await productService.create(name, quantity);
+const create = async (req, res) => {
+  const { name, quantity } = req.body;
+  const { code, message, product, status } = await productService.create(name, quantity);
+  // const RESPOSTA = await productService.create(name, quantity);
 
-//   // console.log('RESPOSTA ---- productController', RESPOSTA);
-//   if (code && message) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
+  // console.log('RESPOSTA ---- productController', RESPOSTA);
+  if (code && message) return res.status(status).json({ code, message });
 
-//   res.status(HTTP_CREATED_STATUS).json(product);
-// };
+  res.status(status).json(product);
+};
 
 // const actualize = async (req, res) => {
 //   const { id } = req.params;
@@ -36,13 +50,13 @@ const getById = async (req, res) => {
 const remove = async (req, res) => {
   const { id } = req.params;
   // const { status, message, product } = await productService.getById(id);
-  const { status, message, product, code } = await productService.remove(id);
-  if (!product) return res.status(status).json({ err: { code, message } });
+  const { status, product } = await productService.remove(id);
+  if (!product) return res.status(status).json({ err: { code: invalidData, message: wrongIdFormat } });
   res.status(status).json(product);
 };
 
 module.exports = {
-  // create,
+  create,
   getAll,
   getById,
   // actualize,

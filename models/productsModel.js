@@ -12,18 +12,18 @@ const getById = async (id) => {
       .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
 };
 
-// const findByName = async (name) => {
-//     connect()
-//       .then((db) => db.collection('products').findOne({ name }));
-// };
+const findByName = async (name) => {
+    connect()
+      .then((db) => db.collection('products').findOne({ name }));
+};
 
-// const create = async (name, quantity) => {
-//     const db = await connect();
-//     console.log('db ------- productModel', db);
-//     const product = await db.collection('products').insertOne({ name, quantity });
-//     console.log('product ------- productModel', product);
-//     return { _id: product.insertedId, name, quantity };
-// };
+const create = async (name, quantity) => {
+    const db = await connect();
+    console.log('db ------- productModel', db);
+    const product = await db.collection('products').insertOne({ name, quantity });
+    console.log('product ------- productModel', product);
+    return { _id: product.insertedId, name, quantity };
+};
 
 // const updateById = async (name, quantity, id) => {
 //     const db = await connect();
@@ -40,8 +40,8 @@ const remove = async (id) => {
 };
 
 module.exports = { 
-    // create,
-    // findByName,
+    create,
+    findByName,
     getAll,
     getById,
     // updateById,
