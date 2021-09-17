@@ -20,7 +20,8 @@ app.post('/products', controller.create);
 app.get('/products', controller.getAll);
 
 app.post('/sales', controllerSales.createSales); 
-
+app.get('/sales', controllerSales.getAllSales);
+app.get('/sales/:id', controllerSales.getById); 
 app.listen(PORT, () => {
   console.log('Online');
 });

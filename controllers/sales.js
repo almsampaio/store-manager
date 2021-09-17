@@ -9,51 +9,30 @@ app.use(bodyparser.json());
 const createSales = rescue(async (req, res) => {
   const itensSold = req.body;
   const createdSales = await service.createSales(itensSold);
-  console.log('controller', createdSales);
    if (createdSales.err) {
     return res.status(422).json(createdSales);
   }
   return res.status(200).json(createdSales);
 });
 
-/* const getAll = rescue(async (req, res) => {
-  const products = await service.getAll();
+ const getAllSales = rescue(async (req, res) => {
+  const salesAll = await service.getAllSales();
 
-  res.status(200).json(products);
+  res.status(200).json(salesAll);
 });
+
 const getById = rescue(async (req, res) => {
   const { id } = req.params;
-  const productId = await service.getById(id);
-  if (productId.err) {
-    return res.status(422).json(productId);
+  const sale = await service.getById(id);
+  console.log(sale);
+  if (sale.err) {
+    return res.status(404).json(sale);
   }
-  res.status(200).json(productId);
+  return res.status(200).json(sale);
 });
-
-const productUpdate = rescue(async (req, res) => {
-  const { id } = req.params;
-  const { name, quantity } = req.body;
-  const updatedProduct = await service.productUpdate(id, name, quantity);
-  if (updatedProduct.err) {
-    return res.status(422).json(updatedProduct);
-  }
-  res.status(200).json(updatedProduct);
-});
-
-const productDelete = rescue(async (req, res) => {
-  const { id } = req.params;
-  const deletedProduct = await service.productDelete(id);
-  if (deletedProduct.err) {
-    return res.status(422).json(deletedProduct);
-  }
-  res.status(200).json(deletedProduct);
-}); */
 
 module.exports = {
-  // getAll,
   createSales,
-  /* getById,
-  productUpdate,
-  productDelete, */
-  
+  getAllSales,
+  getById,
 };

@@ -2,63 +2,37 @@ const model = require('../models/sales');
 // const validate = require('../validations/salesValidate');
 
 const createSales = async (itensSold) => {
-  // itensSold.map((sale) => {});
-  const receivedQuantity = itensSold[0].quantity;
-  if (receivedQuantity <= 0 || typeof (receivedQuantity) !== 'number') {
+  // itensSold.map(async (sale) => {
+    const receivedQuantity = itensSold[0].quantity;
+      if (receivedQuantity <= 0 || typeof (receivedQuantity) !== 'number') {
+      return ({
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        },
+      });
+    }
+    const create = await model.createSales(itensSold);
+    return create;
+};
+
+const getAllSales = async () => model.getAllSales();
+
+const getById = async (id) => {
+  const sale = await model.getById(id);
+    if (!sale) { 
     return ({
       err: {
-        code: 'invalid_data',
-        message: 'Wrong product ID or invalid quantity',
+        code: 'not_found',
+        message: 'Sale not found',
       },
     });
   }
-  /* const valid = await validate.salesValidate(quantity);
-  console.log('valid', valid);
-  if (valid) {
-    return valid;
-  } */
-  const create = await model.createSales(itensSold);
-  return create;
+  return sale;
 };
-
-/* const getAll = async () => model.getAll();
-const getById = async (id) => {
-  const productId = await model.getById(id);
-  if (!productId) {
-    return {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    };
-  }
-  return model.getById(id);
-};
-const productUpdate = async (id, name, quantity) => {
-  const valid = await validate.productValidate(name, quantity);
-  if (valid) return valid;
-
-  const updatedProduct = await model.productUpdate(id, name, quantity);
-  return updatedProduct;
-};
-const productDelete = async (id) => {
-    const productId = await model.getById(id);
-    if (!productId) {
-      return {
-        err: {
-          code: 'invalid_data',
-          message: 'Wrong id format',
-        },
-      };
-    }
-    const deletedProduct = await model.productDelete(id);
-    return deletedProduct;
-  }; */
 
 module.exports = {
     createSales,
-    /* getAll,
+    getAllSales,
     getById,
-    productUpdate,
-    productDelete, 
-*/ };
+};
