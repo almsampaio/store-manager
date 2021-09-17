@@ -25,6 +25,8 @@ app.get('/sales', controllerSales.findSales);
 
 app.get('/sales/:id', controllerSales.findSalesId);
 
+app.put('/sales/:id', controllerSales.updateSale);
+
 app.use((err, _req, res, _next) => {
   const { message, code, status } = err;
   return res.status(status).json({ err: { code, message } });

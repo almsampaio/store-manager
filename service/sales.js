@@ -42,8 +42,33 @@ const findSalesId = async (id) => {
   return sales;
 };
 
+const updateSale = async (id, product) => {
+  product.forEach(({ quantity, productId }) => {
+    const { error } = validateSale.validate({ quantity });
+
+    if (error) {
+      const message = 'Wrong product ID or invalid quantity';
+      throw util(message, 'invalid_data', 422);
+    }
+
+    if (!validetionId.test(productId)) {
+      throw util(
+        'Sale not found',
+        'not_found',
+        404,
+      );
+    }
+  });
+
+  await salesModel.updateSale(id, product);
+
+  const sale = await salesModel.findSalesId(id);
+  return sale;
+};
+
 module.exports = {
   createSale,
   findSales,
   findSalesId,
+  updateSale,
 };
