@@ -3,7 +3,7 @@ const connection = require('./connection');
 const productsModel = require('./productsModel');
 
 const create = async (sales) => {
-  const productId = sales[0].productId;
+  const { productId } = sales[0];
   const productFromStock = await productsModel.findProductById(productId);
   const quantityToUpdate = productFromStock.quantity - sales[0].quantity;
 
@@ -12,7 +12,7 @@ const create = async (sales) => {
   return connection()
     .then((db) => db.collection('sales').insertOne({ itensSold: sales }))
     .then((result) => result.ops[0]);
-}
+};
 
 const getAll = async () => connection()
     .then((db) => db.collection('sales').find().toArray())
@@ -24,12 +24,12 @@ const find = async (id) => connection()
 
 const update = async (id, itensSold) => {
   await connection()
-  .then((db) => db.collection('sales').updateOne({_id: ObjectId(id)}, {$set: {itensSold}}))
-  .then(result => result);
+  .then((db) => db.collection('sales').updateOne({ _id: ObjectId(id) }, { $set: { itensSold } }))
+  .then((result) => result);
 
   const updatedSale = await find(id);
   return updatedSale;
-}
+};
 
 const remove = async (id) => {
   const sale = await find(id);
@@ -41,11 +41,10 @@ const remove = async (id) => {
   await productsModel.changeProductInfo(productId, productFromStock.name, quantityToUpdate);
 
   return connection()
-    .then((db) => db.collection('sales').deleteOne({_id: ObjectId(id)}))
+    .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }))
     .then(() => sale)
     .catch(() => null);
-}
-
+};
 
 module.exports = {
   create,

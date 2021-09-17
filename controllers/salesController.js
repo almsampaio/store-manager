@@ -42,29 +42,33 @@ const update = async (req, res) => {
   const { id } = req.params;
 
   const { sale, message } = await salesService.update(id, body);
-  if (message) return res.status(422).json({
+  if (message) {
+ return res.status(422).json({
     err: {
       code: 'invalid_data',
-      message
-    }
-  })
+      message,
+    },
+  }); 
+}
 
   return res.status(200).json(sale);
-}
+};
 
 const remove = async (req, res) => {
   const { id } = req.params;
 
   const { sale, message } = await salesService.remove(id);
-  if (message) return res.status(422).json({
+  if (message) {
+ return res.status(422).json({
     err: {
       code: 'invalid_data',
-      message
-    }
-  })
+      message,
+    },
+  }); 
+}
 
   return res.status(200).json(sale);
-}
+};
 
 module.exports = {
   create,
