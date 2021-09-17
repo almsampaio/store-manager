@@ -5,7 +5,10 @@ const createNewProduct = async (name, quantity) => productsModel.create(name, qu
 
  const getProducts = async () => productsModel.getProducts();
 
+ const getProductsById = async (id) => productsModel.getProductsById(id);
+
 module.exports = {
   createNewProduct,
   getProducts,
+  getProductsById,
 };
