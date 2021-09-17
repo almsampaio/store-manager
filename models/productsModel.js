@@ -30,10 +30,20 @@ const updateProduct = (id, name, quantity) => {
       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
 };
 
+const deleteProduct = (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection().then((db) =>
+    db
+      .collection('products')
+      .deleteOne({ _id: ObjectId(id) }));
+};
+
 module.exports = {
   getAllProducts,
   createProd,
   findAllProducts,
   findOneProduct,
   updateProduct,
+  deleteProduct,
 };

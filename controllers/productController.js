@@ -26,7 +26,7 @@ const findOneProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
- 
+
   productService.updateProduct(id, name, quantity);
 
   const changedproduct = await productService.findOneProduct(id);
@@ -34,9 +34,19 @@ const updateProduct = async (req, res) => {
   res.status(200).json(changedproduct);
 };
 
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const deletedProduct = await productService.deleteProduct(id);
+
+  if (!deletedProduct) return res.status(422).json(messageErro.wrongIdFormat);
+
+  res.status(200).json(deletedProduct);
+};
+
 module.exports = {
   createProduct,
   findAllProducts,
   findOneProduct,
   updateProduct,
+  deleteProduct,
 };
