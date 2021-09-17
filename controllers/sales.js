@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyparser.json());
 
 const createSales = rescue(async (req, res) => {
-  const { itensSold } = req.body;
+  const itensSold = req.body;
   const createdSales = await service.createSales(itensSold);
   console.log('controller', createdSales);
    if (createdSales.err) {
@@ -16,7 +16,7 @@ const createSales = rescue(async (req, res) => {
   return res.status(200).json(createdSales);
 });
 
-const getAll = rescue(async (req, res) => {
+/* const getAll = rescue(async (req, res) => {
   const products = await service.getAll();
 
   res.status(200).json(products);
@@ -47,13 +47,13 @@ const productDelete = rescue(async (req, res) => {
     return res.status(422).json(deletedProduct);
   }
   res.status(200).json(deletedProduct);
-});
+}); */
 
 module.exports = {
-  getAll,
+  // getAll,
   createSales,
-  getById,
+  /* getById,
   productUpdate,
-  productDelete,
+  productDelete, */
   
 };

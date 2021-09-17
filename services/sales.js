@@ -3,10 +3,8 @@ const model = require('../models/sales');
 
 const createSales = async (itensSold) => {
   // itensSold.map((sale) => {});
-  console.log(itensSold);
-  const { quantity } = itensSold[0];
-  console.log('service quantity', quantity);
-  if (quantity <= 0) {
+  const receivedQuantity = itensSold[0].quantity;
+  if (receivedQuantity <= 0 || typeof (receivedQuantity) !== 'number') {
     return ({
       err: {
         code: 'invalid_data',
