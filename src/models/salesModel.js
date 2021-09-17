@@ -6,10 +6,8 @@ const create = async (itensSold) => {
   const sales = await db.collection('sales').insertOne({ itensSold });
 
   const result = await sales.ops[0];
-  return {
-    _id: result.insertedId,
-    itensSold: result.itensSold,
-  };
+  console.log(result);
+  return result; 
 };
 
 module.exports = { 

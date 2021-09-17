@@ -1,5 +1,5 @@
 const rescue = require('express-rescue');
-const { CREATE } = require('../constants/HTTPCodeErrors');
+const { STATUS_OK } = require('../constants/HTTPCodeErrors');
 
 const SalesService = require('../services/SalesService');
 
@@ -8,7 +8,7 @@ const create = rescue(async (req, res) => {
 
   const newSale = await SalesService.create(body);
 
-  res.status(CREATE).json(newSale);
+  res.status(STATUS_OK).json(newSale);
 });
 
 module.exports = {
