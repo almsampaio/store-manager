@@ -26,4 +26,8 @@ app.delete('/products/:id', productController.remove);
 
 app.post('/sales', saleController.create);
 
+app.get('/sales', saleController.getAll);
+
+app.get('/sales/:id', saleController.getById);
+
 app.listen(PORT, () => console.log(`O pai tá ON na Porta ${PORT}`));
