@@ -11,14 +11,14 @@ const getAll = async (_req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  console.log('Controller createProduct()!');
+  // console.log('Controller createProduct()!');
   const { name, quantity } = req.body;
   const product = await productServices.create(name, quantity);
   return res.status(STATUS_CREATE).send(product);
 };
 
 const getById = async (req, res) => {
-  console.log('Controller getById()!');
+  // console.log('Controller getById()!');
   const { id } = req.params;
   const product = await productServices.getById(id);
   if (!product) { // se o id for inválido o model retornará null p/ service, que retornará para cá (controller).
@@ -33,7 +33,7 @@ const getById = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  console.log('Controller updateProduct()!');
+  // console.log('Controller updateProduct()!');
   const { id } = req.params;
   const { name, quantity } = req.body;
   const foundProduct = await productServices.updateProduct({ _id: id, name, quantity });
@@ -41,7 +41,7 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-  console.log('Controller deleteProduct()!');
+  // console.log('Controller deleteProduct()!');
   const { id } = req.params;
   const deletedProduct = await productServices.deleteP(id);
   if (!deletedProduct) {

@@ -10,7 +10,7 @@ const {
 const { getByName } = require('../services/productServices');
 
 const validateName = async (req, res, next) => {
-  console.log('Middleware validateName.\n');
+  // console.log('Middleware validateName.\n');
   const { name } = req.body;
   if (name.length < 5) {
     return res.status(STATUS_UNPROCESSABLE).send(
