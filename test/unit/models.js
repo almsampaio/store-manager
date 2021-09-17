@@ -7,32 +7,32 @@ const mongoConnection = require('../../models/connection');
 
 const productsModel = require('../../models/productsModel');
 
+before(async () => {
+  const DBServer = new MongoMemoryServer();
+  const URLMock = await DBServer.getUri();
+
+  connectionMock = await MongoClient
+    .connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then((conn) => conn.db('StoreManager'));
+
+
+  sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
+});
+
+// Restauraremos a função `getConnection` original após os testes.
+after(() => {
+  mongoConnection.getConnection.restore();
+});
+
 describe('adiciona um novo produto', () => {
   let connectionMock;
   const payloadProduct = {
     name: "produto novo",
     quantity: 10,
   }
-
-  before(async () => {
-    const DBServer = new MongoMemoryServer();
-    const URLMock = await DBServer.getUri();
-
-    connectionMock = await MongoClient
-      .connect(URLMock, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      })
-      .then((conn) => conn.db('StoreManager'));
-
-
-    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
-  });
-
-  // Restauraremos a função `getConnection` original após os testes.
-  after(() => {
-    mongoConnection.getConnection.restore();
-  });
 
   it('retorna um objeto', async () => {
     const addedProduct = await productsModel.addProduct(payloadProduct);
@@ -61,26 +61,6 @@ describe('atualiza um produto', () => {
     name: "produto novo",
     quantity: 10,
   }
-
-  before(async () => {
-    const DBServer = new MongoMemoryServer();
-    const URLMock = await DBServer.getUri();
-
-    connectionMock = await MongoClient
-      .connect(URLMock, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      })
-      .then((conn) => conn.db('StoreManager'));
-
-
-    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
-  });
-
-  // Restauraremos a função `getConnection` original após os testes.
-  after(() => {
-    mongoConnection.getConnection.restore();
-  });
 
   it('retorna o produto atualizado', async () => {
     const product = await productsModel.addProduct(payloadProduct);
