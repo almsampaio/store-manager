@@ -32,9 +32,21 @@ const updateProduct = async (req, res) => {
   res.status(200).json(result);
 };
 
+const excludeProduct = async (req, res) => {
+  const { id } = req.params;
+  const result = await productService.findById(id);
+
+  if (result.err) return res.status(422).json(result);
+
+  const product = await productService.excludeProduct(id);
+
+  res.status(200).json(product);
+};
+
 module.exports = {
   addProduct,
   findById,
   findAll,
   updateProduct,
+  excludeProduct,
 };

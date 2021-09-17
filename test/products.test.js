@@ -422,7 +422,7 @@ describe('4 - Crie um endpoint para deletar um produto', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que não é possível deletar um produto com sucesso', async () => {
+  it('Será validado que não é possível deletar um produto com sucesso', async () => {
     let result;
     let resultProductId;
 
@@ -447,7 +447,7 @@ describe('4 - Crie um endpoint para deletar um produto', () => {
       });
   });
 
-  it.skip('Será validado que não é possível deletar um produto que não existe', async () => {
+  it('Será validado que não é possível deletar um produto que não existe', async () => {
     await frisby
       .delete(`${url}/products/${invalidId}`)
       .expect('status', 422)

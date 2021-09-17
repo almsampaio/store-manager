@@ -18,5 +18,6 @@ app.get('/products', productControlle.findAll);
 app.get('/products/:id', productControlle.findById);
 app.put('/products/:id', validtion.isValidName, validtion.isValidQuanty,
   productControlle.updateProduct);
+app.delete('/products/:id', productControlle.excludeProduct);
 
 app.listen(PORT, () => console.log(`On-line na porta ${PORT}`));
