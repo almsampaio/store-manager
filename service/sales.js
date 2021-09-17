@@ -37,7 +37,7 @@ const findSalesId = async (id) => {
 
   const sales = await salesModel.findSalesId(id);
 
-  if (!sales) throw util('Wrong id format', 'not_found', 404);
+  if (!sales) throw util('Sale not found', 'not_found', 404);
 
   return sales;
 };
@@ -66,9 +66,28 @@ const updateSale = async (id, product) => {
   return sale;
 };
 
+const deleteSale = async (id) => {
+  if (!validetionId.test(id)) {
+    throw util(
+      'Wrong sale ID format',
+      'invalid_data',
+      422,
+    );
+  }
+
+  const sale = await salesModel.findSalesId(id);
+
+  if (!sale) throw util('Wrong sale ID format', 'invalid_data', 422);
+
+  await salesModel.deleteSale(id);
+
+  return sale;
+};
+
 module.exports = {
   createSale,
   findSales,
   findSalesId,
   updateSale,
+  deleteSale,
 };

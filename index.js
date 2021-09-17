@@ -27,6 +27,8 @@ app.get('/sales/:id', controllerSales.findSalesId);
 
 app.put('/sales/:id', controllerSales.updateSale);
 
+app.delete('/sales/:id', controllerSales.deleteSale);
+
 app.use((err, _req, res, _next) => {
   const { message, code, status } = err;
   return res.status(status).json({ err: { code, message } });
