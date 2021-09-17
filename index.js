@@ -32,4 +32,6 @@ app.get('/sales/:id', saleController.getById);
 
 app.put('/sales/:id', saleController.update);
 
+app.delete('/sales/:id', saleController.remove);
+
 app.listen(PORT, () => console.log(`O pai tá ON na Porta ${PORT}`));

@@ -6,8 +6,11 @@ const quantityError = { err:
   { code: invalidData, message: 'Wrong product ID or invalid quantity' },
 };
 const notFound = 'not_found';
-const wrongIdError = { err:
+const notFoundIdError = { err:
   { code: notFound, message: 'Sale not found' },
+};
+const wrongIdError = { err:
+  { code: invalidData, message: 'Wrong sale ID format' },
 };
 
 const create = async (itensSoldArray) => {
@@ -22,7 +25,7 @@ const getAll = async () => saleModel.getAll();
 
 const getById = async (id) => {
   const saleById = await saleModel.getById(id);
-  if (!saleById) return wrongIdError;
+  if (!saleById) return notFoundIdError;
   return { sale: saleById };
  };
 
@@ -34,9 +37,16 @@ const getById = async (id) => {
   return { sale: updatedSale };
 };
 
+const remove = async (id) => {
+  const saleById = await saleModel.remove(id);
+  if (!saleById) return wrongIdError;
+  return true;
+ };
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };
