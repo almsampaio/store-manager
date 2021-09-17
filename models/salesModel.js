@@ -1,12 +1,6 @@
 const { ObjectId } = require('mongodb');
 const connectionDB = require('./connection');
 
-const existingName = async (name) => {
-    const db = await connectionDB();
-    const product = await db.collection('products').findOne({ name });
-    return product;
-};
-
 const existingId = async (id) => {
     if (!ObjectId.isValid(id)) { return null; }
     const db = await connectionDB();
@@ -42,10 +36,10 @@ const update = async (id, salesArray) => {
 
 const exclude = async (id) => {
     const db = await connectionDB();
-    const product = await db.collection('products').findOne({ _id: ObjectId(id) });
-    await db.collection('products').deleteOne({ _id: ObjectId(id) });
+    const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
+    await db.collection('sales').deleteOne({ _id: ObjectId(id) });
 
-    return product;
+    return sale;
 };
 
-module.exports = { existingName, existingId, getId, getAll, add, update, exclude }; 
+module.exports = { existingId, getId, getAll, add, update, exclude }; 

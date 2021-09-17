@@ -44,4 +44,13 @@ const updateSale = async (req, res) => {
         return res.status(status.OK).json(responseMSG);
 };
 
-module.exports = { getAllSales, getSaleById, createSales, updateSale };
+const deleteSale = async (req, res) => {
+    const { id } = req.params;
+    const responseMSG = await salesService.deleteValidation(id);
+    if (typeof (responseMSG) === 'string') {
+        return res.status(status.UNPROCESSABLE_ENTITY).json(generalError.error(responseMSG));
+    } 
+        return res.status(status.OK).json(responseMSG);
+};
+
+module.exports = { getAllSales, getSaleById, createSales, updateSale, deleteSale };
