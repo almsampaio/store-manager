@@ -2,6 +2,7 @@ const productModel = require('../models/productModel');
 const {
   STATUS_UNPROCESSABLE_ENTITY,
   STATUS_CREATE,
+  STATUS_OK,
 } = require('../utils/status');
 
 const create = async (name, quantity) => {
@@ -27,12 +28,26 @@ const create = async (name, quantity) => {
 
 const getAll = async () => {
   const product = await productModel.getAll();
-  return product;
+  return {
+    status: STATUS_OK,
+    message: product,
+  };
 };
 
 const getById = async (id) => {
   const product = await productModel.getById(id);
-  return product;
+  return {
+    status: STATUS_OK,
+    message: product,
+  };
 };
 
-module.exports = { create, getById, getAll };
+const update = async (id, name, quantity) => {
+  const product = await productModel.update(id, name, quantity);
+  return {
+    status: STATUS_OK,
+    message: product,
+  };
+};
+
+module.exports = { create, getById, getAll, update };

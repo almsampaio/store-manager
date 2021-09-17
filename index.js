@@ -1,6 +1,6 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
-const { create, getAll, getById } = require('./controllers/productController');
+const { create, getAll, getById, update } = require('./controllers/productController');
 const { validName, validQuantity } = require('./middlewares');
 const { validId } = require('./middlewares/productMid');
 
@@ -18,6 +18,8 @@ app.post('/products', validName, validQuantity, create);
 app.get('/products', getAll);
 
 app.get('/products/:id', validId, getById);
+
+app.put('/products/:id', validId, validName, validQuantity, update);
 
 app.listen(PORT, () => {
   console.log('Online: ', PORT);
