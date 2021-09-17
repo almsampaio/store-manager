@@ -24,4 +24,4 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.listen(process.env.PORT || 3000, () => console.log('Rodando certinho'));
+app.listen(3000, () => console.log('Rodando certinho'));
