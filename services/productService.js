@@ -3,16 +3,16 @@ const productsModel = require('../models/productsModel');
 const {
   invalidData,
   productExists,
-  minimumQty,
-  qtyMustBeANumber,
+  // minimumQty,
+  // qtyMustBeANumber,
   wrongIdFormat,
-  nameMinimumLength,
-  problemIdOrQty,
-  notFound,
-  saleNotFound,
-  wrongSaleIdFormat,
-  amountNotpermitted,
-  stockProblem,
+  // nameMinimumLength,
+  // problemIdOrQty,
+  // notFound,
+  // saleNotFound,
+  // wrongSaleIdFormat,
+  // amountNotpermitted,
+  // stockProblem,
 } = require('../utils/errorMessage');
 
   const {

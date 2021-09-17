@@ -2,17 +2,17 @@ const productService = require('../services/productService');
 
 const {
   invalidData,
-  productExists,
-  minimumQty,
-  qtyMustBeANumber,
+  // productExists,
+  // minimumQty,
+  // qtyMustBeANumber,
   wrongIdFormat,
-  nameMinimumLength,
-  problemIdOrQty,
-  notFound,
-  saleNotFound,
-  wrongSaleIdFormat,
-  amountNotpermitted,
-  stockProblem,
+  // nameMinimumLength,
+  // problemIdOrQty,
+  // notFound,
+  // saleNotFound,
+  // wrongSaleIdFormat,
+  // amountNotpermitted,
+  // stockProblem,
 } = require('../utils/errorMessage');
 
 const getAll = async (_req, res) => {
@@ -51,7 +51,10 @@ const remove = async (req, res) => {
   const { id } = req.params;
   // const { status, message, product } = await productService.getById(id);
   const { status, product } = await productService.remove(id);
-  if (!product) return res.status(status).json({ err: { code: invalidData, message: wrongIdFormat } });
+  if (!product) {
+ return res.status(status)
+    .json({ err: { code: invalidData, message: wrongIdFormat } }); 
+}
   res.status(status).json(product);
 };
 
