@@ -32,9 +32,17 @@ const update = async (id, itensSold) => {
     return { _id: id, itensSold };
 };
 
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  
+  const db = await getConnection();
+  await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   getAll,
   getById,
   add,
   update,
+  remove,
 };

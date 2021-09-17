@@ -11,6 +11,7 @@ const add = async (sales) => {
         compras = false;
       }
     });
+    // estou passando por todos os produtos vendidos e vendo se esses produtos existe pelo getById
 
     if (!compras) {
       return { err: { message: 'Wrong product ID or invalid quantity', code: 'invalid_data' } };
@@ -25,7 +26,7 @@ const remove = async (id) => {
   const productExist = await model.getById(id);
 
   if (!productExist) {
-    return { err: { message: 'Wrong product ID or invalid quantity', code: 'not_found' } };
+    return { err: { message: 'Wrong sale ID format', code: 'invalid_data' } };
   }
 
   await model.remove(id);

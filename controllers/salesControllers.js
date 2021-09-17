@@ -41,7 +41,7 @@ const remove = async (req, res) => {
 
   const removeSale = await services.remove(id);
 
-  if (removeSale.err) return res.status(404).json(removeSale);
+  if (removeSale.err) return res.status(422).json(removeSale);
 
   return res.status(200).json(removeSale);
 };
