@@ -16,9 +16,18 @@ const findOneProduct = (id) => {
   if (!ObjectId.isValid(id)) {
     return null;
   }
-  
+
   return connection().then((db) =>
-  db.collection('products').findOne({ _id: ObjectId(id) }));
+    db.collection('products').findOne({ _id: ObjectId(id) }));
+};
+
+const updateProduct = (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection().then((db) =>
+    db
+      .collection('products')
+      .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
 };
 
 module.exports = {
@@ -26,4 +35,5 @@ module.exports = {
   createProd,
   findAllProducts,
   findOneProduct,
+  updateProduct,
 };

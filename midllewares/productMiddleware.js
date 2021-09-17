@@ -22,7 +22,7 @@ const validate = async (req, res, next) => {
   const isNameValid = validateName(name, products);
   const isQuantitvalid = validateQuantity(quantity);
   if (!isNameValid && !isQuantitvalid) return next();
-  res.status(422).json(isNameValid || isQuantitvalid);
+  res.status(422).json(isQuantitvalid || isNameValid);
 };
 
 module.exports = { validate, messageErro };
