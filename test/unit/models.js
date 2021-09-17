@@ -13,7 +13,7 @@ describe('Ao chamar os models de products', () => {
   let id;
   let testProduct;
 
-  beforeEach(async () => {
+  before(async () => {
     const URLMock = await DBServer.getUri();
     connectionMock = await MongoClient
       .connect(URLMock, {
@@ -25,7 +25,7 @@ describe('Ao chamar os models de products', () => {
       sinon.stub(mongoConnection, 'connection').resolves(connectionMock);
   });
 
-  afterEach(() => mongoConnection.connection.restore());
+  after(() => mongoConnection.connection.restore());
 
   describe('chamando a função "createProduct"', () => {
     describe('com sucesso', () => {
@@ -157,8 +157,114 @@ describe('Ao chamar os models de products', () => {
 
       const produtoAlterado = { _id: id, name: 'produto', quantity: 30 };
 
-
       expect(result).to.be.deep.equal(produtoAlterado);
     });
+  });
+});
+
+const salesModels = require('../../models/sales');
+
+describe('Ao chamar os models de sales', () => {
+  const DBServer = new MongoMemoryServer();
+  let connectionMock;
+
+  let id;
+  let testProduct;
+  let testSale;
+
+  before(async () => {
+    const URLMock = await DBServer.getUri();
+    connectionMock = await MongoClient
+      .connect(URLMock, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .then((conn) => conn.db('StoreManager'));
+
+      sinon.stub(mongoConnection, 'connection').resolves(connectionMock);
+
+      const result = await productModels.createProduct('product test', 20);
+      testProduct = result;
+  });
+
+  after(() => mongoConnection.connection.restore());
+
+  describe('chamando a função "createSales"', () => {
+    it('retorna a venda criada', async () => {
+      const [result] = await salesModels.createSales(testProduct);
+
+      expect(result).to.deep.include.keys('_id', 'itensSold');
+
+      testSale = result;
+      id = result._id;
+    });
+  });
+
+  describe('chamando a função "getSales"', () => {
+    it('retorna todas as vendas cadastradas', async () => {
+      const result = await salesModels.getSales();
+
+      expect(result).to.be.deep.equal([testSale]);
+    });
+  });
+
+  describe('chamando a função "getSalesById"', () => {
+    it('caso o Id seja inválido, retorna null', async () => {
+      const result = await salesModels.getSalesById('1234');
+
+      expect(result).to.be.null;
+    });
+
+    it('retorna a venda correspondente ao Id', async () => {
+      const result = await salesModels.getSalesById(id);
+
+      expect(result).to.be.deep.equal(testSale);
+    });
+  });
+
+  describe('chamando a função "updateSale"', () => {
+    let updatedProduct;
+
+    it('caso o Id seja inválido, retorna null', async () => {
+      const result = await salesModels.updateSale('1234');
+
+      expect(result).to.be.null;
+    });
+
+    it('atualiza a venda com sucesso', async () => {
+      updatedProduct = await productModels.createProduct('produto alterado', 50);
+
+      const result = await salesModels.updateSale(id, updatedProduct);
+      
+      expect(result).to.be.deep.equal({ _id: id, itensSold: updatedProduct });
+    });
+
+    it('confirma que o produto está atualizado no banco de dados', async () => {
+      const result = await salesModels.getSalesById(id);
+
+      expect(result).to.be.deep.equal({ _id: id, itensSold: updatedProduct });
+
+      testSale = { _id: id, itensSold: updatedProduct };
+    });
+  });
+
+  describe('chamando a função "deleteSale"', () => {
+    it('caso o id seja inválido, retorna null', async () => {
+      const result = await salesModels.deleteSale('1234');
+
+      expect(result).to.be.null;
+    });
+
+    it('retorna a venda deletada', async () => {
+      const result = await salesModels.deleteSale(id);
+
+      expect(result).to.be.deep.equal(testSale);
+    });
+  });
+
+  it('confirma que a venda não se encontra mais no banco de dados', async () => {
+    const result = await salesModels.getSalesById(id);
+
+    expect(result).to.be.null;
   });
 });

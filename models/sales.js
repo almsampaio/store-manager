@@ -1,14 +1,14 @@
 const { ObjectId } = require('mongodb');
-const { connection } = require('./connection');
+const mongoConnection = require('./connection');
 
-const accessSales = () => connection().then((db) => db.collection('sales'));
+const accessSales = () => mongoConnection.connection().then((db) => db.collection('sales'));
 
 const createSales = async (itensSold) => {
   const sales = await accessSales();
 
-  const result = await sales.insertOne({ itensSold });
+  const { ops } = await sales.insertOne({ itensSold });
 
-  return result.ops;
+  return ops;
 };
 
 const getSales = async () => {
