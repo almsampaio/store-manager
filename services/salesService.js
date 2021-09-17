@@ -2,14 +2,20 @@ const salesModel = require('../models/salesModel');
 const productsModel = require('../models/productsModel');
 
 const create = async (products) => {
-  const [{ productId, quantity }] = products;
-  const isProductRegistered = await productsModel.findProductById(productId);
+  const [{quantity, productId}] = products;
 
-  if (quantity <= 0 || typeof quantity !== 'number' || !isProductRegistered) {
- return {
-    message: 'Wrong product ID or invalid quantity',
-  };
-}
+  const product = await productsModel.findProductById(productId);
+  if ((product.quantity - quantity) < 0) return {
+    status: 404,
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell'
+  }
+
+  if (!productId || quantity <=0 || typeof quantity !== 'number') return {
+    status: 422,
+    code: 'invalid_data',
+    message: 'Wrong product ID or invalid quantity'
+  }
 
   const sales = await salesModel.create(products);
   return { sales };

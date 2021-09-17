@@ -3,12 +3,12 @@ const salesService = require('../services/salesService');
 const create = async (req, res) => {
   const { body } = req;
 
-  const { message, sales } = await salesService.create(body);
+  const { message, sales, code, status } = await salesService.create(body);
 
   if (message) {
- return res.status(422).json({
+ return res.status(status).json({
     err: {
-      code: 'invalid_data',
+      code,
       message,
     },
   });
