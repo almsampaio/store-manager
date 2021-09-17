@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const productsController = require('./controllers/productsControler');
@@ -23,4 +24,4 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.listen(3000, () => console.log('Rodando certinho'));
+app.listen(process.env.PORT || 3000, () => console.log('Rodando certinho'));
