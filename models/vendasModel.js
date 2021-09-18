@@ -23,8 +23,9 @@ const criarVenda = async (itensVendidos) => {
 };
 
 const atualizarVenda = async (id, vendaRealizada) => {
-  // Verificando se o id é válido
-  if (!ObjectId.isValid(id)) return null;
+  // Verificando se o id é válido + Retornei 'não encontrado' abaixo para evitar erro do
+  // Eslint: Refactor this function to reduce its Cognitive Complexity from 7 to the 5 allowed.
+  if (!ObjectId.isValid(id)) return 'não encontrado';
   const db = await conexao();
   await db.collection('sales').updateOne(
     { _id: ObjectId(id) }, { $set: { vendaRealizada } },
