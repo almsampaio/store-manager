@@ -29,8 +29,15 @@ const updateSalesByID = async (id, toChangeSales) => {
   return updateSales;
 };
 
+const deleteSaleByID = async (id) => {
+  const deleteById = await salesModel.deleteSaleByID(id);
+  if (deleteById === false || deleteById === null) return 'Sale not Deleted';
+  return deleteById;
+};
+
 module.exports = {
   postSale,
   getSalesByID,
   updateSalesByID,
+  deleteSaleByID,
 };

@@ -7,7 +7,7 @@ const salesModel = require('../models/salesModel');
 const lessEqualThan0 = 'Wrong product ID or invalid quantity';
 const notNumber = 'Wrong product ID or invalid quantity';
 const notFound = 'Sale not found';
-// const saleNotDeleted = 'Wrong sale ID format';
+const saleNotDeleted = 'Wrong sale ID format';
 
 const postSale = async (request, response) => {
   const soldItems = request.body;
@@ -53,9 +53,20 @@ const updateSalesByID = async (request, response) => {
   return response.status(200).json(updateSales);
 };
 
+const deleteSaleByID = async (request, response) => {
+  const { id } = request.params;
+  const deleteSale = await salesService.deleteSaleByID(id);
+
+  if (deleteSale === 'Sale not Deleted') {
+    return response.status(422).json({ err: { code: 'invalid_data', message: saleNotDeleted } });
+  }
+  return response.status(200).json(deleteSale);
+};
+
 module.exports = {
   postSale,
   getAllSales,
   getSalesByID,
   updateSalesByID,
+  deleteSaleByID,
 };
