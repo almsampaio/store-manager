@@ -1,5 +1,5 @@
 const { registerSaleModel,
-  getAllSalesModel, findById } = require('../models/salesModel');
+  getAllSalesModel, findById, update } = require('../models/salesModel');
 
 const createSale = async (items) => {
   const newSales = await registerSaleModel(items);
@@ -16,8 +16,13 @@ const getSaleById = async (id) => {
   return findSale;
 };
 
+const updateSaleService = async (id, itensSold) => {
+  const updatedSale = await update(id, itensSold);
+  return updatedSale;
+};
 module.exports = {
   createSale,
   getSales,
   getSaleById,
+  updateSaleService,
 };

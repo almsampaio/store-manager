@@ -4,7 +4,7 @@ const {
 
 const validateQuantities = async (req, res, next) => {
   const itensSold = req.body;
-  console.log(`ARR${itensSold}\n`);
+  // console.log(`ARR${JSON.stringify(itensSold)}\n`);
   if (!itensSold) return null;
   itensSold.forEach((item) => {
     if (item.quantity <= 0 || typeof (item.quantity) === 'string') {

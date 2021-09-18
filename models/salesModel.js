@@ -2,7 +2,6 @@ const { ObjectId } = require('bson');
 const connection = require('./connection');
 
 const registerSaleModel = async (items) => {
-  console.log('registerSaleModel on!');
   const sales = await connection().then((db) => db
   .collection('sales').insertMany([{ itensSold: items }]))
   .then(({ ops }) => ops[0]).catch((err) => console.log(err));
@@ -26,8 +25,19 @@ const findById = async (id) => {
   return saleFound;
 };
 
+const update = async (_id, itensSold) => {
+  if (!ObjectId.isValid(_id)) return null;
+  await connection().then((db) => db
+    .collection('sales').findOneAndUpdate({ 
+      _id: ObjectId(_id) }, { $set: { itensSold } }))
+    .catch((err) => console.log(err));
+  const foundSale = await findById(_id);
+  return foundSale;
+};
+
 module.exports = {
   registerSaleModel,
   getAllSalesModel,
   findById,
+  update,
 };

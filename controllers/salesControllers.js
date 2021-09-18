@@ -1,4 +1,5 @@
-const { createSale, getSales, getSaleById } = require('../services/saleServices');
+const { createSale, getSales, getSaleById,
+  updateSaleService } = require('../services/saleServices');
 const { STATUS_OK, STATUS_UNPROCESSABLE, STATUS_NOT_FOUND } = require('../utils/httpStatus');
 
 const registerSale = async (req, res) => {
@@ -35,8 +36,16 @@ const getById = async (req, res) => {
     });
   }
 };
+
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+  const products = req.body;
+  const updatedSale = await updateSaleService(id, products);
+  return res.status(STATUS_OK).json(updatedSale);
+};
 module.exports = {
   registerSale,
   getAllSales,
   getById,
+  updateSale,
 };
