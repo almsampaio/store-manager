@@ -8,7 +8,7 @@ const listarVendaPorID = async (id) => {
 };
 
 const criarVenda = async (itensVendidos) => {
-  for (index = 0; index < itensVendidos.length; index += 1) {
+  for (let index = 0; index < itensVendidos.length; index += 1) {
     // Validar que não é possível cadastrar vendas com quantidade menor ou igual a zero
     if (itensVendidos[index].quantity <= 0) return 'menor ou igual a zero';
     // Validar que não é possível cadastrar vendas com uma string no campo quantidade

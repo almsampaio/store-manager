@@ -40,9 +40,7 @@ const atualizarVenda = async (req, res) => {
   const { id } = req.params;
   const { productId, quantity } = req.body;
   const venda = await vendasService.atualizarVenda(id, productId, quantity);
-  if (venda === 'menor que cinco') {
-    return res.status(422).json({ err: { code: 'invalid_data', message: maiorQueCinco } });
-  }
+  
   if (venda === 'menor ou igual a zero') {
     return res.status(422).json({ err: { code: 'invalid_data', message: maiorIgualUm } });
   }

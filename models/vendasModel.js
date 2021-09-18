@@ -18,9 +18,7 @@ const listarVendaPorID = async (id) => {
 
 const criarVenda = async (itensVendidos) => {
   const db = await conexao();
-  // const venda = await db.collection('sales').insertOne({ itensVendidos });
   const venda = await db.collection('sales').insertMany([{ itensSold: itensVendidos }]);
-  // return venda.ops[0];
   return { _id: Object.values(venda.insertedIds).toString(), itensSold: itensVendidos };
 };
 
@@ -40,12 +38,6 @@ const deletarVenda = async (id) => {
   if (!venda) return false;
   return venda.value;
 };
-
-/* const buscarPeloID = async (id) => {
-  const db = await conexao();
-  const buscar = await db.collection('sales').findOne({ id });
-  return buscar;
-}; */
 
 module.exports = {
   listarVendas,
