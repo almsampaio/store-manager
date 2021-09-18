@@ -1,4 +1,4 @@
-const modelProduct = require('../modelo/modProducts');
+const modelProduct = require('../model/modProducts');
 
 const errExistencia = {
   err: {
@@ -30,20 +30,20 @@ const errTypeString = {
 
 const verificaName = async (name) => {
   const verificaSeExiste = await modelProduct.getProductName(name);
-  if (typeof name !== 'string' && name.length < 5) {
-    return errMin5;
-  } if (!verificaSeExiste) {
-    return errExistencia;
+  if (typeof name !== 'string' || name.length < 5) {
+    throw errMin5;
+  } if (verificaSeExiste) {
+    throw errExistencia;
   }
   return name;
 };
 
  const verificaQuantidade = async (quantity) => {
-  if (quantity <= 0) {
-    return errMenorOuIgual0;
-  } if (typeof quantity === 'string') {
-    return errTypeString;
-  }
+  if (typeof quantity === 'string') {
+  throw errTypeString;
+} if (quantity <= 0) {
+  throw errMenorOuIgual0;
+}
   return quantity;
 };
 
@@ -52,8 +52,15 @@ const getAllProducts = async () => {
   return getAll;
 };
 
+const validaCreateProducts = async (name, quantity) => {
+  const validaName = await verificaName(name);
+  const validaQuantity = await verificaQuantidade(quantity);
+  return modelProduct.insertProducts(validaName, validaQuantity);
+};
+
 module.exports = {
   verificaName,
   verificaQuantidade,
   getAllProducts,
+  validaCreateProducts,
 };
