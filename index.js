@@ -22,7 +22,7 @@ app.post('/products', productsController.postProduct);
 app.post('/sales', salesController.postSale);
 
 app.put('/products/:id', productsController.updateProductsByID);
-// app.put('/sales/:id', salesController.updateSalesByID);
+app.put('/sales/:id', salesController.updateSalesByID);
 
 app.delete('/products/:id', productsController.deleteProductByID);
 // app.delete('/sales/:id', salesController.deleteSaleByID);

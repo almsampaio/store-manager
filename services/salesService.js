@@ -19,7 +19,18 @@ const getSalesByID = async (id) => {
   return salesByID;
 };
 
+const updateSalesByID = async (id, toChangeSales) => {
+  for (let index = 0; index < toChangeSales.length; index += 1) {
+    if (typeof toChangeSales[index].quantity !== 'number') return 'Not a Number';
+    if (toChangeSales[index].quantity <= 0) return 'quantity less or equal than 0';
+  }
+
+  const updateSales = await salesModel.updateSalesByID(id, toChangeSales);
+  return updateSales;
+};
+
 module.exports = {
   postSale,
   getSalesByID,
+  updateSalesByID,
 };

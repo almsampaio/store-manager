@@ -36,8 +36,26 @@ const getSalesByID = async (request, response) => {
   return response.status(200).json(saleByID);
 };
 
+const updateSalesByID = async (request, response) => {
+  const { id } = request.params;
+  const toChangeSales = request.body;
+  const updateSales = await salesService.updateSalesByID(id, toChangeSales);
+
+  if (updateSales === 'Not a Number') {
+    return response.status(422).json({ err: { code: 'invalid_data', message: notNumber } });
+  }
+  if (updateSales === 'quantity less or equal than 0') {
+    return response.status(422).json({ err: { code: 'invalid_data', message: lessEqualThan0 } });
+  }
+  if (updateSales === 'Sale not Found') {
+    return response.status(404).json({ err: { code: 'not_found', message: notFound } });
+  }
+  return response.status(200).json(updateSales);
+};
+
 module.exports = {
   postSale,
   getAllSales,
   getSalesByID,
+  updateSalesByID,
 };

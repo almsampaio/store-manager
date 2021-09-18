@@ -24,8 +24,19 @@ const getSalesByID = async (id) => {
   return salesByID;
 };
 
+const updateSalesByID = async (id, toChangeSales) => {
+  if (!ObjectID.isValid(id)) return 'Sale not Found';
+  const db = await connections();
+  
+  await db.collection('sales').updateOne(
+    { _id: ObjectID(id) }, { $set: { toChangeSales } },
+  );
+  return { _id: id, itensSold: toChangeSales };
+};
+
 module.exports = {
   postSale,
   getAllSales,
   getSalesByID,
+  updateSalesByID,
 };
