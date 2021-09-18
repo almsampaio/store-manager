@@ -58,9 +58,19 @@ const updateProductsByID = async (request, response) => {
   return response.status(200).json(updateProduct);
 };
 
+const deleteProductByID = async (request, response) => {
+  const { id } = request.params;
+  const deleteProduct = await productsService.deleteProductByID(id);
+  if (deleteProduct === 'Product not Found') {
+    return response.status(422).json({ err: { code: 'invalid_data', message: notFound } });
+  }
+  return response.status(200).json(deleteProduct);
+};
+
 module.exports = {
   postProduct,
   getAllProducts,
   getProductsByID,
   updateProductsByID,
+  deleteProductByID,
 };
