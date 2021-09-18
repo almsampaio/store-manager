@@ -1,5 +1,5 @@
 const { createSale, getSales, getSaleById,
-  updateSaleService } = require('../services/saleServices');
+  updateSaleService, deleteSaleService } = require('../services/saleServices');
 const { STATUS_OK, STATUS_UNPROCESSABLE, STATUS_NOT_FOUND } = require('../utils/httpStatus');
 
 const registerSale = async (req, res) => {
@@ -43,9 +43,24 @@ const updateSale = async (req, res) => {
   const updatedSale = await updateSaleService(id, products);
   return res.status(STATUS_OK).json(updatedSale);
 };
+
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const deletedSale = await deleteSaleService(id);
+  if (!deletedSale) {
+    return res.status(STATUS_UNPROCESSABLE).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    });
+  }
+  return res.status(STATUS_OK).json(deletedSale);
+};
 module.exports = {
   registerSale,
   getAllSales,
   getById,
   updateSale,
+  deleteSale,
 };
