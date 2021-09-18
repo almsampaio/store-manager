@@ -34,8 +34,12 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  const exclude = await deleteProduct(id);
-  res.status(200).json(exclude);
+  const exclude = await Product.deleteProduct(id);
+  if (!exclude) {
+ return res.status(422)
+    .json({ err: { code: 'invalid_data', message: 'Wrong id format' } }); 
+}
+  return res.status(200).json(exclude);
 };
 
 module.exports = {

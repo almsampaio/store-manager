@@ -34,12 +34,13 @@ const findById = async (id) => {
   return product;
 };
 
+// Atualiza o produto pelo id
 const updateProduct = async (id, name, quantity) => {
   const newData = { name, quantity };
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
   const update = await db.collection('products').findOneAndUpdate({
-    _id: new ObjectId(id),
+    _id: ObjectId(id),
   },
     { $set: newData },
     { returnOriginal: false });
@@ -47,12 +48,18 @@ const updateProduct = async (id, name, quantity) => {
   return update;
 };
 
+// Deleta um produto pelo id
 const deleteProduct = async (id) => {
-  const product = await findById(id);
-  if (!product) return null;
-  const db = await connection();
-  db.collection('products').deleteOne({ _id: new ObjectId(id) });
-  return product;
+  try {
+    console.log('To aqui');
+    const product = await findById(id);
+    if (!product) return null;
+    const db = await connection();
+    db.collection('products').deleteOne({ _id: ObjectId(id) });
+    return product;
+  } catch (e) {
+    return e.message;
+  }
 };
 
 module.exports = {
