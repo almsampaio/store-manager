@@ -1121,8 +1121,8 @@ describe.only('Testando a função `update` do service SalesService', () => {
         SalesModel.update.restore();
       });
 
-      it('retorna null', async () => {
-        const response = await SaleService.update(ID_INVALID, payloadSale);
+      it('retorna um objeto', async () => {
+        const response = await SalesService.update(ID_INVALID, payloadSale);
 
         expect(response).to.be.a('object');
       });
@@ -1146,7 +1146,7 @@ describe.only('Testando a função `update` do service SalesService', () => {
 
       before(() => {
         sinon.stub(SalesModel, 'update')
-          .resolves(ERROR);
+          .resolves(null);
       });
   
       after(() => {
@@ -1154,27 +1154,27 @@ describe.only('Testando a função `update` do service SalesService', () => {
       });
 
       it('retorna um objeto', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
 
         expect(response).to.be.a('object');
       });
 
       it('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
-        const { err } = await SaleService.update(ID, payloadSale);
+        const { err } = await SalesService.update(ID, payloadSale);
 
         expect(err).to.have.property('code');
         expect(err).to.have.property('message');
       });
 
       it('a chave "message" possui a mensagem correta', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
         const { err: { message } } = response;
 
         expect(message).to.equal(ERROR.err.message);
       });
 
       it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
         const { err: { code } } = response;
 
         expect(code).to.equal(ERROR.err.code);
@@ -1198,7 +1198,7 @@ describe.only('Testando a função `update` do service SalesService', () => {
 
       before(() => {
         sinon.stub(SalesModel, 'update')
-          .resolves(ERROR);
+          .resolves(null);
       });
   
       after(() => {
@@ -1206,27 +1206,27 @@ describe.only('Testando a função `update` do service SalesService', () => {
       });
 
       it('retorna um objeto', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
 
         expect(response).to.be.a('object');
       });
 
       it('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
-        const { err } = await SaleService.update(ID, payloadSale);
+        const { err } = await SalesService.update(ID, payloadSale);
 
         expect(err).to.have.property('code');
         expect(err).to.have.property('message');
       });
 
       it('a chave "message" possui a mensagem correta', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
         const { err: { message } } = response;
 
         expect(message).to.equal(ERROR.err.message);
       });
 
       it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
         const { err: { code } } = response;
 
         expect(code).to.equal(ERROR.err.code);
@@ -1250,7 +1250,7 @@ describe.only('Testando a função `update` do service SalesService', () => {
 
       before(() => {
         sinon.stub(SalesModel, 'update')
-          .resolves(ERROR);
+          .resolves(null);
       });
   
       after(() => {
@@ -1258,13 +1258,13 @@ describe.only('Testando a função `update` do service SalesService', () => {
       });
 
       it('retorna um objeto', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
 
         expect(response).to.be.a('object');
       });
 
       it('tal objeto possui um objeto "err" com as chaves "code" e "message"', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
         const { err } = response;
 
         expect(err).to.have.property('code');
@@ -1272,17 +1272,17 @@ describe.only('Testando a função `update` do service SalesService', () => {
       });
 
       it('a chave "message" possui a mensagem correta', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
         const { err: { message } } = response;
 
         expect(message).to.equal(ERROR.err.message);
       });
 
       it('a chave "code" deste objeto possui o código correto', async () => {
-        const response = await SaleService.update(ID, payloadSale);
+        const response = await SalesService.update(ID, payloadSale);
         const { err: { code } } = response;
 
-        expect(code).to.equal(ERROR.err.message);
+        expect(code).to.equal(ERROR.err.code);
       });
     });
   });
@@ -1292,7 +1292,7 @@ describe.only('Testando a função `update` do service SalesService', () => {
     const payloadSale = [{
       productId: '5f3ff849d94d4a17da707008',
       quantity: 1,
-    }]
+    }];
 
     const ID = '613ffccffc43b8f78e54a01f';
 
@@ -1302,8 +1302,8 @@ describe.only('Testando a função `update` do service SalesService', () => {
           _id: ID,
           itensSold: [
             {
-              productId: payloadSale.productId,
-              quantity: payloadSale.quantity,
+              productId: payloadSale[0].productId,
+              quantity: payloadSale[0].quantity,
             },
           ],
         });
@@ -1314,19 +1314,19 @@ describe.only('Testando a função `update` do service SalesService', () => {
     });
 
     it('retorna um objeto', async () => {
-      const response = await SaleService.update(ID, payloadSale);
+      const response = await SalesService.update(ID, payloadSale);
 
       expect(response).to.be.a('object');
     });
 
     it('o objeto possui as keys `_id`, `itensSold`', async () => {
-      const response = await SaleService.update(ID, payloadSale);
+      const response = await SalesService.update(ID, payloadSale);
 
       expect(response).to.include.all.keys('_id', 'itensSold');
     });
 
     it('o array `itensSold` possui objetos com as keys `productId` e `quantity`', async () => {
-      const response = await SaleService.update(ID, payloadSale);
+      const response = await SalesService.update(ID, payloadSale);
 
       const { itensSold } = response;
 
