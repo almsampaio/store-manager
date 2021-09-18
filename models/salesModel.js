@@ -1,4 +1,4 @@
-// const { ObjectId } = require('bson');
+const { ObjectId } = require('bson');
 const connection = require('./connection');
 
 const registerSaleModel = async (items) => {
@@ -10,6 +10,24 @@ const registerSaleModel = async (items) => {
   return sales;
 };
 
+const getAllSalesModel = async () => {
+  const allSales = await connection().then((db) => db
+  .collection('sales').find({}).toArray())
+  .then((res) => res).catch((err) => console.log(err));
+  return allSales;
+};
+
+const findById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const query = { _id: ObjectId(id) };
+  const saleFound = await connection().then((db) => db
+    .collection('sales').findOne(query))
+    .then((res) => res).catch((err) => console.log(err));
+  return saleFound;
+};
+
 module.exports = {
   registerSaleModel,
+  getAllSalesModel,
+  findById,
 };

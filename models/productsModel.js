@@ -34,10 +34,7 @@ const findById = async (id) => {
   const query = { _id: ObjectId(id) };
   const productFound = await connection().then((db) => db
     .collection('products').findOne(query))
-    .then((res) => {
-      console.log(res);
-      return res;
-    }).catch((err) => console.log(err));
+    .then((res) => res).catch((err) => console.log(err));
   return productFound;
 };
 
