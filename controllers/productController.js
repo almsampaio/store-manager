@@ -22,10 +22,7 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  console.log('id - do produto CONTROLLER ------', id);
   const product = await productService.getById(id);
-  console.log('getByID ---- controller', product);
-
   if (!product) {
  return res.status(422)
   .json({ err: { code: 'invalid_data', message: 'Wrong id format' } }); 
@@ -44,8 +41,8 @@ const actualize = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
   const product = await productService.actualize(name, quantity, id);
-  if (product.err) return res.status(product.err.status).json(product);
-  return res.status(product.status).json(product);
+  if (product.err) return res.status(422).json(product);
+  return res.status(200).json(product);
 };
 
 const remove = async (req, res) => {

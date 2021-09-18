@@ -10,11 +10,9 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-    console.log('ID - MODELO - GETBYID', id);
     if (!ObjectId.isValid(id)) return false;
     const product = await connect()
       .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
-      console.log('getByID ---- MODEL', product);
       if (!product) return false;
       return product;
 };
@@ -32,12 +30,17 @@ const create = async (name, quantity) => {
     return product.ops[0];
 };
 
+// Dica da desconstrução do objeto atualizado vista no repositório do
+// Felipe Flores https://github.com/tryber/sd-010-a-store-manager/pull/90
 const updateById = async (name, quantity, id) => {
     if (!ObjectId.isValid(id)) return null;
     const db = await connect();
-    const updatedData = await db.collection('products')
-      .updateOne({ _id: ObjectId(id) }, { name, quantity });
-    return updatedData;
+    await db.collection('products')
+      .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+    const updatedProduct = { _id: id,
+        name,
+        quantity };
+    return updatedProduct;
 };
 
 const remove = async (id) => {

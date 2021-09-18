@@ -15,7 +15,7 @@ app.get('/products/:id', productController.getById);
 
 app.post('/products/', productController.create);
 
-// app.put('/products/:id', productController.actualize);
+app.put('/products/:id', productController.actualize);
 
 app.delete('/products/:id', productController.remove);
 
