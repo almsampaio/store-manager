@@ -38,10 +38,7 @@ const findById = rescue(async (req, res, next) => {
 
 const updateOne = rescue(async (req, res) => {
   const itenSold = req.body;
-  // const itenSold = [{
-  //   productId, quantity,
-  // }];
-  // console.log(productId, quantity);
+  
   const { id } = req.params;
 
   const updated = await SalesService.updateOne(id, itenSold);
@@ -49,10 +46,20 @@ const updateOne = rescue(async (req, res) => {
   return res.status(STATUS_OK).json(updated);
 });
 
+const eliminate = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  
+  const { error, eliminated } = await SalesService.eliminate(id);
+
+  if (error) return next(error);
+
+  return res.status(200).json(eliminated);
+});
+
 module.exports = {
   create,
   getAllSales,
   findById,
   updateOne,
-  // eliminate,
+  eliminate,
 };

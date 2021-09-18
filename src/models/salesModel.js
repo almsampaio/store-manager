@@ -43,7 +43,6 @@ const updateOne = async (id, itenSold) => {
   const db = await connection();
   await db.collection('sales')
   .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: { productId, quantity } } });
-  console.log('porra');
   
   const newProduct = {
     _id: id,
@@ -56,11 +55,24 @@ const updateOne = async (id, itenSold) => {
   return newProduct;
 };
 
+const eliminate = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const db = await connection();
+
+  const { value } = await db.collection('sales').findOneAndDelete({ _id: ObjectId(id) });
+
+  if (!value) return null;
+
+  return value;
+};
+
 module.exports = { 
   create, 
-  // findByName,
   getAllSales,
   findById,
   updateOne,
-  // eliminate,
+  eliminate,
  };

@@ -38,10 +38,24 @@ const findById = async (id) => {
 };
 
 const updateOne = async (id, itenSold) => {
-  console.log(id);
   const updated = await SalesModel.updateOne(id, itenSold);
 
   return updated;
+};
+
+const eliminate = async (id) => {
+  const eliminated = await SalesModel.eliminate(id);
+
+  if (!eliminated) {
+    return {
+      error: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    };
+  }
+
+  return { eliminated };
 };
 
 module.exports = {
@@ -49,5 +63,5 @@ module.exports = {
   getAllSales,
   findById,
   updateOne,
-  // eliminate,
+  eliminate,
 };
