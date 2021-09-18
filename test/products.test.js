@@ -169,7 +169,7 @@ describe('2 - Crie um endpoint para listar os produtos', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que todos produtos estão sendo retornados', async () => {
+  it('Será validado que todos produtos estão sendo retornados', async () => {
     await frisby
       .get(`${url}/products`)
       .expect('status', 200)
@@ -192,7 +192,7 @@ describe('2 - Crie um endpoint para listar os produtos', () => {
       });
   });
 
-  it.skip('Será validado que não é possível listar um produto que não existe', async () => {
+  it('Será validado que não é possível listar um produto que não existe', async () => {
     await frisby.get(`${url}/products/${invalidId}`)
       .expect('status', 422)
       .then((secondResponse) => {
@@ -204,7 +204,7 @@ describe('2 - Crie um endpoint para listar os produtos', () => {
       });
   });
 
-  it.skip('Será validado que é possível listar um determinado produto', async () => {
+  it('Será validado que é possível listar um determinado produto', async () => {
     let result;
 
     await frisby
@@ -260,7 +260,7 @@ describe('3 - Crie um endpoint para atualizar um produto', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que não é possível atualizar um produto com o nome menor que 5 caracteres', async () => {
+  it('Será validado que não é possível atualizar um produto com o nome menor que 5 caracteres', async () => {
     let result;
     let resultProductId;
 
@@ -286,7 +286,7 @@ describe('3 - Crie um endpoint para atualizar um produto', () => {
       });
   });
 
-  it.skip('Será validado que não é possível atualizar um produto com quantidade menor que zero', async () => {
+  it('Será validado que não é possível atualizar um produto com quantidade menor que zero', async () => {
     let result;
     let resultProductId;
 
@@ -312,7 +312,7 @@ describe('3 - Crie um endpoint para atualizar um produto', () => {
       });
   });
 
-  it.skip('Será validado que não é possível atualizar um produto com quantidade igual a zero', async () => {
+  it('Será validado que não é possível atualizar um produto com quantidade igual a zero', async () => {
     let result;
     let resultProductId;
 
@@ -338,7 +338,7 @@ describe('3 - Crie um endpoint para atualizar um produto', () => {
       });
   });
 
-  it.skip('Será validado que não é possível atualizar um produto com uma string no campo quantidade', async () => {
+  it('Será validado que não é possível atualizar um produto com uma string no campo quantidade', async () => {
     let result;
     let resultProductId;
 
@@ -364,7 +364,7 @@ describe('3 - Crie um endpoint para atualizar um produto', () => {
       });
   });
 
-  it.skip('Será validado que é possível atualizar um produto com sucesso', async () => {
+  it('Será validado que é possível atualizar um produto com sucesso', async () => {
     let result;
     let resultProductId;
 
@@ -422,7 +422,7 @@ describe('4 - Crie um endpoint para deletar um produto', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que não é possível deletar um produto com sucesso', async () => {
+  it('Será validado que não é possível deletar um produto com sucesso', async () => {
     let result;
     let resultProductId;
 
@@ -447,7 +447,7 @@ describe('4 - Crie um endpoint para deletar um produto', () => {
       });
   });
 
-  it.skip('Será validado que não é possível deletar um produto que não existe', async () => {
+  it('Será validado que não é possível deletar um produto que não existe', async () => {
     await frisby
       .delete(`${url}/products/${invalidId}`)
       .expect('status', 422)

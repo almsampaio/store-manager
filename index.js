@@ -20,6 +20,7 @@ app.listen(PORT, () => {
 });
 
 app.use('/products', newProduct);
+
 // app.post('/products', productsControllers.create);
 
 // console.log(productsControllers.create);

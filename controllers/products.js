@@ -12,6 +12,25 @@ async function create(req, res) {
     return res.status(201).json(obj);
 }
 
+async function getAllProducts(_req, res, next) {
+  try {
+  const result = await productsService.getAll();
+  return res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+async function getProductsById(req, res, next) {
+  try {
+  const { id } = req.params;
+  const result = await productModel.getProductsById(id);
+  return res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
 module.exports = {
   create,
+  getAllProducts,
+  getProductsById,
 };

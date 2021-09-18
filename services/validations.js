@@ -14,6 +14,14 @@ function productsValidation(req, res, next) {
   next();
 }
 
+// function idValid(req, res, next) {
+//   const { id } = req.params;
+//   const result = 
+//   if(!id || id !== req.body.id) {
+//     return res.status(422).json({ err: { code: 'invalid_id', message:}})
+//   }
+// }
+
 module.exports = {
   productsValidation,
 };
