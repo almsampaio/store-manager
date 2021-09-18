@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // conectando index com a camada controllers
 const productsController = require('./controllers/productsController');
-// const salesController = require('./controllers/salesController');
+const salesController = require('./controllers/salesController');
 
 app.get('/products', productsController.getAllProducts);
 // app.get('/sales', salesController.getAllSales);
@@ -19,7 +19,7 @@ app.get('/products/:id', productsController.getProductsByID);
 // app.get('/sales/:id', salesController.getSalesByID);
 
 app.post('/products', productsController.postProduct);
-// app.post('/sales', salesController.postSale);
+app.post('/sales', salesController.postSale);
 
 app.put('/products/:id', productsController.updateProductsByID);
 // app.put('/sales/:id', salesController.updateSalesByID);
