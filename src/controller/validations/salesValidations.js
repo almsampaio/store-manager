@@ -67,4 +67,28 @@ async function saleExistsValidation(req, res, next) {
   next();
 }
 
-module.exports = { productValidation, saleExistsValidation };
+async function saleExistsForDelete(req, res, next) {
+  const { id } = req.params;
+
+  const db = await mongoConnection();
+  const salesCollection = await db.collection('sales');
+
+  let sale = null;
+
+  if (ObjectId.isValid(id)) {
+    sale = await salesCollection.findOne({ _id: ObjectId(id) });
+  } 
+  
+  if (sale === null) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    });
+  }
+
+  next();
+}
+
+module.exports = { productValidation, saleExistsValidation, saleExistsForDelete };

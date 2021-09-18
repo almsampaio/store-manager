@@ -62,14 +62,14 @@ module.exports = {
     const db = await mongoConnection();
     const salesCollection = await db.collection('sales');
 
-    const sales = await salesCollection
+    const sale = await salesCollection
       .findOne({ _id: ObjectId(id) }, { name: 1, quantity: 1 });
 
-    if (sales) {
+    if (sale) {
       await salesCollection
       .deleteOne({ _id: ObjectId(id) });
   
-      return sales;
+      return sale;
     }
   }, 
 };

@@ -12,6 +12,7 @@ const {
 const {
   productValidation,
   saleExistsValidation,
+  saleExistsForDelete,
 } = require('./src/controller/validations/salesValidations');
 
 const routes = express.Router();
@@ -45,5 +46,7 @@ routes.get('/sales', salesController.index);
 routes.get('/sales/:id', saleExistsValidation, salesController.index);
 
 routes.put('/sales/:id', saleExistsValidation, productValidation, salesController.update);
+
+routes.delete('/sales/:id', saleExistsForDelete, salesController.delete);
 
 module.exports = routes;
