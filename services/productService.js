@@ -17,7 +17,7 @@ const {
 
   const {
     HTTP_OK_STATUS,
-    HTTP_CREATED_STATUS,
+    // HTTP_CREATED_STATUS,
     HTTP_NO_BODY_STATUS,
   } = require('../utils/httpStatus');
 
