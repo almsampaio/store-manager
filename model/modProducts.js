@@ -1,8 +1,7 @@
 const connection = require('./connection');
 
 const getAll = async () => {
-  const produtos = await connection()
-    .then((db) => db.collection('products').find().toArray());
+  const produtos = await connection().collection('products').find().toArray();
   return produtos;
 };
 

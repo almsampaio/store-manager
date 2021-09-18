@@ -47,7 +47,13 @@ const verificaName = async (name) => {
   return quantity;
 };
 
+const getAllProducts = async () => {
+  const getAll = await modelProduct.getAll();
+  return getAll;
+};
+
 module.exports = {
   verificaName,
   verificaQuantidade,
+  getAllProducts,
 };

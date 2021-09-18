@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const rota = require('./controle/ctrlProducts');
+const rotaProducts = require('./rotas/rotaProducts');
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,7 +10,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/test', rota.create);
+app.use('/products', rotaProducts);
 
 app.listen(3000, () => {
   console.log('Online');
