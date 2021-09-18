@@ -758,3 +758,105 @@ describe('Testando a função `getById` do controller SalesController', () => {
     });
   });
 });
+
+// update sale
+
+describe.only('Testando a função `update` do controller SalesController', () => {
+  describe('quando o payload informado não é válido', () => {
+    const response = {};
+    const request = {};
+  
+    before(() => {
+      request.body = [
+        {
+          "productId": "5f3ff849d94d4a17da707008",
+          "quantity": 3
+        }
+      ];
+
+      request.params = {
+        id: '604cb554311d68f491ba5781'
+      };
+
+      const ERROR = {
+        err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' }
+      }
+  
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(SalesService, 'update')
+      .resolves(ERROR);
+    });
+
+    after(() => {
+      SalesService.update.restore();
+    });
+
+    it('é chamado o método `status` passando o código 422 como parâmetro', async () => {
+      await SalesController.update(request, response);
+
+      expect(response.status.calledWith(422)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando o objeto "err" como parâmetro', async () => {
+      await SalesController.update(request, response);
+
+      expect(response.json.calledWith(ERROR)).to.be.equal(true);
+    });
+  });
+
+  describe('quando é atualizado com sucesso', () => {
+    const response = {};
+    const request = {};
+
+    before(() => {
+      request.body = [
+        {
+          "productId": "5f3ff849d94d4a17da707008",
+          "quantity": 3
+        }
+      ];
+
+      request.params = {
+        id: '604cb554311d68f491ba5781'
+      };
+  
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(SalesService, 'update')
+      .resolves({ 
+        _id: '604cb554311d68f491ba5781',
+        itensSold: {
+          "productId": "5f3ff849d94d4a17da707008",
+          "quantity": 3
+        }
+      });
+    });
+
+    after(() => {
+      SalesService.update.restore();
+    });
+
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
+      await SalesController.update(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando os dados do produto atualizado como parâmetro', async () => {
+      await SalesController.update(request, response);
+      const sales = {
+        "productId": "5f3ff849d94d4a17da707008",
+        "quantity": 3
+      };
+
+      expect(response.json.calledWith(sales)).to.be.equal(true);
+    });
+  });
+});

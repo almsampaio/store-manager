@@ -1102,7 +1102,7 @@ describe('Testando a função `getById` do service SalesService', () => {
 
 // update Sales
 
-describe.only('Testando a função `update` do service SalesService', () => {
+describe('Testando a função `update` do service SalesService', () => {
   describe('quando o payload informado não é válido', () => {
     describe('o id informado é inválido', () => {
       const payloadSale = [{
