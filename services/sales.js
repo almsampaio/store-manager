@@ -1,4 +1,5 @@
 const model = require('../models/sales'); 
+const { validateQuantity } = require('../Helpers/salesHelps');
 // const validate = require('../validations/salesValidate');
 
 const createSales = async (itensSold) => {
@@ -30,9 +31,22 @@ const getById = async (id) => {
   }
   return sale;
 };
+const getUpdateSales = async (id, arraySales) => {
+  const receivedQuantity = arraySales[0].quantity;
+  if (receivedQuantity <= 0 || typeof (receivedQuantity) !== 'number') {
+    return validateQuantity();
+  }
+  
+  const salesUpdate = await model.getUpdateSales(id, arraySales);
+  if (!salesUpdate) { 
+    return validateQuantity();
+  }
+  return salesUpdate;
+};
 
 module.exports = {
     createSales,
     getAllSales,
     getById,
+    getUpdateSales,
 };

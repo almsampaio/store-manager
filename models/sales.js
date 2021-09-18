@@ -19,8 +19,23 @@ const createSales = async (itensSold) =>
     const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
     return sale;
   };
+  const getUpdateSales = async (id, arraySales) => {
+    const idSize = 24;
+    if (id.length < idSize) return null;
+    const itensSold = arraySales;
+    const db = await getConnection();
+    const salesUpdate = await db.collection('sales').findOneAndUpdate(
+      { _id: ObjectId(id) }, 
+      { $set: 
+        { itensSold },
+      },
+      { returnDocument: 'after' },
+    );
+    return salesUpdate.value;
+  };
 module.exports = {
     createSales,
     getAllSales,
     getById,
+    getUpdateSales,
 };

@@ -22,6 +22,8 @@ app.get('/products', controller.getAll);
 app.post('/sales', controllerSales.createSales); 
 app.get('/sales', controllerSales.getAllSales);
 app.get('/sales/:id', controllerSales.getById); 
+app.put('/sales/:id', controllerSales.getUpdateSales); 
+
 app.listen(PORT, () => {
   console.log('Online');
 });
