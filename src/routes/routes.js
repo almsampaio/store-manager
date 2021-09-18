@@ -10,6 +10,8 @@ routes.post('/products', ProductController.create);
 routes.put('/products/:id', ProductController.update);
 routes.delete('/products/:id', ProductController.remove);
 
+routes.get('/sales', SaleController.listAll);
+routes.get('/sales/:id', SaleController.findById);
 routes.post('/sales', SaleController.create);
 
 module.exports = routes;
