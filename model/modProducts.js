@@ -17,7 +17,8 @@ const getProductName = async (name) => {
 
 const insertProducts = async (name, quantity) => {
   const db = await connection();
-  const newProduct = db.collection('products').insertOne({ name, quantity });
+  const newProduct = db.collection('products').insertOne({ name, quantity })
+    .then((result) => ({ _id: result.insertedId, name, quantity }));
   return newProduct;
 };
 

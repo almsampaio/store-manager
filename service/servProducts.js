@@ -17,7 +17,7 @@ const errMin5 = {
 const errMenorOuIgual0 = {
   err: {
     code: 'invalid_data',
-    message: '"quantity" must be at least than or equal to 1',
+    message: '"quantity" must be larger than or equal to 1',
   },
 };
 
@@ -53,9 +53,16 @@ const getAllProducts = async () => {
 };
 
 const validaCreateProducts = async (name, quantity) => {
-  const validaName = await verificaName(name);
-  const validaQuantity = await verificaQuantidade(quantity);
-  return modelProduct.insertProducts(validaName, validaQuantity);
+  try {
+    const validaName = await verificaName(name);
+    const validaQuantity = await verificaQuantidade(quantity);
+    if (validaName === name && validaQuantity === quantity) {
+      const createdProduct = await modelProduct.insertProducts(validaName, validaQuantity);
+      throw createdProduct;
+    }
+  } catch (err) {
+    return err;
+  }
 };
 
 module.exports = {

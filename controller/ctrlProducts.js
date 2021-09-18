@@ -1,14 +1,10 @@
 const service = require('../service/servProducts');
 
-const createProduct = async (req, res, next) => {
-  try {
+const createProduct = async (req, res, _next) => {
     const { name, quantity } = req.body;
     const createdProduct = await service.validaCreateProducts(name, quantity);
-    console.log(createdProduct);
+    if (createdProduct.err) return res.status(422).json(createdProduct);
     return res.status(201).json(createdProduct);
-  } catch (error) {
-    return next(error);
-  }
 };
 
 const getAll = async (req, res) => {
