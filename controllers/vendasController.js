@@ -38,8 +38,8 @@ const criarVenda = async (req, res) => {
 
 const atualizarVenda = async (req, res) => {
   const { id } = req.params;
-  const { productId, quantity } = req.body;
-  const venda = await vendasService.atualizarVenda(id, productId, quantity);
+  const vendaRealizada = req.body;
+  const venda = await vendasService.atualizarVenda(id, vendaRealizada);
   
   if (venda === 'menor ou igual a zero') {
     return res.status(422).json({ err: { code: 'invalid_data', message: maiorIgualUm } });
@@ -47,6 +47,11 @@ const atualizarVenda = async (req, res) => {
   if (venda === 'NaN') {
     return res.status(422).json({ err: { code: 'invalid_data', message: serNumero } });
   }
+
+  if (venda === 'não encontrado') {
+    return res.status(404).json({ err: { code: 'not_found', message: naoEncontrado } });
+  }
+
   return res.status(200).json(venda);
 };
 

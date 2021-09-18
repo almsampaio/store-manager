@@ -345,7 +345,7 @@ describe('6 - Crie um endpoint para listar as vendas', () => {
   });
 });
 
-/* describe('7 - Crie um endpoint para atualizar uma venda', () => {
+describe('7 - Crie um endpoint para atualizar uma venda', () => {
   let connection;
   let db;
 
@@ -568,9 +568,9 @@ describe('6 - Crie um endpoint para listar as vendas', () => {
         expect(quantityProductSales).toBe(5);
       });
   });
-}); */
+});
 
-/* describe('8 - Crie um endpoint para deletar uma venda', () => {
+describe('8 - Crie um endpoint para deletar uma venda', () => {
   let connection;
   let db;
 
@@ -661,7 +661,7 @@ describe('6 - Crie um endpoint para listar as vendas', () => {
         expect(message).toBe('Wrong sale ID format');
       });
   });
-}); */
+});
 
 /* describe('9 - Atualize a quantidade de produtos', () => {
   let connection;

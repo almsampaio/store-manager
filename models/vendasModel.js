@@ -22,12 +22,14 @@ const criarVenda = async (itensVendidos) => {
   return { _id: Object.values(venda.insertedIds).toString(), itensSold: itensVendidos };
 };
 
-const atualizarVenda = async (id, name, quantity) => {
+const atualizarVenda = async (id, vendaRealizada) => {
+  // Verificando se o id é válido
+  if (!ObjectId.isValid(id)) return null;
   const db = await conexao();
   await db.collection('sales').updateOne(
-    { _id: ObjectId(id) }, { $set: { name, quantity } },
+    { _id: ObjectId(id) }, { $set: { vendaRealizada } },
   );
-  return { _id: id, name, quantity };
+  return { _id: id, itensSold: vendaRealizada };
 };
 
 const deletarVenda = async (id) => {

@@ -19,18 +19,18 @@ const criarVenda = async (itensVendidos) => {
   return venda;
 };
 
-const atualizarVenda = async (id, name, quantity) => {
-  // Validar que não é possível atualizar um produto com o nome menor que 5 caracteres
-  if (name.length < 5) return 'menor que cinco';
-
+const atualizarVenda = async (id, vendaRealizada) => {
+  for (let index = 0; index < vendaRealizada.length; index += 1) {
   // Validar que não é possível atualizar um produto com quantidade menor ou igual a zero
-  if (quantity <= 0) return 'menor ou igual a zero';
+  if (vendaRealizada[index].quantity <= 0) return 'menor ou igual a zero';
 
    // Validar que não é possível atualizar um produto com uma string no campo quantidade
-   if (typeof quantity !== 'number') return 'NaN';
+   if (typeof vendaRealizada[index].quantity !== 'number') return 'NaN';
+  }
 
-  const produto = await vendasModel.atualizarVenda(id, name, quantity);
-  return produto;
+  const venda = await vendasModel.atualizarVenda(id, vendaRealizada);
+  if (venda === false || venda === null) return 'não encontrado';
+  return venda;
 };
 
 const deletarVenda = async (id) => {
