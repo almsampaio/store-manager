@@ -761,7 +761,7 @@ describe('Testando a função `getById` do controller SalesController', () => {
 
 // update sale
 
-describe.only('Testando a função `update` do controller SalesController', () => {
+describe('Testando a função `update` do controller SalesController', () => {
   describe('quando o payload informado não é válido', () => {
     const response = {};
     const request = {};
