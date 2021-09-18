@@ -42,8 +42,25 @@ const getProductsByID = async (request, response) => {
   return response.status(200).json(productByID);
 };
 
+const updateProductsByID = async (request, response) => {
+  const { id } = request.params;
+  const { name, quantity } = request.body;
+  const updateProduct = await productsService.updateProductsByID(id, name, quantity);
+  if (updateProduct === 'name less than 5') {
+    return response.status(422).json({ err: { code: 'invalid_data', message: lessThan5 } });
+  }
+  if (updateProduct === 'Not a Number') {
+    return response.status(422).json({ err: { code: 'invalid_data', message: notNumber } });
+  }
+  if (updateProduct === 'quantity less or equal than 0') {
+    return response.status(422).json({ err: { code: 'invalid_data', message: lessEqualThan0 } });
+  }
+  return response.status(200).json(updateProduct);
+};
+
 module.exports = {
   postProduct,
   getAllProducts,
   getProductsByID,
+  updateProductsByID,
 };

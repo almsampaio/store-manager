@@ -23,7 +23,19 @@ const getProductsByID = async (id) => {
   return productByID;
 };
 
+const updateProductsByID = async (id, name, quantity) => {
+  if (name.length < 5) return 'name less than 5';
+  
+  if (typeof quantity !== 'number') return 'Not a Number';
+
+  if (quantity <= 0) return 'quantity less or equal than 0';
+
+  const updateProduct = await productsModel.updateProductsByID(id, name, quantity);
+  return updateProduct;
+};
+
 module.exports = {
   postProduct,
   getProductsByID,
+  updateProductsByID,
 };

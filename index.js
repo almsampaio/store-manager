@@ -21,7 +21,7 @@ app.get('/products/:id', productsController.getProductsByID);
 app.post('/products', productsController.postProduct);
 // app.post('/sales', salesController.postSale);
 
-// app.put('/products/:id', productsController.updateProductsByID);
+app.put('/products/:id', productsController.updateProductsByID);
 // app.put('/sales/:id', salesController.updateSalesByID);
 
 // app.delete('/products/:id', productsController.deleteProductByID);
