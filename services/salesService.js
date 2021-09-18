@@ -11,6 +11,15 @@ const postSale = async (soldItems) => {
   return sale;
 };
 
+const getSalesByID = async (id) => {
+  const salesByID = await salesModel.getSalesByID(id);
+
+  if (salesByID === false || salesByID === null) return 'Sale not Found';
+
+  return salesByID;
+};
+
 module.exports = {
   postSale,
+  getSalesByID,
 };
