@@ -1,6 +1,4 @@
-// const { findProductByName } = require('../../models/productsModels');
-
-const { findProductByName } = require('../../models/productsModels');
+const Product = require('../../models/ProductsModels');
 
 const isValidName = (name) => {
   if (name.length < 5) {
@@ -17,7 +15,7 @@ const isValidName = (name) => {
 };
 
 const findOneProduct = async (name) => {
-  const product = await findProductByName({ name });
+  const product = await Product.findProductByName({ name });
   if (product !== null) {
     return {
       status: 422,
