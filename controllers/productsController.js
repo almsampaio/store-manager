@@ -8,7 +8,7 @@ const lessThan5 = '"name" length must be at least 5 characters long';
 const productExists = 'Product already exists';
 const notNumber = '"quantity" must be a number';
 const lessEqualThan0 = '"quantity" must be larger than or equal to 1';
-const notFound = 'wrong id format';
+const notFound = 'Wrong id format';
 
 const postProduct = async (request, response) => {
   const { name, quantity } = request.body;
