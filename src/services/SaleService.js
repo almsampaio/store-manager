@@ -14,8 +14,17 @@ const register = async (salesData) => {
   return SaleDao.create(sales);
 };
 
+const update = async (id, product) => {
+  const { productId, quantity } = product[0];
+  if (quantity <= 0 || typeof quantity === 'string') {
+    throw new Error('Wrong product ID or invalid quantity');
+  }
+  return SaleDao.update(id, productId, quantity);
+};
+
 module.exports = {
   listAll,
   findById,
   register,
+  update,
 };
