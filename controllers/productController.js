@@ -48,6 +48,7 @@ const actualize = async (req, res) => {
 const remove = async (req, res) => {
   const { id } = req.params;
   const { status, product } = await productService.remove(id);
+  console.log('product - - - - CONTROLLER', status, product);
   if (!product) {
  return res.status(status)
     .json({ err: { code: invalidData, message: wrongIdFormat } }); 

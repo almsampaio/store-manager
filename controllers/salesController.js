@@ -1,62 +1,69 @@
-// const express = require('express');
-// const bodyParser = require('body-parser');
+const saleService = require('../services/salesService');
 
-// const app = express();
-
-// app.use(bodyParser.json());
-
-// const HTTP_OK_STATUS = 200;
-// const HTTP_CREATED_STATUS = 201;
-// // const HTTP_NOT_FOUND_STATUS = 404;
-// const HTTP_NO_BODY_STATUS = 422;
-
-// const salesService = require('../services/salesService');
+const {
+  invalidData,
+  // saleExists,
+  // minimumQty,
+  // qtyMustBeANumber,
+//   wrongIdFormat,
+  // nameMinimumLength,
+  // problemIdOrQty,
+  // notFound,
+  // saleNotFound,
+  wrongSaleIdFormat,
+  // amountNotpermitted,
+  // stockProblem,
+} = require('../utils/errorMessage');
 
 // const getAll = async (_req, res) => {
-//   const { sale } = await salesService.getAll();
-
-//   return res.status(HTTP_OK_STATUS).json(sale);
+//   const allsales = await saleService.getAll();
+//   return res.status(200).send({ sales: allsales });
 // };
 
-// const getById = async (req, res) => {
-//   const { id } = req.params;
-//   const { code, message, sale } = await salesService.getById(id);
-//   if (code && message) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
-//   res.status(HTTP_OK_STATUS).json(sale);
-// };
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const sale = await saleService.getById(id);
+  if (!sale) {
+ return res.status(422)
+  .json({ err: { code: 'invalid_data', message: wrongSaleIdFormat } }); 
+}
+  return res.status(200).send(sale);
+};
 
-// const create = async (req, res) => {
-//   const { name, quantity } = req.body;
-//   console.log('name, quantity ----- saleController', name, quantity);
-//   const { code, message, sale } = await salesService.create(name, quantity);
-//   // const RESPOSTA = await salesService.create(name, quantity);
-
-//   // console.log('RESPOSTA ---- saleController', RESPOSTA);
-//   if (code && message) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
-
-//   res.status(HTTP_CREATED_STATUS).json(sale);
-// };
+const create = async (req, res) => {
+  const selected = req.body;
+  console.log('selected  - - - -CONTROLER', selected);
+  const sale = await saleService.create(selected);
+  console.log('sale  - - - -CONTROLER', sale);
+  console.log('sale  ERROOO- - - -CONTROLER', sale.err);
+//   if (!sale.err.code) return res.status(200).json(sale.saleCreated);
+//   return res.status(422).json(sale);
+if (sale.err) return res.status(422).json(sale);
+return res.status(200).json(sale.saleCreated);
+};
 
 // const actualize = async (req, res) => {
 //   const { id } = req.params;
 //   const { name, quantity } = req.body;
-//   const { code, message, sale } = await salesService.actualize(name, quantity, id);
-//   if (code && message) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
-//   res.status(HTTP_OK_STATUS).json(sale);
+//   const sale = await saleService.actualize(name, quantity, id);
+//   if (sale.err) return res.status(422).json(sale);
+//   return res.status(200).json(sale);
 // };
 
-// const remove = async (req, res) => {
-//   const { id } = req.params;
-//   const { code, message, sale } = await salesService.getById(id);
-//   if (!sale) return res.status(HTTP_NO_BODY_STATUS).json({ code, message });
-//   await salesService.remove(id);
-//   res.status(HTTP_OK_STATUS).end();
-// };
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { status, sale } = await saleService.remove(id);
+  if (!sale) {
+ return res.status(status)
+    .json({ err: { code: invalidData, message: wrongSaleIdFormat } }); 
+}
+  return res.status(status).json(sale);
+};
 
-// module.exports = {
-//   create,
+module.exports = {
+  create,
 //   getAll,
-//   getById,
+  getById,
 //   actualize,
-//   remove,
-// };
+  remove,
+};

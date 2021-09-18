@@ -1,68 +1,81 @@
-// const salesModel = require('../models/salesModel');
+const salesModel = require('../models/salesModel');
 
-// const errorMessage = require('../utils/errorMessage');
+const {
+  invalidData,
+//   saleExists,
+//   minimumQty,
+//   qtyMustBeANumber,
+//   wrongIdFormat,
+//   nameMinimumLength,
+  problemIdOrQty,
+  // notFound,
+  // saleNotFound,
+  wrongSaleIdFormat,
+  // amountNotpermitted,
+  // stockProblem,
+} = require('../utils/errorMessage');
 
-// const { invalidData, nameMinimumLength, minimumQty,
-//   qtyMustBeANumber, saleExists, wrongIdFormat } = errorMessage;
+  const {
+    HTTP_OK_STATUS,
+    // HTTP_CREATED_STATUS,
+    HTTP_NO_BODY_STATUS,
+  } = require('../utils/httpStatus');
 
-// const getAll = async (_req, _res) => {
+// const getAll = async () => {
 //     const sales = await salesModel.getAll();
 //     return sales;
 // };
 
-// const getById = async (id) => {
-//   const sale = await salesModel.getById(id);
-//   if (!sale) return { code: invalidData, message: wrongIdFormat };
-//   return sale;
-// };
+const getById = async (id) => {
+  const sale = await salesModel.getById(id);
+  return sale;
+};
 
-// const create = async (name, quantity) => {
-//   if (name.length < 6) {
-//     console.log('name.length ------- saleService', name.length);
-//     return { code: invalidData, message: nameMinimumLength };
-//   }
-//   if (quantity <= 0) {
-//     console.log('quantity ------- saleService', quantity);
-//     return { code: invalidData, message: minimumQty };
-//   }
-//   if (typeof quantity !== 'number') {
-//     console.log('typeof quantity ------- saleService', typeof quantity);
-//     return { code: invalidData, message: qtyMustBeANumber };
-//   }
+// Dica para verificar quantidades vista no repositório do 
+// Felipe Flores - já informado
+const create = async (array) => {
+    const checkSize = array.find((item) => item.quantity < 1);
+    const checkType = array.find((item) => typeof item.quantity !== 'number');
+    console.log('checkSize -  checkType', checkSize, 'checkType', checkType);
+    if (checkType) {
+      return { err: { code: invalidData, message: problemIdOrQty } };
+    }
+  if (checkSize) {
+    return { err: { code: invalidData, message: problemIdOrQty } };
+  }
+  console.log('quantity ----- SERVICE', array.quantity);
+  const saleCreated = await salesModel.create(array);
+  console.log('saleCreated ----- SERVICE', saleCreated);
+  return { saleCreated };
+};
 
-//   const nameExists = await salesModel.findByName(name);
-//   console.log('nameExists ------- saleService', nameExists);
-//     if (nameExists !== null) return { code: invalidData, message: saleExists };
-
-//   const sale = await salesModel.create(name, quantity);
-//   console.log('sale ------- saleService', sale);
-
-//   return sale;
-// };
-
-// const actualize = async (name, quantity, id) => {
-//   if (name.length < 6) {
-//     return { code: invalidData, message: nameMinimumLength };
-//   }
-//   if (quantity <= 0) {
-//     return { code: invalidData, message: minimumQty };
-//   }
-//   if (typeof quantity !== 'number') {
-//     return { code: invalidData, message: qtyMustBeANumber };
-//   }
-//   const updatedData = await salesModel.updateById(name, quantity, id);
+// const actualize = async (sale) => {
+//     const [{ productId, quantity }] = sale;
+//     if (sale.quantity <= 0) {
+//         return { err: { code: invalidData, message: minimumQty } };
+//       }
+//       if (typeof sale.quantity !== 'number') {
+//         return { err: { code: invalidData, message: qtyMustBeANumber } };
+//       }
+//   const updatedData = await salesModel.updateById(productId, quantity);
+//   if (!updatedData) return ({ err: { code: invalidData, message: wrongSaleIdFormat } });
 //   return updatedData;
 // };
 
-// const remove = async (id) => {
-//   const sale = await salesModel.remove(id);
-//   return sale;
-// };
+const remove = async (id) => {
+  const result = await salesModel.getById(id);
+  console.log('result - - - - SERVICE', result);
+  if (!result) return { status: HTTP_NO_BODY_STATUS, message: wrongSaleIdFormat };
+  const sale = await salesModel.remove(id);
+  console.log('sale - - - - SERVICE', sale);
 
-// module.exports = { 
-//   create,
+  return { status: HTTP_OK_STATUS, sale };
+};
+
+module.exports = { 
+  create,
 //   getAll,
-//   getById,
+  getById,
 //   actualize,
-//   remove,
-// };
+  remove,
+};
