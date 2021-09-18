@@ -21,10 +21,10 @@ const {
     HTTP_NO_BODY_STATUS,
   } = require('../utils/httpStatus');
 
-// const getAll = async () => {
-//     const sales = await salesModel.getAll();
-//     return sales;
-// };
+const getAll = async () => {
+    const sales = await salesModel.getAll();
+    return sales;
+};
 
 const getById = async (id) => {
   const sale = await salesModel.getById(id);
@@ -49,18 +49,15 @@ const create = async (array) => {
   return { saleCreated };
 };
 
-// const actualize = async (sale) => {
-//     const [{ productId, quantity }] = sale;
-//     if (sale.quantity <= 0) {
-//         return { err: { code: invalidData, message: minimumQty } };
-//       }
-//       if (typeof sale.quantity !== 'number') {
-//         return { err: { code: invalidData, message: qtyMustBeANumber } };
-//       }
-//   const updatedData = await salesModel.updateById(productId, quantity);
-//   if (!updatedData) return ({ err: { code: invalidData, message: wrongSaleIdFormat } });
-//   return updatedData;
-// };
+const actualize = async (id, sale) => {
+    const [{ productId, quantity }] = sale;
+    if (sale.quantity <= 0) {
+        return { err: { code: invalidData, message: problemIdOrQty } };
+      }
+  const updatedData = await salesModel.updateById(productId, quantity);
+  if (!updatedData) return ({ err: { code: invalidData, message: wrongSaleIdFormat } });
+  return updatedData;
+};
 
 const remove = async (id) => {
   const result = await salesModel.getById(id);
@@ -68,14 +65,13 @@ const remove = async (id) => {
   if (!result) return { status: HTTP_NO_BODY_STATUS, message: wrongSaleIdFormat };
   const sale = await salesModel.remove(id);
   console.log('sale - - - - SERVICE', sale);
-
   return { status: HTTP_OK_STATUS, sale };
 };
 
 module.exports = { 
   create,
-//   getAll,
+  getAll,
   getById,
-//   actualize,
+  actualize,
   remove,
 };

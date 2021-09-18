@@ -1,11 +1,11 @@
 const { ObjectId } = require('mongodb');
 const connect = require('./connection');
 
-// const getAll = async () => {
-//     const db = await connect();
-//     const sales = await db.collection('sales').find().toArray();
-//     return sales;
-// };
+const getAll = async () => {
+    const db = await connect();
+    const sales = await db.collection('sales').find().toArray();
+    return sales;
+};
 
 const getById = async (id) => {
     if (!ObjectId.isValid(id)) return false;
@@ -22,17 +22,17 @@ const create = async (array) => {
     return sale.ops[0];
 };
 
-// const updateById = async (array, id) => {
-//     if (!ObjectId.isValid(id)) return null;
-//     const [{ productId, quantity }] = array;
+const updateById = async (array, id) => {
+    if (!ObjectId.isValid(id)) return null;
+    const [{ productId, quantity }] = array;
 
-//     const db = await connect();
-//     await db.collection('sales')
-//       .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: { productId, quantity } } });
-//     const updatedsale = { _id: id,
-//         itensSold: [{ productId, quantity }] };
-//     return updatedsale;
-// };
+    const db = await connect();
+    await db.collection('sales')
+      .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: { productId, quantity } } });
+    const updatedsale = { _id: id,
+        itensSold: [{ productId, quantity }] };
+    return updatedsale;
+};
 
 const remove = async (id) => {
     if (!ObjectId.isValid(id)) return null;
@@ -45,8 +45,8 @@ const remove = async (id) => {
 
 module.exports = { 
     create,
-    // getAll,
+    getAll,
     getById,
-    // updateById,
+    updateById,
     remove,
 };

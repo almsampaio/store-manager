@@ -8,24 +8,24 @@ const {
 //   wrongIdFormat,
   // nameMinimumLength,
   // problemIdOrQty,
-  // notFound,
-  // saleNotFound,
+  notFound,
+  saleNotFound,
   wrongSaleIdFormat,
   // amountNotpermitted,
   // stockProblem,
 } = require('../utils/errorMessage');
 
-// const getAll = async (_req, res) => {
-//   const allsales = await saleService.getAll();
-//   return res.status(200).send({ sales: allsales });
-// };
+const getAll = async (_req, res) => {
+  const allsales = await saleService.getAll();
+  return res.status(200).send({ sales: allsales });
+};
 
 const getById = async (req, res) => {
   const { id } = req.params;
   const sale = await saleService.getById(id);
   if (!sale) {
- return res.status(422)
-  .json({ err: { code: 'invalid_data', message: wrongSaleIdFormat } }); 
+ return res.status(404)
+  .json({ err: { code: notFound, message: saleNotFound } }); 
 }
   return res.status(200).send(sale);
 };
@@ -62,7 +62,7 @@ const remove = async (req, res) => {
 
 module.exports = {
   create,
-//   getAll,
+  getAll,
   getById,
 //   actualize,
   remove,

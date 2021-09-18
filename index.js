@@ -19,7 +19,7 @@ app.put('/products/:id', productController.actualize);
 
 app.delete('/products/:id', productController.remove);
 
-// app.get('/sales', salesController.getAll);
+app.get('/sales', salesController.getAll);
 
 app.get('/sales/:id', salesController.getById);
 
