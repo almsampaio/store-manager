@@ -18,7 +18,7 @@ function productsValidation(req, res, next) {
 //   const { id } = req.params;
 //   const result = 
 //   if(!id || id !== req.body.id) {
-//     return res.status(422).json({ err: { code: 'invalid_id', message:}})
+//     return res.status(422).json({ err: { code: 'invalid_id', message: error.error.details[0].message } });
 //   }
 // }
 
