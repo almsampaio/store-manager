@@ -765,6 +765,10 @@ describe.only('Testando a função `update` do controller SalesController', () =
   describe('quando o payload informado não é válido', () => {
     const response = {};
     const request = {};
+
+    const ERROR = {
+      err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' }
+    }
   
     before(() => {
       request.body = [
@@ -777,10 +781,6 @@ describe.only('Testando a função `update` do controller SalesController', () =
       request.params = {
         id: '604cb554311d68f491ba5781'
       };
-
-      const ERROR = {
-        err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' }
-      }
   
       response.status = sinon.stub()
         .returns(response);
@@ -849,12 +849,15 @@ describe.only('Testando a função `update` do controller SalesController', () =
       expect(response.status.calledWith(200)).to.be.equal(true);
     });
 
-    it('é chamado o método `json` passando os dados do produto atualizado como parâmetro', async () => {
+    it('é chamado o método `json` passando os dados da venda atualizada como parâmetro', async () => {
       await SalesController.update(request, response);
-      const sales = {
-        "productId": "5f3ff849d94d4a17da707008",
-        "quantity": 3
-      };
+      const sales = { 
+        _id: '604cb554311d68f491ba5781',
+        itensSold: {
+          "productId": "5f3ff849d94d4a17da707008",
+          "quantity": 3
+        }
+      }
 
       expect(response.json.calledWith(sales)).to.be.equal(true);
     });
