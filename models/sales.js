@@ -19,7 +19,7 @@ const createSales = async (itensSold) =>
     const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
     return sale;
   };
-  const getUpdateSales = async (id, arraySales) => {
+  const updateSales = async (id, arraySales) => {
     const idSize = 24;
     if (id.length < idSize) return null;
     const itensSold = arraySales;
@@ -33,9 +33,21 @@ const createSales = async (itensSold) =>
     );
     return salesUpdate.value;
   };
+  const deleteSale = async (id) => {
+    const idSize = 24;
+    if (id.length < idSize) return null;
+    const db = await getConnection();
+    const sale = await db.collection('sales').findOneAndDelete(
+      { _id: ObjectId(id) }, 
+      { returnDocument: 'before' },
+    );
+    return sale.value;
+  };
+  
 module.exports = {
     createSales,
     getAllSales,
     getById,
-    getUpdateSales,
+    updateSales,
+    deleteSale,
 };

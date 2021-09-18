@@ -31,22 +31,35 @@ const getById = async (id) => {
   }
   return sale;
 };
-const getUpdateSales = async (id, arraySales) => {
+const updateSales = async (id, arraySales) => {
   const receivedQuantity = arraySales[0].quantity;
   if (receivedQuantity <= 0 || typeof (receivedQuantity) !== 'number') {
     return validateQuantity();
   }
   
-  const salesUpdate = await model.getUpdateSales(id, arraySales);
+  const salesUpdate = await model.updateSales(id, arraySales);
   if (!salesUpdate) { 
     return validateQuantity();
   }
   return salesUpdate;
+};
+const deleteSale = async (id) => {
+  const sale = await model.deleteSale(id);
+  if (!sale) { 
+    return ({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    });
+  }
+  return sale;
 };
 
 module.exports = {
     createSales,
     getAllSales,
     getById,
-    getUpdateSales,
+    updateSales,
+    deleteSale,
 };

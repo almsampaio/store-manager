@@ -31,20 +31,29 @@ const getById = rescue(async (req, res) => {
   return res.status(200).json(sale);
 });
 
-const getUpdateSales = rescue(async (req, res) => {
+const updateSales = rescue(async (req, res) => {
   const { id } = req.params;
   const arraySales = req.body;
-  const salesUpdate = await service.getUpdateSales(id, arraySales);
+  const salesUpdate = await service.updateSales(id, arraySales);
   console.log('control2', salesUpdate);
   if (salesUpdate.err) {
     return res.status(422).json(salesUpdate);
   }
   return res.status(200).json(salesUpdate);
 });
+const deleteSale = rescue(async (req, res) => {
+  const { id } = req.params;
+  const sale = await service.deleteSale(id);
+  if (sale.err) {
+    return res.status(422).json(sale);
+  }
+  return res.status(200).json(sale);
+});
 
 module.exports = {
   createSales,
   getAllSales,
   getById,
-  getUpdateSales,
+  updateSales,
+  deleteSale,
 };
