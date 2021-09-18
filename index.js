@@ -12,10 +12,10 @@ app.use(bodyParser.json());
 const productsController = require('./controllers/productsController');
 // const salesController = require('./controllers/salesController');
 
-// app.get('/products', productsController.getAllProducts);
+app.get('/products', productsController.getAllProducts);
 // app.get('/sales', salesController.getAllSales);
 
-// app.get('/products/:id', productsController.getProductsByID);
+app.get('/products/:id', productsController.getProductsByID);
 // app.get('/sales/:id', salesController.getSalesByID);
 
 app.post('/products', productsController.postProduct);

@@ -15,6 +15,15 @@ const postProduct = async (name, quantity) => {
   return product;
 };
 
+const getProductsByID = async (id) => {
+  const productByID = await productsModel.getProductsByID(id);
+
+  if (productByID === false || productByID === null) return 'Product not Found';
+
+  return productByID;
+};
+
 module.exports = {
   postProduct,
+  getProductsByID,
 };
