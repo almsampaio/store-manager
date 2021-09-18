@@ -41,9 +41,20 @@ const update = async (id, productId, quantity) => {
   return { _id: id, itensSold: [{ productId, quantity }] };
 };
 
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const mongo = await Connection();
+  const result = await mongo.collection('sales')
+    .deleteOne({ _id: ObjectId(id) });
+
+  return result;
+};
+
 module.exports = {
   getAll,
   findById,
   create,
   update,
+  remove,
 };

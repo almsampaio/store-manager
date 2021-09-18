@@ -22,9 +22,16 @@ const update = async (id, product) => {
   return SaleDao.update(id, productId, quantity);
 };
 
+const remove = async (id) => {
+  const sale = await SaleDao.remove(id);
+  if (!sale) throw new Error('Wrong sale ID format');
+  return sale;
+};
+
 module.exports = {
   listAll,
   findById,
   register,
   update,
+  remove,
 };
