@@ -4,6 +4,7 @@ const router = Router();
 const productsControllers = require('../controllers/productsControllers');
 const productsValidations = require('../midllewares/productsValidations');
 
+// products
 router.get('/products', productsControllers.getProducts);
 
 router.get('/products/:id', productsControllers.getProductsById);
