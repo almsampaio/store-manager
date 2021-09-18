@@ -5,35 +5,40 @@ const getAll = async () => {
     // const products = await connect().then((db) => db.collection('products').find().toArray());
     // return products;
     const db = await connect();
-    const products = await db.collection('products').find({}).toArray();
-    return { products };
+    const products = await db.collection('products').find().toArray();
+    return products;
 };
 
 const getById = async (id) => {
-    if (!ObjectId.isValid(id)) return null;
-    return connect()
+    console.log('ID - MODELO - GETBYID', id);
+    if (!ObjectId.isValid(id)) return false;
+    const product = await connect()
       .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
+      console.log('getByID ---- MODEL', product);
+      if (!product) return false;
+      return product;
 };
 
 const findByName = async (name) => {
-    connect()
+    const product = await connect()
       .then((db) => db.collection('products').findOne({ name }));
+    if (!product) return null;
+    return product;  
 };
 
 const create = async (name, quantity) => {
     const db = await connect();
-    console.log('db ------- productModel', db);
     const product = await db.collection('products').insertOne({ name, quantity });
-    console.log('product ------- productModel', product);
-    return { _id: product.insertedId, name, quantity };
+    return product.ops[0];
 };
 
-// const updateById = async (name, quantity, id) => {
-//     const db = await connect();
-//     await db.collection('products')
-//       .updateOne({ _id:  ObjectId(id) }, { $set: { name, quantity } });
-//     return { id, name, quantity };
-// };
+const updateById = async (name, quantity, id) => {
+    if (!ObjectId.isValid(id)) return null;
+    const db = await connect();
+    const updatedData = await db.collection('products')
+      .updateOne({ _id: ObjectId(id) }, { name, quantity });
+    return updatedData;
+};
 
 const remove = async (id) => {
     if (!ObjectId.isValid(id)) return null;
@@ -47,6 +52,6 @@ module.exports = {
     findByName,
     getAll,
     getById,
-    // updateById,
+    updateById,
     remove,
 };
