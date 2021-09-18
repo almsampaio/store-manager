@@ -47,16 +47,14 @@ module.exports = {
     const db = await mongoConnection();
     const salesCollection = await db.collection('sales');
 
-    const updatedSale = await salesCollection
+    await salesCollection
       .updateOne({ _id: ObjectId(id) }, { $set: {
         itensSold,
       } });
 
-    console.log(updatedSale);
-
     return {
       _id: id,
-      updatedSale,
+      itensSold,
     };
   },
 

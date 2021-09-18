@@ -44,6 +44,6 @@ routes.get('/sales', salesController.index);
 
 routes.get('/sales/:id', saleExistsValidation, salesController.index);
 
-routes.put('/sales/:id', saleExistsValidation, salesController.update);
+routes.put('/sales/:id', saleExistsValidation, productValidation, salesController.update);
 
 module.exports = routes;

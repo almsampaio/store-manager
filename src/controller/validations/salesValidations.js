@@ -23,20 +23,22 @@ function isValidId(id) {
 function productValidation(req, res, next) {
   const sales = req.body;
 
-  sales.forEach((sale) => {
-    const { _id, quantity } = sale;
-
-    const notValid = quantityMustBeANumber(quantity) 
-    || quantityMustBeGreateThenOne(quantity)
-    || isValidId(_id);
-
-    if (notValid) {
-      return res.status(422).json({ err: {
-        code: 'invalid_data',
-        message: 'Wrong product ID or invalid quantity',
-      } });
-    }
-  });
+  if (sales[0]) {
+    sales.forEach((sale) => {
+      const { _id, quantity } = sale;
+  
+      const notValid = quantityMustBeANumber(quantity) 
+      || quantityMustBeGreateThenOne(quantity)
+      || isValidId(_id);
+  
+      if (notValid) {
+        return res.status(422).json({ err: {
+          code: 'invalid_data',
+          message: 'Wrong product ID or invalid quantity',
+        } });
+      }
+    });
+  }
 
   next();
 }
