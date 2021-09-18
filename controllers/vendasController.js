@@ -7,6 +7,7 @@ const vendasService = require('../services/vendasService');
 const maiorIgualUm = 'Wrong product ID or invalid quantity';
 const serNumero = 'Wrong product ID or invalid quantity';
 const naoEncontrado = 'Sale not found';
+const vendaNaoDeletada = 'Wrong sale ID format';
 
 const listarVendas = async (_req, res) => {
   const vendas = await vendasModel.listarVendas();
@@ -59,7 +60,7 @@ const deletarVenda = async (req, res) => {
   const { id } = req.params;
   const venda = await vendasService.deletarVenda(id);
   if (venda === 'não encontrado') {
-    return res.status(422).json({ err: { code: 'invalid_data', message: naoEncontrado } });
+    return res.status(422).json({ err: { code: 'invalid_data', message: vendaNaoDeletada } });
   }
   return res.status(200).json(venda);
 };
