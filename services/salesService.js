@@ -1,4 +1,4 @@
-const { getAllSales } = require('../models/salesModel');
+const { getAllSales, getSalesId } = require('../models/salesModel');
 
 const validateQuantity = async (req, res, next) => {
   const itensSold = req.body;
@@ -12,6 +12,12 @@ const validateQuantity = async (req, res, next) => {
   next();
 };
 
+const validSalesId = async (id) => {
+  const salesId = await getSalesId({ id });
+  if (!salesId) return false;
+  return salesId;
+};
+
 const getAllSale = async () => {
   const getSales = await getAllSales();
   return getSales;
@@ -20,4 +26,5 @@ const getAllSale = async () => {
 module.exports = {
   validateQuantity,
   getAllSale,
+  validSalesId,
 };
