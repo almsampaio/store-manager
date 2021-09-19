@@ -112,6 +112,13 @@ const setUpdateNeWProduct = async (id, name, quantity) => {
   }
 };
 
+const deleteProduct = async (id) => {
+  const productDeleted = await modelProduct.deleteProduct(id);
+  const validaId = await getProductId(id);
+  if (!productDeleted) return validaId;
+  return validaId.err;
+};
+
 module.exports = {
   verificaName,
   verificaQuantidade,
@@ -119,4 +126,5 @@ module.exports = {
   validaCreateProducts,
   getProductId,
   setUpdateNeWProduct,
+  deleteProduct,
 };

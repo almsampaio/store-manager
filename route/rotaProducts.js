@@ -10,4 +10,6 @@ rotaProducts.post('/', controller.createProduct);
 
 rotaProducts.put('/:id', controller.setUpdate);
 
+rotaProducts.delete('/:id', controller.deleteProductId);
+
 module.exports = rotaProducts;
