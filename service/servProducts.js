@@ -62,7 +62,10 @@ const validaCreateProducts = async (name, quantity) => {
 
 const getAllProducts = async () => {
   try {
-    const AllProducts = await modelProduct.getProductId();
+    const AllProducts = await modelProduct.getAll()
+      .then((e) => ({
+        products: e,
+      }));
       throw AllProducts;
   } catch (err) {
     return err;

@@ -7,12 +7,12 @@ const createProduct = async (req, res, _next) => {
     return res.status(201).json(createdProduct);
 };
 
-const getAll = async (req, res) => {
+const getAll = async (_req, res) => {
   try {
-    const getAllProducts = await service.getAllProducts();
-    return res.status(200).json(getAllProducts);
+    const allProducts = await service.getAllProducts();
+    return res.status(200).json(allProducts);
   } catch (err) {
-    console.log(err);
+     console.log(err);
   }
 };
 
