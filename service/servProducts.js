@@ -28,6 +28,13 @@ const errTypeString = {
   },
 };
 
+/* const errIdNotExiste = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong id format',
+  },
+}; */
+
 const verificaName = async (name) => {
   const verificaSeExiste = await modelProduct.getProductName(name);
   if (typeof name !== 'string' || name.length < 5) {
@@ -72,9 +79,22 @@ const getAllProducts = async () => {
   }
 };
 
+const getProductId = async (id) => {
+  const productId = await modelProduct.getProductId(id);
+    if (!productId) {
+      return { err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        },
+      };
+    }
+  return productId;
+};
+
 module.exports = {
   verificaName,
   verificaQuantidade,
   getAllProducts,
   validaCreateProducts,
+  getProductId,
 };
