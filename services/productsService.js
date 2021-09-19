@@ -54,8 +54,18 @@ const getProductById = async (id) => {
  return product;
 };
 
+const update = async (id, name, quantity) => {
+  if (name.length <= 5) return nameLength;
+  if (quantity <= 0) return quantityLessThanOne;
+  if (!quantity) return quantityRequired;
+  if (typeof (quantity) !== 'number') return quantityIsANumber;
+  const product = await productModel.updateProduct(id, name, quantity);
+  return product;
+};
+
 module.exports = {
   create,
   getAllProducts,
   getProductById,
+  update,
 };

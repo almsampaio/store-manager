@@ -16,6 +16,7 @@ app.get('/', (_request, response) => {
 app.get('/products', productController.getAllProducts);
 app.get('/products/:id', productController.getProductById);
 app.post('/products', productController.create);
+app.put('/products/:id', productController.update);
 
 app.listen(PORT, () => {
   console.log('Tá funcionando!');
