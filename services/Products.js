@@ -1,4 +1,5 @@
-const { findProduct, createProduct, getAllProducts, findProductId } = require('../models/Products');
+const { findProduct, createProduct, getAllProducts,
+  findProductId, setProduct } = require('../models/Products');
 
 const productExists = {
   err: {
@@ -54,6 +55,14 @@ const verifyQuantity = (quantity) => {
   return quantity;
 };
 
+const verifyUpdateName = (name) => {
+  if (name.length <= 5) {
+    throw caractersLength;
+  }
+
+  return name;
+};
+
 const create = async (name, quantity) => {
   try {
     const respName = await verifyName(name);
@@ -86,8 +95,20 @@ const getById = async (id) => {
   return getId;
 };
 
+const update = async (id, name, quantity) => {
+  try {
+    const respName = await verifyUpdateName(name);
+    console.log(respName);
+    const respQuantity = await verifyQuantity(quantity);
+    throw await setProduct(id, respName, respQuantity);
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
