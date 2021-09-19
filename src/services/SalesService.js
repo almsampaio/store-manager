@@ -1,6 +1,11 @@
 const SalesModel = require('../models/salesModel');
 
+const subttractProductQuantity = require('../helpers/subtractProductQuantity');
+const addProductQuantity = require('../helpers/addProductQuantity');
+
 const create = async (itensSold) => {
+  await itensSold.map((item) => subttractProductQuantity(item));
+  
   const newSale = await SalesModel.create(itensSold);
 
   return newSale; 
@@ -44,6 +49,8 @@ const updateOne = async (id, itenSold) => {
 };
 
 const eliminate = async (id) => {
+  await addProductQuantity(id);
+
   const eliminated = await SalesModel.eliminate(id);
 
   if (!eliminated) {
