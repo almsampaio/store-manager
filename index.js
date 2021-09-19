@@ -20,6 +20,8 @@ app.post('/products', validName, validQuantity, productController.create);
 app.post('/sales', validSalesQuantity, salesController.createSale);
 app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getById);
+app.get('/sales', salesController.getAll);
+app.get('/sales/:id', salesController.getById);
 app.put('/products/:id', validName, validQuantity, productController.updateProduct);
 app.delete('/products/:id', productController.deleteProduct);
 
