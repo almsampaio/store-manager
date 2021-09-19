@@ -1,5 +1,5 @@
 const salesModels = require('../models/sales');
-const salesValid = require('./salesValidations');
+const salesSchemas = require('../schemas/salesSchemas');
 
 const getAll = async () => {
   const sales = await salesModels.getAll();
@@ -12,7 +12,7 @@ const findById = async (id) => {
 };
 
 const create = async (salesArray) => {
-  const validQuantity = salesValid.validQuantity(salesArray);
+  const validQuantity = salesSchemas.validQuantity(salesArray);
   if (validQuantity) return validQuantity;
 
   const sales = await salesModels.create(salesArray);
@@ -20,8 +20,11 @@ const create = async (salesArray) => {
 };
 
 const update = async (id, salesArray) => {
-  const validQuantity = salesValid.validQuantity(salesArray);
+  const validQuantity = salesSchemas.invalidQuantity(salesArray);
   if (validQuantity) return validQuantity;
+
+  const isNotNumber = salesSchemas.isNotString(salesArray);
+  if (isNotNumber) return isNotNumber;
 
   await salesModels.update(id, salesArray);
 
@@ -30,14 +33,10 @@ const update = async (id, salesArray) => {
 
 const exclude = async (id) => {
   const excludeSales = await salesModels.exclude(id);
-  if (!excludeSales) {
-    return {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong sale ID format',
-      },
-    };
-  }
+  
+  const isNotIdExists = salesSchemas.isIdExists(excludeSales);
+  if (isNotIdExists) return isNotIdExists;
+  
   return excludeSales;
 };
 

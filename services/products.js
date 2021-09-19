@@ -1,5 +1,5 @@
 const productsModel = require('../models/Products');
-const validation = require('./validations');
+const productsSchemas = require('../schemas/productsSchemas');
 
 const getAll = async () => {
   const products = await productsModel.getAll();
@@ -12,16 +12,16 @@ const findById = async (id) => {
 };
 
 const create = async (name, quantity) => {
-  const validNameLength = validation.validNameLength(name);
+  const validNameLength = productsSchemas.validNameLength(name);
   if (validNameLength) return validNameLength;
 
-  const isNameExists = await validation.isNameExists(name);
+  const isNameExists = await productsSchemas.isNameExists(name);
   if (isNameExists) return isNameExists;
 
-  const isSmallerOrIqualQuantity = validation.isSmallerOrIqualQuantity(quantity);
+  const isSmallerOrIqualQuantity = productsSchemas.isSmallerOrIqualQuantity(quantity);
   if (isSmallerOrIqualQuantity) return isSmallerOrIqualQuantity;
 
-  const isNotNumber = validation.isNotNumber(quantity);
+  const isNotNumber = productsSchemas.isNotNumber(quantity);
   if (isNotNumber) return isNotNumber;
 
   const newProduct = await productsModel.create(name, quantity);
@@ -29,13 +29,13 @@ const create = async (name, quantity) => {
 };
 
 const update = async (id, name, quantity) => {
-  const validNameLength = validation.validNameLength(name);
+  const validNameLength = productsSchemas.validNameLength(name);
   if (validNameLength) return validNameLength;
 
-  const isSmallerOrIqualQuantity = validation.isSmallerOrIqualQuantity(quantity);
+  const isSmallerOrIqualQuantity = productsSchemas.isSmallerOrIqualQuantity(quantity);
   if (isSmallerOrIqualQuantity) return isSmallerOrIqualQuantity;
 
-  const isNotNumber = validation.isNotNumber(quantity);
+  const isNotNumber = productsSchemas.isNotNumber(quantity);
   if (isNotNumber) return isNotNumber;
 
   const updateProduct = await productsModel.update(id, name, quantity);
@@ -44,17 +44,18 @@ const update = async (id, name, quantity) => {
 
 const exclude = async (id) => {
   const excludeProduct = await productsModel.exclude(id);
-  if (!excludeProduct) {
-    return {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    };
-  }
+
+  const isNotIdExists = productsSchemas.isIdExists(excludeProduct);
+  if (isNotIdExists) return isNotIdExists;
 
   return excludeProduct;
 };
+
+// const exclude = async (id) => {
+//   const excludeProduct = await productsModel.exclude(id);
+//   if (!excludeProduct) return productsSchemas.wrongIdFormat();
+//   return excludeProduct;
+// };
 
 module.exports = {
   getAll,
