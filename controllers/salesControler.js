@@ -24,6 +24,19 @@ const updateSalesUi = async (req, res) => {
   return res.status(200).json({ _id: id, itensSold });
 };
 
+const deleteSalesId = async (req, res) => {
+  const { id } = req.params;
+  const itensSold = req.body;
+  const validatedId = await salesService.validSalesId(id);
+
+  if (!validatedId) {
+    return res.status(422).json({ err: { code: 'invalid_data', message: 'Wrong sale ID format' } });
+  }
+
+  await salesModel.deleteSales(id);
+  res.status(200).json({ _id: id, itensSold });
+};
+
 const getAllSales = async (_req, res) => {
   const sales = await salesService.getAllSale();
   res.status(200).json({ sales });
@@ -34,4 +47,5 @@ module.exports = {
   salesCreate,
   validateSalesId,
   updateSalesUi,
+  deleteSalesId,
 };

@@ -8,11 +8,24 @@ const createSales = async (itensSold) => {
   return { _id: newSold.insertedId, itensSold };
 };
 
-const updateSales = async (id, updatedItensSoldArray) => {
+const updateSales = async (id, newSales) => {
   const db = await getConnection();
   const updateId = await db.collection('sales')
-  .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: updatedItensSoldArray } });
+  .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: newSales } });
   return updateId;
+};
+
+const IdSaleExists = async (id) => {
+  const db = await getConnection();
+  const ids = await db.collection('sales').findOne({ id });
+  return ids;
+};
+
+const deleteSales = async (id) => {
+  const db = await getConnection();
+  const deleteId = await db.collection('sales')
+  .deleteOne({ _id: ObjectId(id) });
+  return deleteId;
 };
 
 const getSalesId = async ({ id }) => {
@@ -33,4 +46,6 @@ module.exports = {
   getAllSales,
   getSalesId,
   updateSales,
+  IdSaleExists,
+  deleteSales,
 };
