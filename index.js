@@ -23,6 +23,7 @@ app.get('/products/:id', productController.getById);
 app.get('/sales', salesController.getAll);
 app.get('/sales/:id', salesController.getById);
 app.put('/products/:id', validName, validQuantity, productController.updateProduct);
+app.put('/sales/:id', validSalesQuantity, salesController.updateSale);
 app.delete('/products/:id', productController.deleteProduct);
 
 app.listen(PORT, () => {
