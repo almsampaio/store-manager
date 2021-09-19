@@ -27,9 +27,16 @@ async function create(sales) {
   return sale;
 }
 
+async function update(id, sale) {
+  const toUpdate = await salesModel.updateSale(id, sale);
+
+  return toUpdate;
+}
+
 module.exports = {
   getAllSales,
   getById,
   isValidQuantity,
   create,
+  update,
 };

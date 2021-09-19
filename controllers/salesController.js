@@ -56,9 +56,22 @@ async function create(req, res) {
   res.status(StatusCodes.OK).json(newSale);
 }
 
+const updateSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await salesService.update(id, req.body);
+
+    return res.status(StatusCodes.OK).json(result);
+  } catch (error) {
+    console.log(error.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Something went wrong :(');
+  }
+};
+
 module.exports = {
   getAllSales,
   getById,
   validateQuantitySales,
   create,
+  updateSale,
 };
