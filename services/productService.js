@@ -2,6 +2,7 @@ const productModel = require('../models/productModels');
 
 const HTTP_UNPROCESSABLE_ENTITY = 422;
 const HTTP_CREATED = 201;
+const HTTP_OK = 200;
 
 const PRODUCT_EXISTS = 'Product already exists';
 const WRONG_ID_FORMAT = 'Wrong id format';
@@ -34,9 +35,19 @@ const updateProduct = async (id, name, quantity) => {
   return product;
 };
 
+const deleteProduct = async (id) => {
+  const product = await productModel.getById(id);
+  const deletedProduct = await productModel.deleteProduct(id);
+
+  if (!product) return { status: HTTP_UNPROCESSABLE_ENTITY, message: WRONG_ID_FORMAT };
+
+  return { status: HTTP_OK, result: deletedProduct };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   updateProduct,
+  deleteProduct,
 };
