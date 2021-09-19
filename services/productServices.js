@@ -40,6 +40,16 @@ const errorValidQuantityIsNumber = {
   },
 };
 
+const errorValidProduct = {
+  status: 422,
+  result: {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong id format',
+    },
+  },
+};
+
 const validateName = (name) => {
   if (name.length <= 5) throw errorValidName;
 };
@@ -57,6 +67,10 @@ const validateQuantityString = (quantity) => {
   if (typeof quantity !== 'number') throw errorValidQuantityIsNumber;
 };
 
+const validateProductExist = (product) => {
+  if (!product) throw errorValidProduct;
+};
+
 const addProduct = async (name, quantity) => {
   validateName(name);
   await validateNameExist(name);
@@ -66,6 +80,19 @@ const addProduct = async (name, quantity) => {
   return { status: 201, result };
 };
 
+const getProducts = async () => {
+  const result = await productModel.getProducts();
+  return { status: 200, result };
+};
+
+const getProductId = async (id) => {
+  const result = await productModel.getProductId(id);
+  validateProductExist(result);
+  return { status: 200, result };
+};
+
 module.exports = {
   addProduct,
+  getProducts,
+  getProductId,
 };
