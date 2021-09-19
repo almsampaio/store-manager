@@ -35,6 +35,8 @@ app.post('/products',
   app.post('/sales', validateQuantity, salesController.salesCreate);
   app.get('/sales/:id', salesController.validateSalesId);
 
+  app.put('/sales/:id', validateQuantity, salesController.updateSalesUi);
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
