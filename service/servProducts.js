@@ -47,11 +47,6 @@ const verificaName = async (name) => {
   return quantity;
 };
 
-const getAllProducts = async () => {
-  const getAll = await modelProduct.getAll();
-  return getAll;
-};
-
 const validaCreateProducts = async (name, quantity) => {
   try {
     const validaName = await verificaName(name);
@@ -60,6 +55,15 @@ const validaCreateProducts = async (name, quantity) => {
       const createdProduct = await modelProduct.insertProducts(validaName, validaQuantity);
       throw createdProduct;
     }
+  } catch (err) {
+    return err;
+  }
+};
+
+const getAllProducts = async () => {
+  try {
+    const AllProducts = await modelProduct.getProductId();
+      throw AllProducts;
   } catch (err) {
     return err;
   }
