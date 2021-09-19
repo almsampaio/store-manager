@@ -87,7 +87,7 @@ const getById = async (_id) => {
   const deleteById = async (_id) => {
     const deletedProduct = await ProductsModel.deleteById(_id);
     if (deletedProduct === null) {
-      return { err: { code: 'invalid_data', message: 'wrong id format' } };
+      return { err: { code: 'invalid_data', message: 'Wrong id format' } };
     }
     return deletedProduct;
   };
