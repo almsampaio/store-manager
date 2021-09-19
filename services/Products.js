@@ -1,4 +1,4 @@
-const { findProduct, createProduct, getAllProducts } = require('../models/Products');
+const { findProduct, createProduct, getAllProducts, findProductId } = require('../models/Products');
 
 const productExists = {
   err: {
@@ -72,7 +72,22 @@ const getAll = async () => {
   }
 };
 
+// ajuda de Will Alves - Turma 10 - tribo A
+const getById = async (id) => {
+  const getId = await findProductId(id);
+  if (!getId) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return getId;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };
