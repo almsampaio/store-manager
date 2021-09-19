@@ -13,7 +13,7 @@ const createProduct = async (name, quantity) => {
     quantity,
   }).then((result) => ({ _id: result.insertedId, name, quantity }));
 
-  console.log(newProduct);
+  // console.log(newProduct);
   return newProduct;
 };
 

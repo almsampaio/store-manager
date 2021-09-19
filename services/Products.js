@@ -1,4 +1,4 @@
-const { findProduct, createProduct } = require('../models/Products');
+const { findProduct, createProduct, getAllProducts } = require('../models/Products');
 
 const productExists = {
   err: {
@@ -64,6 +64,15 @@ const create = async (name, quantity) => {
   }
 };
 
+const getAll = async () => {
+  try {
+    throw await getAllProducts();
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   create,
+  getAll,
 };
