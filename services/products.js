@@ -1,33 +1,46 @@
+const { ObjectId } = require('mongodb');
+
 const productModel = require('../models/products');
 
-// function validate(name, quantity) {
-//   if (name === undefined || typeof name !== 'string') {
-//     return { code: 400, message: 'name não foi preenchido', isValid: false };
-//   }
-//   if (quantity === undefined || typeof quantity !== 'number') {
-//     return { code: 400, message: 'quantity não foi preechido', isValid: false };
-//   }
-//   return { code: 201, message: 'deu bom', isValid: true };
-// }
+const { notValidId, productExist } = require('../utils/errors');
 
 const createNewProduct = async (name, quantity) => {
-  const newProduct = await productModel.create(name, quantity);
-  return newProduct;
+  const isExists = await productModel.getName(name);
+  if (isExists) {
+    return { status: 422, message: productExist };
+  }
+  const product = await productModel.create(name, quantity);
+  return { status: 201, data: product };
 };
 
 const getAll = async () => {
-  const allProducts = await productModel.getAll();
-  const result = await allProducts;
-  // console.log(result);
-  return result;
+  const products = await productModel.getAll();
+  return { status: 200, data: products };
 };
 
 const getById = async (id) => {
-  const product = await productModel.getProductsById(id);
-  return product;
+  if (!ObjectId.isValid(id)) return { status: 422, message: notValidId };
+  const product = await productModel.getById(id);
+  console.log(product);
+  return { status: 200, data: product };
 };
+
+async function updateProduct(id, data) {
+  const product = await productModel.updateProduct(id, data);
+  return { status: 200, data: product };
+}
+
+async function deleteProduct(id) {
+  const product = await productModel.getById(id);
+  if (!product) return { status: 422, message: 'Wrong id format' };
+  const result = await productModel.deleteProduct(id);
+  return { status: 200, data: result };
+}
+
 module.exports = {
   createNewProduct,
   getAll,
   getById,
+  updateProduct,
+  deleteProduct,
 };

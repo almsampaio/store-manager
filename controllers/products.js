@@ -1,36 +1,40 @@
 const productsService = require('../services/products');
-const productModel = require('../models/products');
 
-async function create(req, res) {
+async function createNewProduct(req, res) {
   const { name, quantity } = req.body;
-  const isExists = await productModel.getName(name);
-  if (isExists !== null) {
-    return res.status(422)
-    .json({ err: { code: 'invalid_data', message: 'Product already exists' } });
-  }
-    const obj = await productsService.createNewProduct(name, quantity);
-    return res.status(201).json(obj);
+  const { status, data, message } = await productsService.createNewProduct(name, quantity);
+  if (message) return res.status(status).json(message);
+  res.status(status).json(data);
 }
 
-async function getAllProducts(_req, res, next) {
-  try {
-  const result = await productsService.getAll();
-  return res.status(200).json(result);
-  } catch (err) {
-    next(err);
-  }
+async function getAllProducts(_req, res) {
+  const { status, data } = await productsService.getAll();
+  return res.status(status).json(data);
 }
-async function getProductsById(req, res, next) {
-  try {
+async function getById(req, res) {
   const { id } = req.params;
-  const result = await productModel.getProductsById(id);
-  return res.status(200).json(result);
-  } catch (err) {
-    next(err);
-  }
+  const { status, message, data } = await productsService.getById(id);
+  if (message) return res.status(status).json(message);
+  return res.status(status).json(data);
 }
+
+async function updateProduct(req, res) {
+  const { id } = req.params;
+  const { status, data } = await productsService.updateProduct(id, req.body);
+  res.status(status).json(data);
+}
+
+async function deleteProduct(req, res) {
+  const { id } = req.params;
+  const { status, data, message } = await productsService.deleteProduct(id);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
+  res.status(status).json(data);
+}
+
 module.exports = {
-  create,
+  createNewProduct,
   getAllProducts,
-  getProductsById,
+  getById,
+  updateProduct,
+  deleteProduct,
 };

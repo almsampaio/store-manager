@@ -5,9 +5,14 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// const productsControllers = require('./controllers/products');
-
-const newProduct = require('./routes/products');
+const {
+  getAllProducts,
+  createNewProduct,
+  getById,
+  updateProduct,
+  deleteProduct,
+} = require('./controllers/products');
+const { validName, validQuantity } = require('./validations/products');
 
 const PORT = 3000;
 // não remova esse endpoint, e para o avaliador funcionar
@@ -19,21 +24,8 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT} xablau`);
 });
 
-app.use('/products', newProduct);
-
-// app.post('/products', productsControllers.create);
-
-// console.log(productsControllers.create);
-// console.log(productsControllers);
-
-// qual rota será executada
-// o controler chama o service
-// service chama o model
-// model chama db
-
-// primeiro conectar ao db
-// executar a query para listar produtos
-// chamar no service
-// passar ao controllers
-// difinir a rota
-// devolver a lista de produtos na requisição
+app.post('/products', validName, validQuantity, createNewProduct);
+app.get('/products', getAllProducts);
+app.get('/products/:id', getById);
+app.put('/products/:id', validName, validQuantity, updateProduct);
+app.delete('/products/:id', deleteProduct);

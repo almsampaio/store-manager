@@ -13,12 +13,29 @@ const create = async (name, quantity) => getConnection()
   .then((db) => db.collection('products')
   .find({}).toArray().then((result) => ({ products: result })));
 
-  const getProductsById = async (id) => getConnection()
-  .then((db) => db.collection('products').findOne(new ObjectId(id)));
+  const getById = async (id) => getConnection()
+  .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
+
+  const updateProduct = async (id, data) => {
+    if (!ObjectId.isValid(id)) return null;
+    getConnection()
+    .then((db) => db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: data }, { upsert: true }));
+    const product = await getById(id);
+    return product;
+  };
+
+  const deleteProduct = async (id) => {
+    if (!ObjectId.isValid(id)) return null;
+    getConnection()
+    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+  };
 
 module.exports = {
   create,
   getName,
   getAll,
-  getProductsById,
+  getById,
+  updateProduct,
+  deleteProduct,
 };

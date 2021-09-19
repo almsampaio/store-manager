@@ -1,9 +1,9 @@
-const { Router } = require('express');
+// const { Router } = require('express');
 
-const router = new Router();
+// const router = new Router();
 
-router.get('/', (_req, res) => {
-  res.status(200).json({ Ok: 'oi' });
-});
+// router.get('/', (_req, res) => {
+//   res.status(200).json({ Ok: 'oi' });
+// });
 
-module.exports = router;
+// module.exports = router;
