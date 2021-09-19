@@ -6,6 +6,13 @@ const getAll = async () => {
   return products;
 };
 
+const getProductId = async (id) => {
+  const db = await connection();
+  const productId = db.collection('products').findOne({ _id: id });
+  if (!productId) return null;
+  return productId;
+};
+
 const getProductName = async (name) => {
   const db = await connection();
   const productName = db.collection('products').findOne({ name });
@@ -26,4 +33,5 @@ module.exports = {
   getAll,
   insertProducts,
   getProductName,
+  getProductId,
 };
