@@ -45,6 +45,13 @@ const verificaName = async (name) => {
   return name;
 };
 
+const verificaNameUp = async (name) => {
+  if (typeof name !== 'string' || name.length < 5) {
+    throw errMin5;
+  }
+  return name;
+};
+
  const verificaQuantidade = async (quantity) => {
   if (typeof quantity === 'string') {
   throw errTypeString;
@@ -91,10 +98,25 @@ const getProductId = async (id) => {
   return productId;
 };
 
+const setUpdateNeWProduct = async (id, name, quantity) => {
+  try {
+    const validaName = await verificaNameUp(name);
+    const validaQuantity = await verificaQuantidade(quantity);
+    console.log(validaQuantity);
+    if (validaName === name && validaQuantity === quantity) {
+      const setUpdateProduct = await modelProduct.setUpdateProduct(id, validaName, validaQuantity);
+      throw setUpdateProduct;
+    }
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   verificaName,
   verificaQuantidade,
   getAllProducts,
   validaCreateProducts,
   getProductId,
+  setUpdateNeWProduct,
 };
