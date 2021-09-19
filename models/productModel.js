@@ -27,6 +27,7 @@ const findOneById = async (_id) => {
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('products'));
   const productFound = await productsCollection.findOne({ _id: ObjectId(_id) });
+  console.log(productFound);
   return productFound;
 };
 
@@ -51,7 +52,7 @@ const deleteById = async (_id) => {
   const productsCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('products'));
   try {
-    const { name, quantity } = findOneById(_id);
+    const { name, quantity } = await findOneById(_id);
   await productsCollection
     .deleteOne({ _id: ObjectId(_id) });
   return { _id, name, quantity };
