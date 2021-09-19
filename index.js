@@ -67,18 +67,29 @@ app.post('/sales', async (req, res) => {
 
 app.get('/sales', async (_req, res) => {
   const allProducts = await serviceSales.getAll();
-  console.log(allProducts);
   return res.status(200).json(allProducts);
 });
 
 app.get('/sales/:id', async (req, res) => {
   const { id } = req.params;
   const product = await serviceSales.getById(id);
-  console.log(product);
   if (product.err1) {
     return res.status(product.err2.errCode).json(product.err1);
   }
   return res.status(200).json(product);
+});
+
+app.put('/sales/:id', async (req, res) => {
+  const { id } = req.params;
+  const requestValues = req.body;
+  
+  const updateSale = await serviceSales.update(id, requestValues);
+  console.log(updateSale);
+  if (updateSale.err1) {
+    return res.status(updateSale.err2.errCode).json(updateSale.err1);
+  }
+  
+  return res.status(200).json(updateSale);
 });
 
 app.listen(SERVER_PORT, () => console.log('servidor rodando!!'));

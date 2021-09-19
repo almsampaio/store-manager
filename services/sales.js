@@ -50,10 +50,6 @@ const getAll = async () => {
   const allProducts = {
     sales: getAllProducts,
   };
-  console.log({
-    nome: 'getAllProducts',
-    getAllProducts: allProducts.sales[0],
-  });
   return allProducts;
 };
 
@@ -64,8 +60,18 @@ const getById = async (id) => {
   return getProductById;
 };
 
+const update = async (id, requestValues) => {
+  const validQuantity = validateQuantity(requestValues);
+  if (validQuantity.err1) return validQuantity;
+
+  await salesModel.update(id, requestValues);
+  const updatedSale = await salesModel.getById(id);
+  return updatedSale;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
