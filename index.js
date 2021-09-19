@@ -5,7 +5,10 @@ const app = express();
 const PORT = 3000;
 
 const productController = require('./controllers/productController');
+const salesController = require('./controllers/salesController');
+
 const { validName, validQuantity } = require('./middlewares/productMiddleware');
+const { validSalesQuantity } = require('./middlewares/salesMiddleware');
 
 app.use(bodyParser.json());
 // não remova esse endpoint, e para o avaliador funcionar
@@ -14,6 +17,7 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', validName, validQuantity, productController.create);
+app.post('/sales', validSalesQuantity, salesController.createSale);
 app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getById);
 app.put('/products/:id', validName, validQuantity, productController.updateProduct);
