@@ -13,7 +13,8 @@ app.route('/products')
 
   app.route('/products/:id')
   .get(products.getByIdProducts)
-  .put(products.update);
+  .put(products.update)
+  .delete(products.productDeletes);
 
 app.get('/', (_request, response) => {
   response.send();

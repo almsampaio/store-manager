@@ -83,9 +83,31 @@ const create = async (name, quantity) => {
       json: result,
     };
   };
+
+  const deleteProducts = async (id) => {
+    const result = await products.deleteProducts(id);
+  
+    if (!result) {
+ return {
+      statusCode: 422,
+      json: {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        },
+      },
+    }; 
+}
+  
+    return {
+      statusCode: 200,
+      json: result.message,
+    };
+  };
 module.exports = {
     create,
     getAllProducts,
     getById,
     updateProducts,
+    deleteProducts,
 };
