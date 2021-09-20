@@ -4,6 +4,7 @@ const {
   nameValidation,
   quantityValidation,
 } = require('../validations/createProductValidations');
+const { idMongodbValidation } = require('../validations/searchProductValidations');
 
 const router = Router();
 
@@ -11,18 +12,18 @@ router.get('/', async (_req, res) => {
     const result = await productServices.getAll();
     const { status, err, data } = result;
     console.log(data);
-    if (err) { return res.status(status).json({ message: err.message }); }
-    return res.status(status).json(data);
+    if (err) { return res.status(status).json({ err }); }
+    return res.status(status).json({ products: data });
 });
 /* REQUISIÇÃO:
 http GET :3000/products
 */
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', idMongodbValidation, async (req, res) => {
   const { id } = req.params;
   const result = await productServices.getById(id);
   const { status, err, data } = result;
-  if (err) { return res.status(err.code).json({ message: err.message }); }
+  if (err) { return res.status(status).json({ err }); }
   return res.status(status).json(data);
 });
 /* REQUISIÇÃO:
@@ -33,9 +34,9 @@ http GET :3000/products/614745121a2a8beb28afd8b65  // erro
 router.post('/', nameValidation, quantityValidation, async (req, res) => {
     const { name, quantity } = req.body;
     const result = await productServices.create(name, quantity);
-    const { err } = result;
-    if (err) { return res.status(err.code).json({ message: err.message }); }
-    return res.status(201).json(result);
+    const { status, err, data } = result;
+    if (err) { return res.status(status).json({ message: err.message }); }
+    return res.status(status).json(data);
 });
 /* REQUISIÇÃO:
 http POST :3000/products/ name='notebook multilaser' quantity:=1    // ok

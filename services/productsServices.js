@@ -2,16 +2,22 @@ const productsModels = require('../models/productsModels');
 
 const getAll = async () => {
   try {
-    return { status: 200, data: await productsModels.getAll() };
-  } catch (error) { return ({ status: 404, err: { message: error.message } }); } 
+    const products = await productsModels.getAll();
+    if (!products) { throw new Error('database_not_found'); }
+    return { status: 200, data: products };
+  } catch (error) {
+    return ({ status: 404, err: { code: 'invalid_data', message: error.message } });
+  } 
 };
 
 const getById = async (id) => {
   try {
   const products = await productsModels.getById(id);
-  if (!products) { throw new Error('not_found'); }
-  return { status: 200, data: await productsModels.getById(id) };
-  } catch (error) { return ({ status: 404, err: { message: error.message } }); }
+  if (!products) { throw new Error('Wrong id format'); }
+  return { status: 200, data: products };
+  } catch (error) {
+    return ({ status: 422, err: { code: 'invalid_data', message: error.message } });
+  }
 };
 
 const getByName = async (wantedName) => {
@@ -23,9 +29,9 @@ const getByName = async (wantedName) => {
 const create = async (name, quantity) => {
   try {
   const insertedProduct = await productsModels.create(name, quantity);
-  if (!insertedProduct) { throw new Error('not_found'); }
-  return insertedProduct;
-  } catch (error) { return ({ err: { message: error.message, code: 404 } }); }
+  if (!insertedProduct) { throw new Error('cannot_create'); }
+  return { status: 201, data: insertedProduct };
+  } catch (error) { return ({ status: 422, err: { message: error.message } }); }
 };
 
 const update = async (id, name, quantity) => {
