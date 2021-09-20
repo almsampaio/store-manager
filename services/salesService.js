@@ -19,4 +19,10 @@ const getSaleById = async (id) => {
   return { status: 200, data: sale };
 };
 
-module.exports = { createSales, getAllSales, getSaleById };
+const updateSale = async (id, itensSold) => {
+  const updatSale = await salesModel.updateSale(id, itensSold);
+
+  return { status: 200, data: updatSale };
+};
+
+module.exports = { createSales, getAllSales, getSaleById, updateSale };
