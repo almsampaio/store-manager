@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 
-const db = require('../models/salesModel'); // 614808b55d9c3a000a3ca62d 61481d19db07f017689e6b6c
+const db = require('../models/salesModel');
 
 const isValidQuantity = (sale) => {
   const { quantity } = sale;
@@ -71,9 +71,33 @@ const updateSaleByID = async (id, productId, quantity) => {
   };
 };
 
+const deleteSalestByIDValidations = async (id) => {
+  const alreadyExist = await getSaleByID(id);
+  
+  if (alreadyExist.err) return alreadyExist;
+
+  return alreadyExist;
+};
+
+const deleteSalestByID = async (id) => {
+  const allValidations = await deleteSalestByIDValidations(id);
+
+  if (allValidations.err) {
+    return {
+      err: { code: 'invalid_data', message: 'Wrong sale ID format',
+    },
+    };
+  }
+
+  const deletedSales = await db.deleteSalestByID(id);
+
+  return deletedSales;
+};
+
 module.exports = {
   createNewSales,
   getAllSales,
   getSaleByID,
   updateSaleByID,
+  deleteSalestByID,
 };

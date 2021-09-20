@@ -33,6 +33,8 @@ app.put('/sales/:id', salesController.updateSaleByID);
 
 app.delete('/products/:id', productsController.deleteProductByID);
 
+app.delete('/sales/:id', salesController.deleteSalestByID);
+
 const PORT = 3000;
 
 app.listen(PORT, () => {

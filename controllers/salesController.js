@@ -42,19 +42,19 @@ const updateSaleByID = async (req, res) => {
   return res.status(status.OK).json(updateSale);
 };
 
-// const deleteProductByID = async (req, res) => {
-//   const { params: { id } } = req;
-//   const deletedProduct = await service.deleteProductByID(id);
+const deleteSalestByID = async (req, res) => {
+  const { params: { id } } = req;
+  const deletedSales = await service.deleteSalestByID(id);
 
-//   if (deletedProduct.err) return res.status(status.UNPROCESSABLE_ENTITY).json(deletedProduct);
+  if (deletedSales.err) return res.status(status.UNPROCESSABLE_ENTITY).json(deletedSales);
 
-//   return res.status(status.OK).json(deletedProduct);
-// };
+  return res.status(status.OK).json(deletedSales);
+};
 
 module.exports = {
   createNewSales,
   getAllSales,
   getSaleByID,
   updateSaleByID,
-  // deleteProductByID,
+  deleteSalestByID,
 };
