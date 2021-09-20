@@ -26,6 +26,8 @@ app.get('/sales', rescue(salesController.getSales));
 
 app.get('/sales/:id', rescue(salesController.getSalesId));
 
+app.put('/sales/:id', rescue(salesController.updateSales));
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();

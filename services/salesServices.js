@@ -52,8 +52,17 @@ const getSalesId = async (id) => {
   return { status: 200, result };
 };
 
+const updateSales = async (id, sales) => {
+  const result = await salesModel.updateSales(id, sales);
+  const { productId, quantity } = result.itensSold[0];
+  await validateQuantityLength(quantity);
+  await validateIdExist(productId);
+  return { status: 200, result };
+};
+
 module.exports = {
   addSales,
   getSales,
   getSalesId,
+  updateSales,
 };
