@@ -17,7 +17,7 @@ const create = async (sale) => {
   const validQuantity = verificaQuantidade(sale);
   if (validQuantity) return validQuantity;
   const saleMod = await salesModel.create(sale);
-  console.log('resposta do create no db em model', saleMod);
+  // console.log('resposta do create no db em model', saleMod);
   if (saleMod) return saleMod;
 };
 
