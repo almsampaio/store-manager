@@ -3,7 +3,7 @@ const productServices = require('../services/productsServices');
 const invalidErros = {
   code: 'invalid_data',
   shortName: '"name" length must be at least 5 characters long',
-  repeatedName: 'Product already exisits',
+  repeatedName: 'Product already exists',
   invalidValue: '"quantity" must be larger than or equal to 1',
   invalidType: '"quantity" must be a number',
 };
