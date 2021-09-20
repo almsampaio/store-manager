@@ -75,6 +75,7 @@ const validateID = (id) => {
       },
     };
   }
+  return true;
 };
 
 const getProductByID = async (id) => {
@@ -90,12 +91,43 @@ const getProductByID = async (id) => {
   };
 };
 
-const updateProductByID = async (id, name, quantity) => {
+const updateProductByIDValidations = async (id, name, quantity) => {
+  const isValidID = validateID(id);
+  const nameValidations = await isValidName(name);
+  const quantityValidations = isValidQuantity(quantity);
+  const alreadyExist = await getProductByID(id);
 
+  if (isValidID.err) return isValidID;
+  
+  if (nameValidations.err) return nameValidations;
+  
+  if (quantityValidations.err) return quantityValidations;
+
+  if (alreadyExist.err) return alreadyExist;
+
+  return true;
+};
+
+const updateProductByID = async (id, name, quantity) => {
+  const allValidations = await updateProductByIDValidations(id, name, quantity);
+  
+  if (allValidations.err) return allValidations;
+
+  const updatedProduct = await db.updateProductByID(id, name, quantity);
+
+  if (updatedProduct) {
+    return updatedProduct;
+  } 
+  return {
+    err: {
+      code: 'invalid_data', message: 'Id does not exist',
+    },
+  };
 };
 
 module.exports = {
   createNewProduct,
   getAllProducts,
   getProductByID,
+  updateProductByID,
 };

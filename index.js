@@ -13,11 +13,13 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', controller.createNewProduct);
-
 app.get('/products', controller.getAllProducts);
 
+app.post('/products', controller.createNewProduct);
+
 app.get('/products/:id', controller.getProductByID);
+
+app.put('/products/:id', controller.updateProductByID);
 
 const PORT = 3000;
 
