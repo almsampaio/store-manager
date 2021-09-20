@@ -23,6 +23,7 @@ app.delete('/products/:_id', ProductsController.deleteById);
 app.post('/sales', salesController.create);
 app.get('/sales', salesController.getAll);
 app.get('/sales/:_id', salesController.getById);
+app.put('/sales/:_id', salesController.update);
 
 app.listen(PORT, () => {
   console.log(`Ouvindo a porta ${PORT}`);

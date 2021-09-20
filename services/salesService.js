@@ -16,9 +16,7 @@ const checkQtySold = ({ quantity }) => {
   return true;
 };
 
-const create = async (sales) => {
-  const message = 'Wrong product ID or invalid quantity';
-  
+const checkData = async (sales) => {
   // https://zellwk.com/blog/async-await-in-loops/ onde aprendi a usar funcoes assincronas em loop
   const promise = await sales.map(async (sale) => {
     if ((await checkIdSold(sale)) === null || checkQtySold(sale) === null) {
@@ -30,6 +28,13 @@ const create = async (sales) => {
   const checkingSales = await Promise.all(promise);
 
   const checkedSales = checkingSales.some((sale) => sale === true);
+  return checkedSales;
+};
+
+const create = async (sales) => {
+  const message = 'Wrong product ID or invalid quantity';
+  
+  const checkedSales = await checkData(sales);
 
   if (checkedSales) {
     return { err: { code: 'invalid_data',
@@ -46,8 +51,21 @@ const getById = async (_id) => {
 
 const getAll = async () => salesModel.getAll();
 
+const update = async (_id, sales) => {
+  if (!ObjectId.isValid(_id)) return { err: { code: 'not_found', message: 'Sale not found' } };
+  const message = 'Wrong product ID or invalid quantity';
+  const checkedSales = await checkData(sales);
+  if (checkedSales) {
+    return { err: { code: 'invalid_data',
+    message } };
+  }
+  const updatedItens = await salesModel.update(_id, sales);
+  return updatedItens;
+};
+
 module.exports = {
   create,
   getById,
   getAll,
+  update,
 };
