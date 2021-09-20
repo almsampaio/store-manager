@@ -41,6 +41,8 @@ app.get('/sales', sales.getAll);
 
 app.get('/sales/:id', salesValidate.validSale, sales.getById);
 
+app.put('/sales/:id', salesValidate.validQuantity, sales.update);
+
 app.listen(PORT, () => {
   console.log('Online: ', PORT);
 });
