@@ -21,9 +21,22 @@ const create = async (sale) => {
   if (saleMod) return saleMod;
 };
 
+const errIdNotFind = {
+  err: {
+    code: 'not_found',
+    message: 'Sale not found',
+  },
+};
+
+const validateExist = (sales) => {
+  if (!sales) return errIdNotFind;
+};
+
 const getById = async (productId) => {
-  
-}
+  const getbyId = await salesModel.getById(productId);
+  const validFindId = validateExist(getbyId);
+  return validFindId;
+};
 
 module.exports = {
 /*   getAll, */

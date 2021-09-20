@@ -19,7 +19,7 @@ const getById = async (productId) => {
 
 const getAll = async () => {
   const db = await connection();
-  const result = db.collection('sales').find({});
+  const result = db.collection('sales').find({}).toArray();
   return result;
 };
 
