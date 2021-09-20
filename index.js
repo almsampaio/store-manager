@@ -1,8 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const ProductsController = require('./controllers/Products');
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -12,6 +10,8 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products', ProductsController.create);
+const productsRouter = require('./routes/productsRouter');
+
+app.use('/products', productsRouter);
 
 app.listen(3000, console.log('🚀 Backend is running!'));
