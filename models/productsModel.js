@@ -8,7 +8,11 @@ const findProductByName = (name) => connection()
     .then((db) => db.collection('products').findOne({ name }))
     .then((result) => result);
 
+const getAll = () => connection()
+    .then((db) => db.collection('products').find().toArray());
+
 module.exports = { 
   create,
   findProductByName,
+  getAll,
 };
