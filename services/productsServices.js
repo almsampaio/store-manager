@@ -10,4 +10,7 @@ const create = async (name, quantity) => {
   return newProduct;
 };
 
-module.exports = { create };
+const getAll = () => ProductsModel.getAll()
+  .then((result) => result);
+
+module.exports = { create, getAll };

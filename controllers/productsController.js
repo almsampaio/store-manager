@@ -1,5 +1,5 @@
 const ProductsService = require('../services/productsServices');
-const { UNPROCESSABLE_ENTITY, SUCCESS_CREATED } = require('../utils/HttpStatusCodes');
+const { UNPROCESSABLE_ENTITY, SUCCESS_CREATED, SUCCESS_OK } = require('../utils/HttpStatusCodes');
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
@@ -17,4 +17,10 @@ const create = async (req, res) => {
   return res.status(SUCCESS_CREATED).json(newProduct);   
 };
 
-module.exports = { create };
+const getAll = (_req, res) => ProductsService.getAll()
+  .then((products) => res.status(SUCCESS_OK).json({ products }));
+
+module.exports = {
+  create,
+  getAll,
+};

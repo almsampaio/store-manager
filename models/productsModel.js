@@ -5,11 +5,11 @@ const create = (name, quantity) => connection()
   .then((result) => ({ _id: result.insertedId, name, quantity }));
 
 const findProductByName = (name) => connection()
-    .then((db) => db.collection('products').findOne({ name }))
-    .then((result) => result);
+  .then((db) => db.collection('products').findOne({ name }))
+  .then((result) => result);
 
 const getAll = () => connection()
-    .then((db) => db.collection('products').find().toArray());
+  .then((db) => db.collection('products').find().toArray());
 
 module.exports = { 
   create,

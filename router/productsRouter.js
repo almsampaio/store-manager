@@ -6,5 +6,6 @@ const router = express.Router();
 
 // cadastro de produtos
 router.post('/', validadeProduct, Products.create);
+router.get('/', Products.getAll);
 
 module.exports = router;
