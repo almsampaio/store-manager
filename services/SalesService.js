@@ -46,11 +46,7 @@ const remove = async (id) => {
   const { err } = SalesSchema.validateRemove(removedSale);
 
   if (err) {
-    return { err: 
-      { 
-        code: err.code, message: err.message, 
-      }, 
-    };
+    return { err };
   }
 
   return removedSale;
