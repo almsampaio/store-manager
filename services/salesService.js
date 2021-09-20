@@ -27,4 +27,12 @@ const getAll = async () => {
   };
 };
 
-module.exports = { create, getAll };
+const getById = async (id) => {
+  const product = await salesModel.getById(id);
+  return {
+    status: STATUS_OK,
+    message: product,
+  };
+};
+
+module.exports = { create, getAll, getById };

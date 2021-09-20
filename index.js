@@ -39,7 +39,7 @@ app.post('/sales', salesValidate.validQuantity, sales.create);
 
 app.get('/sales', sales.getAll);
 
-app.get('/sales/:id');
+app.get('/sales/:id', salesValidate.validSale, sales.getById);
 
 app.listen(PORT, () => {
   console.log('Online: ', PORT);
