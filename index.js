@@ -25,7 +25,7 @@ app.get('/sales/:id', salesController.getById);
 
 app.post('/sales', salesController.create);
 
-// app.put('/sales/:id', salesController.actualize);
+app.put('/sales/:id', salesController.actualize);
 
 app.delete('/sales/:id', salesController.remove);
 

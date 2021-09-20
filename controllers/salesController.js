@@ -32,23 +32,20 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   const selected = req.body;
-  console.log('selected  - - - -CONTROLER', selected);
   const sale = await saleService.create(selected);
-  console.log('sale  - - - -CONTROLER', sale);
-  console.log('sale  ERROOO- - - -CONTROLER', sale.err);
 //   if (!sale.err.code) return res.status(200).json(sale.saleCreated);
 //   return res.status(422).json(sale);
 if (sale.err) return res.status(422).json(sale);
 return res.status(200).json(sale.saleCreated);
 };
 
-// const actualize = async (req, res) => {
-//   const { id } = req.params;
-//   const { name, quantity } = req.body;
-//   const sale = await saleService.actualize(name, quantity, id);
-//   if (sale.err) return res.status(422).json(sale);
-//   return res.status(200).json(sale);
-// };
+const actualize = async (req, res) => {
+  const { id } = req.params;
+  const product = req.body;
+  const sale = await saleService.actualize(id, product);
+  if (sale.err) return res.status(422).json(sale);
+  return res.status(200).json(sale);
+};
 
 const remove = async (req, res) => {
   const { id } = req.params;
@@ -64,6 +61,6 @@ module.exports = {
   create,
   getAll,
   getById,
-//   actualize,
+  actualize,
   remove,
 };

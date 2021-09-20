@@ -11,7 +11,6 @@ const getById = async (id) => {
     if (!ObjectId.isValid(id)) return false;
     const sale = await connect()
       .then((db) => db.collection('sales').findOne({ _id: ObjectId(id) }));
-      console.log('sale - - - - MODEL', sale);
       if (!sale) return false;
       return sale;
 };
@@ -23,13 +22,12 @@ const create = async (array) => {
 };
 
 const updateById = async (array, id) => {
-    if (!ObjectId.isValid(id)) return null;
+    if (!ObjectId.isValid(id)) return false;
     const [{ productId, quantity }] = array;
-
     const db = await connect();
     await db.collection('sales')
       .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: { productId, quantity } } });
-    const updatedsale = { _id: id,
+      const updatedsale = { _id: id,
         itensSold: [{ productId, quantity }] };
     return updatedsale;
 };
@@ -37,9 +35,7 @@ const updateById = async (array, id) => {
 const remove = async (id) => {
     if (!ObjectId.isValid(id)) return null;
     const db = await connect();
-    console.log('db - - - - MODEL', db);
     const result = await db.collection('sales').deleteOne({ _id: ObjectId(id) });
-    console.log('result - - - - MODEL', result);
     return result;
 };
 
