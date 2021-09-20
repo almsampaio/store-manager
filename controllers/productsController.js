@@ -1,15 +1,16 @@
 const express = require('express');
 const productsService = require('../services/productsService');
 const productsMiddlewares = require('../middlewares/middlewareProducts');
+
 const ProductsRouter = express.Router();
 
 const HTTP_OK_STATUS = 200;
 const HTTP_CREATE_STATUS = 201;
-
+const HTTP_UNPROCESS_CLIENT = 422;
 
 ProductsRouter.get('/', async (req, res) => {
   const products = await productsService.listAll();
-  return res.status(HTTP_OK_STATUS).json({ products: products });
+  return res.status(HTTP_OK_STATUS).json({ products });
 });
 
 ProductsRouter.get('/:id',
@@ -37,8 +38,7 @@ ProductsRouter.delete('/:id',
     const { id } = req.params;
     const product = await productsService.deleteProduct(id);
     return res.status(HTTP_OK_STATUS).json(product);
-  }
-);
+  });
 
 ProductsRouter.post('/', productsMiddlewares.validaName,
   productsMiddlewares.validaProduto,
@@ -47,12 +47,11 @@ ProductsRouter.post('/', productsMiddlewares.validaName,
     const { name, quantity } = req.body;
     const product = await productsService.registerProduct(name, quantity);
 
-    if(product.err) return res.status(HTTP_UNPROCESS_CLIENT).json(product);
+    if (product.err) {
+      return res.status(HTTP_UNPROCESS_CLIENT).json(product);
+    }
 
     return res.status(HTTP_CREATE_STATUS).json(product);
-    
   });
-
-
 
 module.exports = ProductsRouter;

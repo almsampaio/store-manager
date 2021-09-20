@@ -1,6 +1,7 @@
 const express = require('express');
 const salesService = require('../services/salesService');
 const salesMiddlewares = require('../middlewares/middlewareSales');
+
 const SalesRouter = express.Router();
 
 const HTTP_OK_STATUS = 200;
@@ -16,10 +17,12 @@ SalesRouter.get('/:id',
   async (req, res) => {
     const { id } = req.params;
     const sale = await salesService.listSaleId(id);
-    if(sale == null) return res.status(HTTP_NOT_FOUND).json({ err: { 
-      code: 'not_found',
-      message: 'Sale not found',
-    } });
+    if (sale == null) { 
+      return res.status(HTTP_NOT_FOUND).json({ err: { 
+        code: 'not_found',
+        message: 'Sale not found',
+      } });
+    }
     return res.status(HTTP_OK_STATUS).json(sale);
   });
 
@@ -39,8 +42,7 @@ SalesRouter.delete('/:id',
     const { id } = req.params;
     const sale = await salesService.deleteSale(id);
     return res.status(HTTP_OK_STATUS).json(sale);
-  }
-);
+  });
 
 SalesRouter.post('/',
   salesMiddlewares.validaId,
@@ -49,7 +51,6 @@ SalesRouter.post('/',
     const salesArray = req.body;
     const sales = await salesService.registerSales(salesArray);
     return res.status(HTTP_OK_STATUS).json(sales);
-  }
-);
+  });
 
 module.exports = SalesRouter;
