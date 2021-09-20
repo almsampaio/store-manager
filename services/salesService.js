@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const salesModel = require('../models/salesModel');
 const ProductsModel = require('../models/productModel');
 
@@ -17,14 +18,14 @@ const checkQtySold = ({ quantity }) => {
 
 const create = async (sales) => {
   const message = 'Wrong product ID or invalid quantity';
-
+  
+  // https://zellwk.com/blog/async-await-in-loops/ onde aprendi a usar funcoes assincronas em loop
   const promise = await sales.map(async (sale) => {
     if ((await checkIdSold(sale)) === null || checkQtySold(sale) === null) {
       return true;
     }
     return false;
   });
-  // https://zellwk.com/blog/async-await-in-loops/ onde aprendi a usar funcoes assincronas em loop
 
   const checkingSales = await Promise.all(promise);
 
@@ -38,6 +39,15 @@ const create = async (sales) => {
   return itensSold;
 };
 
+const getById = async (_id) => {
+  if (!ObjectId.isValid(_id)) return { err: { code: 'not_found', message: 'Sale not found' } };
+  return salesModel.getById(_id);
+};
+
+const getAll = async () => salesModel.getAll();
+
 module.exports = {
   create,
+  getById,
+  getAll,
 };
