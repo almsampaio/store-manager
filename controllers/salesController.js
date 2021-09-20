@@ -6,14 +6,15 @@ const HTTP_422 = 422;
 
 const create = async (req, res) => {
   const itensSold = req.body;
-  const { err, sale } = await salesService.create(itensSold);
+  const { err, error, sale } = await salesService.create(itensSold);
+  if (error) return res.status(HTTP_404).json(error);
   if (err) return res.status(HTTP_422).json({ err });
   return res.status(HTTP_200).json(sale);
 };
 
 const getAll = async (_req, res) => {
-  const sale = await salesService.getAll();
-  return res.status(HTTP_200).json({ sales: sale });
+  const sales = await salesService.getAll();
+  return res.status(HTTP_200).json({ sales });
 };
 
 const getById = async (req, res) => {
