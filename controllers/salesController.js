@@ -16,7 +16,7 @@ const getSaleById = async (req, res) => {
   const { id } = req.params;
   const { status, data, message } = await serviceSales.getSaleById(id);
   if (message) return res.status(status).json({ err: { code: 'not_found', message } });
-  req.status(status).json(data);
+  res.status(status).json(data);
 };
 
 const updateSale = async (req, res) => {
@@ -25,4 +25,11 @@ const updateSale = async (req, res) => {
   res.status(status).json(data);
 };
 
-module.exports = { createSales, getAllSales, getSaleById, updateSale }; 
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const { status, data, message } = await serviceSales.deleteSale(id);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
+  res.status(status).json(data);
+};
+
+module.exports = { createSales, getAllSales, getSaleById, updateSale, deleteSale }; 

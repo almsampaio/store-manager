@@ -24,5 +24,6 @@ app.post('/sales', Validator.validQuantitySales, Sales.createSales);
 app.get('/sales', Sales.getAllSales);
 app.get('/sales/:id', Sales.getSaleById);
 app.put('/sales/:id', Validator.validQuantitySales, Sales.updateSale);
+app.delete('/sales/:id', Sales.deleteSale);
 
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
