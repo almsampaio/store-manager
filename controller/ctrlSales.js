@@ -8,9 +8,15 @@ const create = async (req, res) => {
   return res.status(200).json(sale);
 };
 
+const getAll = async (_req, res) => {
+  const sales = await salesService.getAll();
+  console.log(sales);
+  return res.status(200).json(sales);
+};
+
 module.exports = {
-/*   getAll,
-  getById, */
+  getAll,
+  // getById,
   create,
  /*  editById,
   deleteById, */
