@@ -1,6 +1,6 @@
 const productsService = require('../services/productsService');
 
-function errorObj(err) {
+function errorDefault(err) {
   return {
     status: err.status || 500,
     code: err.code || 'server_error',
@@ -19,7 +19,7 @@ async function create(req, res, next) {
       quantity,
     });
   } catch (err) {
-    const error = errorObj(err);
+    const error = errorDefault(err);
 
     next(error);
   }
@@ -31,7 +31,7 @@ async function getAll(_req, res, next) {
 
     res.status(200).json({ products: allDocuments });
   } catch (err) {
-    const error = errorObj(err);
+    const error = errorDefault(err);
 
     next(error);
   }
@@ -44,7 +44,7 @@ async function getById(req, res, next) {
 
     res.status(200).json(document);
   } catch (err) {
-    const error = errorObj(err);
+    const error = errorDefault(err);
 
     next(error);
   }
