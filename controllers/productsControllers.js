@@ -35,7 +35,7 @@ router.post('/', nameValidation, quantityValidation, async (req, res) => {
     const result = await productServices.create(name, quantity);
     const { err } = result;
     if (err) { return res.status(err.code).json({ message: err.message }); }
-    return res.status(200).json(result);
+    return res.status(201).json(result);
 });
 /* REQUISIÇÃO:
 http POST :3000/products/ name='notebook multilaser' quantity:=1    // ok
