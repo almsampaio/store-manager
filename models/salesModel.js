@@ -9,16 +9,15 @@ const getAllSales = async () => {
   const SalesCollection = await salesCollection()
     .then((db) => db.find().toArray());
 
-  console.log(SalesCollection, 'ssssssssssssssssssales')
-
-  // console.log('ssssssssale', SalesCollection.find());
-
   return { sales: SalesCollection };
 };
 
 const getSaleById = async (id) => {
-  const SalesCollection = await salesCollection();
-  return SalesCollection.find({ _id: ObjectId(id) }).toArray();
+  if (!ObjectId.isValid(id)) return null;
+  const SalesId = await salesCollection()
+    .then((db) => db.find({ _id: ObjectId(id) }).toArray());
+
+  return SalesId[0];
 };
 
 const createSale = async (inputSale) => {
@@ -49,10 +48,17 @@ const putSales = async (arraySalesToUpdate, id) => {
 const deleteSales = async (id) => {
   const SalesCollection = await salesCollection();
   const saleWillBeDeleted = await getSaleById(id);
+  const saleDeleted = { ...saleWillBeDeleted };
+  const { itensSold } = saleDeleted;
+
   const dlt = await SalesCollection.deleteOne({ _id: ObjectId(id) });
   if (!dlt) return null;
-  productsModel.uptadeQuantityOfProduct(saleWillBeDeleted, 'delete');
-  return saleWillBeDeleted[0];
+  productsModel.uptadeQuantityOfProduct({ id, itensSold }, 'delete');
+
+  return {
+    id,
+    itensSold,
+  };
 };
 
 module.exports = {

@@ -34,7 +34,7 @@ const getProductsId = async (req, res) => {
   const { id } = req.params;
 
   const products = await productsService.getProductsId(id);
-
+  
   if (products.err) {
     return printMessageOfError422(res, products, INVALID_REQUEST_422);
   }

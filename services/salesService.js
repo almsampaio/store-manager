@@ -1,15 +1,6 @@
 const salesModel = require('../models/salesModel');
 const validations = require('./validations');
 
-const formatGetResponse = (response) => {
-  if (response.length === 1) {
-    return response[0];
-  }
-  return {
-    sales: response,
-  };
-};
-
 const createSale = async (sale) => {
   const validationInputFormat = validations.validationFormatInputSales(sale);
   if (validationInputFormat) return validationInputFormat;
@@ -33,14 +24,14 @@ const getSalesById = async (id) => {
   const productByURLID = await validations.validateURLId(id, 'sales');
   if (productByURLID.err) return productByURLID;
 
-  return formatGetResponse(productByURLID);
+  return salesModel.getSaleById(id);
 };
 
 async function PutBodyFormatedQuantity(sale, id) {
   const arrayWithDiferenceOldAndNewQuantity = [];
 
   const oldArraySale = await salesModel.getSaleById(id);
-  const oldItensSold = oldArraySale[0].itensSold;
+  const oldItensSold = oldArraySale.itensSold;
 
   for (let i = 0; i < sale.length; i += 1) {
   arrayWithDiferenceOldAndNewQuantity.push({
@@ -73,8 +64,8 @@ const putSales = async (arraySalesToUpdate, id) => {
 
 const deleteSales = async (id) => {
   const productByURLID = await validations.validateURLId(id, 'sales');
+  console.log(productByURLID);
   if (productByURLID.err) return productByURLID;
-
   return salesModel.deleteSales(id);
 };
 

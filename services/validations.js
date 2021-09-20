@@ -11,7 +11,7 @@ const {
   WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE,
   NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE,
   SALE_NOT_FOUND,
-  WRONG_SALE_ID_FORMAT_MESSAGE,
+  // WRONG_SALE_ID_FORMAT_MESSAGE,
 } = require('./objectsMessagesErros');
 
 function findIdExisting(arraySaleIdTypeds, arrayProductIdDB) {
@@ -108,31 +108,19 @@ function validationsQuantityInsertProduct(quantity) {
 async function getItemById(id, item) {
   if (item === 'products') {
     const getProductById = await productsModel.getProductById(id);
-    if (!getProductById) return WRONG_ID_FORMAT_MESSAGE;
-    return getProductById;
+    if (!getProductById) return SALE_NOT_FOUND;
+    return false;
   }
 
   const getSaleById = await salesModel.getSaleById(id);
-    if (getSaleById.length === 0) return WRONG_SALE_ID_FORMAT_MESSAGE;
-  return getSaleById;
+    if (!getSaleById) { return SALE_NOT_FOUND; }
+  return false;
 }
 
 async function validateURLId(id, item) {
-  if (!ObjectId.isValid(id) || !id) {
-    let objMessageError;
-    switch (item) {
-      case 'products':
-        objMessageError = WRONG_ID_FORMAT_MESSAGE;
-        break;
-      case 'sales':
-        objMessageError = SALE_NOT_FOUND;
-        break;
-      default:
-        objMessageError = WRONG_ID_FORMAT_MESSAGE;
-    }
-    return objMessageError;
+  if (item === 'products' && !ObjectId.isValid(id)) {
+    return WRONG_ID_FORMAT_MESSAGE;
   }
-
   return getItemById(id, item);
 }
 

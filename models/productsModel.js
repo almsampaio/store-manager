@@ -47,7 +47,7 @@ const uptadeQuantityOfProduct = async (item, verb) => {
   const prodsCollection = await mongoConnection.getConnection()
   .then((db) => db.collection('products'));
   if (verb === 'delete') {
-    const { itensSold } = item[0];
+    const { itensSold } = item;
     itensSold.forEach(async (element) => {
       await prodsCollection
       .updateOne({ _id: ObjectId(element.productId) }, { $inc: { quantity: +element.quantity } });
