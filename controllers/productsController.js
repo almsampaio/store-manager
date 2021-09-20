@@ -19,4 +19,19 @@ const createProduct = async (req, res) => {
   res.status(status).json(data);
 };
 
-module.exports = { getAllProducts, getProductById, createProduct }; 
+const updateProduct = async (req, res) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+  const result = await Products.updateProduct(id, name, quantity);
+
+  res.status(200).json(result);
+};
+
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const { status, data, message } = await Products.deleteProduct(id);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
+  res.status(status).json(data);
+};
+
+module.exports = { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct }; 

@@ -18,7 +18,6 @@ const getProductById = async (id) => {
 const createProduct = async (name, quantity) => {
   const db = await Connection();
   const result = await db.collection('products').insertOne({ name, quantity });
-  console.log(result.ops[0]);
   return { _id: result.insertedId, name, quantity };
 };
 
@@ -40,4 +39,17 @@ const updateProduct = async (id, name, quantity) => {
   return product;
 };
 
-module.exports = { getAllProducts, getProductById, createProduct, findByName, updateProduct }; 
+const deleteProduct = async (id) => {
+  if (!ObjectID.isValid(id)) return null;
+  const db = await Connection();
+  const result = await db.collection('products').deleteOne({ _id: ObjectID(id) });
+  return result;
+};
+
+module.exports = { 
+  getAllProducts, 
+  getProductById, 
+  createProduct, 
+  findByName, 
+  updateProduct, 
+  deleteProduct }; 
