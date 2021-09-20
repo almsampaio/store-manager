@@ -14,7 +14,6 @@ const getAllProdutcts = async () => {
       .then((db) => db.collection('products').find().toArray())
           .then((products) => products.map(serialize));
 
-  console.log(getALL);
   if (!getALL) return null;
 
   return {

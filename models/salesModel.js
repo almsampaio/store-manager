@@ -6,8 +6,14 @@ const salesCollection = async () => mongoConnection.getConnection()
     .then((db) => db.collection('sales'));
 
 const getAllSales = async () => {
-  const SalesCollection = await salesCollection();
-  return SalesCollection.find().toArray();
+  const SalesCollection = await salesCollection()
+    .then((db) => db.find().toArray());
+
+  console.log(SalesCollection, 'ssssssssssssssssssales')
+
+  // console.log('ssssssssale', SalesCollection.find());
+
+  return { sales: SalesCollection };
 };
 
 const getSaleById = async (id) => {

@@ -62,6 +62,14 @@ const NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE = {
   status: 422,
 };
 
+const SALE_NOT_FOUND = {
+  err: {
+    code: 'not_found',
+    message: 'Sale not found',
+  },
+  status: 404,
+};
+
 const WRONG_SALE_ID_FORMAT_MESSAGE = {
   err: {
     code: 'invalid_data',
@@ -79,5 +87,6 @@ module.exports = {
   WRONG_ID_FORMAT_MESSAGE,
   WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE,
   NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE,
+  SALE_NOT_FOUND,
   WRONG_SALE_ID_FORMAT_MESSAGE,
 };

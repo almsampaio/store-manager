@@ -33,8 +33,6 @@ const getAllProducts = async (_req, res) => {
 const getProductsId = async (req, res) => {
   const { id } = req.params;
 
-  console.log(id);
-
   const products = await productsService.getProductsId(id);
 
   if (products.err) {

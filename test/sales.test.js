@@ -318,7 +318,6 @@ describe('6 - Crie um endpoint para listar as vendas', () => {
       .then((responseOne) => {
         const { body } = responseOne;
         const responseAll = JSON.parse(body);
-        console.log('teeeeeeste', responseAll);
         const idSales = responseAll.sales[0]._id;
         const idFirstProductSales = responseAll.sales[0].itensSold[0].productId;
         const quantityFirstProductSales = responseAll.sales[0].itensSold[0].quantity;
@@ -664,7 +663,7 @@ describe.skip('8 - Crie um endpoint para deletar uma venda', () => {
   });
 });
 
-describe.skip('9 - Atualize a quantidade de produtos', () => {
+describe('9 - Atualize a quantidade de produtos', () => {
   let connection;
   let db;
 

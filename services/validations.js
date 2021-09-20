@@ -10,6 +10,7 @@ const {
   WRONG_ID_FORMAT_MESSAGE,
   WRONG_PRODUCID_OR_INVALID_QUANTIY_MESSAGE,
   NOT_AMOUNT_PERMISE_TO_SELL_MESSAGE,
+  SALE_NOT_FOUND,
   WRONG_SALE_ID_FORMAT_MESSAGE,
 } = require('./objectsMessagesErros');
 
@@ -124,7 +125,7 @@ async function validateURLId(id, item) {
         objMessageError = WRONG_ID_FORMAT_MESSAGE;
         break;
       case 'sales':
-        objMessageError = WRONG_SALE_ID_FORMAT_MESSAGE;
+        objMessageError = SALE_NOT_FOUND;
         break;
       default:
         objMessageError = WRONG_ID_FORMAT_MESSAGE;

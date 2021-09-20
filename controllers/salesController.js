@@ -24,10 +24,9 @@ const createSale = async (req, res) => {
   return res.status(VALID_NAME_STATUS_200).json(sale);
  };
 
-const getSales = async (req, res) => {
-  const { id } = req.params;
+ const getAllSales = async (req, res) => {
 
-  const sales = await salesService.getSales(id);
+  const sales = await salesService.getAllSales();
 
   if (sales.err) {
     return printMessageOfError422(res, sales, INVALID_REQUEST_422);
@@ -35,6 +34,20 @@ const getSales = async (req, res) => {
 
   return res.status(VALID_REQUEST_200).json(sales);
  };
+
+ const getSalesById = async (req, res) => {
+  const { id } = req.params;
+
+  const sales = await salesService.getSalesById(id);
+
+  if (sales.err) {
+    return printMessageOfError422(res, sales, INVALID_REQUEST_422);
+  }
+
+  return res.status(VALID_REQUEST_200).json(sales);
+ };
+
+
 
  const putSales = async (req, res) => {
   const { id } = req.params;
@@ -64,7 +77,11 @@ const deleteSales = async (req, res) => {
 
  module.exports = {
    createSale,
-   getSales,
+   // getSales,
+
+   getAllSales,
+   getSalesById,
+
    putSales,
    deleteSales,
  };

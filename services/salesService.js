@@ -27,12 +27,9 @@ const createSale = async (sale) => {
   return salesModel.createSale(sale);
 };
 
-const getSales = async (id) => {
-  if (!id) {
-    const allproducts = await salesModel.getAllSales();
-    return formatGetResponse(allproducts);
-  }
+const getAllSales = async () => salesModel.getAllSales();
 
+const getSalesById = async (id) => {
   const productByURLID = await validations.validateURLId(id, 'sales');
   if (productByURLID.err) return productByURLID;
 
@@ -83,7 +80,11 @@ const deleteSales = async (id) => {
 
 module.exports = {
   createSale,
-  getSales,
+  // getSales,
+
+  getAllSales,
+  getSalesById,
+
   putSales,
   deleteSales,
 };
