@@ -19,10 +19,14 @@ const setById = (id, name, quantity) => connection()
     .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }))
   .then(() => ({ _id: id, name, quantity }));
 
+const excludeById = (id) => connection()
+  .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+
 module.exports = {
   create,
   getByName,
   getAll,
   getById,
   setById,
+  excludeById,
 };

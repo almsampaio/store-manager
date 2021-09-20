@@ -41,9 +41,22 @@ const setById = async (req, res) => {
   res.status(200).json(product);
 };
 
+const excludeById = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await ProductsService.excludeById(id);
+
+  if (product.err) {
+    return res.status(422).json({ err: product.err });
+  }
+
+  res.status(200).json(product.product);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   setById,
+  excludeById,
 };

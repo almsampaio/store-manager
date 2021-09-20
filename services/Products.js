@@ -36,9 +36,22 @@ const setById = async (id, name, quantity) => {
   return product;
 };
 
+const excludeById = async (id) => {
+  if (!ObjectId.isValid(id)) return ERRORS.PRODUCT_NOT_EXISTS;
+
+  const [product] = await ProductsModel.getById(id);
+
+  const productDeleted = await ProductsModel.excludeById(id);
+  return {
+    product,
+    productDeleted,
+  };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   setById,
+  excludeById,
 };
