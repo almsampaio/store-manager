@@ -15,10 +15,13 @@ const validate = async (itensSold) => {
       err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' } };
   }
 
+  // Usar Error ao inves de Err para ser pego no 404 e não 422
+  const stockError = { 
+    err: { code: 'stock_problem', message: 'Such amount is not permitted to sell' } };
   const productQty = await productAvailable(productId);
   if (productQty < quantity) {
     return {
-      err: { code: 'stock_problem', message: 'Such amount is not permitted to sell' } };
+      error: stockError };
   }
 
   if (typeof (quantity) === 'string') {
