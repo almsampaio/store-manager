@@ -61,8 +61,31 @@ const create = async (name, quantity) => {
       json: result[0],
     };
   };
+
+  const updateProducts = async (id, name, quantity) => {
+    const { error } = validateProduct({ name, quantity });
+  
+    if (error) {
+         return {
+      statusCode: 422,
+      json: { err: { code: 'invalid_data', message: error.details[0].message } },
+    }; 
+    }
+    if (quantity < 1) {
+        return { statusCode: 422,
+         json: { err: { code: 'invalid_data',
+        message: '"quantity" must be larger than or equal to 1' } } }; 
+     }
+    const result = await products.update(id, name, quantity);
+  
+    return {
+      statusCode: 200,
+      json: result,
+    };
+  };
 module.exports = {
     create,
     getAllProducts,
     getById,
+    updateProducts,
 };

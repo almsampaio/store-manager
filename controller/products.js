@@ -1,4 +1,4 @@
-const { create, getAllProducts, getById } = require('../service/products');
+const { create, getAllProducts, getById, updateProducts } = require('../service/products');
 
 const createProducts = async (req, res) => {
     const { name, quantity } = req.body;
@@ -24,8 +24,16 @@ const createProducts = async (req, res) => {
     res.status(result.statusCode).json(result.json);
   };
 
+  const update = async (req, res) => {
+    const { name, quantity } = req.body;
+    const { id } = req.params;
+    const result = await updateProducts(id, name, quantity);
+    res.status(result.statusCode).json(result.json);
+  };
+
 module.exports = {
     createProducts,
     getAll,
     getByIdProducts,
+    update,
 };

@@ -12,8 +12,9 @@ app.route('/products')
   .post(products.createProducts);
 
   app.route('/products/:id')
-  .get(products.getByIdProducts);
-  
+  .get(products.getByIdProducts)
+  .put(products.update);
+
 app.get('/', (_request, response) => {
   response.send();
 });
