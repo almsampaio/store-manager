@@ -20,7 +20,7 @@ const createProduct = async (name, quantity) => {
 
 const findProduct = async (name) => {
   const db = await connection();
-  const findOneProduct = db.collection('products').findOne({ name });
+  const findOneProduct = await db.collection('products').findOne({ name });
 
   if (!findOneProduct) return null;
 
@@ -30,7 +30,7 @@ const findProduct = async (name) => {
 const findProductId = async (id) => {
   if (!ObjectID.isValid(id)) return null; // se o id passado não for válido ele barra a conexão
   const db = await connection();
-  const findOneProduct = db.collection('products').findOne({ _id: ObjectID(id) });
+  const findOneProduct = await db.collection('products').findOne({ _id: ObjectID(id) });
 
   return findOneProduct;
 };
@@ -38,7 +38,7 @@ const findProductId = async (id) => {
 const setProduct = async (id, name, quantity) => {
   if (!ObjectID.isValid(id)) return null;
   const db = await connection();
-  const updateProduct = db.collection('products')
+  const updateProduct = await db.collection('products')
     .findOneAndUpdate({ _id: ObjectID(id) }, { $set: { name, quantity } }, { upsert: true })
     .then(() => ({ _id: id, name, quantity }));
 
@@ -48,8 +48,10 @@ const setProduct = async (id, name, quantity) => {
 const deleteProduct = async (id) => {
   if (!ObjectID.isValid(id)) return null;
   const db = await connection();
-  const deleted = db.collection('products').deleteOne({ _id: ObjectID(id) });
-  return deleted;
+  const getProd = await findProductId(id);
+  if (!getProd) return null;
+  await db.collection('products').deleteOne({ _id: ObjectID(id) });
+  return getProd;
 };
 
 module.exports = {

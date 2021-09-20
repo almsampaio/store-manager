@@ -14,7 +14,7 @@ const createProduct = async (request, response) => {
 
 const getAllProducts = async (_request, response) => {
   const validyValues = await getAll();
-  if (validyValues.length === 0) return response.status(HTTP_OK_STATUS).json([]);
+  if (validyValues.length === 0) return response.status(HTTP_OK_STATUS).json({ products: [] });
   return response.status(HTTP_OK_STATUS).json({ products: validyValues });
 };
 

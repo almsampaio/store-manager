@@ -107,11 +107,9 @@ const update = async (id, name, quantity) => {
 };
 
 const deleted = async (id) => {
-  try {
-    throw await deleteProduct(id);
-  } catch (err) {
-    return { err: idWrong.err };
-  }
+  const delP = await deleteProduct(id);
+  if (!delP) return idWrong;
+  return delP;
 };
 
 module.exports = {
