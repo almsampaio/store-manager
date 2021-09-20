@@ -74,7 +74,7 @@ quantityValidation, async (req, res) => {
     return res.status(status).json(data);
 });
 /* REQUISIÇÃO:
-http POST :3000/products/ name='notebook multilaser' quantity:=1    // ok
+http POST :3000/products/ name='notebook positivo' quantity:=1    // ok
 http POST :3000/products/ name='ball' quantity:=4                   // erro
 http POST :3000/products/ name='notebook multilaser' quantity:=0    // erro
 http POST :3000/products/ name='notebook multilaser' quantity=3     // erro
