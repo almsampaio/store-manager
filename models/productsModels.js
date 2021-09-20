@@ -35,7 +35,7 @@ const create = async (name, quantity) => {
   const { insertedId } = await db.collection(TABLE_NAME)
     .insertOne({ name, quantity });
   return {
-    id: insertedId,
+    _id: insertedId,
     name,
     quantity,
   };

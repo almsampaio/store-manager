@@ -10,8 +10,8 @@ const getById = async (id) => {
   try {
   const products = await productsModels.getById(id);
   if (!products) { throw new Error('not_found'); }
-  return products;
-  } catch (error) { return ({ err: { message: error.message, code: 404 } }); }
+  return { status: 200, data: await productsModels.getById(id) };
+  } catch (error) { return ({ status: 404, err: { message: error.message } }); }
 };
 
 const getByName = async (wantedName) => {

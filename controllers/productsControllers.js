@@ -21,9 +21,9 @@ http GET :3000/products
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   const result = await productServices.getById(id);
-  const { err } = result;
+  const { status, err, data } = result;
   if (err) { return res.status(err.code).json({ message: err.message }); }
-  return res.status(200).json(result);
+  return res.status(status).json(data);
 });
 /* REQUISIÇÃO:
 http GET :3000/products/614745121a2a8beb28afd8b6   // ok
