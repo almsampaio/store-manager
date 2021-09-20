@@ -696,3 +696,105 @@ describe('Testando a função `update` do model SalesModel', () => {
     });
   });
 });
+
+
+// remove Sale
+describe.only('Testando a função `remove` do model SalesModel', () => {
+  let connectionMock;
+  const INVALID_ID = '1';
+  const NOT_FOUND_ID = '613ggccggc43b8f78e54a01g'
+  const VALID_ID = '613ffccffc43b8f78e54a01f';
+
+  const payloadSales = {
+    itensSold:[
+      {
+        productId: '713ffccffc43b8f78e54a01g',
+        quantity: 2,
+      }
+    ],
+  }
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+    const DB_NAME = 'StoreManager';
+
+    connectionMock = await MongoClient
+    .connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then((conn) => conn.db(DB_NAME));
+  
+    sinon.stub(mongoConnection, 'getConnection').resolves(connectionMock);
+  });
+
+  after(() => {
+    mongoConnection.getConnection.restore();
+  });
+
+  describe('quando a venda não é removida', () => {
+    const collection = 'sales';
+
+    before(async () => {
+      await connectionMock.collection(collection).insertOne({
+        _id: ObjectId(VALID_ID),
+        itensSold: payloadSales.itensSold
+      });
+    });
+
+    after(async () => {
+      await connectionMock.collection(collection).drop();
+    });
+
+    it('a venda não existe', async () => {
+      const response = await SalesModel.remove(NOT_FOUND_ID);
+
+      expect(response).to.be.a('null');
+    });
+
+    it('o ID informado é inválido', async () => {
+      const response = await SalesModel.remove(INVALID_ID);
+
+      expect(response).to.be.a('null');
+    });
+  });
+
+  describe('quando a venda é removida', () => {
+   const collection = 'sales';
+
+   beforeEach(async () => {
+     await connectionMock.collection(collection).insertOne({
+       _id: ObjectId(VALID_ID),
+       itensSold: payloadSales.itensSold
+     });
+   });
+
+   afterEach(async () => {
+     await connectionMock.collection(collection).drop();
+   });
+
+    it('retorna um objeto', async () => {
+      const response = await SalesModel.remove(VALID_ID);
+
+      expect(response).to.be.a('object');
+    });
+
+    it('o objeto retornado possui as keys `_id` e itensSold', async () => {
+      const response = await SalesModel.remove(VALID_ID);
+
+      expect(response).to.include.all.keys('_id', 'itensSold');
+    });
+
+    it('a venda foi removida do banco de dados', async () => {
+      await SalesModel.remove(VALID_ID);
+
+      const removedSale = await connectionMock.collection(collection)
+      .findOne({
+        _id: ObjectId(VALID_ID),
+      });
+
+      expect(removedSale).to.be.equal(null);
+    });
+  });
+});
