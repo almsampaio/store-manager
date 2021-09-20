@@ -11,6 +11,12 @@ const erros = {
       code: 'not_found',
     },
   },
+  SALE_ID_FORMAT: {
+    err: {
+      message: 'Wrong sale ID format',
+      code: 'invalid_data',
+    },
+  },
 };
 
 module.exports = erros;

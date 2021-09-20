@@ -21,7 +21,7 @@ const getAll = async () => {
 const getById = async (id) => {
   if (!ObjectId.isValid(id)) return ERROR.SALE_NOT_FOUND;
 
-  const sales = salesModel.getById(id);
+  const sales = await salesModel.getById(id);
 
   if (!sales) return ERROR.SALE_NOT_FOUND;
 
@@ -40,9 +40,18 @@ const setById = async (id, sales) => {
   return sale;
 };
 
+const excludeById = async (id) => {
+  if (!ObjectId.isValid(id)) return ERROR.SALE_ID_FORMAT;
+  const sale = await salesModel.getById(id);
+  const data = await salesModel.excludeById(id);
+
+  return { sale, data };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   setById,
+  excludeById,
 };
