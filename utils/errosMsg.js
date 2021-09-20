@@ -35,6 +35,12 @@ const messageErro = {
       message: 'Wrong product ID or invalid quantity',
     },
   },
+  saleNoteFound: {
+    err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    },
+  },
 };
 
 module.exports = messageErro;

@@ -5,4 +5,6 @@ const create = async (itensSold) =>
 
 const findSales = async () => salesModel.findSales();
 
-module.exports = { create, findSales };
+const findById = async (id) => salesModel.findById(id);
+
+module.exports = { create, findSales, findById };

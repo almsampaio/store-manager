@@ -1,4 +1,5 @@
 const salesService = require('../services/salesService');
+const messageErro = require('../utils/errosMsg');
 
 const create = async (req, res) => {
   const itensSold = req.body;
@@ -8,9 +9,18 @@ const create = async (req, res) => {
 };
 
 const findSales = async (_req, res) => {
-  const allSales = await salesService.findSales();
+  const sales = await salesService.findSales();
 
-  return res.status(200).json({ products: allSales });
+  return res.status(200).json({ sales });
 };
 
-module.exports = { create, findSales };
+const findById = async (req, res) => {
+  const { id } = req.params;
+  const sales = await salesService.findById(id);
+
+  if (!sales) return res.status(404).json(messageErro.saleNoteFound);
+
+  res.status(200).json(sales);
+};
+
+module.exports = { create, findSales, findById };
