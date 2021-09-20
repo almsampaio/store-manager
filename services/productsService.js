@@ -66,7 +66,7 @@ const getAllProducts = async () => {
   return products;
 };
 
-const getProductByID = async (id) => {
+const validateID = (id) => {
   if (!ObjectId.isValid(id)) {
     return {
       err: {
@@ -75,6 +75,10 @@ const getProductByID = async (id) => {
       },
     };
   }
+};
+
+const getProductByID = async (id) => {
+  if (validateID(id).err) return validateID(id);
   const products = await db.getProductByID(id);
   if (products) {
     return products;
