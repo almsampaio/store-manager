@@ -45,10 +45,10 @@ const update = async (req, res) => {
   console.log(productSold);
 
   productSold.forEach((sale) => {
-    if (typeof sale.quantity !== 'number') {
+    if (sale.quantity <= 0) {
       return res.status(422).json(error);
     }
-    if (sale.quantity <= 0) {
+    if (typeof sale.quantity !== 'number') {
       return res.status(422).json(error);
     }
   });
