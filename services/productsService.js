@@ -15,7 +15,6 @@ const doesItAlreadyExist = async (name) => {
 };
 
 const isValidName = async (name) => {
-  const valid = await doesItAlreadyExist(name);
   switch (true) {
     case typeof (name) !== 'string':
       return { err: { code: 400, message: 'name is not valid.' } };
@@ -23,7 +22,7 @@ const isValidName = async (name) => {
       return { err: { code: 'invalid_data',
       message: '"name" length must be at least 5 characters long' } };
     default:
-      return valid;
+      return true;
   }
 };
 
@@ -39,17 +38,27 @@ const isValidQuantity = (quantity) => {
   }
 };
 
-const createNewProduct = async (name, quantity) => {
+const createNewProductValidations = async (name, quantity) => {
+  const productAlreadyExist = await doesItAlreadyExist(name);
   const nameValidations = await isValidName(name);
   const quantityValidations = isValidQuantity(quantity);
-  if (!nameValidations.err && !quantityValidations.err) {
+  
+  if (productAlreadyExist.err) return productAlreadyExist;
+  
+  if (nameValidations.err) return nameValidations;
+  
+  if (quantityValidations.err) return quantityValidations;
+
+  return true;
+};
+
+const createNewProduct = async (name, quantity) => {
+  const allValidations = await createNewProductValidations(name, quantity);
+  if (!allValidations.err) {
     const response = await db.createNewProduct(name, quantity);
     return response;
   }
-
-  if (nameValidations.err) return nameValidations;
-
-  return quantityValidations;
+  return allValidations;
 };
 
 const getAllProducts = async () => {
@@ -67,7 +76,18 @@ const getProductByID = async (id) => {
     };
   }
   const products = await db.getProductByID(id);
-  return products;
+  if (products) {
+    return products;
+  } 
+  return {
+    err: {
+      code: 'invalid_data', message: 'Id does not exist',
+    },
+  };
+};
+
+const updateProductByID = async (id, name, quantity) => {
+
 };
 
 module.exports = {
