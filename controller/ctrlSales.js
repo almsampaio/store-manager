@@ -9,9 +9,9 @@ const create = async (req, res) => {
 };
 
 const getAll = async (_req, res) => {
-  const sales = await salesService.getAll();
-  console.log(sales);
-  return res.status(200).json(sales);
+  const saless = await salesService.getAll();
+  console.log(saless);
+  return res.status(200).json({ sales: saless });
 };
 
 const getById = async (req, res) => {
@@ -20,7 +20,7 @@ const getById = async (req, res) => {
   const sale = await salesService.getById(id);
   console.log('chegou no ctrl atravez de getbyid no serv', sale);
   if (sale.err) return res.status(404).json(sale);
-  return res.status(200).json({ sales: [...sale.itensSold] });
+  return res.status(200).json(sale);
 };
 
 module.exports = {

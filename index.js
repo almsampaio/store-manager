@@ -1,5 +1,5 @@
 const express = require('express');
-const rescue = require('express-rescue');
+/* const rescue = require('express-rescue'); */
 const bodyParser = require('body-parser');
 const rotaProducts = require('./route/rotaProducts');
 const rotaSales = require('./route/rotaSales');
@@ -16,7 +16,7 @@ app.use('/products', rotaProducts);
 
 app.use('/sales', rotaSales);
 
-app.post('/sales', rescue(rotaSales.createAllSales));
+/* app.post('/sales', rescue(rotaSales.createAllSales)); */
 
 app.use((err, _req, res, _next) => {
   if (err.status) return res.status(err.status).json({ messege: err.message });
