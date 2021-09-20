@@ -42,4 +42,21 @@ const validQuantityProducts = (req, res, next) => {
   next();
 };
 
-module.exports = { validName, validQuantityProducts };
+const validQuantitySales = (req, res, next) => {
+  let error = null;
+  const message = 'Wrong product ID or invalid quantity';
+
+  req.body.forEach((sale) => {
+    if (typeof sale.quantity !== 'number') {
+      error = { err: { code: 'invalid_data', message } };
+    }
+    if (sale.quantity <= 0) {
+      error = { err: { code: 'invalid_data', message } };
+    }
+  });
+  if (error !== null) return res.status(422).json(error);
+
+  next();
+};
+
+module.exports = { validName, validQuantityProducts, validQuantitySales };
