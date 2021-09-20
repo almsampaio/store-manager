@@ -61,6 +61,25 @@ exports.updateProduct = async ({ id, name, quantity }) => {
   return null;
 };
 
+exports.updateProductQuantity = async ({ id, quantity }) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await connection();
+
+  const { result } = await db
+    .collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $inc: { quantity: -quantity } });
+
+  if (result.ok) {
+      return {
+      _id: id,
+      quantity,
+    };
+  }
+
+  return null;
+};
+
 exports.deleteProduct = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 

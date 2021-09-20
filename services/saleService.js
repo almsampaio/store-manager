@@ -1,4 +1,5 @@
 const Sale = require('../models/Sale');
+const productService = require('./productService');
 
 const validateSaleQuantity = (salesArr) =>
   salesArr.every((sale) => typeof sale.quantity === 'number')
@@ -12,6 +13,10 @@ exports.create = async (salesArr) => {
     };
   }
   const sale = await Sale.createSale(salesArr);
+
+  await Promise.all(
+    salesArr.map(({ productId, quantity }) => productService.updateQtyById(productId, quantity)),
+  );
 
   return { sale };
 };
@@ -50,6 +55,17 @@ exports.update = async (id, productId, newQuantity) => {
 };
 
 exports.delete = async (id) => {
+  const { sale } = await exports.getById(id); 
+
+  // fazer logica se nao achar sale
+  // if (sale.message) tadada....
+
+  if (!sale.message) {
+    await Promise.all(sale.itensSold.map(
+      ({ productId, quantity }) => productService.updateQtyById(productId, -quantity),
+    ));
+  }
+
   const deletedSale = await Sale.deleteSale(id);
 
   if (!deletedSale) {

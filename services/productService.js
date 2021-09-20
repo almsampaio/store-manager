@@ -60,3 +60,13 @@ exports.delete = async (id) => {
 
   return deletedProduct;
 };
+
+exports.updateQtyById = async (id, quantity) => {
+  const product = await Product.updateProductQuantity({ id, quantity });
+
+  if (product === null) {
+    return { message: errors.invalidId, code: 'invalid_data' }; 
+  }
+
+  return { product };
+};
