@@ -26,12 +26,15 @@ const getById = async (id) => {
 };
 
 async function updateProduct(id, data) {
+  if (!ObjectId.isValid(id)) return { status: 422, message: 'Wrong id format' };
   const product = await productModel.updateProduct(id, data);
   return { status: 200, data: product };
 }
 
 async function deleteProduct(id) {
+  if (!ObjectId.isValid(id)) return { status: 422, message: 'Wrong id format' };
   const product = await productModel.getById(id);
+  console.log(product);
   if (!product) return { status: 422, message: 'Wrong id format' };
   const result = await productModel.deleteProduct(id);
   return { status: 200, data: result };

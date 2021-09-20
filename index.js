@@ -12,7 +12,7 @@ const {
   updateProduct,
   deleteProduct,
 } = require('./controllers/products');
-const { validName, validQuantity } = require('./validations/products');
+const { validName, validQuantity } = require('./utils/validations/products');
 
 const PORT = 3000;
 // não remova esse endpoint, e para o avaliador funcionar

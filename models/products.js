@@ -17,7 +17,6 @@ const create = async (name, quantity) => getConnection()
   .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
 
   const updateProduct = async (id, data) => {
-    if (!ObjectId.isValid(id)) return null;
     getConnection()
     .then((db) => db.collection('products')
     .updateOne({ _id: ObjectId(id) }, { $set: data }, { upsert: true }));
@@ -26,7 +25,6 @@ const create = async (name, quantity) => getConnection()
   };
 
   const deleteProduct = async (id) => {
-    if (!ObjectId.isValid(id)) return null;
     getConnection()
     .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
   };
