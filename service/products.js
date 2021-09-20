@@ -29,6 +29,40 @@ const create = async (name, quantity) => {
     const result = await products.CreateProduct(name, quantity);
     return { statusCode: 201, json: result };
   };
+
+  const getAllProducts = async () => {
+    const productsAll = await products.productsAll();
+  
+    return {
+      statusCode: 200,
+      json: {
+        products: productsAll,
+      },
+    };
+  };
+
+  const getById = async (id) => {
+    const result = await products.idProducts(id);
+      
+    if (!result) {
+ return {
+      statusCode: 422,
+      json: {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong id format',
+        },
+      },
+    }; 
+}
+  
+    return {
+      statusCode: 200,
+      json: result[0],
+    };
+  };
 module.exports = {
     create,
+    getAllProducts,
+    getById,
 };

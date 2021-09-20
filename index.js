@@ -8,9 +8,12 @@ const PORT = 3000;
 app.use(express.json());
 
 app.route('/products')
-  .get()
+  .get(products.getAll)
   .post(products.createProducts);
 
+  app.route('/products/:id')
+  .get(products.getByIdProducts);
+  
 app.get('/', (_request, response) => {
   response.send();
 });
