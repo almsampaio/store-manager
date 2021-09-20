@@ -1,6 +1,5 @@
 const { ObjectID } = require('mongodb');
 const salesModel = require('../models/salesModel');
-const productsModel = require('../models/productsModel');
 
 const createSales = async (itensSold) => {
   // if (false) return { status: 404, message: 'Deu ruim' };
