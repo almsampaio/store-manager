@@ -276,7 +276,7 @@ describe('Testando a função `update` do model ProductModel', () => {
 });
 
 // remove Product
-describe('Testando a função `remove` do model ProductModel', () => {
+describe.only('Testando a função `remove` do model ProductModel', () => {
   let connectionMock;
   const INVALID_ID = '1';
   const NOT_FOUND_ID = '613ggccggc43b8f78e54a01g'
@@ -335,39 +335,33 @@ describe('Testando a função `remove` do model ProductModel', () => {
   });
 
   describe('quando o produto é removido', () => {
-   const collection = 'products';
+    const collection = 'products';
 
-    it('retorna um objeto', async () => {
+    beforeEach(async () => {
       await connectionMock.collection(collection).insertOne({
         _id: ObjectId(VALID_ID),
         name: payloadProduct.name,
         quantity: payloadProduct.quantity,
-      });
+        });
+    });
 
+    afterEach(async () => {
+      await connectionMock.collection(collection).drop();
+    });
+
+    it('retorna um objeto', async () => {
       const response = await ProductModel.remove(VALID_ID);
 
       expect(response).to.be.a('object');
     });
 
     it('o objeto retornado possui as keys `_id`, `name` e `quantity`', async () => {
-      await connectionMock.collection(collection).insertOne({
-        _id: ObjectId(VALID_ID),
-        name: payloadProduct.name,
-        quantity: payloadProduct.quantity,
-      });
-
       const response = await ProductModel.remove(VALID_ID);
 
       expect(response).to.include.all.keys('_id', 'name', 'quantity');
     });
 
     it('o produto foi removido do banco de dados', async () => {
-      await connectionMock.collection(collection).insertOne({
-        _id: ObjectId(VALID_ID),
-        name: payloadProduct.name,
-        quantity: payloadProduct.quantity, 
-      });
-
       await ProductModel.remove(VALID_ID);
 
       const removedProduct = await connectionMock.collection(collection)
@@ -699,7 +693,7 @@ describe('Testando a função `update` do model SalesModel', () => {
 
 
 // remove Sale
-describe.only('Testando a função `remove` do model SalesModel', () => {
+describe('Testando a função `remove` do model SalesModel', () => {
   let connectionMock;
   const INVALID_ID = '1';
   const NOT_FOUND_ID = '613ggccggc43b8f78e54a01g'
