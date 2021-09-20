@@ -25,8 +25,20 @@ const getById = async (id) => {
   return product;
 };
 
+const setById = async (id, name, quantity) => {
+  if (!ObjectId.isValid(id)) return ERRORS.PRODUCT_NOT_EXISTS;
+
+  if (name.length < 5) return ERRORS.FIVE_CHARACTERS_LONG;
+  if (quantity <= 0) return ERRORS.LESS_THAN_ZERO;
+  if (typeof quantity === 'string') return ERRORS.STRING_QUANTITY;
+
+  const product = await ProductsModel.setById(id, name, quantity);
+  return product;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  setById,
 };

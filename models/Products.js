@@ -14,9 +14,15 @@ const getAll = () => connection()
 const getById = (id) => connection()
   .then((db) => db.collection('products').find({ _id: ObjectId(id) }).toArray());
 
+const setById = (id, name, quantity) => connection()
+  .then((db) => db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }))
+  .then(() => ({ _id: id, name, quantity }));
+
 module.exports = {
   create,
   getByName,
   getAll,
   getById,
+  setById,
 };
