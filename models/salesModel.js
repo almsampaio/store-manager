@@ -1,10 +1,10 @@
 const { ObjectID } = require('bson');
 const connection = require('./mongoConnection');
 
-const create = async (productsSold) =>
+const create = async (productSold) =>
   connection().then((db) =>
   db.collection('sales').insertOne({
-      itensSold: productsSold,
+      itensSold: productSold,
   }));
 
 const getSales = async () =>
@@ -18,8 +18,26 @@ const getSalesById = async (id) => {
   return sale;
 };
 
+const update = async (id, productSold) => {
+  if (!ObjectID.isValid(id)) return null;
+  
+  return connection().then((db) =>
+    db.collection('sales')
+    .findOneAndUpdate({ _id: ObjectID(id) }, { $set: { itensSold: productSold } }));
+};
+
+const remove = async (id) => {
+  if (!ObjectID.isValid(id)) return null;
+  
+  return connection().then((db) =>
+    db.collection('sales')
+    .deleteOne({ _id: ObjectID(id) }));
+};
+
 module.exports = {
   create,
   getSales,
   getSalesById,
+  update,
+  remove,
 };

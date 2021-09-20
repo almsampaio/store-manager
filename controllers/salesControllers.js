@@ -39,8 +39,39 @@ const create = async (req, res) => {
   return res.status(200).json(createSale);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const productSold = req.body;
+  console.log(productSold);
+
+  productSold.forEach((sale) => {
+    if (typeof sale.quantity !== 'number') {
+      return res.status(422).json(error);
+    }
+    if (sale.quantity <= 0) {
+      return res.status(422).json(error);
+    }
+  });
+
+  await serviceSales.update(id, productSold);
+  const newSaleId = await serviceSales.getSalesById(id);
+  if (!newSaleId) return res.status(422).json(newSaleId);
+  return res.status(200).json(newSaleId);
+};
+
+const remove = async (req, res) => {
+  const removeSales = await serviceSales.remove(req.params.id);
+  if (!removeSales) {
+    return res.status(422).json({ err: {
+     code: 'invalid_data',
+     message: 'Wrong sale ID format' } });
+  }
+  res.status(200).json(removeSales);
+};
 module.exports = {
   create,
   getSales,
   getSalesById,
+  update,
+  remove,
 };

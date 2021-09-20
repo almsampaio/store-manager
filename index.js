@@ -17,4 +17,4 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.listen(PORT, () => console.log('Server Online "http://localhost:3001"'));
+app.listen(PORT);

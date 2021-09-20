@@ -7,8 +7,14 @@ const create = async (productSold) => salesModel.create(productSold)
 
   const getSalesById = async (id) => salesModel.getSalesById(id);
 
-module.exports = {
+  const update = async (id, productSold) => salesModel.update(id, productSold);
+
+  const remove = async (id) => salesModel.remove(id);
+
+  module.exports = {
   create,
   getSales,
   getSalesById,
+  update,
+  remove,
 };
