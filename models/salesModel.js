@@ -1,9 +1,11 @@
 // const { ObjectID } = require('bson');
 const connection = require('./mongoConnection');
 
-const create = async (productSold) =>
+const create = async (productsSold) =>
   connection().then((db) =>
-  db.collection('sales').insertOne({ itensSold: { productSold } }));
+  db.collection('sales').insertOne({
+      itensSold: productsSold,
+  }));
 
 const getSales = async () =>
   connection().then((db) => 

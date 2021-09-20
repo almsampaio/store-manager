@@ -12,9 +12,9 @@ const error = {
 };
 
 const create = async (req, res) => {
-  const sales = req.body;
+  const productSold = req.body;
 
-  sales.forEach((sale) => {
+  productSold.forEach((sale) => {
     if (typeof sale.quantity !== 'number') {
       return res.status(422).json(error);
     }
@@ -23,8 +23,9 @@ const create = async (req, res) => {
     }
   });
  
-  const createSale = await serviceSales.create(sales);
+  const createSale = await serviceSales.create(productSold);
   if (!createSale) return res.status(422).json(createSale);
+  return res.status(200).json(createSale);
 };
 
 module.exports = {
