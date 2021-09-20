@@ -45,8 +45,10 @@ const update = async (id, name, quantity) => {
 const remove = async (id) => {
   try {
   const removedProduct = await productsModels.remove(id);
-  return removedProduct;
-  } catch (error) { return ({ err: { message: error.message, code: 404 } }); }
+  return { status: 200, data: removedProduct };
+  } catch (error) {
+    return ({ status: 422, err: { code: 'invalid_data', message: error.message } });
+  }
 };
 
 module.exports = { getAll, getById, getByName, create, update, remove };

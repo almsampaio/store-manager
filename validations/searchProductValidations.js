@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb');
-const productServices = require('../services/productsServices');
+// const productServices = require('../services/productsServices');
+const productsModels = require('../models/productsModels');
 
 const invalidErros = {
   code: 'invalid_data',
@@ -12,6 +13,7 @@ const unprocessableEntity = 422;
 const idMongodbValidation = async (req, res, next) => {
   const { id } = req.params;
   try {
+    if (!id || id === '') throw new Error(invalidErros.invalidMongoId);
     if (!ObjectId.isValid(id)) throw new Error(invalidErros.invalidMongoId);
   } catch (error) {
     return res.status(unprocessableEntity).json({
@@ -25,7 +27,8 @@ const idMongodbValidation = async (req, res, next) => {
 const idExistsValidation = async (req, res, next) => {
   const { id } = req.params;
   try {
-    if (!productServices.getById(id)) throw new Error(invalidErros.idNotExists);
+    const productExists = await productsModels.getById(id);
+    if (!productExists) throw new Error(invalidErros.idNotExists);
   } catch (error) {
     return res.status(unprocessableEntity).json({
       err: { code: invalidErros.code, message: error.message },
