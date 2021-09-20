@@ -3,12 +3,9 @@ const ProductsModel = require('../models/ProductsModel');
 
 const productExists = async (id) => (await ProductsModel.getById(id) ? null : true);
 
-const isQuantityValid = (quantity) => {
-  const ZERO = 0;
+const isQuantityValid = (quantity) => (quantity <= 0 || typeof quantity !== 'number' ? null : true);
 
-  return quantity <= ZERO || typeof quantity !== 'number' ? null : true;
-};
-
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const create = async (productsList) => {
   const error = {
     err: {
@@ -31,6 +28,7 @@ const getAll = async () => {
   return salesList;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const getById = async (id) => {
   const sale = await SalesModel.getById(id);
 
@@ -46,6 +44,7 @@ const getById = async (id) => {
   return sale;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const update = async (id, productsList) => {
   const error = {
     err: {
@@ -55,12 +54,12 @@ const update = async (id, productsList) => {
   };
 
   if (!isQuantityValid(productsList[0].quantity)) return error;
-
   const updatedSale = await SalesModel.update(id, productsList);
 
   return updatedSale;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const remove = async (id) => {
   const removedSale = await SalesModel.remove(id);
 

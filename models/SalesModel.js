@@ -1,24 +1,16 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-const DB_COLLECTION = 'sales';
-
 const create = async (productsList) => {
-  const SalesCollection = await connection()
-    .then((db) => db.collection(DB_COLLECTION));
-
-  const newSale = await SalesCollection
-    .insertMany([{ itensSold: [...productsList] }]);
+  const Sales = await connection().then((db) => db.collection('sales'));
+  const newSale = await Sales.insertMany([{ itensSold: [...productsList] }]);
 
   return newSale.ops[0];
 };
 
 const getAll = async () => {
-  const SalesCollection = await connection()
-    .then((db) => db.collection(DB_COLLECTION));
-
-  const salesList = await SalesCollection
-    .find().toArray();
+  const Sales = await connection().then((db) => db.collection('sales'));
+  const salesList = await Sales.find().toArray();
 
   return salesList;
 };
@@ -26,44 +18,33 @@ const getAll = async () => {
 const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
-  const SalesCollection = await connection()
-    .then((db) => db.collection(DB_COLLECTION));
+  const Sales = await connection().then((db) => db.collection('sales'));
+  const sale = await Sales.findOne({ _id: ObjectId(id) });
 
-  const foundSale = await SalesCollection
-    .findOne({ _id: ObjectId(id) });
-
-  return foundSale;
+  return sale;
 };
 
 const update = async (saleId, productsList) => {
-  const SalesCollection = await connection()
-    .then((db) => db.collection(DB_COLLECTION));
+  const Sales = await connection().then((db) => db.collection('sales'));
 
-  const updatedSale = await SalesCollection
+  const sale = await Sales
     .findOneAndUpdate(
       { _id: ObjectId(saleId) },
       { $set: { itensSold: productsList } },
       { returnOriginal: false },
     );
 
-  console.log(updatedSale.value);
-
-  return updatedSale.value;
+  return sale.value;
 };
 
 const remove = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
-  const SalesCollection = await connection()
-    .then((db) => db.collection(DB_COLLECTION));
+  const Sales = await connection().then((db) => db.collection('sales'));
+  const sale = await Sales.findOne({ _id: ObjectId(id) });
+  await Sales.deleteOne({ _id: ObjectId(id) });
 
-  const removedSale = await SalesCollection
-    .findOne({ _id: ObjectId(id) });
-
-  await SalesCollection
-    .deleteOne({ _id: ObjectId(id) });
-
-  return removedSale;
+  return sale;
 };
 
 module.exports = {

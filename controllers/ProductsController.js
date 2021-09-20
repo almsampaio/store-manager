@@ -1,60 +1,46 @@
 const ProductsService = require('../services/ProductsService');
 
-const OK_STATUS = 200;
-const CREATED_STATUS = 201;
-const UNPROCESSABLE_ENTITY_STATUS = 422;
-
 const create = async (req, res) => {
   const { name, quantity } = req.body;
   const product = await ProductsService.create(name, quantity);
 
-  if (product.err) {
-    return res.status(UNPROCESSABLE_ENTITY_STATUS).json(product);
-  }
+  if (product.err) return res.status(422).json(product);
 
-  return res.status(CREATED_STATUS).json(product);
+  return res.status(201).json(product);
 };
 
 const getAll = async (_req, res) => {
   const productsList = await ProductsService.getAll();
 
-  return res.status(OK_STATUS).json({ products: productsList });
+  return res.status(200).json({ products: productsList });
 };
 
 const getById = async (req, res) => {
   const { id } = req.params;
   const product = await ProductsService.getById(id);
 
-  if (product.err) {
-    return res.status(UNPROCESSABLE_ENTITY_STATUS).json(product);
-  }
+  if (product.err) return res.status(422).json(product);
 
-  return res.status(OK_STATUS).json(product);
+  return res.status(200).json(product);
 };
 
 const update = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
+  const product = await ProductsService.update(id, name, quantity);
 
-  const updatedProduct = await ProductsService.update(id, name, quantity);
+  if (product.err) return res.status(422).json(product);
 
-  if (updatedProduct.err) {
-    return res.status(UNPROCESSABLE_ENTITY_STATUS).json(updatedProduct);
-  }
-
-  return res.status(OK_STATUS).json(updatedProduct);
+  return res.status(200).json(product);
 };
 
 const remove = async (req, res) => {
   const { id } = req.params;
+  const product = await ProductsService.remove(id);
 
-  const removedProduct = await ProductsService.remove(id);
+  if (product.err) return res.status(422).json(product);
 
-  if (removedProduct.err) {
-    return res.status(UNPROCESSABLE_ENTITY_STATUS).json(removedProduct);
-  }
-
-  return res.status(OK_STATUS).json(removedProduct);
+  return res.status(200).json(product);
 };
 
 module.exports = {

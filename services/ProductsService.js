@@ -1,9 +1,10 @@
 const ProductsModel = require('../models/ProductsModel');
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const productAlreadyExists = async (name) => {
-  const foundProduct = await ProductsModel.findByName(name);
+  const product = await ProductsModel.findByName(name);
 
-  if (foundProduct.length > 1) {
+  if (product.length > 1) {
     return {
       err: {
         code: 'invalid_data',
@@ -15,10 +16,9 @@ const productAlreadyExists = async (name) => {
   return true;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const isNameValid = (name) => {
-  const FIVE = 5;
-
-  if (name.length < FIVE) {
+  if (name.length < 5) {
     return {
       err: {
         code: 'invalid_data',
@@ -30,10 +30,9 @@ const isNameValid = (name) => {
   return true;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const isQuantityValid = (quantity) => {
-  const ZERO = 0;
-
-  if (quantity <= ZERO) {
+  if (quantity <= 0) {
     return {
       err: {
         code: 'invalid_data',
@@ -54,6 +53,7 @@ const isQuantityValid = (quantity) => {
   return true;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const create = async (name, quantity) => {
   const newProduct = await ProductsModel.create(name, quantity);
   const productExists = await productAlreadyExists(name);
@@ -73,6 +73,7 @@ const getAll = async () => {
   return productsList;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const getById = async (id) => {
   const product = await ProductsModel.getById(id);
 
@@ -88,6 +89,7 @@ const getById = async (id) => {
   return product;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const update = async (id, name, quantity) => {
   const updatedProduct = await ProductsModel.update(id, name, quantity);
   const nameValid = isNameValid(name);
@@ -99,6 +101,7 @@ const update = async (id, name, quantity) => {
   return updatedProduct;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const remove = async (id) => {
   const removedProduct = await ProductsModel.remove(id);
 
