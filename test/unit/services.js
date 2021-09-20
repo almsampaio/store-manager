@@ -591,7 +591,7 @@ describe('Testando a função `update` do service ProductService', () => {
 });
 
 // remove Product
-describe('Testando a função `remove` do model ProductService', () => {
+describe('Testando a função `remove` do service ProductService', () => {
   const payloadProduct = {
     name: "Produto do Batista",
     quantity: 100,
@@ -1333,6 +1333,78 @@ describe('Testando a função `update` do service SalesService', () => {
       const [firstElementArrayItensSold] = itensSold;
 
       expect(firstElementArrayItensSold).to.include.all.keys('productId', 'quantity');
+    });
+  });
+});
+
+// remove Sales
+describe.only('Testando a função `remove` do service SalesService', () => {
+  const payloadSales = {
+    itensSold: [
+      {
+        productId: "713ffccffc43b8f78e54a01g",
+        quantity: 3,
+      },
+    ],
+  }
+
+  const errorFormat = {
+    err: { 
+      code: 'invalid_data',
+      message: 'Wrong sale ID format',
+    }
+  }
+
+  const ID_EXAMPLE = '613ffccffc43b8f78e54a01f';
+
+  describe('quando a venda não é removida', () => {
+    before(() => {
+      sinon.stub(SalesModel, 'remove')
+      .resolves(null);
+    });
+
+    after(() => {
+      SalesModel.remove.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await SalesService.remove(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui o formato correto: `{ err: { code, message } }`', async () => {
+      const response = await SalesService.remove(ID_EXAMPLE);
+
+      expect(response.err).to.include.all.keys('code', 'message');
+    });
+  });
+
+  describe('quando a venda é removida', () => {
+    before(() => {
+      sinon.stub(SalesModel, 'remove')
+      .resolves(
+        {
+          _id: ID_EXAMPLE,
+          itensSold: payloadSales.itensSold,
+        }
+      );
+    });
+  
+    after(() => {
+      SalesModel.remove.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await SalesService.remove(ID_EXAMPLE);
+
+      expect(response).to.be.an('object');
+    });
+
+    it('o objeto retornado possui as keys `_id` e `itensSold`', async () => {
+      const response = await SalesService.remove(ID_EXAMPLE);
+
+      expect(response).to.include.all.keys('_id', 'itensSold');
     });
   });
 });
