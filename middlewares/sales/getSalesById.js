@@ -13,7 +13,7 @@ const getSalesById = async (req, res, _next) => {
   try {
     const data = await salesServices.getById(id);
     if (!data) throw new Error(notFound.message);
-    return res.status(200).json({ data });
+    return res.status(200).json(data);
   } catch (error) {
     return res.status(notFound.status).json({
       err: { code: notFound.code, message: error.message },
