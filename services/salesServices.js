@@ -20,6 +20,16 @@ const errorInvalidSales = {
   },
 };
 
+const errorInvalidDelete = {
+  status: 422,
+  result: {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong sale ID format',
+    },
+  },
+};
+
 const validateIdExist = async (productId) => {
   const result = await salesModel.getProductId(productId);
   if (result) return null;
@@ -31,6 +41,10 @@ const validateQuantityLength = async (quantity) => {
 
 const validateSalesExist = (sales) => {
   if (!sales) throw errorInvalidSales;
+};
+
+const validateDelete = (sales) => {
+  if (!sales) throw errorInvalidDelete;
 };
 
 const addSales = async (sales) => {
@@ -60,9 +74,16 @@ const updateSales = async (id, sales) => {
   return { status: 200, result };
 };
 
+const deleteSalesId = async (id) => {
+  const result = await salesModel.deleteSalesId(id);
+  validateDelete(result);
+  return { status: 200, result };
+};
+
 module.exports = {
   addSales,
   getSales,
   getSalesId,
   updateSales,
+  deleteSalesId,
 };
