@@ -863,3 +863,94 @@ describe('Testando a função `update` do controller SalesController', () => {
     });
   });
 });
+
+// remove Sale
+describe('Testando a função `remove` do controller SaleController', () => {
+  describe('quando a venda não é removida', () => {
+    const response = {};
+    const request = {};
+
+    const errorFormat = {
+      err: { 
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      }
+    }
+  
+    before(() => {
+      request.params = {
+        id: '604cb554311d68f491ba5781'
+      };
+  
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(SalesService, 'remove')
+      .resolves(errorFormat);
+    });
+
+    after(() => {
+      SalesService.remove.restore();
+    });
+
+    it('é chamado o método `status` passando o código 422 como parâmetro', async () => {
+      await SalesController.remove(request, response);
+
+      expect(response.status.calledWith(422)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando o objeto `err` como parâmetro', async () => {
+      await SalesController.remove(request, response);
+
+      expect(response.json.calledWith(errorFormat)).to.be.equal(true);
+    });
+  });
+
+  describe('quando o produto é removido', () => {
+    const response = {};
+    const request = {};
+
+    const saleFormat = { 
+      _id: '604cb554311d68f491ba5781',
+      itensSold: [
+        {
+          productId: '704cb554311d68f491ba5782',
+          quantity: 10,
+        }
+      ]
+    }
+  
+    before(() => {
+      request.params = {
+        id: '604cb554311d68f491ba5781'
+      };
+  
+      response.status = sinon.stub()
+        .returns(response);
+      response.json = sinon.stub()
+        .returns();
+
+      sinon.stub(SalesService, 'remove')
+      .resolves(saleFormat);
+    });
+
+    after(() => {
+      SalesService.remove.restore();
+    });
+
+    it('é chamado o método `status` passando o código 200 como parâmetro', async () => {
+      await SalesController.remove(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+
+    it('é chamado o método `json` passando os dados do produto removido como parâmetro', async () => {
+      await SalesController.remove(request, response);
+
+      expect(response.json.calledWith(saleFormat)).to.be.equal(true);
+    });
+
+  });
+});
