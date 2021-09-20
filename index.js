@@ -17,6 +17,8 @@ app.get('/products/:id', rescue(productController.getProductId));
 
 app.put('/products/:id', rescue(productController.updateProductId));
 
+app.delete('/products/:id', rescue(productController.deleteProductId));
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();

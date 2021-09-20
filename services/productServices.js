@@ -71,6 +71,11 @@ const validateProductExist = (product) => {
   if (!product) throw errorValidProduct;
 };
 
+const validateIdExist = async (name) => {
+  const result = await productModel.getProductId(name);
+  if (!result) throw errorValidProduct;
+};
+
 const addProduct = async (name, quantity) => {
   validateName(name);
   await validateNameExist(name);
@@ -99,9 +104,18 @@ const updateProductId = async (id, name, quantity) => {
   return { status: 200, result: { _id: id, name, quantity } };
 };
 
+const deleteProductId = async (id) => {
+  validateIdExist(id);
+  const product = await productModel.getProductId(id);
+  validateProductExist(product);
+  const result = await productModel.deleteProductId(id);
+  return { status: 200, result };
+};
+
 module.exports = {
   addProduct,
   getProducts,
   getProductId,
   updateProductId,
+  deleteProductId,
 };
