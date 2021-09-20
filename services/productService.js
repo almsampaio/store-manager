@@ -50,4 +50,12 @@ const update = async (id, name, quantity) => {
   };
 };
 
-module.exports = { create, getById, getAll, update };
+const destroy = async (id) => {
+  const product = await productModel.destroy(id);
+  return {
+    status: STATUS_OK,
+    message: product,
+  };
+};
+
+module.exports = { create, getById, getAll, update, destroy };

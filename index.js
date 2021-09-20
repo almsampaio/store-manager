@@ -1,6 +1,6 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
-const { create, getAll, getById, update } = require('./controllers/productController');
+const { create, getAll, getById, update, destroy } = require('./controllers/productController');
 const { validName, validQuantity } = require('./middlewares');
 const { validId } = require('./middlewares/productMid');
 
@@ -20,6 +20,8 @@ app.get('/products', getAll);
 app.get('/products/:id', validId, getById);
 
 app.put('/products/:id', validId, validName, validQuantity, update);
+
+app.delete('/products/:id', validId, destroy);
 
 app.listen(PORT, () => {
   console.log('Online: ', PORT);
