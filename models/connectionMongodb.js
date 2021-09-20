@@ -21,7 +21,7 @@ const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
 const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/StoreManager'; // Avaliador
-// const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager'; // Conexão normal
+// const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager'; // Conexão normal.
 
 const OPTIONS = {
   useNewUrlParser: true,
