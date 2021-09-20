@@ -91,8 +91,17 @@ const getProductId = async (id) => {
   return { status: 200, result };
 };
 
+const updateProductId = async (id, name, quantity) => {
+  validateName(name);
+  validateQuantity(quantity);
+  validateQuantityString(quantity);
+  await productModel.updateProductId(id, name, quantity);
+  return { status: 200, result: { _id: id, name, quantity } };
+};
+
 module.exports = {
   addProduct,
   getProducts,
   getProductId,
+  updateProductId,
 };
