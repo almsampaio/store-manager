@@ -55,22 +55,17 @@ exports.update = async (id, productId, newQuantity) => {
 };
 
 exports.delete = async (id) => {
-  const { sale } = await exports.getById(id); 
+  const { message, sale } = await exports.getById(id); 
 
-  // fazer logica se nao achar sale
-  // if (sale.message) tadada....
-
-  if (!sale.message) {
-    await Promise.all(sale.itensSold.map(
-      ({ productId, quantity }) => productService.updateQtyById(productId, -quantity),
-    ));
-  }
-
-  const deletedSale = await Sale.deleteSale(id);
-
-  if (!deletedSale) {
+  if (message) {
     return { message: 'Wrong sale ID format', code: 'invalid_data' }; 
   }
+
+  await Promise.all(sale.itensSold.map(
+    ({ productId, quantity }) => productService.updateQtyById(productId, -quantity),
+  ));
+  
+  const deletedSale = await Sale.deleteSale(id);
 
   return deletedSale;
 };
