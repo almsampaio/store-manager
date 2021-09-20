@@ -38,8 +38,13 @@ const getById = async (productId) => {
   return validFindId;
 };
 
+const getAll = async () => {
+  const result = await salesModel.getAll();
+  return result;
+};
+
 module.exports = {
-/*   getAll, */
+  getAll,
   getById,
   create,
 /*   editById,
