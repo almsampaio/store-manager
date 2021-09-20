@@ -36,8 +36,8 @@ const update = async (_id, sales) => {
   const salesCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('sales'));
   await salesCollection
-    .updateOne({ _id: ObjectId(_id) }, { $set: { itensSold: { productId, quantity } } });
-  return { _id, itensSold: { productId, quantity } };
+    .updateOne({ _id: ObjectId(_id) }, { $set: { itensSold: [{ productId, quantity }] } });
+  return { _id, itensSold: [{ productId, quantity }] };
 };
 
 module.exports = {
