@@ -21,9 +21,13 @@ const create = async (sale) => {
   if (saleMod) return saleMod;
 };
 
+const getById = async (productId) => {
+  
+}
+
 module.exports = {
-/*   getAll,
-  getById, */
+/*   getAll, */
+  getById,
   create,
 /*   editById,
   deleteById, */

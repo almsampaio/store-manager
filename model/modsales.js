@@ -17,8 +17,14 @@ const getById = async (productId) => {
   return result;
 };
 
+const getAll = async () => {
+  const db = await connection();
+  const result = db.collection('sales').find({});
+  return result;
+};
+
 module.exports = {
-/*   getAll, */
+  getAll,
   getById,
   create,
 /*   editById,
