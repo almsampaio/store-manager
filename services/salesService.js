@@ -2,6 +2,7 @@ const salesModel = require('../models/salesModel');
 const {
   STATUS_UNPROCESSABLE_ENTITY,
   STATUS_OK,
+  STATUS_NOT_FOUND,
 } = require('../utils/status');
 
 const create = async (products) => {
@@ -29,6 +30,17 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const product = await salesModel.getById(id);
+  if (product === null) {
+    return {
+      status: STATUS_NOT_FOUND,
+      message: {
+        err: {
+          code: 'not_found',
+          message: 'Sale not found',
+        },
+      },
+    };
+  }
   return {
     status: STATUS_OK,
     message: product,
@@ -44,4 +56,12 @@ const update = async (id, itensSold) => {
   };
 };
 
-module.exports = { create, getAll, getById, update };
+const destroy = async (id) => {
+  const product = await salesModel.destroy(id);
+  return {
+    status: STATUS_OK,
+    message: product,
+  };
+};
+
+module.exports = { create, getAll, getById, update, destroy };

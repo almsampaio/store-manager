@@ -31,7 +31,21 @@ const validSale = (req, res, next) => {
   next();
 };
 
+const validId = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(STATUS_UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    });
+  }
+  next();
+};
+
 module.exports = {
   validQuantity,
   validSale,
+  validId,
 };

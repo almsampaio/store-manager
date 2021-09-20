@@ -29,4 +29,11 @@ const update = async (id, itensSold) => {
   };
 };
 
-module.exports = { create, getAll, getById, update };
+const destroy = async (id) => {
+  const db = await conn();
+  const product = await getById(id);
+  await db.collection(COLLECTION).deleteOne({ _id: ObjectId(id) });
+  return product;
+};
+
+module.exports = { create, getAll, getById, update, destroy };

@@ -24,4 +24,11 @@ const update = async (req, res) => {
   return res.status(product.status).json(product.message);
 };
 
-module.exports = { create, getAll, getById, update };
+const destroy = async (req, res, next) => {
+  const { id } = req.params;
+  const product = await salesService.destroy(id);
+  res.status(product.status).json(product.message);
+  next(getById(id));
+};
+
+module.exports = { create, getAll, getById, update, destroy };

@@ -43,6 +43,8 @@ app.get('/sales/:id', salesValidate.validSale, sales.getById);
 
 app.put('/sales/:id', salesValidate.validQuantity, sales.update);
 
+app.delete('/sales/:id', salesValidate.validId, sales.destroy);
+
 app.listen(PORT, () => {
   console.log('Online: ', PORT);
 });
