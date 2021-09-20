@@ -21,6 +21,8 @@ app.get('/products/:id', controller.getProductByID);
 
 app.put('/products/:id', controller.updateProductByID);
 
+app.delete('/products/:id', controller.deleteProductByID);
+
 const PORT = 3000;
 
 app.listen(PORT, () => {

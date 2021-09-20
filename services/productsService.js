@@ -125,9 +125,28 @@ const updateProductByID = async (id, name, quantity) => {
   };
 };
 
+const deleteProductByIDValidations = async (id) => {
+  const alreadyExist = await getProductByID(id);
+  
+  if (alreadyExist.err) return alreadyExist;
+
+  return alreadyExist;
+};
+
+const deleteProductByID = async (id) => {
+  const allValidations = await deleteProductByIDValidations(id);
+
+  if (allValidations.err) return allValidations;
+
+  const deletedProduct = await db.deleteProductByID(id);
+
+  return deletedProduct;
+};
+
 module.exports = {
   createNewProduct,
   getAllProducts,
   getProductByID,
   updateProductByID,
+  deleteProductByID,
 };
