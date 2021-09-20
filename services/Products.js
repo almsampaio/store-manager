@@ -1,5 +1,5 @@
 const { findProduct, createProduct, getAllProducts,
-  findProductId, setProduct } = require('../models/Products');
+  findProductId, setProduct, deleteProduct } = require('../models/Products');
 
 const productExists = {
   err: {
@@ -55,6 +55,13 @@ const verifyQuantity = (quantity) => {
   return quantity;
 };
 
+const idWrong = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong id format',
+  },
+};
+
 const verifyUpdateName = (name) => {
   if (name.length <= 5) {
     throw caractersLength;
@@ -84,25 +91,26 @@ const getAll = async () => {
 // ajuda de Will Alves - Turma 10 - tribo A
 const getById = async (id) => {
   const getId = await findProductId(id);
-  if (!getId) {
-    return {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    };
-  }
+  if (!getId) return idWrong;
   return getId;
 };
 
 const update = async (id, name, quantity) => {
   try {
     const respName = await verifyUpdateName(name);
-    console.log(respName);
+    // console.log(respName);
     const respQuantity = await verifyQuantity(quantity);
     throw await setProduct(id, respName, respQuantity);
   } catch (err) {
     return err;
+  }
+};
+
+const deleted = async (id) => {
+  try {
+    throw await deleteProduct(id);
+  } catch (err) {
+    return { err: idWrong.err };
   }
 };
 
@@ -111,4 +119,5 @@ module.exports = {
   getAll,
   getById,
   update,
+  deleted,
 };

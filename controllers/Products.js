@@ -1,4 +1,4 @@
-const { create, getAll, getById, update } = require('../services/Products');
+const { create, getAll, getById, update, deleted } = require('../services/Products');
 
 const HTTP_UNPROCESSABLE_STATUS = 422;
 const HTTP_CREATED_STATUS = 201;
@@ -33,9 +33,17 @@ const setProduct = async (request, response) => {
   return response.status(HTTP_OK_STATUS).json(validyValues);
 };
 
+const deleteProduct = async (request, response) => {
+  const { id } = request.params;
+  const validyValues = await deleted(id);
+  if (validyValues.err) return response.status(HTTP_UNPROCESSABLE_STATUS).json(validyValues);
+  return response.status(HTTP_OK_STATUS).json(validyValues);
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
   setProduct,
+  deleteProduct,
 };
