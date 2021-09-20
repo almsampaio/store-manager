@@ -76,3 +76,5 @@ module.exports = {
   update,
   deleteProduct,
 };
+
+// ref para a função delete https://github.com/tryber/sd-010-a-store-manager/pull/73/commits/88aa8c46928ca12886cd35542c5017d66bb7751c
