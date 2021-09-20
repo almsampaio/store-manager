@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 const productController = require('./controlers/productController');
+// const salesController = require('./controlers/salesController');
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.get('/products/:id', rescue(productController.getProductId));
 app.put('/products/:id', rescue(productController.updateProductId));
 
 app.delete('/products/:id', rescue(productController.deleteProductId));
+
+// app.post('/sales', rescue(salesController.addSales));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
