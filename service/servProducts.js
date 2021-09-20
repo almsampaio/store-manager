@@ -102,7 +102,6 @@ const setUpdateNeWProduct = async (id, name, quantity) => {
   try {
     const validaName = await verificaNameUp(name);
     const validaQuantity = await verificaQuantidade(quantity);
-    console.log(validaQuantity);
     if (validaName === name && validaQuantity === quantity) {
       const setUpdateProduct = await modelProduct.setUpdateProduct(id, validaName, validaQuantity);
       throw setUpdateProduct;
@@ -113,8 +112,8 @@ const setUpdateNeWProduct = async (id, name, quantity) => {
 };
 
 const deleteProduct = async (id) => {
-  const productDeleted = await modelProduct.deleteProduct(id);
-  const validaId = await getProductId(id);
+  const productDeleted = await modelProduct.deleteProduct(id); // se id for invalido return null || obj completo se id for valido
+  const validaId = await getProductId(id); // err || obj completo atravez do Id
   if (!productDeleted) return validaId;
   return validaId.err;
 };

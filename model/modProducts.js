@@ -11,7 +11,7 @@ const getProductId = async (id) => {
   if (!ObjectID.isValid(id)) return null;
   const db = await connection();
   const productId = db.collection('products').findOne({ _id: ObjectID(id) });
-  return productId;
+  return productId; // traz meu obj completo atravez do id
 };
 
 const getProductName = async (name) => {
@@ -42,11 +42,11 @@ const setUpdateProduct = async (id, name, quantity) => {
 const deleteProduct = async (id) => {
   if (!ObjectID.isValid(id)) return null;
   const db = await connection();
-  const ToDelete = await getProductId(id);
-  if (!ToDelete) return null;
+  const ToDelete = await getProductId(id); // null se is não é valido || obj completo atravez do id
+  if (!ToDelete) return ToDelete; // esse retorno é igual a null
   await db.collection('products')
-    .deleteOne({ _id: ObjectID(id) });
-  return ToDelete;
+    .deleteOne({ _id: ObjectID(id) }); // deleto o obj atravez do id
+  return ToDelete; // se chegou aqui, etão veio meu obj completo
 };
 
 module.exports = {
