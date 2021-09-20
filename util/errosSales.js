@@ -5,6 +5,12 @@ const erros = {
       code: 'invalid_data',
     },
   },
+  SALE_NOT_FOUND: {
+    err: {
+      message: 'Sale not found',
+      code: 'not_found',
+    },
+  },
 };
 
 module.exports = erros;
