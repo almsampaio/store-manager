@@ -1,24 +1,30 @@
-const modelSales = require('../model/modsales');
+const salesModel = require('../model/modsales');
 
-const errQuamtity = {
-    err: {
-      code: 'invalid_data',
-      message: 'Wrong product ID or invalid quantity',
-    },
-  };
-
-const validExistId = async (product) => {
-
+const errMenorQUm = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong product ID or invalid quantity',
+  },
 };
 
-const verificaQuantidade = async (quantity) => {
-
+const verificaQuantidade = (produtos) => {
+  const validateQuant = produtos.find((e) => e.quantity < 1
+  || typeof e.quantity === 'string');
+  if (validateQuant) return errMenorQUm;
 };
 
-const createSales = async (itensSld) => {
-
+const create = async (sale) => {
+  const validQuantity = verificaQuantidade(sale);
+  if (validQuantity) return validQuantity;
+  const saleMod = await salesModel.create(sale);
+  console.log('resposta do create no db em model', saleMod);
+  if (saleMod) return saleMod;
 };
 
 module.exports = {
-  createSales,
+/*   getAll,
+  getById, */
+  create,
+/*   editById,
+  deleteById, */
 };

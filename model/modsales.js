@@ -1,14 +1,19 @@
-const { ObjectiId } = require('mongodb');
+// const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-const createNewSale = async (items) => {
+const create = async (itensSold) => {
+  console.log('chegou para create em model', itensSold);
   const db = await connection();
-  const result = await db.collection('sales').insertOne({ itensSold: items });
-  return result.ops[0];
+  const createSale = db.collection('sales').insertMany([{ itensSold }])
+  .then((result) => ({ _id: Object.values(result.insertedIds).toString(), itensSold }));
+  console.log('enviado para db no model', await createSale);
+  return createSale;
 };
 
-const getSaleid = async (id) => {
-
+module.exports = {
+/*   getAll,
+  getById, */
+  create,
+/*   editById,
+  deleteById, */
 };
-
-module.exports = { createNewSale, getSaleid };
