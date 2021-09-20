@@ -1,5 +1,6 @@
 const ProductsService = require('../services/productsServices');
-const { UNPROCESSABLE_ENTITY, SUCCESS_CREATED, SUCCESS_OK } = require('../utils/HttpStatusCodes');
+const { UNPROCESSABLE_ENTITY, SUCCESS_CREATED,
+  SUCCESS_OK, BAD_REQUEST } = require('../utils/HttpStatusCodes');
 
 const create = async (req, res) => {
   const { name, quantity } = req.body;
@@ -32,8 +33,25 @@ const getById = (req, res) => {
     }));
 };
 
+const update = async (req, res) => {
+  try {
+    const { name, quantity } = req.body;
+    const { id } = req.params;
+    await ProductsService.update(id, name, quantity);
+    return res.status(SUCCESS_OK).json({ _id: id, name, quantity });       
+  } catch (error) {
+    return res.status(BAD_REQUEST).json({
+      err: {
+        code: 'bad_request',
+        message: 'Bad request',
+      },
+    });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

@@ -6,6 +6,7 @@ const router = express.Router();
 
 // cadastro de produtos
 router.get('/:id', Products.getById);
+router.put('/:id', validadeProduct, Products.update);
 router.get('/', Products.getAll);
 router.post('/', validadeProduct, Products.create);
 
