@@ -1,0 +1,15 @@
+1) ops: {
+  Arquivo: models/productsModel
+  Função: createProducts();
+  Node.js + MongoDB: insert one and return the newly inserted document:
+  https://stackoverflow.com/questions/40766654/node-js-mongodb-insert-one-and-return-the-newly-inserted-document
+  Collection - insertOneWriteOpResult:
+  http://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#insertOne
+Em resumo: retorna um array que na posiçao zero tem a minha inserção, ou seja, retorna a inserção que acabamos de fazer
+};
+
+2) ObjectId.isValid: {
+  Arquivo: services/productsService
+  função: validateId();
+  https://stackoverflow.com/questions/11985228/mongodb-node-check-if-objectid-is-valid
+};
