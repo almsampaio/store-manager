@@ -1,10 +1,9 @@
-const { ObjectId } = require('bson');
 const Product = require('../services/ProductsServices');
 
 const createNewProduct = async (req, res) => {
   const { name, quantity } = req.body;
   const newProduct = await Product.createNewProduct(name, quantity);
-  res.status(201).json({ _id: new ObjectId(newProduct), name, quantity });
+  res.status(201).json(newProduct);
 };
 
 const listProducts = async (_req, res) => {
