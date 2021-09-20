@@ -25,10 +25,19 @@ const getAll = async () => {
   return result;
 };
 
+const editById = async (id, itensSold) => {
+  console.log('chegou do serv para model', id, itensSold);
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+  await db.collection('products')
+    .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+  return { id, itensSold };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
-/*   editById,
-  deleteById, */
+  editById,
+  /*  deleteById, */
 };
