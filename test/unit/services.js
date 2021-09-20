@@ -1378,6 +1378,18 @@ describe('Testando a função `remove` do service SalesService', () => {
 
       expect(response.err).to.include.all.keys('code', 'message');
     });
+
+    it('a key `code` possui a string', async () => {
+      const response = await SalesService.remove(ID_EXAMPLE);
+
+      expect(response.err.code).to.be.equal(errorFormat.err.code);
+    });
+
+    it('a key `message` possui a string', async () => {
+      const response = await SalesService.remove(ID_EXAMPLE);
+
+      expect(response.err.message).to.be.equal(errorFormat.err.message);
+    });
   });
 
   describe('quando a venda é removida', () => {
