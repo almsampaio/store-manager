@@ -24,6 +24,7 @@ const getById = async (id) => {
   return sale;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const update = async (saleId, productsList) => {
   const Sales = await connection().then((db) => db.collection('sales'));
 
@@ -37,6 +38,7 @@ const update = async (saleId, productsList) => {
   return sale.value;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const remove = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 

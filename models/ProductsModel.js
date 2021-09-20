@@ -31,6 +31,7 @@ const getById = async (id) => {
   return product;
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const update = async (id, name, quantity) => {
   if (!ObjectId.isValid(id)) return null;
 
@@ -40,6 +41,7 @@ const update = async (id, name, quantity) => {
   return { _id: ObjectId(id), name, quantity };
 };
 
+/* Source: https://github.com/tryber/sd-09-store-manager/tree/ggaldino95-project-store-manager */
 const remove = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
