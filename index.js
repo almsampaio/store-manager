@@ -25,6 +25,7 @@ app.post('/sales', SalesController.create);
 app.get('/sales', SalesController.getAll);
 app.get('/sales/:id', SalesController.getById);
 app.put('/sales/:id', SalesController.update);
+app.delete('/sales/:id', SalesController.remove);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log('Example app listening on port port!'));

@@ -4,6 +4,7 @@ const messageErrors = {
   bodyIsNotArray: 'body must be an array',
   invalidQuantityOrProductID: 'Wrong product ID or invalid quantity',
   saleNotFound: 'Sale not found',
+  wrongSaleOrId: 'Wrong sale ID format',
 };
 
 const codeErrors = {
@@ -58,7 +59,7 @@ const saleNotFound = (sale) => {
 const validateRemove = (removedSale) => {
   if (!removedSale) {
     return { 
-      err: { code: codeErrors.invalidData, message: messageErrors.idNotValid }, 
+      err: { code: codeErrors.invalidData, message: messageErrors.wrongSaleOrId }, 
     }; 
   }
   return {};

@@ -42,6 +42,8 @@ const remove = async (req, res) => {
 
   const removedSale = await SalesService.remove(id);
 
+  console.log(removedSale);
+
   if (removedSale.err) return res.status(422).json(removedSale);
 
   res.status(200).json(removedSale);
