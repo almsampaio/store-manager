@@ -4,5 +4,11 @@ const Sales = require('./controllers/SalesControllers');
 
 const router = express.Router();
 
+// Requisito 5 - Cria um ou mais vendas;
 router.post('/', Sales.createNewSales);
 module.exports = router;
+
+// Requisito 6 - Listas as vendas 
+router.get('/', Sales.listSales);
+// Lista as vendas pelo Id
+router.get('/:id', Sales.listASalesById);

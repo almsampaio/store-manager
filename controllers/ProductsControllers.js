@@ -14,7 +14,6 @@ const listProducts = async (_req, res) => {
 const listAProductById = async (req, res) => {
   const { id } = req.params;
   const product = await Product.listAProductById(id);
-  console.log('Oi sou um produto', product);
   if (product === null) {
     return res.status(422).json({
       err:
@@ -35,9 +34,9 @@ const deleteProduct = async (req, res) => {
   const { id } = req.params;
   const exclude = await Product.deleteProduct(id);
   if (!exclude) {
- return res.status(422)
-    .json({ err: { code: 'invalid_data', message: 'Wrong id format' } }); 
-}
+    return res.status(422)
+      .json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
+  }
   return res.status(200).json(exclude);
 };
 

@@ -1,12 +1,6 @@
 const { ObjectId } = require('bson');
 const connection = require('./connection');
 
-// const getNewProduct = (data) => {
-//   const { id, name, quantity } = data;
-//   return { id, name, quantity };
-// };
-
-// Cria um novo produto no banco
 const createNewProduct = async (name, quantity) => connection()
     .then((db) => db.collection('products').insertOne({ name, quantity }))
     .then((result) => ({ _id: result.insertedId, name, quantity }))
@@ -50,7 +44,6 @@ const updateProduct = async (id, name, quantity) => {
 // Deleta um produto pelo id
 const deleteProduct = async (id) => {
   try {
-    console.log('To aqui');
     const product = await findById(id);
     if (!product) return null;
     const db = await connection();

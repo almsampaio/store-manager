@@ -1,3 +1,4 @@
+const { ObjectId } = require('bson');
 const Joi = require('joi');
 const Sales = require('../models/SalesModels');
 
@@ -20,4 +21,18 @@ const createNewSales = async (data) => {
   return newSales;
 };
 
-module.exports = { createNewSales };
+const listSales = () => Sales.getAllSales();
+
+const listASalesById = (id) => {
+  if (!ObjectId.isValid(id)) {
+    return {
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    };
+  }
+  return Sales.findById(id);
+};
+
+module.exports = { createNewSales, listSales, listASalesById };
