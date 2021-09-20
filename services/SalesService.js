@@ -40,9 +40,26 @@ const update = async (id, saleNewData) => {
   return sale;
 };
 
+const remove = async (id) => {
+  const removedSale = await SalesModel.remove(id);
+
+  const { err } = SalesSchema.validateRemove(removedSale);
+
+  if (err) {
+    return { err: 
+      { 
+        code: err.code, message: err.message, 
+      }, 
+    };
+  }
+
+  return removedSale;
+};
+
 module.exports = {
   getById,
   getAll,
   create,
   update,
+  remove,
 };

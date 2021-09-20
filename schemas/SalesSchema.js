@@ -55,7 +55,17 @@ const saleNotFound = (sale) => {
   return {};
 };
 
+const validateRemove = (removedSale) => {
+  if (!removedSale) {
+    return { 
+      err: { code: codeErrors.invalidData, message: messageErrors.idNotValid }, 
+    }; 
+  }
+  return {};
+};
+
 module.exports = {
   validate,
   saleNotFound,
+  validateRemove,
 };

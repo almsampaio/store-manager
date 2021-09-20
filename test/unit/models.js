@@ -276,7 +276,7 @@ describe('Testando a função `update` do model ProductModel', () => {
 });
 
 // remove Product
-describe.only('Testando a função `remove` do model ProductModel', () => {
+describe('Testando a função `remove` do model ProductModel', () => {
   let connectionMock;
   const INVALID_ID = '1';
   const NOT_FOUND_ID = '613ggccggc43b8f78e54a01g'
