@@ -11,7 +11,9 @@ app.get('/', (_request, response) => {
 });
 
 const productsRouter = require('./routes/productsRouter');
+const salesRouter = require('./routes/salesRouter');
 
 app.use('/products', productsRouter);
+app.use('/sales', salesRouter);
 
 app.listen(3000, console.log('🚀 Backend is running!'));
