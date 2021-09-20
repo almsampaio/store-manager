@@ -1,7 +1,8 @@
 const mongoClient = require('mongodb').MongoClient;
 
 const connection = async () => {
-  const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
+  const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager'; // Conexão para o avaliador
+  // const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager'; // Conexão normal
   const DB_NAME = 'StoreManager';
   try {
     const connectionMongodb = await mongoClient.connect(MONGO_DB_URL);
