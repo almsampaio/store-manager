@@ -1,13 +1,40 @@
 const { ObjectId } = require('mongodb');
 const salesModel = require('../models/sales');
 
-const validateId = (id) => {
+const validateId = async (id) => {
   if (!ObjectId.isValid(id)) {
     return {
       err1: { err: 
        { code: 'not_found', message: 'Sale not found' } },
       err2: { errCode: 404 },
      };
+  }
+  const result = await salesModel.getById(id);
+  console.log(result);
+  if (!result) {
+    console.log('chegou');
+    return {
+      err1: { err: 
+       { code: 'not_found', message: 'Sale not found' } },
+      err2: { errCode: 404 },
+     };
+  }
+  return {};
+};
+
+const validateIdRemoved = (id) => {
+  if (!ObjectId.isValid(id)) {
+    return {
+      err1: {
+        err: {
+          code: 'invalid_data',
+          message: 'Wrong sale ID format',
+        },
+      },
+      err2: {
+        errCode: 422,
+      },
+    };
   }
   return {};
 };
@@ -54,7 +81,7 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  const idNotValid = validateId(id);
+  const idNotValid = await validateId(id);
   if (idNotValid.err1) return idNotValid;
   const getProductById = await salesModel.getById(id);
   return getProductById;
@@ -69,9 +96,18 @@ const update = async (id, requestValues) => {
   return updatedSale;
 };
 
+const remove = async (id) => {
+  const validId = await validateIdRemoved(id);
+  if (validId.err1) return validId;
+
+  const removedSale = await salesModel.remove(id);
+  return removedSale;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };

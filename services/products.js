@@ -105,7 +105,7 @@ const remove = async (id) => {
   return removedItem;
 };
 
-module.exports = { 
+module.exports = {
   create,
   getAll,
   getById,

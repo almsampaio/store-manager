@@ -72,11 +72,11 @@ app.get('/sales', async (_req, res) => {
 
 app.get('/sales/:id', async (req, res) => {
   const { id } = req.params;
-  const product = await serviceSales.getById(id);
-  if (product.err1) {
-    return res.status(product.err2.errCode).json(product.err1);
+  const sale = await serviceSales.getById(id);
+  if (sale.err1) {
+    return res.status(sale.err2.errCode).json(sale.err1);
   }
-  return res.status(200).json(product);
+  return res.status(200).json(sale);
 });
 
 app.put('/sales/:id', async (req, res) => {
@@ -84,12 +84,21 @@ app.put('/sales/:id', async (req, res) => {
   const requestValues = req.body;
   
   const updateSale = await serviceSales.update(id, requestValues);
-  console.log(updateSale);
   if (updateSale.err1) {
     return res.status(updateSale.err2.errCode).json(updateSale.err1);
   }
   
   return res.status(200).json(updateSale);
+});
+
+app.delete('/sales/:id', async (req, res) => {
+  const { id } = req.params;
+  const removeItem = await serviceSales.remove(id);
+  console.log(removeItem);
+  if (removeItem.err1) {
+    return res.status(removeItem.err2.errCode).json(removeItem.err1);
+  } 
+  return res.status(200).json(removeItem);
 });
 
 app.listen(SERVER_PORT, () => console.log('servidor rodando!!'));
