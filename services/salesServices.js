@@ -10,6 +10,16 @@ const errorInvalidQuantity = {
   },
 };
 
+const errorInvalidSales = {
+  status: 404,
+  result: {
+    err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    },
+  },
+};
+
 const validateIdExist = async (productId) => {
   const result = await salesModel.getProductId(productId);
   if (result) return null;
@@ -17,6 +27,10 @@ const validateIdExist = async (productId) => {
 
 const validateQuantityLength = async (quantity) => {
   if (quantity <= 0 || typeof quantity !== 'number') throw errorInvalidQuantity;
+};
+
+const validateSalesExist = (sales) => {
+  if (!sales) throw errorInvalidSales;
 };
 
 const addSales = async (sales) => {
@@ -27,6 +41,19 @@ const addSales = async (sales) => {
   return { status: 200, result };
 };
 
+const getSales = async () => {
+  const result = await salesModel.getSales();
+  return { status: 200, result };
+};
+
+const getSalesId = async (id) => {
+  const result = await salesModel.getSalesId(id);
+  validateSalesExist(result);
+  return { status: 200, result };
+};
+
 module.exports = {
   addSales,
+  getSales,
+  getSalesId,
 };
