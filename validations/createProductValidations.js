@@ -13,7 +13,10 @@ const unprocessableEntity = 422;
 // VALIDAÇÃO DO NOME
 
 // Tamanho mínimo do nome
-const shortName = (name, limit) => name.length < limit;
+const shortName = (name, limit) => { 
+  if (name === null || !name || name.length < limit) { return true; }
+  return false;
+};
 
 // Verifica se o nome já existe (se é repetido);
 const repeatedName = async (name) => {
@@ -23,11 +26,23 @@ const repeatedName = async (name) => {
 };
 
 // Middleware para validação do nome
-const nameValidation = async (req, res, next) => {
+const formatNameValidation = async (req, res, next) => {
+  const { name } = req.body;
+  try {
+    if (shortName(name, 5)) throw new Error(invalidErros.shortName);
+  } catch (error) {
+    return res.status(unprocessableEntity).json({
+      err: { code: invalidErros.code, message: error.message },
+    });
+  }
+  next();
+};
+
+// Middleware para validação do nome
+const uniqueNameValidation = async (req, res, next) => {
   const { name } = req.body;
   try {
     if (await repeatedName(name)) throw new Error(invalidErros.repeatedName);
-    if (shortName(name, 5)) throw new Error(invalidErros.shortName);
   } catch (error) {
     return res.status(unprocessableEntity).json({
       err: { code: invalidErros.code, message: error.message },
@@ -38,12 +53,21 @@ const nameValidation = async (req, res, next) => {
 
 // VALIDAÇÃO DA QUANTIDADE
 
+const incorrectValue = (quantity) => {
+  if (!quantity || quantity === '' || quantity === null || quantity <= 0) {
+    return true;
+  }
+  return false;
+};
+
 // Middleware para validação do nome
 const quantityValidation = async (req, res, next) => {
   const { quantity } = await req.body;
+  console.log(quantity);
   try {
     if (typeof quantity !== 'number') throw new Error(invalidErros.invalidType);
-    if (quantity <= 0) throw new Error(invalidErros.invalidValue);
+    if (incorrectValue(quantity)) throw new Error(invalidErros.invalidValue);
+    // if (!quantity || quantity <= 0) throw new Error(invalidErros.invalidValue);
   } catch (error) {
     return res.status(unprocessableEntity).json({
       err: { code: invalidErros.code, message: error.message },
@@ -52,4 +76,4 @@ const quantityValidation = async (req, res, next) => {
   next();
 };
 
-module.exports = { nameValidation, quantityValidation };
+module.exports = { formatNameValidation, uniqueNameValidation, quantityValidation };

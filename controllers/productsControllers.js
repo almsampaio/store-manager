@@ -1,10 +1,14 @@
 const { Router } = require('express');
 const productServices = require('../services/productsServices');
 const {
-  nameValidation,
+  formatNameValidation,
+  uniqueNameValidation,
   quantityValidation,
 } = require('../validations/createProductValidations');
-const { idMongodbValidation } = require('../validations/searchProductValidations');
+const {
+  idMongodbValidation,
+  idExistsValidation,
+} = require('../validations/searchProductValidations');
 
 const router = Router();
 
@@ -29,9 +33,11 @@ router.get('/:id', idMongodbValidation, async (req, res) => {
 /* REQUISIÇÃO:
 http GET :3000/products/614745121a2a8beb28afd8b6   // ok
 http GET :3000/products/614745121a2a8beb28afd8b65  // erro
+http GET :3000/products/1000                       // erro
 */
 
-router.post('/', nameValidation, quantityValidation, async (req, res) => {
+router.post('/', formatNameValidation, uniqueNameValidation,
+quantityValidation, async (req, res) => {
     const { name, quantity } = req.body;
     const result = await productServices.create(name, quantity);
     const { status, err, data } = result;
@@ -45,7 +51,9 @@ http POST :3000/products/ name='notebook multilaser' quantity:=0    // erro
 http POST :3000/products/ name='notebook multilaser' quantity=3     // erro
 */
 
-router.put('/:id', async (req, res) => {
+router.put('/:id',
+formatNameValidation, quantityValidation,
+idMongodbValidation, idExistsValidation, async (req, res) => {
   const { name, quantity } = req.body;
   const { id } = req.params;
   const result = await productServices.update(id, name, quantity);
@@ -54,9 +62,9 @@ router.put('/:id', async (req, res) => {
   return res.status(200).json(result);
 });
 /* REQUISIÇÃO:
-http PUT :3000/products/6147a6c74b6a379358a38c04 name='notebook positivo' quantity:=3   // ok
+http PUT :3000/products/614745121a2a8beb28afd8b6 name='notebook positivo' quantity:=3     // ok
 http PUT :3000/products/6147954451d5a787ea071c23 name='notebook multilaser' quantity:=3   // ok
-http PUT :3000/products/6147954451d5a787ea071c23 name='notebook positivo' quantity:=3   // erro
+http PUT :3000/products/6147954451d5a787ea071c23 name='notebook positivo' quantity:=3     // erro
 */
 
 router.delete('/:id', async (req, res) => {

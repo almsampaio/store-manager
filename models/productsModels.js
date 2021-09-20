@@ -49,7 +49,7 @@ const update = async (id, name, quantity) => {
       { _id: ObjectId(id) },
       { $set: { name, quantity } },
     );
-  return { id, name, quantity };
+  return { _id: id, name, quantity };
 };
 
 // Remove um produto pelo id
