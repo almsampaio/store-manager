@@ -1,5 +1,13 @@
 const productsService = require('../services/productsService');
 
+function errorObj(err) {
+  return {
+    status: err.status || 500,
+    code: err.code || 'server_error',
+    message: err.message,
+  };
+}
+
 async function create(req, res, next) {
   try {
     const { name, quantity } = req.body;
@@ -11,11 +19,32 @@ async function create(req, res, next) {
       quantity,
     });
   } catch (err) {
-    const error = {
-      status: err.status || 500,
-      code: err.code || 'server_error',
-      message: err.message,
-    };
+    const error = errorObj(err);
+
+    next(error);
+  }
+}
+
+async function getAll(_req, res, next) {
+  try {
+    const allDocuments = await productsService.getAll();
+
+    res.status(200).json({ products: allDocuments });
+  } catch (err) {
+    const error = errorObj(err);
+
+    next(error);
+  }
+}
+
+async function getById(req, res, next) {
+  try {
+    const { id } = req.params;
+    const document = await productsService.getById(id);
+
+    res.status(200).json(document);
+  } catch (err) {
+    const error = errorObj(err);
 
     next(error);
   }
@@ -23,4 +52,6 @@ async function create(req, res, next) {
 
 module.exports = {
   create,
+  getAll,
+  getById,
 };
