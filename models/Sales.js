@@ -11,8 +11,14 @@ const getAll = () => connection()
 const getById = (id) => connection()
   .then((db) => db.collection('sales').findOne({ _id: ObjectId(id) }));
 
+const setById = (id, sales) => connection()
+  .then((db) => db.collection('sales')
+    .updateOne({ _id: ObjectId(id) }, { $set: { itensSold: sales } }))
+    .then(() => ({ _id: id, itensSold: sales }));
+
 module.exports = {
   create,
   getAll,
   getById,
+  setById,
 };

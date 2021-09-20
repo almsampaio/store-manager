@@ -28,8 +28,21 @@ const getById = async (id) => {
   return sales;
 };
 
+const setById = async (id, sales) => {
+  if (!ObjectId.isValid(id)) return ERROR.SALE_NOT_FOUND;
+  if (
+    sales.some((item) => item.quantity <= 0)
+    || sales.some((item) => typeof item.quantity === 'string')
+  ) return ERROR.ERROR_QUANTITY;
+
+  const sale = await salesModel.setById(id, sales);
+
+  return sale;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  setById,
 };
