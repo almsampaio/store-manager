@@ -18,15 +18,19 @@ const checkQtySold = ({ quantity }) => {
 const create = async (sales) => {
   const message = 'Wrong product ID or invalid quantity';
 
-  const salesChecked = await sales
-    .some(async (sale) => {
-      console.log('1 sale', sale);
-      console.log('checkIdSold', await checkIdSold(sale));
-      console.log('checkQtySold', checkQtySold(sale));
-      return ((await checkIdSold(sale)) === null || checkQtySold(sale) === null);
-    });
-  console.log('saleschecked', salesChecked);
-  if (salesChecked) {
+  const promise = await sales.map(async (sale) => {
+    if ((await checkIdSold(sale)) === null || checkQtySold(sale) === null) {
+      return true;
+    }
+    return false;
+  });
+  // https://zellwk.com/blog/async-await-in-loops/ onde aprendi a usar funcoes assincronas em loop
+
+  const checkingSales = await Promise.all(promise);
+
+  const checkedSales = checkingSales.some((sale) => sale === true);
+
+  if (checkedSales) {
     return { err: { code: 'invalid_data',
     message } };
   }
