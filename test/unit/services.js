@@ -1338,7 +1338,7 @@ describe('Testando a função `update` do service SalesService', () => {
 });
 
 // remove Sales
-describe.only('Testando a função `remove` do service SalesService', () => {
+describe('Testando a função `remove` do service SalesService', () => {
   const payloadSales = {
     itensSold: [
       {
