@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const ProductsModel = require('../models/Products');
 const ERRORS = require('../util/erros');
 
@@ -13,6 +14,19 @@ const create = async (name, quantity) => {
   return product;
 };
 
+const getAll = async () => {
+  const products = await ProductsModel.getAll();
+  return products;
+};
+
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return ERRORS.PRODUCT_NOT_EXISTS;
+  const [product] = await ProductsModel.getById(id);
+  return product;
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };

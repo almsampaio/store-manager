@@ -26,6 +26,13 @@ const errors = {
       code: 'invalid_data',
     },
   },
+
+  PRODUCT_NOT_EXISTS: {
+    err: {
+      message: 'Wrong id format',
+      code: 'invalid_data',
+    },
+  },
 };
 
 module.exports = errors;
