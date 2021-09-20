@@ -20,7 +20,20 @@ const create = async (req, res) => {
 const getAll = (_req, res) => ProductsService.getAll()
   .then((products) => res.status(SUCCESS_OK).json({ products }));
 
+const getById = (req, res) => {
+  const { id } = req.params;
+  ProductsService.getById(id)
+    .then((product) => res.status(SUCCESS_OK).json(product))
+    .catch(() => res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    }));
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };
