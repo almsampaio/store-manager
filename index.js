@@ -2,7 +2,9 @@ const express = require('express');
 
 const bodyParser = require('body-parser').json;
 
-const controller = require('./controllers/productsController');
+const productsController = require('./controllers/productsController');
+
+const salesController = require('./controllers/salesController');
 
 const app = express();
 
@@ -13,15 +15,17 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.get('/products', controller.getAllProducts);
+app.get('/products', productsController.getAllProducts);
 
-app.post('/products', controller.createNewProduct);
+app.post('/products', productsController.createNewProduct);
 
-app.get('/products/:id', controller.getProductByID);
+app.post('/sales', salesController.createNewSales);
 
-app.put('/products/:id', controller.updateProductByID);
+app.get('/products/:id', productsController.getProductByID);
 
-app.delete('/products/:id', controller.deleteProductByID);
+app.put('/products/:id', productsController.updateProductByID);
+
+app.delete('/products/:id', productsController.deleteProductByID);
 
 const PORT = 3000;
 
