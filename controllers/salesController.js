@@ -33,14 +33,14 @@ const getSaleByID = async (req, res) => {
   return res.status(status.OK).json(sale);
 };
 
-// const updateProductByID = async (req, res) => {
-//   const { body: { name, quantity }, params: { id } } = req;
-//   const updatedProduct = await service.updateProductByID(id, name, quantity);
+const updateSaleByID = async (req, res) => {
+  const { body: [{ productId, quantity }], params: { id } } = req;
+  const updateSale = await service.updateSaleByID(id, productId, quantity);
   
-//   if (updatedProduct.err) return res.status(status.UNPROCESSABLE_ENTITY).json(updatedProduct);
+  if (updateSale.err) return res.status(status.UNPROCESSABLE_ENTITY).json(updateSale);
 
-//   return res.status(status.OK).json(updatedProduct);
-// };
+  return res.status(status.OK).json(updateSale);
+};
 
 // const deleteProductByID = async (req, res) => {
 //   const { params: { id } } = req;
@@ -55,6 +55,6 @@ module.exports = {
   createNewSales,
   getAllSales,
   getSaleByID,
-  // updateProductByID,
+  updateSaleByID,
   // deleteProductByID,
 };

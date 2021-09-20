@@ -44,8 +44,36 @@ const getSaleByID = async (id) => {
 };
 };
 
+const updateSaleByIDValidations = async (id, productId, quantity) => {
+  const quantityValidations = isValidQuantity({ quantity });
+  
+  if (!quantityValidations || !ObjectId.isValid(id) || !ObjectId.isValid(productId)) {
+  return { err: { code: 'invalid_data',
+    message: 'Wrong product ID or invalid quantity' } }; 
+}
+
+  return true;
+};
+
+const updateSaleByID = async (id, productId, quantity) => {
+  const allValidations = await updateSaleByIDValidations(id, productId, quantity);
+  if (allValidations.err) return allValidations;
+
+  const updateSale = await db.updateSaleByID(id, productId, quantity);
+
+  if (updateSale) {
+    return updateSale;
+  } 
+  return {
+    err: {
+      code: 'invalid_data', message: 'Id does not exist',
+    },
+  };
+};
+
 module.exports = {
   createNewSales,
   getAllSales,
   getSaleByID,
+  updateSaleByID,
 };
