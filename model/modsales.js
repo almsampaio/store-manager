@@ -11,9 +11,11 @@ const create = async (itensSold) => {
 };
 
 const getById = async (productId) => {
+  console.log('chegou do serv para db', productId);
   if (!ObjectId.isValid(productId)) return null;
   const db = await connection();
-  const result = db.collection('sales').findOne({ _id: ObjectId(productId) });
+  const result = await db.collection('sales').findOne({ _id: ObjectId(productId) });
+  console.log('resposta do db', result);
   return result;
 };
 

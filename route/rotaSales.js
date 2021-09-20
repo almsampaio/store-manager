@@ -4,7 +4,7 @@ const controller = require('../controller/ctrlSales');
 const rotaSales = express.Router();
 
 rotaSales.get('/', controller.getAll);
-// rotaSales.get('/sales/:id', controller.getById);
+rotaSales.get('/:id', controller.getById);
 rotaSales.post('/', controller.create);
 /* rotaSales.put('/sales/:id', controller.editById);
 rotaSales.delete('/sales/:id', controller.deleteById); */

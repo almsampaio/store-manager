@@ -28,14 +28,10 @@ const errIdNotFind = {
   },
 };
 
-const validateExist = (sales) => {
-  if (!sales) return errIdNotFind;
-};
-
 const getById = async (productId) => {
   const getbyId = await salesModel.getById(productId);
-  const validFindId = validateExist(getbyId);
-  return validFindId;
+  if (!getbyId) return errIdNotFind;
+  return getbyId;
 };
 
 const getAll = async () => {

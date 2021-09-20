@@ -14,9 +14,18 @@ const getAll = async (_req, res) => {
   return res.status(200).json(sales);
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+  console.log('chegou da requisião', id);
+  const sale = await salesService.getById(id);
+  console.log('chegou no ctrl atravez de getbyid no serv', sale);
+  if (sale.err) return res.status(404).json(sale);
+  return res.status(200).json({ sales: [...sale.itensSold] });
+};
+
 module.exports = {
   getAll,
-  // getById,
+  getById,
   create,
  /*  editById,
   deleteById, */
