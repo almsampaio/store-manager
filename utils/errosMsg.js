@@ -29,6 +29,12 @@ const messageErro = {
       message: 'Wrong id format',
     },
   },
+  wrongProductId: {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong product ID or invalid quantity',
+    },
+  },
 };
 
 module.exports = messageErro;

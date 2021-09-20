@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const productMiddleware = require('../midllewares/productMiddleware');
+const salesController = require('../controllers/salesController');
+const salesMidllewares = require('../midllewares/salesMidlleware');
 
 router.get('/products/:id', productController.findOneProduct);
 router.get('/products', productController.findAllProducts);
@@ -18,5 +20,7 @@ router.put(
 );
 
 router.delete('/products/:id', productController.deleteProduct);
+
+router.post('/sales', salesMidllewares.validateSale, salesController.create);
 
 module.exports = router;
