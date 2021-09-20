@@ -2,16 +2,16 @@ const { ObjectId } = require('mongodb');
 
 const connection = require('./connection');
 
-const getSalesByID = async (id) => {
+const getSaleByID = async (id) => {
   const db = await connection();
-  const sales = await db.collection('sales').findOne(ObjectId(id));
-  return sales;
+  const sale = await db.collection('sales').findOne(ObjectId(id));
+  return sale;
 };
 
 const createNewSales = async (sales) => {
   const db = await connection();
   const newSales = await db.collection('sales').insertOne({ itensSold: sales });
-  return getSalesByID(newSales.insertedId);
+  return getSaleByID(newSales.insertedId);
 };
 
 // const findProductByName = async (name) => {
@@ -20,11 +20,11 @@ const createNewSales = async (sales) => {
 //   return product;
 // };
 
-// const getAllProducts = async () => {
-//   const db = await connection();
-//   const products = await db.collection('products').find().toArray();
-//   return { products };
-// };
+const getAllSales = async () => {
+  const db = await connection();
+  const sales = await db.collection('sales').find().toArray();
+  return { sales };
+};
 
 // const updateProductByID = async (id, name, quantity) => {
 //   const db = await connection();
@@ -45,8 +45,8 @@ const createNewSales = async (sales) => {
 module.exports = {
   createNewSales,
   // findProductByName,
-  // getAllProducts,
-  // getProductByID,
+  getAllSales,
+  getSaleByID,
   // updateProductByID,
   // deleteProductByID,
 };

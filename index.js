@@ -17,11 +17,15 @@ app.get('/', (_request, response) => {
 
 app.get('/products', productsController.getAllProducts);
 
+app.get('/products/:id', productsController.getProductByID);
+
+app.get('/sales', salesController.getAllSales);
+
+app.get('/sales/:id', salesController.getSaleByID);
+
 app.post('/products', productsController.createNewProduct);
 
 app.post('/sales', salesController.createNewSales);
-
-app.get('/products/:id', productsController.getProductByID);
 
 app.put('/products/:id', productsController.updateProductByID);
 

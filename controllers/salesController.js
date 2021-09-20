@@ -4,6 +4,7 @@ const status = {
   OK: 200,
   CREATED: 201,
   UNPROCESSABLE_ENTITY: 422,
+  NOT_FOUND: 404,
   SERVER_ERROR: 500,
 };
 
@@ -14,23 +15,23 @@ const createNewSales = async (req, res) => {
   return res.status(status.OK).json(newSales);
 };
 
-// const getAllProducts = async (_req, res) => {
-//   try {
-//     const products = await service.getAllProducts();
-//     return res.status(status.OK).json(products);
-//   } catch (err) {
-//     return res.status(status.SERVER_ERROR).json({ errorMessage: err });
-//   }
-// };
+const getAllSales = async (_req, res) => {
+  try {
+    const sales = await service.getAllSales();
+    return res.status(status.OK).json(sales);
+  } catch (err) {
+    return res.status(status.SERVER_ERROR).json({ errorMessage: err });
+  }
+};
 
-// const getProductByID = async (req, res) => {
-//   const { params: { id } } = req;
-//   const product = await service.getProductByID(id);
-//   if (product.err) {
-//     return res.status(status.UNPROCESSABLE_ENTITY).json(product);
-//   }
-//   return res.status(status.OK).json(product);
-// };
+const getSaleByID = async (req, res) => {
+  const { params: { id } } = req;
+  const sale = await service.getSaleByID(id);
+  if (sale.err) {
+    return res.status(status.NOT_FOUND).json(sale);
+  }
+  return res.status(status.OK).json(sale);
+};
 
 // const updateProductByID = async (req, res) => {
 //   const { body: { name, quantity }, params: { id } } = req;
@@ -52,8 +53,8 @@ const createNewSales = async (req, res) => {
 
 module.exports = {
   createNewSales,
-  // getAllProducts,
-  // getProductByID,
+  getAllSales,
+  getSaleByID,
   // updateProductByID,
   // deleteProductByID,
 };

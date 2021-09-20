@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const db = require('../models/salesModel'); // 614808b55d9c3a000a3ca62d 61481d19db07f017689e6b6c
 
@@ -27,6 +27,25 @@ const createNewSales = async (sales) => {
   return allValidations;
 };
 
+const getAllSales = async () => {
+  const sales = await db.getAllSales();
+  return sales;
+};
+
+const getSaleByID = async (id) => {
+  if (ObjectId.isValid(id)) {
+    const saleByID = await db.getSaleByID(id);
+    if (saleByID) return saleByID;
+  }
+  return { err: {
+    code: 'not_found',
+    message: 'Sale not found',
+  },
+};
+};
+
 module.exports = {
   createNewSales,
+  getAllSales,
+  getSaleByID,
 };
