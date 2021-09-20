@@ -37,13 +37,13 @@ const update = async (req, res) => {
 
 const deleteById = async (req, res) => {
   const { _id } = req.params;
-
   const deletedById = await salesService.deleteById(_id);
-  console.log(deletedById);
   if (deletedById.err) {
+    if (deletedById.err.code === 'not_found') {
+      return res.status(404).json(deletedById);
+    }
     return res.status(422).json(deletedById);
   }
-  
   return res.status(200).json(deletedById);
 };
 

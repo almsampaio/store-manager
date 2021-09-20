@@ -40,11 +40,10 @@ const update = async (_id, sales) => {
   return { _id, itensSold: [{ productId, quantity }] };
 };
 
-const deleteById = async (_id) => {
+const deleteById = async (_id, sale) => {
   const salesCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('sales'));
-  const sale = await getById(_id);
-  console.log('sale', sale);
+
   await salesCollection.deleteOne({ _id: ObjectId(_id) });
   return sale;
 };
