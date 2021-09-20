@@ -13,4 +13,13 @@ const getProductById = async (id) => {
   return { status: 200, data: product };
 };
 
-module.exports = { getAllProducts, getProductById };
+const createProduct = async (name, quantity) => {
+  const findProduct = await Products.findByName(name);
+
+  if (findProduct) return { status: 422, message: 'Product already exists' };
+  const product = await Products.createProduct(name, quantity);
+  console.log(product);
+  return { status: 201, data: product };
+};
+
+module.exports = { getAllProducts, getProductById, createProduct };
