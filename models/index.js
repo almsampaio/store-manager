@@ -14,6 +14,16 @@ const create = async (connection, collection, payload) => {
   return insertedData;
 };
 
+const findByName = async (connection, collection, searchString) => {
+  const cnt = await connection();
+  const searchResult = await cnt.collection(collection).findOne({
+    name: searchString,
+  });
+
+  return searchResult;
+};
+
 module.exports = {
   create,
+  findByName,
 };
