@@ -7,6 +7,12 @@ const addProduct = async (name, quantity) => {
   .then((result) => ({ id: result.insertedId, name, quantity }));
 };
 
+const getAllProducts = async () => {
+  const result = await connection.then((db) => db.collection(COLLECTION_PRODUCTS).find().toArray());
+  return result;
+};
+
 module.exports = {
   addProduct,
+  getAllProducts,
 };
