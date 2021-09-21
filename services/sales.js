@@ -32,4 +32,10 @@ const getSalesById = async (id) => {
     return { status: 200, data: sale };
 };
 
-module.exports = { addSales, getAllSales, getSalesById };
+const updateSales = async (id, itensSold) => {
+    const sale = await sales.updateSales(id, itensSold);
+
+    return { status: 200, data: sale };
+};
+
+module.exports = { addSales, getAllSales, getSalesById, updateSales };
