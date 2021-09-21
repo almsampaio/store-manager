@@ -1,4 +1,5 @@
 const services = require('../services');
+const { newError } = require('../utils/newError');
 
 const createSale = async (req, res, _next) => {
   const saleArray = req.body;
@@ -17,6 +18,10 @@ const getSaleByID = async (req, res, _next) => {
   const { id } = req.params;
   const sale = await services.sales.getSales(id);
 
+  if (!sale) {
+    throw newError(404, 'Sale not found', 'not_found');
+  }
+
   return res.status(200).json(sale);
 };
 
@@ -30,8 +35,9 @@ const updateSale = async (req, res, _next) => {
 
 const deleteSale = async (req, res, _next) => {
   const { id } = req.params;
+  const [deletedSale] = await services.sales.deleteSale(id);
 
-  return res.status(200).json(`deleted ${id}`);
+  return res.status(200).json(deletedSale);
 };
 
 module.exports = {

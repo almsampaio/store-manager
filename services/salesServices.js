@@ -77,8 +77,22 @@ const updateSale = async (saleID, updatePayload) => {
   }
 };
 
+const deleteSale = async (saleID) => {
+  try {
+    validateMongoID(saleID);
+    const sale = await model.getByID(dbConnection, 'sales', saleID);
+
+    await model.deleteByID(dbConnection, 'sales', saleID);
+
+    return sale;
+  } catch (error) {
+    throw newError(422, 'Wrong sale ID format', 'invalid_data');
+  }
+};
+
 module.exports = {
   createSale,
   getSales,
   updateSale,
+  deleteSale,
 };
