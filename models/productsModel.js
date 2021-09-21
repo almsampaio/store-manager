@@ -16,6 +16,12 @@ async function update(id, name, quantity) {
   await collection.updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
 }
 
+async function deleteDocument(id) {
+  const collection = await connection().then((db) => db.collection(collectionName));
+
+  await collection.deleteOne({ _id: ObjectId(id) });
+}
+
 async function getAll() {
   const collection = await connection().then((db) => db.collection(collectionName));
   const allDocuments = await collection.find().toArray();
@@ -40,6 +46,7 @@ async function getByName(name) {
 module.exports = {
   create,
   update,
+  deleteDocument,
   getAll,
   getById,
   getByName,
