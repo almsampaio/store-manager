@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const productsRouter = require('./routes/products');
+const salesRouter = require('./routes/sales');
 
 const PORT = 3000;
 const app = express();
@@ -14,6 +15,7 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/products', productsRouter);
+app.use('/sales', salesRouter);
 
 app.use((err, _req, res, _next) => {
   const { status, code, message } = err;
