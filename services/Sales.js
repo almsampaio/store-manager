@@ -1,4 +1,4 @@
-const { createSales } = require('../models/Sales');
+const { createSales, getAllSales } = require('../models/Sales');
 
 const errQ = {
   err: {
@@ -22,6 +22,12 @@ const create = async (arrSales) => {
   return val;
 };
 
+const getAll = async () => {
+  const getSales = await getAllSales();
+  return getSales;
+};
+
 module.exports = {
   create,
+  getAll,
 };

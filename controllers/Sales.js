@@ -1,4 +1,4 @@
-const { create } = require('../services/Sales');
+const { create, getAll } = require('../services/Sales');
 
 const HTTP_UNPROCESSABLE_STATUS = 422;
 // const HTTP_CREATED_STATUS = 201;
@@ -12,6 +12,13 @@ const createSales = async (request, response) => {
   return response.status(HTTP_OK_STATUS).json(validyValues);
 };
 
+const getAllSales = async (_request, response) => {
+  const validyValues = await getAll();
+  // if (validyValues.err) return response.status(HTTP_UNPROCESSABLE_STATUS).json(validyValues);
+  return response.status(HTTP_OK_STATUS).json({ sales: validyValues });
+};
+
 module.exports = {
   createSales,
+  getAllSales,
 };
