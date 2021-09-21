@@ -15,12 +15,7 @@ const validation = (data) => {
 
 const createSales = async (data) => {
   const error = validation(data);
-  const validateQuantinty = await product.idProducts(data[0].productId);
-  if (validateQuantinty[0].quantity < data[0].quantity) {
-    return {
-      statusCode: 404,
-      json: { err: { code: 'stock_problem', message: 'Such amount is not permitted to sell' } } };
-  }
+  
   if (error) {
  return {
     statusCode: 422,
