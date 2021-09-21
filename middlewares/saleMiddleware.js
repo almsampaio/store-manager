@@ -1,8 +1,8 @@
 const { ObjectId } = require('mongodb');
 const SalesServices = require('../services/Sales');
-const saleValidation = require('../validations/sales/createSale');
+const saleValidation = require('../validations/sales/saleValidate');
 
-exports.addSaleValidate = (req, _res, next) => {
+exports.saleValidate = (req, _res, next) => {
   const saleInfo = req.body;
 
   const validate = saleInfo
@@ -13,7 +13,7 @@ exports.addSaleValidate = (req, _res, next) => {
   next();
 };
 
-exports.getSaleByIdValidate = async (req, _res, next) => {
+exports.saleIdValidate = async (req, _res, next) => {
   const { id } = req.params;
   const error = { code: 'not_found', message: 'Sale not found', status: 'notFound' };
 

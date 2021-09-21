@@ -20,3 +20,11 @@ exports.getById = async (req, res) => {
 
   res.status(status.ok).json(sale);
 };
+
+exports.update = async (req, res) => {
+  const { id: saleId } = req.params;
+  const itensSold = req.body;
+
+  const updatedSale = await SalesServices.update(saleId, itensSold);
+  res.status(status.ok).json(updatedSale);
+};

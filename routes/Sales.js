@@ -9,14 +9,19 @@ const SalesMiddleware = require('../middlewares/saleMiddleware');
 Router.route('/')
   .get(Sales.getAll)
   .post(
-  SalesMiddleware.addSaleValidate,
+  SalesMiddleware.saleValidate,
   Sales.create,
 );
 
 Router.route('/:id')
   .get(
-    SalesMiddleware.getSaleByIdValidate,
+    SalesMiddleware.saleIdValidate,
     Sales.getById,
+  )
+  .put(
+    SalesMiddleware.saleIdValidate,
+    SalesMiddleware.saleValidate,
+    Sales.update,
   );
 
 module.exports = Router;
