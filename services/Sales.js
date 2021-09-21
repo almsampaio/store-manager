@@ -35,9 +35,21 @@ const update = async (id, itensSold) => {
   return { status: StatusCodes.OK, data: sale };
 };
 
+const remove = async (id) => {
+  const checkSale = await Sales.getById(id);
+  const sale = await Sales.remove(id);
+
+  if (!checkSale) {
+    return { status: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Wrong sale ID format' };
+  }
+
+  return { status: StatusCodes.OK, data: sale };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };
