@@ -24,20 +24,20 @@ async function create(req, res, next) {
   }
 }
 
-// async function update(req, res, next) {
-//   try {
-//     const { id } = req.params;
-//     const { name, quantity } = req.body;
+async function update(req, res, next) {
+  try {
+    const { id: _id } = req.params;
+    const itensSold = req.body;
 
-//     await salesService.update(id, name, quantity);
+    await salesService.update(_id, itensSold);
 
-//     res.status(200).json({ id, name, quantity });
-//   } catch (err) {
-//     const error = errorDefault(err);
+    res.status(200).json({ _id, itensSold });
+  } catch (err) {
+    const error = errorDefault(err);
 
-//     next(error);
-//   }
-// }
+    next(error);
+  }
+}
 
 // async function deleteDocument(req, res, next) {
 //   try {
@@ -80,7 +80,7 @@ async function getById(req, res, next) {
 
 module.exports = {
   create,
-  // update,
+  update,
   // deleteDocument,
   getAll,
   getById,

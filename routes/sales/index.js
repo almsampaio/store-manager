@@ -9,7 +9,7 @@ router.get('/:id', salesController.getById);
 router.post('/', salesController.create);
 
 // PUT
-// router.put('/:id', salesController.update);
+router.put('/:id', salesController.update);
 
 // DELETE
 // router.delete('/:id', salesController.deleteDocument);
