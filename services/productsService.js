@@ -17,6 +17,15 @@ async function update(id, name, quantity) {
   await productsModel.update(id, name, quantity);
 }
 
+async function deleteDocument(id) {
+  await validations.isIdValid(id);
+
+  const deletedDocument = await productsModel.getById(id);
+  await productsModel.deleteDocument(id);
+
+  return deletedDocument;
+}
+
 async function getAll() {
   const allDocuments = await productsModel.getAll();
 
@@ -34,6 +43,7 @@ async function getById(id) {
 module.exports = {
   create,
   update,
+  deleteDocument,
   getAll,
   getById,
 };
