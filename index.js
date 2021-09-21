@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productsRouter = require('./routes/Products');
+const salesRouter = require('./routes/Sales');
 
 const app = express();
 app.use(bodyParser.json());
@@ -11,8 +12,10 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+app.use('/products', productsRouter);
+
+app.use('/sales', salesRouter);
+
 app.listen(PORT, () => {
   console.log(`Porta ${PORT} está Online!`);
 });
-
-app.use('/products', productsRouter);
