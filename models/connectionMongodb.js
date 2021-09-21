@@ -6,7 +6,7 @@ const OPTIONS = {
 };
 
 const connection = async () => {
-  const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager'; // Conexão para o avaliador
+  const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager'; // Conexão para o avaliador.
   // const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager'; // Conexão normal
   const DB_NAME = 'StoreManager';
   try {
