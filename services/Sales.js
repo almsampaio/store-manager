@@ -1,4 +1,4 @@
-const { createSales, getAllSales, getSaleById } = require('../models/Sales');
+const { createSales, getAllSales, getSaleById, setSale } = require('../models/Sales');
 
 const errQ = {
   err: {
@@ -40,8 +40,18 @@ const getById = async (id) => {
   return getSale;
 };
 
+const updateSale = async (idSale, itensSold) => {
+  const val = await validyQuantity(itensSold);
+  if (!val) {
+    const createSale = await setSale(idSale, itensSold);
+    return createSale;
+  }
+  return val;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  updateSale,
 };
