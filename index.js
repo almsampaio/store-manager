@@ -3,7 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { create, getAll, getById, update, remove } = require('./controlers/productControlles');
-const { createSales, getAllSales, getByIdSales } = require('./controlers/salesController');
+const {
+  createSales,
+  getAllSales,
+  getByIdSales,
+  getUpdateSales,
+  removeSale,
+} = require('./controlers/salesController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,6 +27,8 @@ app.delete('/products/:id', remove);
 app.post('/sales', createSales);
 app.get('/sales', getAllSales);
 app.get('/sales/:id', getByIdSales);
+app.put('/sales/:id', getUpdateSales);
+app.delete('/sales/:id', removeSale);
 
 const PORT = process.env.PORT || 3000;
 
