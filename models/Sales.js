@@ -4,12 +4,9 @@ const connection = require('../connection');
 const insert = async (products) => {
   try {
     const database = await connection();
-    const { insertedId } = database.collection('sales').insertOne({ itensSold: products });
+    const result = await database.collection('sales').insertOne({ itensSold: products });
   
-    return {
-      _id: insertedId,
-      itensSold: products,
-    };
+    return result.ops[0];
   } catch (e) {
     console.log(`Não foi possível inserir os produtos [${products}], erro [${e}]`);
   }
