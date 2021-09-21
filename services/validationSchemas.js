@@ -5,6 +5,12 @@ const productSchema = JOI.object({
   quantity: JOI.number().integer().min(1).required(),
 });
 
+const saleSchema = JOI.object({
+  productId: JOI.string().required(),
+  quantity: JOI.number().integer().min(1).required(),
+});
+
 module.exports = {
   productSchema,
+  saleSchema,
 };
