@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const RouterProducts = require('./routes/Products');
+const RouterSales = require('./routes/Sales');
 
 const PORT = 3000;
 
@@ -12,6 +13,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', RouterProducts);
+app.use('/sales', RouterSales);
 
 app.use((err, _req, res, _next) => {
   if (err.status) return res.status(err.status).json({ messege: err.message });
