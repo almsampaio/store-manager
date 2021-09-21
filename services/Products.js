@@ -17,8 +17,14 @@ const getById = async (id) => {
   return product;
 };
 
+const update = async (id, name, quantity) => {
+  const updatedProduct = await productsModel.update(id, name, quantity);
+  return updatedProduct;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

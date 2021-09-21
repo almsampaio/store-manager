@@ -38,8 +38,31 @@ const getById = async (req, res) => {
   return res.status(200).json(product);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const updatedProduct = await productService.update(id, name, quantity);
+
+  if (!updatedProduct) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+
+  res.status(200).json({
+    _id: id,
+    name,
+    quantity,
+  });
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

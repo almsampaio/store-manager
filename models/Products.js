@@ -41,9 +41,24 @@ const getById = async (id) => {
   }
 };
 
+const update = async (id, name, quantity) => {
+  try {
+    const database = await connection();
+    const updatedProduct = await database.collection('products').updateOne(
+      { _id: ObjectId(id) }, { $set: { name, quantity } },
+);
+    
+    return updatedProduct;
+  } catch (e) {
+    console.log(`Falha ao atualizar produto id [${id}], name [${name}], 
+    quantity [${quantity}] erro [${e}]`);
+  }
+};
+
 module.exports = {
   create,
   getByName,
   getAll,
   getById,
+  update,
 };
