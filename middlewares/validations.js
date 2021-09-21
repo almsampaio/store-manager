@@ -44,7 +44,28 @@ const validateQuantity = (req, res, next) => {
   next();
 };
 
+// The next middleware was created using the Adelino Junior T10-A code as a reference! Special thanks to Adelino again, who helped me to get a better understanding of Node JS
+
+const validateSalesQuantity = (req, res, next) => {
+  const newSale = req.body;
+  let throwError = null;
+
+  newSale.forEach((sale) => {
+    if (sale.quantity <= 0 || typeof sale.quantity !== 'number') {
+      throwError = { err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' },
+      };
+    }
+  });
+
+  if (throwError !== null) {
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(throwError);
+  }
+
+  next();
+};
+
 module.exports = {
   validateName,
   validateQuantity,
+  validateSalesQuantity,
 };

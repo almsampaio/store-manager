@@ -1,5 +1,18 @@
 const Sales = require('../services/Sales');
 
+const create = async (req, res) => {
+  const itensSold = req.body;
+  const { status, data, message } = await Sales.create(itensSold);
+
+  if (message) {
+    return res.status(status).json({
+      err: { code: 'invalid_data', message },
+    });
+  }
+
+  res.status(status).json(data);
+};
+
 const getAll = async (_req, res) => {
   const { status, data } = await Sales.getAll();
   
@@ -20,6 +33,7 @@ const getById = async (req, res) => {
 };
 
 module.exports = {
+  create,
   getAll,
   getById,
 };

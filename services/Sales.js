@@ -1,5 +1,19 @@
 const { StatusCodes } = require('http-status-codes');
 const Sales = require('../models/Sales');
+const Products = require('../models/Products');
+
+const create = async (itensSold) => {
+  const { productId } = itensSold[0];
+  const checkProduct = await Products.getById(productId);
+
+  if (!checkProduct) {
+    return { status: StatusCodes.UNPROCESSABLE_ENTITY,
+      message: 'Wrong product ID or invalid quantity' };
+  }
+
+  const newSale = await Sales.create(itensSold);
+  return { status: StatusCodes.OK, data: newSale };
+};
 
 const getAll = async () => {
   const sales = await Sales.getAll();
@@ -17,6 +31,7 @@ const getById = async (id) => {
 };
 
 module.exports = {
+  create,
   getAll,
   getById,
 };
