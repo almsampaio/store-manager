@@ -23,8 +23,18 @@ const findAll = async () => {
   return sales;
 };
 
+const updateSale = async (id, itensSold) => {
+  if (!ObjectID.isValid(id)) return null;
+  
+  const updatedSale = await connect()
+  .then((db) => db.collection('sales')
+  .findOneAndUpdate({ _id: ObjectID(id) }, { $set: { itensSold } }, { upsert: true }));
+  return updatedSale;
+};
+
 module.exports = {
   insertSale,
   findById,
   findAll,
+  updateSale,
 };

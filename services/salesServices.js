@@ -13,6 +13,12 @@ const insertSale = async (itensSold) => {
   const data = { name: product.name, quantity: productQuantity };
   await productService.updateProduct(productId, data);
 
+  if (productQuantity < 0) {
+    return { status: 404,
+      err: { code: 'stock_problem', message: 'Such amount is not permitted to sell' },
+    };
+  }
+
   const result = await salesModel.insertSale(itensSold);
   return { status: 200, data: result };
 };
@@ -34,8 +40,14 @@ const findById = async (id) => {
   return sale;
 };
 
+const updateSale = async (id, itensSold) => {
+  const edited = await salesModel.updateSale(id, itensSold);
+  return edited;
+};
+
 module.exports = {
   insertSale,
   findAll,
   findById,
+  updateSale,
 };

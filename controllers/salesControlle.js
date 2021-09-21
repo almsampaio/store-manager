@@ -7,6 +7,11 @@ const insertSale = async (req, res) => {
     return res.status(result.status).json({ err: { code: 'not_found', message: result.message } });
   }
 
+if (result.err) {
+  return res.status(result.status)
+    .json({ err: { code: result.err.code, message: result.err.message } });
+  }
+
   res.status(result.status).json(result.data);
 };
 
@@ -24,8 +29,16 @@ const findById = async (req, res) => {
   res.status(200).json(sale);
 };
 
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+    const itensSold = req.body;
+    await salesService.updateSale(id, itensSold);
+    return res.status(200).json({ _id: id, itensSold });
+};
+
 module.exports = {
   insertSale,
   findAll,
   findById,
+  updateSale,
 };
