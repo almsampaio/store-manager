@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 /**
  * Simple create function to register data at the DB.
  * @param {function} connection The connection DB obj.
@@ -14,7 +16,7 @@ const create = async (connection, collection, payload) => {
   return insertedData;
 };
 
-const findByName = async (connection, collection, searchString) => {
+const findProductByName = async (connection, collection, searchString) => {
   const cnt = await connection();
   const searchResult = await cnt.collection(collection).findOne({
     name: searchString,
@@ -23,7 +25,24 @@ const findByName = async (connection, collection, searchString) => {
   return searchResult;
 };
 
+const getAll = async (connection, collection) => {
+  const cnt = await connection();
+  const prodArray = await cnt.collection(collection).find().toArray();
+
+  return prodArray;
+};
+
+const getByID = async (connection, collection, mongoID) => {
+  const cnt = await connection();
+  const product = await cnt.collection(collection)
+    .find({ _id: ObjectId(mongoID) }).toArray();
+
+  return product;
+};
+
 module.exports = {
   create,
-  findByName,
+  getAll,
+  getByID,
+  findProductByName,
 };
