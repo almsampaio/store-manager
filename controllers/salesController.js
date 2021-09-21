@@ -34,4 +34,13 @@ const update = async (req, res) => {
   return res.status(200).json(findSold);
 };
 
-module.exports = { create, findSales, findById, update };
+const deleteSold = async (req, res) => {
+  const { id } = req.params;
+  const remove = await salesService.deleteSold(id);
+
+  if (!remove) return res.status(422).json(messageErro.salesWrongIDFormat);
+
+  res.status(200).json(remove);
+};
+
+module.exports = { create, findSales, findById, update, deleteSold };

@@ -41,6 +41,12 @@ const messageErro = {
       message: 'Sale not found',
     },
   },
+  salesWrongIDFormat: {
+    err: {
+      code: 'invalid_data',
+      message: 'Wrong sale ID format',
+    },
+  },
 };
 
 module.exports = messageErro;

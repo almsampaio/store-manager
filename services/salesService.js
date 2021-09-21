@@ -9,4 +9,6 @@ const findById = async (id) => salesModel.findById(id);
 
 const update = async (id, itensSold) => salesModel.update(id, itensSold);
 
-module.exports = { create, findSales, findById, update };
+const deleteSold = async (id) => salesModel.deleteSold(id);
+
+module.exports = { create, findSales, findById, update, deleteSold };
