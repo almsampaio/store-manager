@@ -31,24 +31,29 @@ async function create(itensSold) {
 //   return deletedDocument;
 // }
 
-// async function getAll() {
-//   const allDocuments = await productsModel.getAll();
+async function getAll() {
+  const allDocuments = await salesModel.getAll();
 
-//   return allDocuments;
-// }
+  return allDocuments;
+}
 
-// async function getById(id) {
-//   await validations.isIdValid(id);
+async function getById(id) {
+  const customInfo = {
+    message: 'Sale not found',
+    status: 'notFound',
+  };
 
-//   const document = await productsModel.getById(id);
+  await validations.isIdValid(id, salesModel.getById, customInfo);
 
-//   return document;
-// }
+  const document = await salesModel.getById(id);
+
+  return document;
+}
 
 module.exports = {
   create,
   // update,
   // deleteDocument,
-  // getAll,
-  // getById,
+  getAll,
+  getById,
 };
