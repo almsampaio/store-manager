@@ -30,6 +30,11 @@ const createProduct = async (productData) => {
   }
 };
 
+const validateMongoID = (productID) => {
+  const validID = ObjectId.isValid(productID);
+  if (!validID) throw newError(422, 'Wrong id format', 'invalid_data');
+};
+
 const getProducts = async (productID) => {
   if (!productID) {
     const productsArray = await model.getAll(dbConnection, 'products');
@@ -37,8 +42,7 @@ const getProducts = async (productID) => {
     return productsArray;
   }
 
-  const validID = ObjectId.isValid(productID);
-  if (!validID) throw newError(422, 'Wrong id format', 'invalid_data');
+  validateMongoID(productID);
 
   const product = await model.getByID(dbConnection, 'products', productID);
 
@@ -57,8 +61,22 @@ const updateProduct = async (productID, productData) => {
   }
 };
 
+const deleteProduct = async (productID) => {
+  try {
+    validateMongoID(productID);
+    const product = await model.getByID(dbConnection, 'products', productID);
+
+    await model.deleteByID(dbConnection, 'products', productID);
+
+    return product;
+  } catch (error) {
+    throw newError(422, error.message, 'invalid_data');
+  }
+};
+
 module.exports = {
   createProduct,
   getProducts,
   updateProduct,
+  deleteProduct,
 };

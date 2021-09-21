@@ -48,10 +48,19 @@ const updateByID = async (connection, collection, mongoID, updatePayload) => {
   return update;
 };
 
+const deleteByID = async (connection, collection, mongoID) => {
+  const cnt = await connection();
+  const update = await cnt.collection(collection)
+    .deleteOne({ _id: ObjectId(mongoID) });
+
+  return update;
+};
+
 module.exports = {
   create,
   getAll,
   getByID,
   updateByID,
+  deleteByID,
   findProductByName,
 };
