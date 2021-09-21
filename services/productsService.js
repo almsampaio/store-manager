@@ -1,8 +1,8 @@
 const productsModel = require('../models/productsModel');
-const validations = require('./validations/productsValidation');
+const validations = require('./validations');
 
 async function create(name, quantity) {
-  await validations.isNameValid(name, true);
+  await validations.isNameValid(name, productsModel.getByName);
   validations.isQuantityValid(quantity);
 
   const newProductId = await productsModel.create(name, quantity);
@@ -10,7 +10,7 @@ async function create(name, quantity) {
 }
 
 async function update(id, name, quantity) {
-  await validations.isIdValid(id);
+  await validations.isIdValid(id, productsModel.getById);
   await validations.isNameValid(name);
   validations.isQuantityValid(quantity);
 
@@ -18,7 +18,7 @@ async function update(id, name, quantity) {
 }
 
 async function deleteDocument(id) {
-  await validations.isIdValid(id);
+  await validations.isIdValid(id, productsModel.getById);
 
   const deletedDocument = await productsModel.getById(id);
   await productsModel.deleteDocument(id);
@@ -33,7 +33,7 @@ async function getAll() {
 }
 
 async function getById(id) {
-  await validations.isIdValid(id);
+  await validations.isIdValid(id, productsModel.getById);
 
   const document = await productsModel.getById(id);
 
