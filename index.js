@@ -1,6 +1,7 @@
 const express = require('express');
 
 const products = require('./controller/products');
+const sales = require('./controller/sales');
 
 const app = express();
 const PORT = 3000;
@@ -15,6 +16,15 @@ app.route('/products')
   .get(products.getByIdProducts)
   .put(products.update)
   .delete(products.productDeletes);
+
+  app.route('/sales')
+  .get(sales.getAll)
+  .post(sales.create);
+
+app.route('/sales/:id')
+  .get(sales.findById)
+  .put(sales.updateSales)
+  .delete(sales.deleteSales);
 
 app.get('/', (_request, response) => {
   response.send();
