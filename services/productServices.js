@@ -45,7 +45,20 @@ const getProducts = async (productID) => {
   return product;
 };
 
+const updateProduct = async (productID, productData) => {
+  try {
+    validateProdSchema(productData);
+    await model.updateByID(dbConnection, 'products', productID, productData);
+    const [updatedItem] = await model.getByID(dbConnection, 'products', productID);
+  
+    return updatedItem;
+  } catch (error) {
+    throw newError(422, error.message, 'invalid_data');
+  }
+};
+
 module.exports = {
   createProduct,
   getProducts,
+  updateProduct,
 };

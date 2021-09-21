@@ -5,24 +5,33 @@ const createProduct = async (req, res, _next) => {
 
   const newProd = await services.products.createProduct({ name, quantity });
 
-  res.status(201).json(newProd);
+  return res.status(201).json(newProd);
 };
 
 const getAllProducts = async (_req, res, _next) => {
   const products = await services.products.getProducts();
 
-  res.status(200).json({ products });
+  return res.status(200).json({ products });
 };
 
 const getProductByID = async (req, res, _next) => {
   const { id } = req.params;
   const [products] = await services.products.getProducts(id);
 
-  res.status(200).json(products);
+  return res.status(200).json(products);
+};
+
+const updateProduct = async (req, res, _next) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const product = await services.products.updateProduct(id, { name, quantity });
+
+  return res.status(200).json(product);
 };
 
 module.exports = {
   createProduct,
   getAllProducts,
   getProductByID,
+  updateProduct,
 };

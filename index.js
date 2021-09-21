@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 app.post('/products', rescue(products.createProduct));
 app.get('/products/:id', rescue(products.getProductByID));
 app.get('/products', rescue(products.getAllProducts));
+app.put('/products/:id', rescue(products.updateProduct));
 
 app.post('/sales', sales.createSale);
 
