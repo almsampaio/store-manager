@@ -1,9 +1,16 @@
-const { createSales, getAllSales } = require('../models/Sales');
+const { createSales, getAllSales, getSaleById } = require('../models/Sales');
 
 const errQ = {
   err: {
     code: 'invalid_data',
     message: 'Wrong product ID or invalid quantity',
+  },
+};
+
+const errSale = {
+  err: {
+    code: 'not_found',
+    message: 'Sale not found',
   },
 };
 
@@ -27,7 +34,14 @@ const getAll = async () => {
   return getSales;
 };
 
+const getById = async (id) => {
+  const getSale = await getSaleById(id);
+  if (!getSale) return errSale;
+  return getSale;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };

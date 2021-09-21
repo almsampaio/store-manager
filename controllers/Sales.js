@@ -1,6 +1,7 @@
-const { create, getAll } = require('../services/Sales');
+const { create, getAll, getById } = require('../services/Sales');
 
 const HTTP_UNPROCESSABLE_STATUS = 422;
+const HTTP_NOT_FOUND_STATUS = 404;
 // const HTTP_CREATED_STATUS = 201;
 const HTTP_OK_STATUS = 200;
 
@@ -18,7 +19,15 @@ const getAllSales = async (_request, response) => {
   return response.status(HTTP_OK_STATUS).json({ sales: validyValues });
 };
 
+const getSaleById = async (request, response) => {
+  const { id } = request.params;
+  const validyValues = await getById(id);
+  if (validyValues.err) return response.status(HTTP_NOT_FOUND_STATUS).json(validyValues);
+  return response.status(HTTP_OK_STATUS).json(validyValues);
+};
+
 module.exports = {
   createSales,
   getAllSales,
+  getSaleById,
 };
