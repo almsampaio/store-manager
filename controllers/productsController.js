@@ -25,6 +25,21 @@ async function create(req, res, next) {
   }
 }
 
+async function update(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+
+    await productsService.update(id, name, quantity);
+
+    res.status(200).json({ id, name, quantity });
+  } catch (err) {
+    const error = errorDefault(err);
+
+    next(error);
+  }
+}
+
 async function getAll(_req, res, next) {
   try {
     const allDocuments = await productsService.getAll();
@@ -52,6 +67,7 @@ async function getById(req, res, next) {
 
 module.exports = {
   create,
+  update,
   getAll,
   getById,
 };
