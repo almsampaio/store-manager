@@ -12,7 +12,6 @@ async function create(itensSold) {
 
 async function update(id, itensSold) {
   const collection = await connection().then((db) => db.collection(collectionName));
-  console.log(itensSold);
 
   await collection.updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
 }
