@@ -39,11 +39,17 @@ const editById = async (id, sales) => {
   return product.value;
 };
 
+const deleteById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+  const sale = await db.collection('sales').findOneAndDelete({ _id: ObjectId(id) });
+  return sale;
+};
 
 module.exports = {
   getAll,
   getById,
   create,
   editById,
-  // deleteById,
+  deleteById,
 };

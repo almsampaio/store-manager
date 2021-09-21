@@ -48,10 +48,22 @@ const editById = async (id, itensSold) => {
   return sale;
 };
 
+const errFormatId = { 
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format',
+  } };
+  
+const deleteById = async (id) => {
+  const sale = await salesModel.deleteById(id);
+  if (!sale) return errFormatId;
+  return sale;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   editById,
-  // deleteById,
+  deleteById,
 };

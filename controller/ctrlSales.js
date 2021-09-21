@@ -32,10 +32,17 @@ const editById = async (req, res) => {
   return res.status(200).json(sales);
 };
 
+const deleteById = async (req, res) => {
+  const { id } = req.params;
+  const delet = await salesService.deleteById(id);
+  if (delet.err) return res.status(422).json(delet);
+  return res.status(200).json(delet);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   editById,
-  // deleteById,
+  deleteById,
 };
