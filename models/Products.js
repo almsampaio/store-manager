@@ -55,10 +55,21 @@ const update = async (id, name, quantity) => {
   }
 };
 
+const remove = async (id) => {
+  try {
+    const database = await connection();
+    const deletedProduct = await database.collection('products').deleteOne({ _id: ObjectId(id) });
+    return deletedProduct;
+  } catch (e) {
+    console.log(`Falha ao deletar produto id [${id}], erro [${e}]`);
+  }
+};
+
 module.exports = {
   create,
   getByName,
   getAll,
   getById,
   update,
+  remove,
 };

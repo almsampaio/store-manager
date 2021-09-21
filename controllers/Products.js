@@ -60,9 +60,17 @@ const update = async (req, res) => {
   });
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const removed = await productService.remove(id);
+
+  res.status(200).json(removed);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };
