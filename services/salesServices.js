@@ -62,7 +62,23 @@ const getSales = async (saleID) => {
   }
 };
 
+const updateSale = async (saleID, updatePayload) => {
+  try {
+    validateSaleArray(updatePayload);
+    await validateProductExistence(updatePayload);
+
+    const saleObj = { itensSold: updatePayload };
+    await model.updateByID(dbConnection, 'sales', saleID, saleObj);
+    const [updatedSale] = await model.getByID(dbConnection, 'sales', saleID);
+
+    return updatedSale;
+  } catch (error) {
+    throw newError(422, 'Wrong product ID or invalid quantity', 'invalid_data');
+  }
+};
+
 module.exports = {
   createSale,
   getSales,
+  updateSale,
 };

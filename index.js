@@ -19,6 +19,8 @@ app.delete('/products/:id', rescue(products.deleteProduct));
 app.post('/sales', rescue(sales.createSale));
 app.get('/sales/:id', rescue(sales.getSaleByID));
 app.get('/sales', rescue(sales.getAllSales));
+app.put('/sales/:id', rescue(sales.updateSale));
+app.delete('/sales/:id', rescue(sales.deleteSale));
 
 app.use(errorMiddleware);
 
