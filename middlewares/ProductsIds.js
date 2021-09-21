@@ -1,5 +1,4 @@
 const UNPROCESSABLE_ENTITY = 422;
-const NOT_FOUND = 404;
 const idLength = 24;
 
 const validateId = (req, res, next) => {
@@ -21,7 +20,7 @@ const validateSaleId = (req, res, next) => {
   const { id } = req.params;
 
   if (!id || id.length !== idLength) {
- return res.status(NOT_FOUND).json({
+ return res.status(422).json({
     err: {
       code: 'not_found',
       message: 'Sale not found',
