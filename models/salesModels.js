@@ -30,26 +30,36 @@ const getByName = async (wantedName) => {
 };
 
 // Adiciona novos produtos e retorna o produto criado
-const create = async (productsSold) => {
+const create = async (itensSold) => {
   const db = await connection();
   const { insertedIds } = await db.collection(TABLE_NAME)
-    .insertMany([{ itensSold: productsSold }]);
+    .insertMany([{ itensSold }]);
   return {
     _id: insertedIds[0],
-    itensSold: productsSold,
+    itensSold,
   };
 };
 
 // Edita um produto pelo id e retorna o produto editado
-const update = async (id, name, quantity) => {
+const update = async (id, itensSold) => {
   const db = await connection();
   await db.collection(TABLE_NAME)
     .updateOne(
       { _id: ObjectId(id) },
-      { $set: { name, quantity } },
+      { $set: { itensSold } },
     );
-  return { _id: id, name, quantity };
+  return { _id: id, itensSold };
 };
+
+// const updateModel = async (id, itensSold) => {
+//   if (!ObjectId.isValid(id)) { return null; }
+//   const db = await connection();
+//   const result = await db.collection('sales').updateOne(
+//       { _id: ObjectId(id) }, 
+//       { $set: { itensSold } },
+//     );
+//   return result;
+// };
 
 // Remove um produto pelo id
 const remove = async (id) => {

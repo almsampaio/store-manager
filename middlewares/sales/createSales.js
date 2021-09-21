@@ -1,12 +1,13 @@
 const salesServices = require('../../services/salesServices');
-const productsModels = require('../../models/productsModels');
+
+// const productsModels = require('../../models/productsModels');
 
 const unprocessable = {
   status: 422,
   code: 'invalid_data',
   message: 'Wrong product ID or invalid quantity',
 };
-
+/*
 // VALIDAÇÃO DA QUANTIDADE
 
 // Verifica se a quantidade é válida
@@ -62,7 +63,7 @@ const idValidtaion = async (req, res, next) => {
   }
   next();
 };
-
+*/
 // CRIAÇÃO DO PRODUTO
 
 // Middleware para o cadastro de vendas (sales)
@@ -79,7 +80,7 @@ const createSales = async (req, res, _next) => {
   }
 };
 
-module.exports = { quantityValidation, idValidtaion, createSales };
+module.exports = { createSales };
 
 /*
 // Middleware para o cadastro de vendas (sales)

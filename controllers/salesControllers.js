@@ -2,11 +2,12 @@ const { Router } = require('express');
 
 const { getAllSales } = require('../middlewares/sales/getAllSales');
 const { getSalesById } = require('../middlewares/sales/getSalesById');
-const {
-  quantityValidation,
-  idValidtaion,
-  createSales,
-} = require('../middlewares/sales/createSales');
+const { createSales } = require('../middlewares/sales/createSales');
+
+const { idProductValidation } = require('../middlewares/sales/idProductValidation');
+const { quantityValidation } = require('../middlewares/sales/quantityValidation');
+const { updateSales } = require('../middlewares/sales/updateSales');
+const { idSaleValidation } = require('../middlewares/sales/idSaleValidation');
 
 const router = Router();
 
@@ -20,11 +21,11 @@ router.get('/:id', getSalesById, async () => {
 });
 /* REQUISIÇÃO:
 http GET :3000/sales/6147451f1a2a8beb28afd8b7   // ok
-http GET :3000/products/614745121a2a8beb28afd8b65  // erro
-http GET :3000/products/1000                       // erro
+http GET :3000/sales/614745121a2a8beb28afd8b65  // erro
+http GET :3000/sales/1000                       // erro
 */
 
-router.post('/', quantityValidation, idValidtaion, createSales, async () => {
+router.post('/', quantityValidation, idProductValidation, createSales, async () => {
     // const { productId, quantity } = req.body;
     // const result = await productServices.create(productId, quantity);
     // const { status, err, data } = result;
@@ -32,7 +33,6 @@ router.post('/', quantityValidation, idValidtaion, createSales, async () => {
     // return res.status(status).json(data);
 });
 /* REQUISIÇÃO:
-
 echo '[{"productId": "614745121a2a8beb28afd8b6", "quantity": 56 }, {"productId": "614745121a2a8beb28afd8b6", "quantity": 54 }]' | http POST :3000/sales  // ok
 echo '[{"productId": "614745121a2a8beb28afd8b6", "quantity": 56 }, {"productId": "614745121a2a8beb28afd8bX", "quantity": 54 }]' | http POST :3000/sales  // erro
 echo '[{"productId": "614745121a2a8beb28afd8b6", "quantity": 56 }, {"productId": "614745121a2a8beb28afd8bX", "quantity": 0 }]' | http POST :3000/sales   // erro
@@ -40,18 +40,14 @@ echo '[{"productId": "614745121a2a8beb28afd8b6", "quantity": 56 }, {"productId":
 echo '[{"productId": "614745121a2a8beb28afd8b6", "quantity": 56 } ]' | http POST :3000/sales   // ok
 */
 
-// router.put('/:id',
-// formatNameValidation, quantityValidation,
-// idMongodbValidation, idExistsValidation, async (req, res) => {
-//   const { name, quantity } = req.body;
-//   const { id } = req.params;
-//   const result = await productServices.update(id, name, quantity);
-//   const { err } = result;
-//   if (err) { return res.status(err.code).json({ message: err.message }); }
-//   return res.status(200).json(result);
-// });
+router.put('/:id',
+idSaleValidation, quantityValidation, idProductValidation, updateSales, async () => {});
 /* REQUISIÇÃO:
-http PUT :3000/products/61488c0bf0d60d5fb2c9b826 name='notebook da xuxa ' quantity:=3     // ok
+http PUT :3000/sales/6147451f1a2a8beb28afd8b7S // erro
+
+echo '[{"productId": "614745121a2a8beb28afd8b6", "quantity": 100 }]' | http PUT :3000/sales/61490a8acee7ef280d4776ee
+
+http PUT :3000/sales/6147451f1a2a8beb28afd8b7 name='notebook da xuxa ' quantity:=3     // ok
 http PUT :3000/products/6147954451d5a787ea071c23 name='notebook multilaser' quantity:=3   // ok
 http PUT :3000/products/6147954451d5a787ea071c23 name='notebook positivo' quantity:=3     // erro
 */

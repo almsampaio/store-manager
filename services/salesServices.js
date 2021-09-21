@@ -24,17 +24,14 @@ const getByName = async (wantedName) => {
   return products;
 };
 
-const create = async (productsSold) => {
-  const insertedProduct = await salesModels.create(productsSold);
+const create = async (itensSold) => {
+  const insertedProduct = await salesModels.create(itensSold);
   return insertedProduct;
 };
 
-const update = async (id, name, quantity) => {
-  try {
-  const updatedProduct = await salesModels.update(id, name, quantity);
-  if (!updatedProduct) { throw new Error('not_found'); }
+const update = async (id, itensSold) => {
+  const updatedProduct = await salesModels.update(id, itensSold);
   return updatedProduct;
-  } catch (error) { return ({ err: { message: error.message, code: 404 } }); }
 };
 
 const remove = async (id) => {
