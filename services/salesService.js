@@ -7,4 +7,6 @@ const findSales = async () => salesModel.findSales();
 
 const findById = async (id) => salesModel.findById(id);
 
-module.exports = { create, findSales, findById };
+const update = async (id, itensSold) => salesModel.update(id, itensSold);
+
+module.exports = { create, findSales, findById, update };

@@ -26,4 +26,6 @@ router.post('/sales', salesMidllewares.validateSale, salesController.create);
 router.get('/sales/:id', salesController.findById);
 router.get('/sales', salesController.findSales);
 
+router.put('/sales/:id', salesMidllewares.validateSale, salesController.update);
+
 module.exports = router;

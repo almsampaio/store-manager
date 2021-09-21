@@ -11,7 +11,14 @@ const findById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
   return connection().then((db) =>
-    db.collection('sale').findOne({ _id: ObjectId(id) }));
+    db.collection('sales').findOne({ _id: ObjectId(id) }));
 };
 
-module.exports = { create, findSales, findById };
+const update = async (id, itensSold) => {
+  if (!ObjectId.isValid(id)) return null;
+  
+  return connection().then((db) =>
+    db.collection('sales').updateOne({ _id: ObjectId(id) }, { $set: { itensSold } }));
+};
+
+module.exports = { create, findSales, findById, update };

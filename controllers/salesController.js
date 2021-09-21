@@ -4,7 +4,7 @@ const messageErro = require('../utils/errosMsg');
 const create = async (req, res) => {
   const itensSold = req.body;
   const created = await salesService.create(itensSold);
-  console.log(created);
+
   return res.status(200).json(created);
 };
 
@@ -23,4 +23,15 @@ const findById = async (req, res) => {
   res.status(200).json(sales);
 };
 
-module.exports = { create, findSales, findById };
+const update = async (req, res) => {
+  const { id } = req.params;
+  const itensSold = req.body;
+
+  await salesService.update(id, itensSold);
+
+  const findSold = await salesService.findById(id);
+
+  return res.status(200).json(findSold);
+};
+
+module.exports = { create, findSales, findById, update };
