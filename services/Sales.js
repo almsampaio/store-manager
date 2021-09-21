@@ -24,22 +24,27 @@ const wrongId = {
 
 const validyQuantity = (arr) => {
   const validate = arr.find(({ quantity }) => quantity < 1 || typeof quantity === 'string');
-  if (validate) return errQ;
+  if (validate) throw errQ;
   return null;
 };
 
 const create = async (arrSales) => {
-  const val = await validyQuantity(arrSales);
-  if (!val) {
+  try {
+    await validyQuantity(arrSales);
     const createSale = await createSales(arrSales);
     return createSale;
+  } catch (err) {
+    return err;
   }
-  return val;
 };
 
 const getAll = async () => {
-  const getSales = await getAllSales();
-  return getSales;
+  try {
+    const getSales = await getAllSales();
+    return getSales;
+  } catch (err) {
+    return err;
+  }
 };
 
 const getById = async (id) => {
@@ -49,12 +54,13 @@ const getById = async (id) => {
 };
 
 const updateSale = async (idSale, itensSold) => {
-  const val = await validyQuantity(itensSold);
-  if (!val) {
+  try {
+    await validyQuantity(itensSold);
     const createSale = await setSale(idSale, itensSold);
     return createSale;
+  } catch (err) {
+    return err;
   }
-  return val;
 };
 
 const deleted = async (idSale) => {
