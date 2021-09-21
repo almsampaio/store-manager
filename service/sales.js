@@ -1,6 +1,5 @@
 const Joi = require('joi');
 const sales = require('../model/sales');
-const product = require('../model/poducts');
 
 const validation = (data) => {
   const schema = Joi.object({
@@ -15,7 +14,6 @@ const validation = (data) => {
 
 const createSales = async (data) => {
   const error = validation(data);
-  
   if (error) {
  return {
     statusCode: 422,
