@@ -23,11 +23,13 @@ const getAll = async (_req, res) => {
 };
 
 const getById = async (req, res) => {
-    const { id } = req.params;
+    const product = await productsService.getById(req.params.id);
 
-    const { product, err } = await productsService.getById(id);
-
-    if (err) return res.status(FOUR_HUND_FOUR).json({ err });
+    if (!product) {
+        return res.status(FOUR_TWO_TWO).json({
+        err: { code: 'invalid_data', message: 'Wrong id format' },
+    }); 
+}
 
     res.status(TWO_HUND).json(product);
 };

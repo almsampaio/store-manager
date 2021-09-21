@@ -4,9 +4,11 @@ const connection = require('./connection');
 const getAll = async () => {
     const db = await connection();
 
-    const products = await db.collection('products').find({}).toArray();
+    const result = await db.collection('products').find({}).toArray();
 
-    return products;
+    const product = { products: result };
+
+    return product;
 };
 
 const create = async (name, quantity) => {
@@ -20,22 +22,26 @@ const create = async (name, quantity) => {
 const getById = async (id) => {
     if (!ObjectId.isValid(id)) return null;
 
-    return connection()
+    const db = await connection();
 
-    .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
+    const product = await db.collection('products').findOne({ _id: ObjectId(id) });
+
+    return product;
 };
 
 const remove = async (id) => {
     if (!ObjectId.isValid(id)) return null;
 
-    return connection()
+    const db = await connection();
 
-    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+    await db.collection('products').deleteOne({ _id: ObjectId(id) });
 };
 
 const findByName = async (name) => {
     const db = await connection();
+
     const product = await db.collection('products').findOne({ name });
+
     return product;
 };
 
