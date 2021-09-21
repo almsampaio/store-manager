@@ -53,35 +53,35 @@ async function create(req, res, next) {
 //   }
 // }
 
-// async function getAll(_req, res, next) {
-//   try {
-//     const allDocuments = await salesService.getAll();
+async function getAll(_req, res, next) {
+  try {
+    const allDocuments = await salesService.getAll();
 
-//     res.status(200).json({ sales: allDocuments });
-//   } catch (err) {
-//     const error = errorDefault(err);
+    res.status(200).json({ sales: allDocuments });
+  } catch (err) {
+    const error = errorDefault(err);
 
-//     next(error);
-//   }
-// }
+    next(error);
+  }
+}
 
-// async function getById(req, res, next) {
-//   try {
-//     const { id } = req.params;
-//     const document = await salesService.getById(id);
+async function getById(req, res, next) {
+  try {
+    const { id } = req.params;
+    const document = await salesService.getById(id);
 
-//     res.status(200).json(document);
-//   } catch (err) {
-//     const error = errorDefault(err);
+    res.status(200).json(document);
+  } catch (err) {
+    const error = errorDefault(err);
 
-//     next(error);
-//   }
-// }
+    next(error);
+  }
+}
 
 module.exports = {
   create,
   // update,
   // deleteDocument,
-  // getAll,
-  // getById,
+  getAll,
+  getById,
 };
