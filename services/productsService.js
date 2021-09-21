@@ -2,11 +2,19 @@ const productsModel = require('../models/productsModel');
 const validations = require('./validations/productsValidation');
 
 async function create(name, quantity) {
-  await validations.isNameValid(name);
+  await validations.isNameValid(name, true);
   validations.isQuantityValid(quantity);
 
   const newProductId = await productsModel.create(name, quantity);
   return newProductId;
+}
+
+async function update(id, name, quantity) {
+  await validations.isIdValid(id);
+  await validations.isNameValid(name);
+  validations.isQuantityValid(quantity);
+
+  await productsModel.update(id, name, quantity);
 }
 
 async function getAll() {
@@ -25,6 +33,7 @@ async function getById(id) {
 
 module.exports = {
   create,
+  update,
   getAll,
   getById,
 };
