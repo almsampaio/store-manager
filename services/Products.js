@@ -74,7 +74,8 @@ const create = async (name, quantity) => {
   try {
     const respName = await verifyName(name);
     const respQuantity = await verifyQuantity(quantity);
-    throw await createProduct(respName, respQuantity);
+    const createP = await createProduct(respName, respQuantity);
+    return createP;
   } catch (err) {
     return err;
   }
@@ -82,7 +83,8 @@ const create = async (name, quantity) => {
 
 const getAll = async () => {
   try {
-    throw await getAllProducts();
+    const getProducts = await getAllProducts();
+    return getProducts;
   } catch (err) {
     return err;
   }
@@ -100,7 +102,8 @@ const update = async (id, name, quantity) => {
     const respName = await verifyUpdateName(name);
     // console.log(respName);
     const respQuantity = await verifyQuantity(quantity);
-    throw await setProduct(id, respName, respQuantity);
+    const setP = await setProduct(id, respName, respQuantity);
+    return setP;
   } catch (err) {
     return err;
   }
