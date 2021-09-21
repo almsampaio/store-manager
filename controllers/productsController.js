@@ -51,7 +51,6 @@ const update = async (req, res) => {
 
 const exclude = async (req, res) => {
   const { id } = req.params;
-  console.log('Controller - exclude');
   const product = await ProductsService.exclude(id);
   if (!product) {
     res.status(UNPROCESSABLE_ENTITY).json({

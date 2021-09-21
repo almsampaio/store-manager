@@ -38,9 +38,25 @@ const update = async (req, res) => {
   }
 };
 
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  const product = await SalesService.exclude(id);
+  if (!product) {
+    res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    }); 
+  }
+
+  return res.status(SUCCESS_OK).json(product);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  exclude,
 };

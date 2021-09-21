@@ -1,0 +1,16 @@
+use('StoreManager');
+
+db.products.insertOne({ name: 'Produto Silva', quantity: 10 });
+
+db.products.find();
+
+db.sales.insertOne({ "itensSold": [{ "productId": "5f43cbf4c45ff5104986e81d", "quantity": 2 }] }
+)
+
+db.sales.find();
+use('StoreManager');
+
+use('StoreManager');
+db.products.find();
+
+db.products.findOne({name: 'Produto Silva'});
