@@ -15,4 +15,18 @@ const findById = async (id) => {
   const db = await connection();
   return db.collection('sales').findOne({ _id: ObjectId(id) });
 };
-module.exports = { createNewSales, getAllSales, findById };
+
+const updateSales = async (id, data) => {
+  if (!ObjectId.isValid(id)) return null;
+  console.log('Aquiiii', data);
+  const db = await connection();
+  const update = await db.collection('sales')
+    .findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: { itensSold: data } },
+      { returnOriginal: false },
+    );
+  if (!update) return null;
+  return update;
+};
+module.exports = { createNewSales, getAllSales, findById, updateSales };

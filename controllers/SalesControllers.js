@@ -11,8 +11,8 @@ const createNewSales = async (req, res) => {
 };
 
 const listSales = async (_req, res) => {
-  const salesAll = await Sales.listSales();
-  res.status(200).json({ sales: salesAll });
+  const response = await Sales.listSales();
+  res.status(200).json({ sales: response });
 };
 
 const listASalesById = async (req, res) => {
@@ -24,4 +24,20 @@ const listASalesById = async (req, res) => {
   res.status(200).json(response);
 };
 
-module.exports = { createNewSales, listSales, listASalesById };
+const updateSales = async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  const response = await Sales.updateSales(id, data);
+  console.log('oiiiii', response);
+  if (response === null) {
+    return res.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  }
+  res.status(200).json(response.value);
+};
+
+module.exports = { createNewSales, listSales, listASalesById, updateSales };

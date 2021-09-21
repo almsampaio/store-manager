@@ -35,4 +35,17 @@ const listASalesById = (id) => {
   return Sales.findById(id);
 };
 
-module.exports = { createNewSales, listSales, listASalesById };
+const updateSales = async (id, data) => {
+  const response = Joi.array().items(
+    Joi.object({
+      productId: Joi.string().required(),
+      quantity: Joi.number().integer().min(1).required(),
+    }),
+  ).validate(data);
+  console.log('OI', response);
+  if (response.error) return null;
+  const newSale = await Sales.updateSales(id, data);
+  return newSale;
+};
+
+module.exports = { createNewSales, listSales, listASalesById, updateSales };

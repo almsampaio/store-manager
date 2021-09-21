@@ -12,3 +12,7 @@ module.exports = router;
 router.get('/', Sales.listSales);
 // Lista as vendas pelo Id
 router.get('/:id', Sales.listASalesById);
+
+// Requisito 7 - Atualizar uma venda
+router.put('/:id', Sales.updateSales);
+module.exports = router;
