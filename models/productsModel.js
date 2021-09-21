@@ -26,8 +26,6 @@ const update = async (id, name, quantity) => {
 };
 
 const exclude = (id) => {
-  console.log('Controller - exclude');
-  
   connection()
     .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
 };

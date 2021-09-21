@@ -8,8 +8,12 @@ const create = (sale) => connection()
 const getAll = () => connection()
   .then((db) => db.collection('sales').find().toArray());
 
-const getById = (id) => connection()
-  .then((db) => db.collection('sales').findOne(ObjectId(id)));
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+  const sale = await db.collection('sales').findOne(ObjectId(id));
+  return sale;
+};
 
 const update = async (id, itensSold) => {
     if (!ObjectId.isValid(id)) return null;

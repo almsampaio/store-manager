@@ -10,16 +10,25 @@ const create = async (req, res) => {
 const getAll = (_req, res) => SalesService.getAll()
   .then((sales) => res.status(SUCCESS_OK).json({ sales }));
 
-const getById = (req, res) => {
+const getById = async (req, res) => {
   const { id } = req.params;
-  SalesService.getById(id)
-    .then((sale) => res.status(SUCCESS_OK).json(sale))
-    .catch(() => res.status(NOT_FOUND).json({
-      err: {
-        code: 'not_found',
-        message: 'Sale not found',
-      },
-    }));
+  const sale = await SalesService.getById(id);
+
+  if (!sale) {
+    return res.status(NOT_FOUND).json({ err: {
+      code: 'not_found',
+      message: 'Sale not found',
+    } }); 
+  }
+
+  return res.status(SUCCESS_OK).json(sale);
+    // .then((sale) => res.status(SUCCESS_OK).json(sale))
+    // .catch(() => res.status(NOT_FOUND).json({
+    //   err: {
+    //     code: 'not_found',
+    //     message: 'Sale not found',
+    //   },
+    // }));
 };
 
 const update = async (req, res) => {
