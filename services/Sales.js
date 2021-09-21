@@ -30,8 +30,14 @@ const getById = async (id) => {
   return { status: StatusCodes.OK, data: sale };
 };
 
+const update = async (id, itensSold) => {
+  const sale = await Sales.update(id, itensSold);
+  return { status: StatusCodes.OK, data: sale };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
