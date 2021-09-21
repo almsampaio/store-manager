@@ -2,9 +2,13 @@ const salesModel = require('../models/salesModel');
 const productsModel = require('../models/productsModel');
 const validations = require('./validations');
 
-async function create(itensSold) {
-  const salesErrorMessage = 'Wrong product ID or invalid quantity';
+const salesErrorMessage = 'Wrong product ID or invalid quantity';
+const customInfo = {
+  message: 'Sale not found',
+  status: 'notFound',
+};
 
+async function create(itensSold) {
   await Promise.all(itensSold.map(async ({ productId, quantity }) => {
     await validations.isIdValid(productId, productsModel.getById, salesErrorMessage);
     validations.isQuantityValid(quantity, salesErrorMessage);
@@ -14,13 +18,16 @@ async function create(itensSold) {
   return newSalesId;
 }
 
-// async function update(id, name, quantity) {
-//   await validations.isIdValid(id);
-//   await validations.isNameValid(name);
-//   validations.isQuantityValid(quantity);
+async function update(id, itensSold) {
+  await validations.isIdValid(id, salesModel.getById, customInfo);
 
-//   await productsModel.update(id, name, quantity);
-// }
+  await Promise.all(itensSold.map(async ({ productId, quantity }) => {
+    await validations.isIdValid(productId, productsModel.getById, salesErrorMessage);
+    validations.isQuantityValid(quantity, salesErrorMessage);
+  }));
+
+  await salesModel.update(id, itensSold);
+}
 
 // async function deleteDocument(id) {
 //   await validations.isIdValid(id);
@@ -38,11 +45,6 @@ async function getAll() {
 }
 
 async function getById(id) {
-  const customInfo = {
-    message: 'Sale not found',
-    status: 'notFound',
-  };
-
   await validations.isIdValid(id, salesModel.getById, customInfo);
 
   const document = await salesModel.getById(id);
@@ -52,7 +54,7 @@ async function getById(id) {
 
 module.exports = {
   create,
-  // update,
+  update,
   // deleteDocument,
   getAll,
   getById,
