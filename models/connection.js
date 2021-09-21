@@ -4,12 +4,12 @@ const OPTIONS = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 };
-// URL para testes locais
+// URL para o evaluator
 const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
+// URL para testes locais
 // const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
 const DB_NAME = 'StoreManager';
 
-// URL para o evaluator
 
 let db = null;
 
