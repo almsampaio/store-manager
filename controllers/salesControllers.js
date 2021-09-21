@@ -8,6 +8,7 @@ const { idProductValidation } = require('../middlewares/sales/idProductValidatio
 const { quantityValidation } = require('../middlewares/sales/quantityValidation');
 const { updateSales } = require('../middlewares/sales/updateSales');
 const { idSaleValidation } = require('../middlewares/sales/idSaleValidation');
+const { removeSales } = require('../middlewares/sales/removeSales');
 
 const router = Router();
 
@@ -52,18 +53,11 @@ http PUT :3000/products/6147954451d5a787ea071c23 name='notebook multilaser' quan
 http PUT :3000/products/6147954451d5a787ea071c23 name='notebook positivo' quantity:=3     // erro
 */
 
-// router.delete('/:id',
-// idMongodbValidation, idExistsValidation,
-//   async (req, res) => {
-//   const { id } = req.params;
-//   const result = await productServices.remove(id);
-//   const { status, err, data } = result;
-//   if (err) { return res.status(status).json({ err }); }
-//   return res.status(status).json(data);
-// });
+router.delete('/:id',
+idSaleValidation, removeSales, async () => { });
 /* REQUISIÇÃO:
-http DELETE :3000/products/6147af669098e4a27eea5cec   // ok
-http DELETE :3000/products/6147954451d5a787ea071c23   // erro
+http DELETE :3000/sales/61490a8acee7ef280d4776ee   // ok
+http DELETE :3000/sales/61490a8acee7ef280d4776ees   // error
 */
 
 module.exports = router;

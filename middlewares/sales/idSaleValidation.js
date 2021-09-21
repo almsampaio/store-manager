@@ -3,7 +3,7 @@ const salesServices = require('../../services/salesServices');
 const unprocessable = {
   status: 422,
   code: 'invalid_data',
-  message: 'Wrong product ID or invalid quantity',
+  message: 'Wrong sale ID format',
 };
 
 // VALIDAÇÃO DO NOME

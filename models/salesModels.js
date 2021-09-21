@@ -51,16 +51,6 @@ const update = async (id, itensSold) => {
   return { _id: id, itensSold };
 };
 
-// const updateModel = async (id, itensSold) => {
-//   if (!ObjectId.isValid(id)) { return null; }
-//   const db = await connection();
-//   const result = await db.collection('sales').updateOne(
-//       { _id: ObjectId(id) }, 
-//       { $set: { itensSold } },
-//     );
-//   return result;
-// };
-
 // Remove um produto pelo id
 const remove = async (id) => {
   const db = await connection();
