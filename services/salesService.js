@@ -29,14 +29,18 @@ async function update(id, itensSold) {
   await salesModel.update(id, itensSold);
 }
 
-// async function deleteDocument(id) {
-//   await validations.isIdValid(id);
+async function deleteDocument(id) {
+  const customDeleteInfo = { ...customInfo };
+  customDeleteInfo.message = 'Wrong sale ID format';
+  customDeleteInfo.status = null;
 
-//   const deletedDocument = await productsModel.getById(id);
-//   await productsModel.deleteDocument(id);
+  await validations.isIdValid(id, salesModel.getById, customDeleteInfo);
 
-//   return deletedDocument;
-// }
+  const deletedDocument = await salesModel.getById(id);
+  await salesModel.deleteDocument(id);
+
+  return deletedDocument;
+}
 
 async function getAll() {
   const allDocuments = await salesModel.getAll();
@@ -55,7 +59,7 @@ async function getById(id) {
 module.exports = {
   create,
   update,
-  // deleteDocument,
+  deleteDocument,
   getAll,
   getById,
 };
