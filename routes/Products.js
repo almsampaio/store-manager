@@ -12,4 +12,6 @@ router.get('/:id', Products.getById);
 
 router.put('/:id', validations.validateName, validations.validateQuantity, Products.update);
 
+router.delete('/:id', Products.remove);
+
 module.exports = router;

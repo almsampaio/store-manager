@@ -32,9 +32,21 @@ const update = async (id, data) => {
   return { status: StatusCodes.OK, data: product };
 };
 
+const remove = async (id) => {
+  const checkProduct = await Products.getById(id);
+  const product = await Products.remove(id);
+
+  if (!checkProduct) {
+    return { status: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Wrong id format' };
+  }
+
+  return { status: StatusCodes.OK, data: product };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  remove,
 };
