@@ -46,8 +46,24 @@ const validateData = (data, code, message) => {
   return true;
 };
 
+const salesValidateQuantity = (sales) => {
+  if (!sales
+    || !sales.every((item) => item.quantity > 0)
+    || !sales.some((item) => typeof item.quantity !== 'string')) {
+    return { isValid: false,
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    };
+  }
+
+  return true;
+};
+
 module.exports = {
   validateName,
   validateQuantity,
   validateData,
+  salesValidateQuantity,
 };
