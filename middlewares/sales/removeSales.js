@@ -9,7 +9,6 @@ const updateQuantityInStock = async (id, quantityReturned) => {
 };
 
 const updateAllProducts = (productsReturned) => {
-  console.log(productsReturned);
   productsReturned.map((product) => updateQuantityInStock(product.productId, product.quantity));
 };
 
