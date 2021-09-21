@@ -17,6 +17,25 @@ const insertSale = async (itensSold) => {
   return { status: 200, data: result };
 };
 
+const findAll = async () => {
+  const sales = await salesModel.findAll();
+
+  return sales;
+};
+
+const findById = async (id) => {
+  const sale = await salesModel.findById(id);
+
+  if (!sale) {
+    return { err: { code: 'not_found',
+      message: 'Sale not found' } };
+  }
+
+  return sale;
+};
+
 module.exports = {
   insertSale,
+  findAll,
+  findById,
 };

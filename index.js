@@ -25,5 +25,7 @@ app.delete('/products/:id', productControlle.excludeProduct);
 
 // Sales
 app.post('/sales', validtion.isValidSales, saleControlle.insertSale);
+app.get('/sales', saleControlle.findAll);
+app.get('/sales/:id', saleControlle.findById);
 
 app.listen(PORT, () => console.log(`On-line na porta ${PORT}`));
