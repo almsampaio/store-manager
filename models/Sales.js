@@ -53,9 +53,20 @@ const update = async (id, sale) => {
   }
 };
 
+const remove = async (id) => {
+  try {
+    const database = await connection();
+    const removedSale = await database.collection('sales').deleteOne(ObjectId(id));
+    return removedSale;
+  } catch (e) {
+    console.log(`Não foi possível deletar a venda id [${id}], erro [${e}]`);
+  }
+};
+
 module.exports = {
   insert,
   getById,
   getAll,
   update,
+  remove,
 };

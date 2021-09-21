@@ -40,9 +40,17 @@ const update = async (req, res) => {
   return res.status(200).json(updated.value);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const removed = await salesService.remove(id);
+
+  return res.status(200).json(removed);
+};
+
 module.exports = {
   insert,
   getById,
   getAll,
   update,
+  remove,
 };
