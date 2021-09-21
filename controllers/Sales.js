@@ -5,7 +5,7 @@ const insert = async (req, res) => {
 
   const sale = await salesService.insert(itensSold);
 
-  res.status(200).json(sale);
+  return res.status(200).json(sale);
 };
 
 const getById = async (req, res) => {
@@ -22,7 +22,7 @@ const getById = async (req, res) => {
     });
   }
 
-  res.status(200).json({ sale });
+  return res.status(200).json({ sale });
 };
 
 const getAll = async (_req, res) => {
@@ -31,8 +31,18 @@ const getAll = async (_req, res) => {
   return res.status(200).json({ sales });
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const sale = req.body;
+
+  const updated = await salesService.update(id, sale);
+
+  return res.status(200).json(updated.value);
+};
+
 module.exports = {
   insert,
   getById,
   getAll,
+  update,
 };

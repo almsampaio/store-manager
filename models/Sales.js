@@ -33,8 +33,29 @@ const getAll = async () => {
   }
 };
 
+const update = async (id, sale) => {
+  try {
+    const database = await connection();
+    const updatedSale = await database.collection('sales').findOneAndUpdate(
+      {
+        _id: ObjectId(id),
+      }, 
+      {
+        $set: { itensSold: sale },
+      },
+      {
+        returnOriginal: false,
+      },
+    );
+    return updatedSale;
+  } catch (e) {
+    console.log('Não foi possível atualizar produto');
+  }
+};
+
 module.exports = {
   insert,
   getById,
   getAll,
+  update,
 };
