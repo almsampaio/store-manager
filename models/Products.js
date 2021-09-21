@@ -2,7 +2,7 @@ const connection = require('./conection');
 
 const COLLECTION_PRODUCTS = 'products';
 
-const addProduct = async (name, quantity) => {
+const create = async (name, quantity) => {
   connection().then((db) => db.collection(COLLECTION_PRODUCTS).insertOne({ name, quantity }))
   .then((result) => ({ id: result.insertedId, name, quantity }));
 };
@@ -13,6 +13,6 @@ const getAllProducts = async () => {
 };
 
 module.exports = {
-  addProduct,
+  create,
   getAllProducts,
 };
