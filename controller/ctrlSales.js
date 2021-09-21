@@ -23,10 +23,19 @@ const getById = async (req, res) => {
   return res.status(200).json(sale);
 };
 
+const editById = async (req, res) => {
+  const itensSold = req.body;
+  const { id } = req.params;
+  console.log('id vindo da url', id);
+  const sales = await salesService.editById(id, itensSold);
+  if (sales.err) return res.status(422).json(sales);
+  return res.status(200).json(sales);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
- /*  editById,
-  deleteById, */
+  editById,
+  // deleteById,
 };

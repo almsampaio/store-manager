@@ -25,19 +25,25 @@ const getAll = async () => {
   return result;
 };
 
-const editById = async (id, itensSold) => {
-  console.log('chegou do serv para model', id, itensSold);
+const editById = async (id, sales) => {
+  console.log('id vinde da serv', id);
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
-  await db.collection('products')
-    .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
-  return { id, itensSold };
+  const product = await db.collection('sales')
+    .findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: { itensSold: sales } },
+      { returnOriginal: false },
+    );
+  console.log('respoata do db em model', product);
+  return product.value;
 };
+
 
 module.exports = {
   getAll,
   getById,
   create,
   editById,
-  /*  deleteById, */
+  // deleteById,
 };

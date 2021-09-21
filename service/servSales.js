@@ -28,13 +28,6 @@ const errIdNotFind = {
   },
 };
 
-const errStringOrQuantity = {
-  err: {
-    code: 'invalid_data',
-    message: 'Wrong product ID or invalid quantity',
-  },
-};
-
 const getById = async (productId) => {
   const getbyId = await salesModel.getById(productId);
   if (!getbyId) return errIdNotFind;
@@ -47,11 +40,12 @@ const getAll = async () => {
 };
 
 const editById = async (id, itensSold) => {
-  const [{ quantity }] = itensSold;
-  if (quantity < 1 || typeof quantity === 'string') return errStringOrQuantity;
+  // console.log('id vinde da crtl', id);
+  const quantity = verificaQuantidade(itensSold);
+  if (quantity) return quantity;
   const sale = await salesModel.editById(id, itensSold);
-  console.log('cegou do ctrl para o ser', sale);
-  return { sale };
+  // console.log('cegou do ctrl para o ser', sale);
+  return sale;
 };
 
 module.exports = {
