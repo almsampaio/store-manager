@@ -21,6 +21,10 @@ exports.getById = async (req, res) => {
 exports.createSale = async (req, res) => {
   const { message, code, sale } = await saleService.create(req.body);
 
+  if (code && code === 'stock_problem') {
+    return res.status(404).json({ err: { code, message } });
+  }
+
   if (message) {
     return res.status(422).json({ err: { code, message } });
   }

@@ -5,6 +5,14 @@ const validateSaleQuantity = (salesArr) =>
   salesArr.every((sale) => typeof sale.quantity === 'number')
   && salesArr.every((sale) => sale.quantity >= 1);
 
+const validateProductsQties = async (salesArr) => {
+  const verifiedProducts = await Promise.all(salesArr.map(
+    (product) => productService.verifyQty(product.productId, product.quantity),
+  ));
+
+  return !verifiedProducts.includes(false);
+};
+
 exports.create = async (salesArr) => {
   if (!validateSaleQuantity(salesArr)) {
     return {
@@ -13,6 +21,14 @@ exports.create = async (salesArr) => {
     };
   }
   const sale = await Sale.createSale(salesArr);
+
+  const qtiesOk = await validateProductsQties(salesArr);
+  if (!qtiesOk) {
+    return {
+      message: 'Such amount is not permitted to sell',
+      code: 'stock_problem',
+    };
+  }
 
   await Promise.all(
     salesArr.map(({ productId, quantity }) => productService.updateQtyById(productId, quantity)),

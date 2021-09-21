@@ -61,6 +61,15 @@ exports.delete = async (id) => {
   return deletedProduct;
 };
 
+exports.verifyQty = async (id, quantity) => {
+  const product = await Product.getById(id);
+  if ((product.quantity - quantity) < 0) {
+    return false;
+  }
+
+  return true;
+};
+
 exports.updateQtyById = async (id, quantity) => {
   const product = await Product.updateProductQuantity({ id, quantity });
 
