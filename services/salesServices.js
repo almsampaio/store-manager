@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const { dbConnection } = require('../models/connection');
 const model = require('../models');
@@ -40,6 +40,29 @@ const createSale = async (saleArray) => {
   }
 };
 
+const validateMongoID = (productID) => {
+  const validID = ObjectId.isValid(productID);
+  if (!validID) throw newError(422, 'Wrong id format', 'invalid_data');
+};
+
+const getSales = async (saleID) => {
+  if (!saleID) {
+    const productsArray = await model.getAll(dbConnection, 'sales');
+
+    return productsArray;
+  }
+
+  try {
+    validateMongoID(saleID);
+    const [sale] = await model.getByID(dbConnection, 'sales', saleID);
+
+    return sale;
+  } catch (error) {
+    throw newError(404, 'Sale not found', 'not_found');
+  }
+};
+
 module.exports = {
   createSale,
+  getSales,
 };
