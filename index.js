@@ -1,3 +1,5 @@
+// projeto realizado com ajuda dos estudantes Nilson Ribeiro e Adelino Junior.
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const { addProduct, getAll, getById, update } = require('./controllers/products');
