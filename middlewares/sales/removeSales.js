@@ -1,23 +1,24 @@
 const salesServices = require('../../services/salesServices');
+const productsModels = require('../../models/productsModels');
 
-// const unprocessable = {
-//   status: 422,
-//   code: 'invalid_data',
-//   message: 'Wrong product ID or invalid quantity',
-// };
+const updateQuantityInStock = async (id, quantityReturned) => {
+  const product = await productsModels.getById(id);
+  const { name, quantity } = product;
+  const quantityTotalInStock = (quantity + quantityReturned);
+  await productsModels.update(id, name, quantityTotalInStock);
+};
 
-// Middleware para o cadastro de vendas (sales)
+const updateAllProducts = (productsReturned) => {
+  console.log(productsReturned);
+  productsReturned.map((product) => updateQuantityInStock(product.productId, product.quantity));
+};
+
+// Middleware para remover vendas (sales)
 const removeSales = async (req, res, _next) => {
   const { id } = req.params;
-  // try {
-    const data = await salesServices.remove(id);
-    // if (!data) throw new Error(unprocessable.message);
-    return res.status(200).json(data);
-  // } catch (error) {
-  //   return res.status(unprocessable.status).json({
-  //     err: { code: unprocessable.code, message: error.message },
-  //   });
-  // }
+  const productsReturned = await salesServices.remove(id);
+  updateAllProducts(productsReturned.itensSold);
+  return res.status(200).json(productsReturned);
 };
 
 module.exports = { removeSales };

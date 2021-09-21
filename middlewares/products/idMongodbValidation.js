@@ -1,6 +1,4 @@
 const { ObjectId } = require('mongodb');
-// const productServices = require('../services/productsServices');
-const productsModels = require('../models/productsModels');
 
 const invalidErros = {
   code: 'invalid_data',
@@ -23,18 +21,4 @@ const idMongodbValidation = async (req, res, next) => {
   next();
 };
 
-// Middleware para verificar se o id do produto existe
-const idExistsValidation = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const productExists = await productsModels.getById(id);
-    if (!productExists) throw new Error(invalidErros.idNotExists);
-  } catch (error) {
-    return res.status(unprocessableEntity).json({
-      err: { code: invalidErros.code, message: error.message },
-    });
-  }
-  next();
-};
-
-module.exports = { idMongodbValidation, idExistsValidation };
+module.exports = { idMongodbValidation };

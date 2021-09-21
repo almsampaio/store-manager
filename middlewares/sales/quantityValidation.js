@@ -4,8 +4,6 @@ const unprocessable = {
   message: 'Wrong product ID or invalid quantity',
 };
 
-// VALIDAÇÃO DA QUANTIDADE
-
 // Verifica se a quantidade é válida
 const validQuantity = (productsSold) => productsSold.every((ele) => (
   typeof ele.quantity === 'number'
@@ -13,7 +11,7 @@ const validQuantity = (productsSold) => productsSold.every((ele) => (
   && ele.quantity !== undefined
   && ele.quantity !== null));
 
-// Middleware para verificação da quantidade
+// Middleware para verificar se a quantidade informada é válida
 const quantityValidation = async (req, res, next) => {
   const productsSold = req.body;
   const quantityIsValid = validQuantity(productsSold);

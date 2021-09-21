@@ -6,8 +6,7 @@ const notFound = {
   message: 'Sale not found',
 };
 
-// VALIDAÇÃO DO NOME
-// Middleware para validação do nome
+// Middleware para retornar o id da venda (sales)
 const getSalesById = async (req, res, _next) => {
   const { id } = req.params;
   try {

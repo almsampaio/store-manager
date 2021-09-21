@@ -1,21 +1,13 @@
 const salesModels = require('../models/salesModels');
 
 const getAll = async () => {
-  try {
     const sales = await salesModels.getAll();
     return sales;
-  } catch (error) {
-    return ({ message: error.message });
-  }
 };
 
 const getById = async (id) => {
-  try {
   const sales = await salesModels.getById(id);
   return sales;
-  } catch (error) {
-    return ({ message: error.message });
-  }
 };
 
 const getByName = async (wantedName) => {

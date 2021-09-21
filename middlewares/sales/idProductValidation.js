@@ -16,11 +16,12 @@ const idExists = async (id) => {
   // return idSearch;
 };
 
-// Itera a verificação em todos os elementos do array
+// Itera a verificação do id em todos os elementos do array
+// Se todos os ids existirem, retorna true, se um ou mais ids não existirem, retorna false
 const validId = async (productsSold) => {
-  const arrayPromisses = productsSold.map((product) => idExists(product.productId));
-  const arrayPromissesResolved = await Promise.all(arrayPromisses);
-  return arrayPromissesResolved.every((ele) => ele);
+  const arrayPromisses = productsSold.map((product) => idExists(product.productId)); // gera um array de promessas
+  const arrayPromissesResolved = await Promise.all(arrayPromisses); // resolve todas as promessas do array, salvando um array de boleanos
+  return arrayPromissesResolved.every((ele) => ele); // verifica o array de boleanos
 };
 
 // Middleware para verificar se o id do produto existe

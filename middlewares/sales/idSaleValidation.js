@@ -7,7 +7,7 @@ const unprocessable = {
 };
 
 // VALIDAÇÃO DO NOME
-// Middleware para validação do nome
+// Middleware para verificar se o id da venda (sales) existe
 const idSaleValidation = async (req, res, next) => {
   const { id } = req.params;
   try {

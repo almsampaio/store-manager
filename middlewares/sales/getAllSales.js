@@ -6,8 +6,7 @@ const notFound = {
   message: 'Sale not found',
 };
 
-// VALIDAÇÃO DO NOME
-// Middleware para validação do nome
+// Middleware para retornar todas as vendas (sales)
 const getAllSales = async (_req, res, _next) => {
   try {
     const data = await salesServices.getAll();
