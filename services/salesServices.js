@@ -5,6 +5,14 @@ const create = async (sale) => {
   return newSale;
 };
 
+const getAll = () => SalesModel
+  .getAll().then((result) => result);
+
+const getById = (id) => SalesModel
+  .getById(id).then((result) => result);
+
 module.exports = { 
   create,
+  getAll,
+  getById,
 };
