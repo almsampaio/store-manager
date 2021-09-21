@@ -5,7 +5,8 @@ const COLLECTION_NAME = 'products';
 
 exports.create = async ({ name, quantity }) => {
   const db = await connection();
-  const { ops: [newProduct] } = await db.collection(COLLECTION_NAME).insertOne({ name, quantity });
+  const { ops: [newProduct] } = await db
+    .collection(COLLECTION_NAME).insertOne({ name, quantity });
 
   return newProduct;
 };
@@ -45,8 +46,6 @@ exports.delete = async (id) => {
   const db = await connection();
   const deletedProduct = await db.collection(COLLECTION_NAME)
     .deleteOne({ _id: ObjectId(id) });
-
-    console.log(deletedProduct);
 
   return deletedProduct;
 };
