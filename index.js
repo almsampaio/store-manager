@@ -22,10 +22,7 @@ app.get('/sales/:id', salesController.getById);
 //   const { id } = req.params;
 // });
 
-// app,put('/products/:id', async (req, res) => {
-//   const { id } = req.params;
-
-// });
+app.put('/products/:id', productsController.update);
 
 app.post('/products', productsController.create);
 
