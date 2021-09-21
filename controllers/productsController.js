@@ -40,6 +40,20 @@ async function update(req, res, next) {
   }
 }
 
+async function deleteDocument(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const deletedDocument = await productsService.deleteDocument(id);
+
+    res.status(200).json(deletedDocument);
+  } catch (err) {
+    const error = errorDefault(err);
+
+    next(error);
+  }
+}
+
 async function getAll(_req, res, next) {
   try {
     const allDocuments = await productsService.getAll();
@@ -68,6 +82,7 @@ async function getById(req, res, next) {
 module.exports = {
   create,
   update,
+  deleteDocument,
   getAll,
   getById,
 };
