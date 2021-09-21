@@ -23,7 +23,7 @@ const createNewSales = async (data) => {
 
 const listSales = () => Sales.getAllSales();
 
-const listASalesById = (id) => {
+const listASalesById = async (id) => {
   if (!ObjectId.isValid(id)) {
     return {
       err: {
@@ -32,7 +32,16 @@ const listASalesById = (id) => {
       },
     };
   }
-  return Sales.findById(id);
+  const sale = await Sales.findById(id);
+  if (!sale) {
+    return {
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    };
+  }
+  return sale;
 };
 
 const updateSales = async (id, data) => {
@@ -42,10 +51,35 @@ const updateSales = async (id, data) => {
       quantity: Joi.number().integer().min(1).required(),
     }),
   ).validate(data);
-  console.log('OI', response);
   if (response.error) return null;
   const newSale = await Sales.updateSales(id, data);
   return newSale;
 };
 
-module.exports = { createNewSales, listSales, listASalesById, updateSales };
+const deleteSale = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return {
+      status: 422,
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    };
+  }
+  const sale = await Sales.deleteSale(id);
+  if (sale === null) {
+    return {
+      status: 404,
+      err: { code: 'not_found', message: 'Sale not found' },
+    };
+  }
+  return sale;
+};
+
+module.exports = {
+  deleteSale,
+  createNewSales,
+  listSales,
+  listASalesById,
+  updateSales,
+};

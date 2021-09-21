@@ -29,4 +29,23 @@ const updateSales = async (id, data) => {
   if (!update) return null;
   return update;
 };
-module.exports = { createNewSales, getAllSales, findById, updateSales };
+
+const deleteSale = async (id) => {
+  try {
+    const sale = await findById(id);
+    if (!sale) return sale;
+    const db = await connection();
+    await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+    return sale;
+  } catch (e) {
+    return console.log(e.message);
+  }
+};
+
+module.exports = {
+  createNewSales,
+  getAllSales,
+  findById,
+  updateSales,
+  deleteSale,
+};

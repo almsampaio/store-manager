@@ -3,7 +3,6 @@ const Sales = require('../services/SalesServices');
 const createNewSales = async (req, res) => {
   const data = req.body;
   const response = await Sales.createNewSales(data);
-  console.log(response);
   if (response.err) {
     return res.status(422).json(response);
   }
@@ -28,7 +27,6 @@ const updateSales = async (req, res) => {
   const { id } = req.params;
   const data = req.body;
   const response = await Sales.updateSales(id, data);
-  console.log('oiiiii', response);
   if (response === null) {
     return res.status(422).json({
       err: {
@@ -40,4 +38,17 @@ const updateSales = async (req, res) => {
   res.status(200).json(response.value);
 };
 
-module.exports = { createNewSales, listSales, listASalesById, updateSales };
+const deleteSales = async (req, res) => {
+  const { id } = req.params;
+  const exclude = await Sales.deleteSale(id);
+  if (exclude.status) return res.status(exclude.status).json({ err: exclude.err });
+  return res.status(200).json(exclude);
+};
+
+module.exports = {
+  createNewSales,
+  listSales,
+  listASalesById,
+  updateSales,
+  deleteSales,
+};
