@@ -19,4 +19,17 @@ const addSales = async (itensSold) => {
     return { status: 200, data: result };
 };
 
-module.exports = { addSales };
+const getAllSales = async () => {
+    const allSales = await sales.getAllSales();
+    return { status: 200, data: allSales };
+};
+
+const getSalesById = async (id) => {
+    const sale = await sales.getSalesById(id);
+    const message = 'Sale not found';
+
+    if (!sale) return { status: 404, message };
+    return { status: 200, data: sale };
+};
+
+module.exports = { addSales, getAllSales, getSalesById };

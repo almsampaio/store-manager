@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { addProduct, getAll, getById, update, remove } = require('./controllers/products');
 const { validName, validQuantity, validQuantitySales } = require('./services/validation');
-const { addSales } = require('./controllers/sales');
+const { addSales, getAllSales, getSalesById } = require('./controllers/sales');
 
 const app = express();
 app.use(bodyParser.json());
@@ -25,3 +25,5 @@ app.delete('/products/:id', remove);
 
 // sales
 app.post('/sales', validQuantitySales, addSales);
+app.get('/sales', getAllSales);
+app.get('/sales/:id', getSalesById);
