@@ -11,8 +11,12 @@ const getAll = () => SalesModel
 const getById = (id) => SalesModel
   .getById(id).then((result) => result);
 
+const update = (id, itensSold) => SalesModel
+  .update(id, itensSold).then((result) => result);
+
 module.exports = { 
   create,
   getAll,
   getById,
+  update,
 };

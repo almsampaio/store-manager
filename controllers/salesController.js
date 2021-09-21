@@ -1,5 +1,5 @@
 const SalesService = require('../services/salesServices');
-const { SUCCESS_OK, NOT_FOUND } = require('../utils/HttpStatusCodes');
+const { SUCCESS_OK, NOT_FOUND, UNPROCESSABLE_ENTITY } = require('../utils/HttpStatusCodes');
 
 const create = async (req, res) => {
   const sale = req.body;
@@ -22,8 +22,25 @@ const getById = (req, res) => {
     }));
 };
 
+const update = async (req, res) => {
+  try {
+    const itensSold = req.body;
+    const { id } = req.params;
+    await SalesService.update(id, itensSold);
+    return res.status(SUCCESS_OK).json({ _id: id, itensSold });       
+  } catch (error) {
+    return res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
