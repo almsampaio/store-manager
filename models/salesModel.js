@@ -10,11 +10,12 @@ async function create(itensSold) {
   return insertedId;
 }
 
-// async function update(id, name, quantity) {
-//   const collection = await connection().then((db) => db.collection(collectionName));
+async function update(id, itensSold) {
+  const collection = await connection().then((db) => db.collection(collectionName));
+  console.log(itensSold);
 
-//   await collection.updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
-// }
+  await collection.updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+}
 
 // async function deleteDocument(id) {
 //   const collection = await connection().then((db) => db.collection(collectionName));
@@ -38,7 +39,7 @@ async function getById(id) {
 
 module.exports = {
   create,
-  // update,
+  update,
   // deleteDocument,
   getAll,
   getById,
