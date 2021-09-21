@@ -26,4 +26,13 @@ const update = async (id, data) => {
     return { status: 200, data: product };
 };
 
-module.exports = { addProduct, getAll, getById, update };
+const remove = async (id) => {
+    const product = await productModel.getById(id);
+    const message = 'Wrong id format';
+
+    if (!product) return { status: 422, message };
+    const result = await productModel.remove(id);
+    return { status: 200, data: result };
+};
+
+module.exports = { addProduct, getAll, getById, update, remove };

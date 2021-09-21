@@ -2,7 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const { addProduct, getAll, getById, update } = require('./controllers/products');
+const { addProduct, getAll, getById, update, remove } = require('./controllers/products');
 const { validName, validQuantity } = require('./services/validation');
 
 const app = express();
@@ -19,3 +19,4 @@ app.post('/products', validName, validQuantity, addProduct);
 app.get('/products', getAll);
 app.get('/products/:id', getById);
 app.put('/products/:id', validName, validQuantity, update);
+app.delete('/products/:id', remove);
