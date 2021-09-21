@@ -10,6 +10,12 @@ async function create(name, quantity) {
   return insertedId;
 }
 
+async function update(id, name, quantity) {
+  const collection = await connection().then((db) => db.collection(collectionName));
+
+  await collection.updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+}
+
 async function getAll() {
   const collection = await connection().then((db) => db.collection(collectionName));
   const allDocuments = await collection.find().toArray();
@@ -18,10 +24,6 @@ async function getAll() {
 }
 
 async function getById(id) {
-  if (!ObjectId.isValid(id)) {
-    return null;
-  }
-
   const collection = await connection().then((db) => db.collection(collectionName));
   const document = await collection.findOne(new ObjectId(id));
 
@@ -37,6 +39,7 @@ async function getByName(name) {
 
 module.exports = {
   create,
+  update,
   getAll,
   getById,
   getByName,
