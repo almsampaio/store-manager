@@ -12,7 +12,10 @@ const {
   updateProduct,
   deleteProduct,
 } = require('./controllers/products');
-const { validName, validQuantity } = require('./utils/validations/products');
+
+const sales = require('./controllers/sales');
+
+const { validName, validQuantity, validQuantitySales } = require('./utils/validations/validations');
 
 const PORT = 3000;
 // não remova esse endpoint, e para o avaliador funcionar
@@ -29,3 +32,9 @@ app.get('/products', getAllProducts);
 app.get('/products/:id', getById);
 app.put('/products/:id', validName, validQuantity, updateProduct);
 app.delete('/products/:id', deleteProduct);
+
+app.post('/sales', validQuantitySales, sales.create);
+app.get('/sales', sales.getAll);
+app.get('/sales/:id', sales.getById);
+app.put('/sales/:id', validQuantitySales, sales.update);
+app.delete('/sales/:id', sales.deleteSale);
