@@ -49,9 +49,26 @@ const update = async (req, res) => {
   }
 };
 
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  console.log('Controller - exclude');
+  const product = await ProductsService.exclude(id);
+  if (!product) {
+    res.status(UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    }); 
+  }
+
+  return res.status(SUCCESS_OK).json(product);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  exclude,
 };

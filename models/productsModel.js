@@ -25,10 +25,18 @@ const update = async (id, name, quantity) => {
   return product;
 };
 
+const exclude = (id) => {
+  console.log('Controller - exclude');
+  
+  connection()
+    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }));
+};
+
 module.exports = { 
   create,
   findProductByName,
   getAll,
   getById,
   update,
+  exclude,
 };
