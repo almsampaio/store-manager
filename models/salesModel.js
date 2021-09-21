@@ -17,11 +17,11 @@ async function update(id, itensSold) {
   await collection.updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
 }
 
-// async function deleteDocument(id) {
-//   const collection = await connection().then((db) => db.collection(collectionName));
+async function deleteDocument(id) {
+  const collection = await connection().then((db) => db.collection(collectionName));
 
-//   await collection.deleteOne({ _id: ObjectId(id) });
-// }
+  await collection.deleteOne({ _id: ObjectId(id) });
+}
 
 async function getAll() {
   const collection = await connection().then((db) => db.collection(collectionName));
@@ -40,7 +40,7 @@ async function getById(id) {
 module.exports = {
   create,
   update,
-  // deleteDocument,
+  deleteDocument,
   getAll,
   getById,
 };
