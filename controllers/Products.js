@@ -13,6 +13,27 @@ const create = async (req, res) => {
   res.status(status).json(data);
 };
 
+const getAll = async (_req, res) => {
+  const { status, data } = await Products.getAll();
+
+  res.status(status).json({ products: data });
+};
+
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const { status, data, message } = await Products.getById(id);
+
+  if (message) {
+    return res.status(status).json({
+      err: { code: 'invalid_data', message },
+    });
+  }
+
+  res.status(status).json(data);
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };

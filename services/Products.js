@@ -12,6 +12,23 @@ const create = async (name, quantity) => {
   return { status: StatusCodes.CREATED, data: newProduct };
 };
 
+const getAll = async () => {
+  const products = await Products.getAll();
+  return { status: StatusCodes.OK, data: products };
+};
+
+const getById = async (id) => {
+  const product = await Products.getById(id);
+
+  if (!product) {
+    return { status: StatusCodes.UNPROCESSABLE_ENTITY, message: 'Wrong id format' };
+  }
+
+  return { status: StatusCodes.OK, data: product };
+};
+
 module.exports = {
   create,
+  getAll,
+  getById,
 };
