@@ -24,10 +24,14 @@ const getProductId = async (id) => {
 const updateProduct = async (name, quantity, id) => {
   if (!ObjectId.isValid(id)) return false;
 
-  const result = await connection()
+  await connection()
     .then((db) => db.collection('products')
       .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
-  return result;
+  return {
+    _id: id,
+    name,
+    quantity,
+  };
 }; 
 
 module.exports = {
