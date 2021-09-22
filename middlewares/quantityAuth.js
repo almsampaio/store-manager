@@ -19,8 +19,8 @@ module.exports = (req, res, next) => {
       err: {
         message: '"quantity" must be larger than or equal to 1',
         code,
-        data: { errType }
-      }
+        data: { errType },
+      },
     });
   }
 
