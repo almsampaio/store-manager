@@ -1,14 +1,13 @@
-const connection = require('./conection');
-
-const COLLECTION_PRODUCTS = 'products';
+const connection = require('./connection');
 
 const create = async (name, quantity) => {
-  connection().then((db) => db.collection(COLLECTION_PRODUCTS).insertOne({ name, quantity }))
-  .then((result) => ({ id: result.insertedId, name, quantity }));
+  const operation = await connection()
+    .then((db) => db.collection('products').insertOne({ name, quantity }));
+  return operation.ops[0];
 };
 
 const getAllProducts = async () => {
-  const result = await connection.then((db) => db.collection(COLLECTION_PRODUCTS).find().toArray());
+  const result = await connection().then((db) => db.collection('products').find().toArray());
   return result;
 };
 

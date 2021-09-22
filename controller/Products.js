@@ -1,13 +1,14 @@
-const rescue = require('express-rescue');
-const { validateProduct } = require('../service/Products');
+const { addProduct } = require('../services/Products');
 
-const addProduct = rescue(async (req, res) => {
+const create = async (req, res) => {
   const { name, quantity } = req.body;
-  const product = await validateProduct(name, quantity);
+  const products = await addProduct(name, quantity);
 
-  res.status(201).json({ product });
-});
+  if (products.err) return res.status(422).json({ err: products.err });
+
+  res.status(201).json(products);
+};
 
 module.exports = {
-  addProduct,
+  create,
 };
