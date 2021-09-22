@@ -13,8 +13,8 @@ const add = async (req, res, next) => {
     err: {
       message,
       code: errCode,
-      data: { errType }
-    }
+      data: { errType },
+    },
   });
 
   return res.status(success).json(insertedProduct);
