@@ -14,7 +14,7 @@ app.get('/', (_request, response) => {
 
 app.post('/products', create);
 app.get('/products', getAllProducts);
-// app.get('/products', getById);
+app.get('/products', getById);
 
 app.listen(3000, () => {
   console.log('aplicação rodando');

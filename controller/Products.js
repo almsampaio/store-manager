@@ -9,11 +9,8 @@ const create = async (req, res) => {
   res.status(201).json(products);
 };
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (_req, res) => {
   const products = await getAll();
-
-  // if (!products) return res.status(422).json(products.err);
-  
   res.status(200).json({ products });
 };
 
