@@ -1,3 +1,4 @@
+const { updateProduct } = require('../controller/Products');
 const { create, getAllProducts, getProductId } = require('../models/Products');
 
 const dataProducts = (name, quantity) => {
@@ -44,8 +45,22 @@ const getProductById = async (id) => {
   return product;
 };
 
+const updateProductByid = async (name, quantity, id) => {
+  const bool = await (await getAllProducts()).some((product) => product.name === name);
+  const verifyProduct = dataProducts(name, quantity);
+  const result = await updateProduct(name, quantity, id);
+  if (bool) {
+    return { 
+    err: { code: 'invalid_data', message: 'Product already exists' }, status: 422 };
+  }
+  if (verifyProduct) return dataProducts(name, quantity);
+
+  return result;
+};
+
 module.exports = {
   addProduct,
   getAll,
   getProductById,
+  updateProductByid,
 };
