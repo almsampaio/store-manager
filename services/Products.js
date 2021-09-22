@@ -1,5 +1,4 @@
-const { updateProduct } = require('../controller/Products');
-const { create, getAllProducts, getProductId } = require('../models/Products');
+const { create, getAllProducts, getProductId, updateProduct } = require('../models/Products');
 
 const dataProducts = (name, quantity) => {
   if (typeof quantity !== 'number') {
