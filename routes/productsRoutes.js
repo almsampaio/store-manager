@@ -11,4 +11,12 @@ router.post('/', [
   productsController.add,
 ]);
 
+router.get('/', [
+  productsController.getAll
+]);
+
+router.get('/:id', [
+  productsController.getById
+]);
+
 module.exports = router;
