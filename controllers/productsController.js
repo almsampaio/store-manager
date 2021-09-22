@@ -1,6 +1,5 @@
 const { TWO_HUND,
     TWO_HUND_ONE,
-    FOUR_HUND_TWO,
     FOUR_TWO_TWO } = require('./consts');
 
 const productsService = require('../services/productsService');
@@ -39,18 +38,24 @@ const update = async (req, res) => {
     const { err, product } = await productsService.update(id, name, quantity);
 
     if (err) return res.status(FOUR_TWO_TWO).json({ err });
-    
+
     res.status(TWO_HUND).json(product);
 };
 
 const remove = async (req, res) => {
     const { id } = req.params;
 
-    const { product, err } = await productsService.getById(id);
+    const product = await productsService.getById(id);
 
-    if (err) return res.status(FOUR_TWO_TWO).json({ err });
+    if (!product) {
+        return res.status(FOUR_TWO_TWO).json({ err: {
+        code: 'invalid_data', message: 'Wrong id format',
+    } });
+}
 
-    res.status(FOUR_HUND_TWO).json(product);
+    await productsService.remove(id);
+
+    res.status(TWO_HUND).json(product);
 };
 
 module.exports = {

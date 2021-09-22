@@ -28,11 +28,7 @@ const getById = async (id) => {
 };
 
 const remove = async (id) => {
-    const result = await productsModel.remove(id);
-
-    if (!result) return { err: { code: 'invalid_data', message: 'Wrong id format' } };
-
-    return result;
+    await productsModel.remove(id);
 };
 
 const getAll = async () => {

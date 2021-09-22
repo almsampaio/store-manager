@@ -30,8 +30,6 @@ const getById = async (id) => {
 };
 
 const remove = async (id) => {
-    if (!ObjectId.isValid(id)) return null;
-
     const db = await connection();
 
     await db.collection('products').deleteOne({ _id: ObjectId(id) });
