@@ -28,3 +28,11 @@ exports.update = async (req, res) => {
   const updatedSale = await SalesServices.update(saleId, itensSold);
   res.status(status.ok).json(updatedSale);
 };
+
+exports.delete = async (req, res) => {
+  const { id: saleId } = req.params;
+
+  const deletedSale = await SalesServices.delete(saleId);
+
+  res.status(status.ok).json(deletedSale);
+};

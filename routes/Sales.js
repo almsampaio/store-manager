@@ -22,6 +22,10 @@ Router.route('/:id')
     SalesMiddleware.saleIdValidate,
     SalesMiddleware.saleValidate,
     Sales.update,
+  )
+  .delete(
+    SalesMiddleware.deleteSaleIdValidate,
+    Sales.delete,
   );
 
 module.exports = Router;

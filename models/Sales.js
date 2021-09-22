@@ -36,3 +36,13 @@ exports.update = async (saleId, itensSold) => {
 
   return this.getById(saleId);
 };
+
+exports.delete = async (saleId) => {
+  const db = await Connection();
+  const saleCollection = await db.collection(COLLECTION_NAME);
+  const sale = await this.getById(saleId);
+  
+  await saleCollection.deleteOne({ _id: ObjectId(saleId) });
+
+  return sale;
+};

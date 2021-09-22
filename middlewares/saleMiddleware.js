@@ -26,3 +26,17 @@ exports.saleIdValidate = async (req, _res, next) => {
 
   next();
 };
+
+exports.deleteSaleIdValidate = async (req, _res, next) => {
+  const { id } = req.params;
+  const error = { message: 'Wrong sale ID format' };
+
+  if (!ObjectId.isValid(id)) return next(error);
+
+  const sale = await SalesServices.getById(id);
+  if (!sale) return next(error);
+
+  req.sale = sale;
+
+  next();
+};

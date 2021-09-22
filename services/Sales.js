@@ -22,3 +22,9 @@ exports.update = async (saleId, itensSold) => {
   const updateSale = await SalesModel.update(saleId, itensSold);
   return updateSale;
 };
+
+exports.delete = async (saleId) => {
+  const deletedSale = await SalesModel.delete(saleId);
+
+  return deletedSale;
+};
