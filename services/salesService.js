@@ -21,7 +21,8 @@ for (let i = 0; i < sale.length; i += 1) {
 
 const getAll = async () => {
     const sales = await salesModel.getAll();
-    return sales;
+  
+    return { status: 200, data: sales };
 };
 
 const getById = async (id) => {

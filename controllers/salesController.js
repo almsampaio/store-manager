@@ -14,9 +14,9 @@ const create = async (req, res) => {
 };
 
 const getAll = async (_req, res) => {
-    const sales = await salesService.getAll();
-
-    res.status(TWO_HUND).json(sales);
+    const { status, data } = await salesService.getAll();
+    console.log(data);
+    res.status(status).json({ sales: data });
 };
 
 const getById = async (req, res) => {
@@ -24,7 +24,11 @@ const getById = async (req, res) => {
 
     const sale = await salesService.getById(id);
 
-    if (!sale) return res.status(FOUR_HUND_FOUR).json({ message: 'not found' });
+    if (!sale) {
+        return res.status(FOUR_HUND_FOUR).json({
+        err: { code: 'not_found', message: 'Sale not found' },
+    });
+}
 
     res.status(TWO_HUND).json(sale);
 };

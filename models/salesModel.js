@@ -5,14 +5,24 @@ const connection = require('./connection');
 const getAll = async () => {
     const db = await connection();
 
-    const sales = await db.collection('sales').find({}).toArray();
-
+    const result = await db.collection('sales').find({}).toArray();
+    const sales = result.map(({ _id, sale }) => ({ _id, itensSold: [...sale] }));
     return sales;
 };
 
+// const getAll = async () => {
+//     return connection()
+//       .then((db) => db.collection('sales').find().toArray())
+//       .then((sales) =>
+//         sales.map(({ _id, itensSold }) =>
+//          ( { _id, itensSold: itensSold
+//             .map((item) => ({ productId: item.productId,
+//         quantity: item.quantity }))})
+//         ))
+//   }
+
 const create = async (sale) => { 
     const db = await connection();
-    console.log(sale);
 
     const result = await db.collection('sales').insertOne({ sale });
 
@@ -24,9 +34,11 @@ const create = async (sale) => {
 const getById = async (id) => {
     if (!ObjectId.isValid(id)) return null;
 
-    return connection()
+    const db = await connection();
 
-    .then((db) => db.collection('sales').findOne({ _id: ObjectId(id) }));
+    const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
+
+    return sale;
 };
 
 const remove = async (id) => {
