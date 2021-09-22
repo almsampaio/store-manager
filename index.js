@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const bodyparser = require('body-parser');
 
-const { create } = require('./controller/Products');
+const { create, getAll, getById } = require('./controller/Products');
 
 app.use(bodyparser.json());
 
@@ -13,6 +13,8 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', create);
+app.get('/products', getAll);
+app.get('/products', getById);
 
 app.listen(3000, () => {
   console.log('aplicação rodando');
