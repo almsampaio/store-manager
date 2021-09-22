@@ -27,7 +27,7 @@ const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
 
-  const product = await updateProductByid(name, quantity);
+  const product = await updateProductByid(name, quantity, id);
 
   if (product.err) return res.status(422).json({ err: product.err });
 
