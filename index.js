@@ -3,7 +3,12 @@ const express = require('express');
 const app = express();
 const bodyparser = require('body-parser');
 
-const { create, getAllProducts, getById, updateProduct } = require('./controller/Products');
+const { create, 
+  getAllProducts,
+  getById,
+  updateProduct,
+  deleteProduct,
+} = require('./controller/Products');
 
 app.use(bodyparser.json());
 
@@ -16,7 +21,7 @@ app.post('/products', create);
 app.get('/products', getAllProducts);
 app.get('/products/:id', getById);
 app.put('/products/:id', updateProduct);
-
+app.delete('/products/:id', deleteProduct);
 app.listen(3000, () => {
   console.log('aplicação rodando');
 });
