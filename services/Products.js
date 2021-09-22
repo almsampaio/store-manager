@@ -1,4 +1,9 @@
-const { create, getAllProducts, getProductId, updateProduct } = require('../models/Products');
+const { create,
+  getAllProducts,
+  getProductId,
+  updateProduct,
+  deleteProduct,
+} = require('../models/Products');
 
 const dataProducts = (name, quantity) => {
   if (typeof quantity !== 'number') {
@@ -53,9 +58,19 @@ const updateProductByid = async (name, quantity, id) => {
   return result;
 };
 
+const deleteProductById = async (id) => {
+  const product = await deleteProduct(id);
+
+  if (!product) {
+    return { err: { code: 'invalid_data', message: 'Wrong id format' }, status: 422 };
+  }
+  return product;
+};
+
 module.exports = {
   addProduct,
   getAll,
   getProductById,
   updateProductByid,
+  deleteProductById,
 };
