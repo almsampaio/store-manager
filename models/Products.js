@@ -42,6 +42,17 @@ exports.update = async (id, newProduct) => {
   return updatedProduct;
 };
 
+exports.updateProductQuantity = async (productId, value) => {
+  const db = await connection();
+  const productCollection = await db.collection(COLLECTION_NAME);
+  await productCollection.updateOne(
+    { _id: ObjectId(productId) },
+    {
+      $inc: { quantity: value },
+    },
+  );
+};
+
 exports.delete = async (id) => {
   const db = await connection();
   const deletedProduct = await db.collection(COLLECTION_NAME)

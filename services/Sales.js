@@ -1,7 +1,22 @@
 const SalesModel = require('../models/Sales');
+const ProductsModel = require('../models/Products');
 
-exports.create = async (salesInfo) => {
-  const { ops: [createdSale] } = await SalesModel.create(salesInfo);
+const updateProductsQuantity = async (itensSold, opt = {}) => {
+  if (itensSold) {
+    const { decrement } = opt;
+    
+    itensSold.forEach(async ({ productId, quantity }) => {
+      const value = decrement ? quantity * -1 : quantity;
+  
+      await ProductsModel.updateProductQuantity(productId, value);
+    });
+  }
+};
+
+exports.create = async (itensSold) => {
+  const { ops: [createdSale] } = await SalesModel.create(itensSold);
+
+  await updateProductsQuantity(itensSold, { decrement: true });
 
   return createdSale;
 };
@@ -25,6 +40,8 @@ exports.update = async (saleId, itensSold) => {
 
 exports.delete = async (saleId) => {
   const deletedSale = await SalesModel.delete(saleId);
+  const { itensSold } = deletedSale;
 
+  await updateProductsQuantity(itensSold);
   return deletedSale;
 };
