@@ -6,8 +6,7 @@ module.exports = (req, res, next) => {
 
   if (typeof quantity !== 'number') {
     return next({
-      err: { message: '"quantity" must be a number', code,
-        data: { errType },
+      err: { message: '"quantity" must be a number', code, data: { errType },
       },
     });
   }
