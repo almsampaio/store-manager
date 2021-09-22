@@ -11,7 +11,10 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
   const products = await getAllProducts();
-  return products;
+
+  if (!products) return res.status(422).json(products.err);
+  
+  res.status(200).json(products);
 };
 
 module.exports = {
