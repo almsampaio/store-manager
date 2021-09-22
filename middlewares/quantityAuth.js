@@ -13,9 +13,7 @@ module.exports = (req, res, next) => {
 
   if (quantity <= minValue) {
     return next({
-      err: { message: '"quantity" must be larger than or equal to 1',
-        code,
-        data: { errType },
+      err: { message: '"quantity" must be larger than or equal to 1', code, data: { errType },
       },
     });
   }
