@@ -30,6 +30,12 @@ const addProduct = async (name, quantity) => {
   return result;
 };
 
+const getAll = async () => {
+  const products = await getAllProducts();
+  return products;
+};
+
 module.exports = {
   addProduct,
+  getAll,
 };
