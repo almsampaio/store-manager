@@ -1,4 +1,4 @@
-const { create, getAllProducts } = require('../models/Products');
+const { create, getAllProducts, getProductId } = require('../models/Products');
 
 const dataProducts = (name, quantity) => {
   if (typeof quantity !== 'number') {
@@ -35,7 +35,17 @@ const getAll = async () => {
   return products;
 };
 
+const getProductById = async (id) => {
+  const product = await getProductId(id);
+
+  if (!product) {
+    return { err: { code: 'invalid_data', message: 'Wrong id format' }, status: 422 };
+  }
+  return product;
+};
+
 module.exports = {
   addProduct,
   getAll,
+  getProductById,
 };
