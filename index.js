@@ -2,6 +2,7 @@ const app = require('express')();
 const bodyParser = require('body-parser').json();
 const rescue = require('express-rescue');
 const { createProduct } = require('./controllers/productsController');
+
 const PORT = 3000;
 
 app.use(bodyParser);
