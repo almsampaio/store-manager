@@ -10,12 +10,15 @@ const getAll = async () => {
     return sales;
 };
 
-const create = async (itensSold) => {
-    connection()
+const create = async (sale) => { 
+    const db = await connection();
+    console.log(sale);
 
-    .then((db) => db.collection('sales').insertOne(itensSold))
+    const result = await db.collection('sales').insertOne({ sale });
 
-    .then((result) => ({ id: result.insertedId, itensSold }));
+    const itensSold = sale.map((e) => ({ productId: e.productId, quantity: e.quantity }));
+
+    return { _id: result.insertedId, itensSold };
 };
 
 const getById = async (id) => {

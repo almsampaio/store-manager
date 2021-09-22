@@ -1,22 +1,22 @@
 const salesModel = require('../models/salesModel');
-// const productsModel = require('./productsModel');
-const create = async (itensSold) => {
-    const [...{ productId, quantity }] = itensSold;
 
-    const isValid = await salesModel.findProductId(productId);
-
-    const errorObject = { err: {
+const create = async (sale) => {
+for (let i = 0; i < sale.length; i += 1) {
+    if (sale[i].quantity < 1) {
+        return { err: {
         code: 'invalid_data',
-        message: 'Wrong product id or invalid quantity' },
-    };
+        message: 'Wrong product ID or invalid quantity',
+    } };
+} if (typeof sale[i].quantity === 'string') {
+    return { err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+    } };
+}
+}
+    const createdSale = await salesModel.create(sale);
 
-    if (!isValid) return errorObject;
-
-    if (quantity < 1) return errorObject;
-
-    if (typeof quantity === 'string') return errorObject;
-
-    return salesModel.create(itensSold);
+    return { createdSale };
 };
 
 const getAll = async () => {

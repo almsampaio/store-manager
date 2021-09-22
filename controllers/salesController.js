@@ -1,18 +1,16 @@
 const { TWO_HUND,
-    TWO_HUND_ONE,
     FOUR_HUND_TWO,
     FOUR_HUND_FOUR, 
-    FOUR_HUND_ONE } = require('./consts');
+    FOUR_TWO_TWO } = require('./consts');
 const salesService = require('../services/salesService');
 
 const create = async (req, res) => {
-    const { itensSold } = req.body;
+    const sale = req.body;
 
-    const { errorObject, sale } = await salesService.create(itensSold);
+    const { err, createdSale } = await salesService.create(sale);
 
-    if (errorObject) return res.status(FOUR_HUND_ONE).json(errorObject);
-
-    res.status(TWO_HUND_ONE).json(sale);
+    if (err) return res.status(FOUR_TWO_TWO).json({ err });
+    res.status(TWO_HUND).json(createdSale);
 };
 
 const getAll = async (_req, res) => {
