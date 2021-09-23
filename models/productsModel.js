@@ -12,11 +12,10 @@ const add = async (name, quantity) => {
     .then((response) => response.ops[0]);
 };
 
-const getAll = async () => {
-  return connection()
+const getAll = async () =>
+   connection()
     .then((db) => db.collection('products').find().toArray())
     .then((response) => response);
-};
 
 const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
