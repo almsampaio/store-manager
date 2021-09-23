@@ -30,8 +30,8 @@ const getById = async (req, res, next) => {
     err: {
       message,
       code,
-      data: { errType }
-    }
+      data: { errType },
+    },
   });
 
   return res.status(success).json(sale);
@@ -39,7 +39,6 @@ const getById = async (req, res, next) => {
 
 module.exports = {
   add,
-  getAll,
   getAll,
   getById,
 };

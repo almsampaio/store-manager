@@ -11,11 +11,11 @@ router.post('/', [
 ]);
 
 router.get('/', [
-  salesController.getAll
+  salesController.getAll,
 ]);
 
 router.get('/:id', [
-  salesController.getById
+  salesController.getById,
 ]);
 
 module.exports = router;
