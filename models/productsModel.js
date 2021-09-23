@@ -41,7 +41,7 @@ const remove = async (id) => {
 
   if (!productToBeRemoved) return null;
 
-  return await connection()
+  return connection()
     .then((db) => db.collection('products').deleteOne({ _id: new ObjectId(id) }))
     .then(() => productToBeRemoved);
 };
