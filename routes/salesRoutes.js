@@ -18,4 +18,9 @@ router.get('/:id', [
   salesController.getById,
 ]);
 
+router.put('/:id', [
+  salesQuantityAuth,
+  salesController.update
+]);
+
 module.exports = router;

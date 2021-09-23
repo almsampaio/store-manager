@@ -7,8 +7,14 @@ const getAll = async () => salesModel.getAll()
 
 const getById = async (id) => salesModel.getById(id); 
 
+const update = async (productId, quantity) => (
+  await salesModel.update(productId, quantity)
+    .then(([sale]) => ({ ...sale, itensSold: [sale.itensSold] }))
+);
+
 module.exports = {
   add,
   getAll,
   getById,
+  update,
 };

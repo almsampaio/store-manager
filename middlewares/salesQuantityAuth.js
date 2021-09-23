@@ -1,8 +1,5 @@
 module.exports = (req, _res, next) => {
   const itensSold = req.body;
-
-  console.log(itensSold);
-
   const minQuantity = 0;
   const message = 'Wrong product ID or invalid quantity';
   const code = 'invalid_data';
