@@ -71,13 +71,15 @@ const remove = async (req, res, next) => {
 
   const removedProduct = await productsService.remove(id);
 
-  if (!removedProduct) return next({
+  if (!removedProduct) {
+    return next({
     err: {
       message,
       code,
       data: { errType },
     },
   });
+  }
 
   return res.status(success).json(removedProduct);
 };
