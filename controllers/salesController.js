@@ -1,5 +1,4 @@
 const { TWO_HUND,
-    FOUR_HUND_TWO,
     FOUR_HUND_FOUR, 
     FOUR_TWO_TWO } = require('./consts');
 const salesService = require('../services/salesService');
@@ -46,9 +45,15 @@ const remove = async (req, res) => {
 
     const sale = await salesService.getById(id);
 
-    if (!sale) return res.status(FOUR_HUND_FOUR).json({ message: 'not found' });
+    if (!sale) {
+        return res.status(FOUR_TWO_TWO).json({
+        err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format' } });
+        }
+    await salesService.remove(id);
     
-    res.status(FOUR_HUND_TWO).json(sale);
+    res.status(TWO_HUND).json(sale);
 };
 
 module.exports = {
