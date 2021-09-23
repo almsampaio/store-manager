@@ -75,8 +75,8 @@ const remove = async (req, res, next) => {
     err: {
       message,
       code,
-      data: { errType }
-    }
+      data: { errType },
+    },
   });
 
   return res.status(success).json(removedProduct);
