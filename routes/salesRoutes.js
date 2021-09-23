@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/', [
   salesQuantityAuth,
-  salesController.add
+  salesController.add,
 ]);
 
 module.exports = router;
