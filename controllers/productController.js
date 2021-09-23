@@ -28,7 +28,7 @@ const getAll = async (_req, res) => {
   return res.status(success).json(products);
 };
 
-const getById = async ( req, res, next ) => {
+const getById = async (req, res, next) => {
   const { id } = req.params;
   const success = 200;
   const message = 'Wrong id format';
