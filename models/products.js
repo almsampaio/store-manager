@@ -12,7 +12,14 @@ const modelGetAll = async () => {
   return elements;
 };
 
+const modelGetByName = async (name) => {
+  const db = await connection();
+  const elements = db.collection('products').findOne({ name });
+  return elements;
+};
+
 module.exports = {
   modelCreate,
   modelGetAll,
+  modelGetByName,
 };

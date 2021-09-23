@@ -2,7 +2,12 @@ const services = require('../services/products');
 
 const controllerCreate = async (req, res) => {
   const { name, quantity } = req.body;
-  const { status, info } = await services.servicesCreate(name, quantity);
+  const { status, info, message } = await services.servicesCreate(name, quantity);
+
+  if (message) {
+    return res.status(status).json({ err: { code: 'invalid_data', message } });
+  }
+
   res.status(status).json(info);
 };
 
