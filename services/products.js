@@ -1,8 +1,8 @@
 const status = require('../status');
 const modelProducts = require('../models/products');
 
-const servicesCreate = async (name, amount) => {
-  const newProduct = await modelProducts.modelCreate(name, amount);
+const servicesCreate = async (name, quantity) => {
+  const newProduct = await modelProducts.modelCreate(name, quantity);
   return { status: status.HTTP_CREATED, info: newProduct };
 };
 

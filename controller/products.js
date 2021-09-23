@@ -1,8 +1,8 @@
 const services = require('../services/products');
 
 const controllerCreate = async (req, res) => {
-  const { name, amount } = req.body;
-  const { status, info } = await services.servicesCreate(name, amount);
+  const { name, quantity } = req.body;
+  const { status, info } = await services.servicesCreate(name, quantity);
   res.status(status).json(info);
 };
 
