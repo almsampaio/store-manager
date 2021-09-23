@@ -26,14 +26,15 @@ const getById = async (req, res, next) => {
 
   const sale = await salesService.getById(id);
 
-  if (!sale) return next({
+  if (!sale) {
+    return next({
     err: {
       message,
       code,
       data: { errType },
     },
   });
-
+}
   return res.status(success).json(sale);
 };
 
