@@ -8,6 +8,13 @@ const create = async (sale) => {
   return operation;
 };
 
+const getAll = async () => {
+  const operation = await connection()
+    .then((db) => db.collection('sales').find().toArray());
+  return operation;
+};
+
 module.exports = {
   create,
+  getAll,
 };
