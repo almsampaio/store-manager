@@ -1,4 +1,4 @@
-module.exports = (req, res, next) => {
+module.exports = (req, _res, next) => {
   const { quantity } = req.body;
   const code = 'invalid_data';
   const errType = 422;
