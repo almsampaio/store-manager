@@ -7,7 +7,7 @@ const add = async (name, quantity) => {
 
   if (product) return null;
 
-  return await connection()
+  return connection()
     .then((db) => db.collection('products').insertOne({ name, quantity }))
     .then((response) => response.ops[0]);
 };
