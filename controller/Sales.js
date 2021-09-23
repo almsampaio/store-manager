@@ -15,9 +15,11 @@ const readSales = async (_req, res) => {
   res.status(200).json({ sales });
 };
 
-const getById = async (req, res) => {
+const getSaById = async (req, res) => {
   const { id } = req.params;
   const sale = await getSaleById(id);
+
+  if (sale.err) return res.status(sale.status).json({ err: sale.err });
 
   res.status(200).json(sale);
 };
@@ -25,5 +27,5 @@ const getById = async (req, res) => {
 module.exports = {
   addSales,
   readSales,
-  getById,
+  getSaById,
 };

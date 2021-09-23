@@ -36,6 +36,11 @@ const getAllSales = async () => {
 const getSaleById = async (id) => {
   const result = await getById(id);
 
+  if (!result) {
+    return { err: { code: 'not_found', message: 'Sale not found' },
+  status: 404 };
+  }
+
   return result;
 };
 
