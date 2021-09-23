@@ -37,8 +37,6 @@ const remove = async (id) => {
 
   const productToBeRemoved = await getById(id);
 
-  console.log(productToBeRemoved);
-
   if (!productToBeRemoved) return null;
 
   return connection()

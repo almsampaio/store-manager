@@ -1,4 +1,4 @@
-module.exports = (req, res, next) => {
+module.exports = (req, _res, next) => {
   const itensSold = req.body;
 
   console.log(itensSold);
