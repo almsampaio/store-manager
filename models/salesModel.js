@@ -17,7 +17,7 @@ const update = (productId, quantity) => connection()
   .then((db) => db.collection(coll).aggregate([
     { $unwind: '$itensSold' },
     { $match: { 'itensSold.productId': productId } },
-    { $set: { 'itensSold.quantity': quantity } }
+    { $set: { 'itensSold.quantity': quantity } },
   ]).toArray());  
 
 module.exports = {
