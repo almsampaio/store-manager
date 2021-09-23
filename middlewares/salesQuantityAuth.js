@@ -14,8 +14,7 @@ module.exports = (req, res, next) => {
 
   if (!isQuantitiesValid) {
     return next({
-    err: {
-      message,
+    err: { message,
       code,
       data: { errType },
     },
