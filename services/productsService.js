@@ -9,7 +9,7 @@ const getAll = async () => productsModel.getAll()
 const getById = async (id) => productsModel.getById(id);
 
 const update = async (id, name, quantity) => (
-  await productsModel.update(id, name, quantity)
+   productsModel.update(id, name, quantity)
 );
 
 module.exports = {
