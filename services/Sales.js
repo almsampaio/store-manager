@@ -1,5 +1,6 @@
 const {
   create,
+  getAll,
 } = require('../models/Sales');
 
 const verifySale = (sales) => {
@@ -26,6 +27,11 @@ const createSales = async (sale) => {
   return result;
 };
 
+const getAllSales = async () => {
+  const result = await getAll();
+  return result;
+};
 module.exports = {
   createSales,
+  getAllSales,
 };
