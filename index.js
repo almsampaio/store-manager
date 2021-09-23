@@ -12,6 +12,7 @@ const { create,
 
 const {
   addSales,
+  readSales,
 } = require('./controller/Sales');
 
 app.use(bodyparser.json());
@@ -27,6 +28,7 @@ app.get('/products/:id', getById);
 app.put('/products/:id', updateProduct);
 app.delete('/products/:id', deleteProduct);
 app.post('/sales', addSales);
+app.get('/sales', readSales);
 
 app.listen(3000, () => {
   console.log('aplicação rodando');
