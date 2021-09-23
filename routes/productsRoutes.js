@@ -12,11 +12,11 @@ router.post('/', [
 ]);
 
 router.get('/', [
-  productsController.getAll
+  productsController.getAll,
 ]);
 
 router.get('/:id', [
-  productsController.getById
+  productsController.getById,
 ]);
 
 module.exports = router;

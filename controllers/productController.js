@@ -13,8 +13,8 @@ const add = async (req, res, next) => {
     err: {
       message,
       code: errCode,
-      data: { errType }
-    }
+      data: { errType },
+    },
   });
   
   return res.status(success).json(insertedProduct);
@@ -41,8 +41,8 @@ const getById = async ( req, res, next ) => {
     err: {
       message,
       code,
-      data: { errType }
-    }
+      data: { errType },
+    },
   });
 
   return res.status(success).json(product);
@@ -51,5 +51,5 @@ const getById = async ( req, res, next ) => {
 module.exports = {
   add,
   getAll,
-  getById
+  getById,
 };
