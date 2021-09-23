@@ -12,7 +12,7 @@ const addSales = async (req, res) => {
 const readSales = async (_req, res) => {
   const sales = await getAllSales();
 
-  res.status(200).json(sales);
+  res.status(200).json({ sales });
 };
 
 module.exports = {
