@@ -12,13 +12,14 @@ module.exports = (req, res, next) => {
     .map(({ quantity }) => quantity)
     .every((quantity) => typeof quantity === 'number' && quantity > minQuantity);
 
-  if (!isQuantitiesValid) return next({
+  if (!isQuantitiesValid) {
+    return next({
     err: {
       message,
       code,
-      data: { errType }
-    }
+      data: { errType },
+    },
   });
-
+}
   next();
 };
