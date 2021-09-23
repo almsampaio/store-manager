@@ -19,4 +19,10 @@ router.get('/:id', [
   productsController.getById,
 ]);
 
+router.put('/:id', [
+  nameAuth,
+  quantityAuth,
+  productsController.update,
+]);
+
 module.exports = router;
