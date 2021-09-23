@@ -1,5 +1,6 @@
 const express = require('express');
 const BodyParser = require('body-parser');
+// const Validate = require('./middlewares/validate');
 
 const PORT = 3000;
 const app = express();
