@@ -9,7 +9,8 @@ const add = async (req, res, next) => {
   
   const insertedProduct = await productsService.add(name, quantity);
   
-  if (!insertedProduct) { return next({
+  if (!insertedProduct) {
+    return next({
     err: {
       message,
       code: errCode,
