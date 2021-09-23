@@ -18,9 +18,7 @@ app.get('/sales', salesController.getAll);
 
 app.get('/sales/:id', salesController.getById);
 
-// app.put('/sales/:id', async (req, res) => {
-//   const { id } = req.params;
-// });
+app.put('/sales/:id', salesController.update);
 
 app.put('/products/:id', productsController.update);
 

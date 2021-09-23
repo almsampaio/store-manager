@@ -10,17 +10,6 @@ const getAll = async () => {
     return sales;
 };
 
-// const getAll = async () => {
-//     return connection()
-//       .then((db) => db.collection('sales').find().toArray())
-//       .then((sales) =>
-//         sales.map(({ _id, itensSold }) =>
-//          ( { _id, itensSold: itensSold
-//             .map((item) => ({ productId: item.productId,
-//         quantity: item.quantity }))})
-//         ))
-//   }
-
 const create = async (sale) => { 
     const db = await connection();
 
@@ -39,6 +28,19 @@ const getById = async (id) => {
     const sale = await db.collection('sales').findOne({ _id: ObjectId(id) });
 
     return sale;
+};
+
+const update = async (id, itensSold) => {
+    if (!ObjectId.isValid(id)) return null;
+
+    const db = await connection();
+
+    await db.collection('sales')
+        .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } }, { upsert: true });
+
+    const updatedSale = await getById(id);
+
+    return { _id: id, updatedSale };
 };
 
 const remove = async (id) => {
@@ -63,4 +65,5 @@ module.exports = {
     getById,
     remove,
     findProductId,
+    update,
 };
