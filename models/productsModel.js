@@ -13,7 +13,7 @@ const add = async (name, quantity) => {
 };
 
 const getAll = async () => {
-  return await connection()
+  return connection()
     .then((db) => db.collection('products').find().toArray())
     .then((response) => response);
 };
@@ -21,7 +21,7 @@ const getAll = async () => {
 const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
-  return await connection()
+  return connection()
     .then((db) => db.collection('products').findOne(new ObjectId(id)))
     .then((response) => response);
 };
