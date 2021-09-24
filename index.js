@@ -15,3 +15,5 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
 
 app.post('/products', Validate.checkName, Validate.checkProductQuantify, Products.create);
+app.get('products', Products.getAll);
+app.get('/products/:id', Products.getById);
