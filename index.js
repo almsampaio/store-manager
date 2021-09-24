@@ -1,6 +1,7 @@
 const express = require('express');
 const BodyParser = require('body-parser');
-// const Validate = require('./middlewares/validate');
+const Products = require('./controllers/Products');
+const Validate = require('./middlewares/validate');
 
 const PORT = 3000;
 const app = express();
@@ -12,3 +13,5 @@ app.get('/', (_request, response) => {
 });
 
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
+
+app.post('/products', Validate.checkName, Validate.checkProductQuantify, Products.create);
