@@ -12,9 +12,12 @@ const update = async (productId, quantity) => (
     .then(([sale]) => ({ ...sale, itensSold: [sale.itensSold] }))
 );
 
+const remove = async (id) => await salesModel.remove(id);
+
 module.exports = {
   add,
   getAll,
   getById,
   update,
+  remove,
 };

@@ -19,10 +19,23 @@ const update = (productId, quantity) => connection()
     { $match: { 'itensSold.productId': productId } },
     { $set: { 'itensSold.quantity': quantity } },
   ]).toArray());  
+  
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const saleToBeRemoved = await getById(id);
+
+  if (!saleToBeRemoved) return null;
+
+  return await connection()
+    .then((db) => db.collection(coll).deleteOne({ _id: new ObjectId(id) }))
+    .then(() => saleToBeRemoved);
+};  
 
 module.exports = {
   add,
   getAll,
   getById,
   update,
+  remove,
 };
