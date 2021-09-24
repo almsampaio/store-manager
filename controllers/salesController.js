@@ -1,12 +1,23 @@
 const salesService = require('../services/salesService');
 
-const add = async (req, res) => {
+const add = async (req, res, next) => {
   const itensSold = req.body;
   const success = 200;
+  const message = 'Such amount is not permitted to sell';
+  const code = 'stock_problem';
+  const errType = 404;
 
   const insertedSale = await salesService.add(itensSold);
+  
+  if (!insertedSale) return next({
+    err: {
+      message,
+      code,
+      data: { errType }
+    }
+  });
 
-  res.status(success).json(insertedSale);
+  return res.status(success).json(insertedSale);
 };
 
 const getAll = async (_req, res) => {
@@ -14,7 +25,7 @@ const getAll = async (_req, res) => {
 
   const sales = await salesService.getAll();
 
-  res.status(success).json(sales);
+  return res.status(success).json(sales);
 };
 
 const getById = async (req, res, next) => {
