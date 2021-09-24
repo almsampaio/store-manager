@@ -30,7 +30,7 @@ describe('11 - Escreva testes para seus models', () => {
   });
 });
 
-describe.skip('12 - Escreva testes para seus services', () => {
+describe('12 - Escreva testes para seus services', () => {
   beforeAll(async () => {
     await exec(NPX_NYC_COMMAND('services'));
   });
