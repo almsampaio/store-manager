@@ -24,7 +24,7 @@ const controllerGetById = async (req, res) => {
 
 const controllerGetAll = async (_req, res) => {
   const { status, info } = await services.servicesGetAll();
-  res.status(status).json(info);
+  res.status(status).json({ products: info });
 };
 
 module.exports = {
