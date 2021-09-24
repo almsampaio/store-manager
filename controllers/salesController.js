@@ -9,14 +9,15 @@ const add = async (req, res, next) => {
 
   const insertedSale = await salesService.add(itensSold);
   
-  if (!insertedSale) return next({
+  if (!insertedSale) {
+    return next({
     err: {
       message,
       code,
-      data: { errType }
-    }
+      data: { errType },
+    },
   });
-
+}
   return res.status(success).json(insertedSale);
 };
 
