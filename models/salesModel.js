@@ -27,7 +27,7 @@ const remove = async (id) => {
 
   if (!saleToBeRemoved) return null;
 
-  return await connection()
+  return connection()
     .then((db) => db.collection(coll).deleteOne({ _id: new ObjectId(id) }))
     .then(() => saleToBeRemoved);
 };  
