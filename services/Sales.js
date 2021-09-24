@@ -2,6 +2,7 @@ const {
   create,
   getAll,
   getById,
+  update,
 } = require('../models/Sales');
 
 const verifySale = (sales) => {
@@ -44,8 +45,19 @@ const getSaleById = async (id) => {
   return result;
 };
 
+const updateSalesById = async (sale, id) => {
+  const verifySaleQuan = verifySale(sale);
+
+  const result = await update(sale, id);
+
+  if (verifySaleQuan) return verifySale(sale);
+
+  return result;
+};
+
 module.exports = {
   createSales,
   getAllSales,
   getSaleById,
+  updateSalesById,
 };
