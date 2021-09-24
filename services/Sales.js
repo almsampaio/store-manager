@@ -47,10 +47,9 @@ const getSaleById = async (id) => {
 
 const updateSalesById = async (sale, id) => {
   const verifySaleQuan = verifySale(sale);
-
   const result = await update(sale, id);
 
-  if (verifySaleQuan) return verifySale(sale);
+  if (verifySaleQuan.err) return verifySale(sale);
 
   return result;
 };

@@ -27,13 +27,13 @@ const getSaById = async (req, res) => {
 const updateSales = async (req, res) => {
   const { id } = req.params;
   const sale = req.body;
-  const result = updateSalesById(sale, id);
+  const result = await updateSalesById(sale, id);
 
   if (result.err) {
-    return res.status(result.status).json({ sale: result.err });
+    return res.status(result.status).json({ err: result.err });
   }
 
-  res.status(201).json(result);
+  res.status(200).json(result);
 };
 
 module.exports = {

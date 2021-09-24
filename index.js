@@ -33,7 +33,7 @@ app.delete('/products/:id', deleteProduct);
 app.post('/sales', addSales);
 app.get('/sales', readSales);
 app.get('/sales/:id', getSaById);
-app.get('/sales/:id', updateSales);
+app.put('/sales/:id', updateSales);
 
 app.listen(3000, () => {
   console.log('aplicação rodando');
