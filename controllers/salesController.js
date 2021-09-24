@@ -56,14 +56,15 @@ const remove = async (req, res, next) => {
 
   const removedSale = await salesService.remove(id);
 
-  if (!removedSale) return next({
+  if (!removedSale) {
+    return next({
     err: {
       message,
       code,
       data: { errType },
     },
   });
-
+}
   return res.status(success).json(removedSale);
   };
 
