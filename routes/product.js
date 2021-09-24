@@ -7,7 +7,7 @@ const productValidation = [validation.nameValidation, validation.quantityValidat
 
 router.post('/', productValidation, controller.controllerCreate);
 router.get('/', controller.controllerGetAll);
-router.get('/:id', (_req, res) => res.status(status.HTTP_OK_STATUS).json('ok'));
+router.get('/:id', controller.controllerGetById);
 router.put('/:id', (_req, res) => res.status(status.HTTP_OK_STATUS).json('ok'));
 router.delete('/:id', (_req, res) => res.status(status.HTTP_OK_STATUS).json('ok'));
 

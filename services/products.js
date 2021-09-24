@@ -16,7 +16,18 @@ const servicesGetAll = async () => {
   return { status: status.HTTP_OK_STATUS, info: model }; 
 };
 
+const servicesGetById = async (id) => {
+  const model = await modelProducts.modelGetById(id);
+
+  if (!model) {
+    return { status: status.HTTP_UNPROCESSABLE_ENTITY, message: 'Wrong id format' };
+  }
+
+  return { status: status.HTTP_OK_STATUS, info: model }; 
+};
+
 module.exports = {
   servicesGetAll,
   servicesCreate,
+  servicesGetById,
 };
