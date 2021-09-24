@@ -15,6 +15,7 @@ const {
   readSales,
   getSaById,
   updateSales,
+  deleteSales,
 } = require('./controller/Sales');
 
 app.use(bodyparser.json());
@@ -34,6 +35,7 @@ app.post('/sales', addSales);
 app.get('/sales', readSales);
 app.get('/sales/:id', getSaById);
 app.put('/sales/:id', updateSales);
+app.delete('/sales/:id', deleteSales);
 
 app.listen(3000, () => {
   console.log('aplicação rodando');
