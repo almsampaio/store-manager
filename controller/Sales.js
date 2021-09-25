@@ -1,4 +1,8 @@
-const { createSales, getAllSales, getSaleById, updateSalesById } = require('../services/Sales');
+const { createSales,
+  getAllSales,
+  getSaleById,
+  updateSalesById,
+  deleteSal } = require('../services/Sales');
 
 const addSales = async (req, res) => {
   const saleBody = req.body;
@@ -36,9 +40,19 @@ const updateSales = async (req, res) => {
   res.status(200).json(result);
 };
 
+const deleteSales = async (req, res) => {
+  const { id } = req.params;
+  const sale = await deleteSal(id);
+
+  if (sale.err) return res.status(sale.status).json({ err: sale.err });
+
+  res.status(200).json(sale);
+};
+
 module.exports = {
   addSales,
   readSales,
   getSaById,
   updateSales,
+  deleteSales,
 };

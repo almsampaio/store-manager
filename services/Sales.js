@@ -3,6 +3,7 @@ const {
   getAll,
   getById,
   update,
+  deleteSales,
 } = require('../models/Sales');
 
 const verifySale = (sales) => {
@@ -54,9 +55,19 @@ const updateSalesById = async (sale, id) => {
   return result;
 };
 
+const deleteSal = async (id) => {
+  const sale = await deleteSales(id);
+
+  if (!sale) {
+    return { err: { code: 'invalid_data', message: 'Wrong sale ID format' }, status: 422 };
+  }
+  return sale;
+};
+
 module.exports = {
   createSales,
   getAllSales,
   getSaleById,
   updateSalesById,
+  deleteSal,
 };
