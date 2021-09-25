@@ -1,19 +1,11 @@
 const productsModel = require('../models/productsModel');
+const { productValidate } = require('../schemas/productsSchema');
 
 const create = async (name, quantity) => {
-    if (name.length < 5) {
-        return { err: {
-        code: 'invalid_data', message: '"name" length must be at least 5 characters long' } };
-    }
-    if (quantity < 1) {
-        return { err: {
-        code: 'invalid_data', message: '"quantity" must be larger than or equal to 1' } };
-    }
-    if (typeof quantity === 'string') {
-        return { err: {
-        code: 'invalid_data', message: '"quantity" must be a number' } };
-    }
+    const validations = productValidate(name, quantity);
 
+    if (validations.err) return validations;
+   
     const product = await productsModel.findByName(name);
      if (product) return { err: { code: 'invalid_data', message: 'Product already exists' } };
 
@@ -38,18 +30,9 @@ const getAll = async () => {
 };
 
 const update = async (id, name, quantity) => {
-    if (name.length < 5) {
-        return { err: {
-        code: 'invalid_data', message: '"name" length must be at least 5 characters long' } };
-    }
-    if (quantity < 1) {
-        return { err: {
-        code: 'invalid_data', message: '"quantity" must be larger than or equal to 1' } };
-    }
-    if (typeof quantity === 'string') {
-        return { err: {
-        code: 'invalid_data', message: '"quantity" must be a number' } };
-    }
+    const validations = productValidate(name, quantity);
+
+    if (validations.err) return validations;
 
     const product = await productsModel.update(id, name, quantity);
     
