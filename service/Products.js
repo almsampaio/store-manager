@@ -22,4 +22,9 @@ const product = await Products.create(name, quantity); // query de inclusão do 
 return { status: 201, data: product };
 };
 
-module.exports = { getAll, getById, create };
+const updateProduct = async (id, name, quantity) => {
+    const product = await Products.updateProduct(id, name, quantity);
+    return { status: 200, data: product };
+};
+
+module.exports = { getAll, getById, create, updateProduct };

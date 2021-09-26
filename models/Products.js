@@ -25,8 +25,15 @@ const create = async (name, quantity) => {
 // filtro pelo nome
 const findByName = async (name) => {
   const db = await Connection();
-  const product = db.collection('products').findOne({ name });
+  const product = await db.collection('products').findOne({ name });
   return product;
 };
 
-module.exports = { getAll, getById, create, findByName };
+const updateProduct = async (id, namee, quantityy) => {
+  const db = await Connection();
+  const product = await db.collection('products')
+  .updateOne({ _id: id }, { $set: { name: namee, quantity: quantityy } });
+  return product;
+};
+
+module.exports = { getAll, getById, create, findByName, updateProduct };
