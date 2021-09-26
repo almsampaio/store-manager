@@ -17,8 +17,8 @@ const getById = async (req, res) => {
 };
 
 const create = async (req, res) => {
-    const { name, quantify } = req.body;
-    const { status, data, message } = await Products.create(name, quantify);
+    const { name, quantity } = req.body;
+    const { status, data, message } = await Products.create(name, quantity);
     if (message) {
  return res.status(status).json({
         err: { code: 'invalid_data', message },

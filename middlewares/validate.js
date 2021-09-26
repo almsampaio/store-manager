@@ -8,7 +8,7 @@ if (typeof name !== 'string') {
 if (name.length <= 5) {
     return res.status(422).json({
         err: {
-            code: 'ivalid_data', message: '"name" length must be at least 5 chacters long',
+            code: 'invalid_data', message: '"name" length must be at least 5 characters long',
         },
     });
 }
@@ -16,8 +16,8 @@ if (name.length <= 5) {
 };
 
 const checkProductQuantify = (req, res, next) => {
- const { quantify } = req.body;
- if (typeof quantify !== 'number') {
+ const { quantity } = req.body;
+ if (typeof quantity !== 'number') {
      return res.status(422).json({
          err: {
              code: 'invalid_data',
@@ -25,11 +25,11 @@ const checkProductQuantify = (req, res, next) => {
          },
      });
  }
- if (quantify <= 0) {
+ if (quantity <= 0) {
      return res.status(422).json({
          err: {
              code: 'invalid_data',
-             message: '"quantify" must be larger than or equal to 1',
+             message: '"quantity" must be larger than or equal to 1',
          },
      });
  }
