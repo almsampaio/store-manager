@@ -24,6 +24,7 @@ return { status: 201, data: product };
 
 const updateProduct = async (id, name, quantity) => {
     const product = await Products.updateProduct(id, name, quantity);
+    console.log(product);
     return { status: 200, data: product };
 };
 
