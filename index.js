@@ -19,3 +19,4 @@ app.put('/products/:id', Validate.checkName,
 app.post('/products', Validate.checkName, Validate.checkProductQuantify, Products.create);
 app.get('/products/:id', Products.getById);
 app.get('/products', Products.getAll);
+app.delete('/products/:id', Products.deleteProduct);

@@ -22,10 +22,20 @@ const product = await Products.create(name, quantity); // query de inclusão do 
 return { status: 201, data: product };
 };
 
+// requisito feito em colaboração com o colega João Anadrade T10 -A 
 const updateProduct = async (id, name, quantity) => {
     const product = await Products.updateProduct(id, name, quantity);
-    console.log(product);
+    // console.log(product);
     return { status: 200, data: product };
 };
 
-module.exports = { getAll, getById, create, updateProduct };
+const deleteProduct = async (id) => {
+  const product = await Products.getById(id);
+  const message = 'Wrong id format';
+
+  if (!product) return { status: 422, message }; 
+  const result = await Products.deleteProduct(id);
+  return { status: 200, data: result };
+};
+
+module.exports = { getAll, getById, create, updateProduct, deleteProduct };
