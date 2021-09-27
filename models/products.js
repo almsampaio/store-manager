@@ -26,9 +26,17 @@ const modelGetById = async (id) => {
   return elements;
 };
 
+const modelUpdate = async (name, quantity, id) => {
+  const db = await connection();
+  await db.collection('products')
+  .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
+  return modelGetById(id);
+};
+
 module.exports = {
   modelCreate,
   modelGetAll,
   modelGetByName,
   modelGetById,
+  modelUpdate,
 };

@@ -23,7 +23,7 @@ const nameValidation = (req, res, next) => {
 const quantityValidation = (req, res, next) => {
   const { quantity } = req.body;
 
-  if (quantity <= 0) {
+  if (quantity < 0) {
     return res.status(status.HTTP_UNPROCESSABLE_ENTITY).json({ err: { 
       code: 'invalid_data',
       message: '"quantity" must be larger than or equal to 1',

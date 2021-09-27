@@ -26,8 +26,14 @@ const servicesGetById = async (id) => {
   return { status: status.HTTP_OK_STATUS, info: model }; 
 };
 
+const servicesUpdate = async (name, quantity, id) => {
+  const model = await modelProducts.modelUpdate(name, quantity, id);
+  return { status: status.HTTP_OK_STATUS, info: model }; 
+};
+
 module.exports = {
   servicesGetAll,
   servicesCreate,
   servicesGetById,
+  servicesUpdate,
 };
