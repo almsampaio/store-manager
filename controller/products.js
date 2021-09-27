@@ -36,7 +36,12 @@ const controllerUpdate = async (req, res) => {
 
 const controllerDelete = async (req, res) => {
   const { id } = req.params;
-  const { status, info } = await services.servicesDelete(id);
+  const { status, info, message } = await services.servicesDelete(id);
+
+  if (message) {
+    return res.status(status).json({ err: { code: 'invalid_data', message } });
+  }
+  
   res.status(status).json(info);
 };
 
