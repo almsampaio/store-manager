@@ -36,4 +36,23 @@ const checkProductQuantify = (req, res, next) => {
  next();
 };
 
-module.exports = { checkName, checkProductQuantify };
+// validações Sales
+
+const checkSalesQuantity = (req, res, next) => {
+let error = null;
+const message = 'Wrong product ID or invalid quantity';
+
+req.body.forEach((sales) => {
+    if (typeof sales.quantity !== 'number') {
+        error = { err: { code: 'invalid_data', message } };
+    }
+    if (sales.quantity <= 0) {
+        error = { err: { code: 'invalid_data', message } };
+    }
+});
+    if (error !== null) return res.status(422).json(error);
+
+next();
+};
+
+module.exports = { checkName, checkProductQuantify, checkSalesQuantity };
