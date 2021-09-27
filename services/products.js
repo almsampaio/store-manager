@@ -31,9 +31,21 @@ const servicesUpdate = async (name, quantity, id) => {
   return { status: status.HTTP_OK_STATUS, info: model }; 
 };
 
+const servicesDelete = async (id) => {
+  const searchProduct = await modelProducts.modelGetById(id);
+
+  if (!searchProduct) { 
+    return { status: status.HTTP_UNPROCESSABLE_ENTITY, message: 'Wrong id format' };
+  }
+
+  const model = await modelProducts.modelDelete(id);
+  return { status: status.HTTP_OK_STATUS, info: model }; 
+};
+
 module.exports = {
   servicesGetAll,
   servicesCreate,
   servicesGetById,
   servicesUpdate,
+  servicesDelete,
 };

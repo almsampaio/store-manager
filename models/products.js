@@ -27,10 +27,18 @@ const modelGetById = async (id) => {
 };
 
 const modelUpdate = async (name, quantity, id) => {
+  if (!ObjectId.isValid(id)) return null;
   const db = await connection();
   await db.collection('products')
   .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
   return modelGetById(id);
+};
+
+const modelDelete = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+  await db.collection('products').deleteOne({ _id: ObjectId(id) });
+  return 'Product deleted';
 };
 
 module.exports = {
@@ -39,4 +47,5 @@ module.exports = {
   modelGetByName,
   modelGetById,
   modelUpdate,
+  modelDelete,
 };
