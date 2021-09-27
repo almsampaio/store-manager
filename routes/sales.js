@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const controller = require('../controller/sales');
-const status = require('../status');
+const validation = require('../middleware/validations');
 
-router.post('/', (_req, res) => res.status(status.HTTP_OK_STATUS).json('ok'));
+router.post('/', validation.quantityValidation, controller.controllerCreate);
 router.get('/', controller.controllerGetAll);
-router.get('/:id', (_req, res) => res.status(status.HTTP_OK_STATUS).json('ok'));
-router.put('/:id', (_req, res) => res.status(status.HTTP_OK_STATUS).json('ok'));
-router.delete('/:id', (_req, res) => res.status(status.HTTP_OK_STATUS).json('ok'));
+router.get('/:id', controller.controllerGetById);
+router.put('/:id', validation.quantityValidation, controller.controllerUpdate);
+router.delete('/:id', controller.controllerDelete);
 
 module.exports = router;
