@@ -39,7 +39,27 @@ const quantityValidation = (req, res, next) => {
   next();
 };
 
+const quantitySaleValidation = (req, res, next) => {
+  const { quantity } = req.body;
+
+  if (quantity <= 0) {
+    return res.status(status.HTTP_UNPROCESSABLE_ENTITY).json({ err: { 
+      code: 'invalid_data',
+      message: 'Wrong product ID or invalid quantity',
+    } });
+  }
+
+  if (typeof quantity !== 'number') {
+    return res.status(status.HTTP_UNPROCESSABLE_ENTITY).json({ err: { 
+      code: 'invalid_data',
+      message: 'Wrong product ID or invalid quantity',
+    } });
+  }
+  next();
+};
+
 module.exports = {
   nameValidation,
   quantityValidation,
+  quantitySaleValidation,
 };
