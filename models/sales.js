@@ -1,5 +1,5 @@
 const { ObjectID } = require('mongodb');
-const connection = require('./connection');
+const { connection } = require('./connection');
 
 const addSales = async (itensSold) => {
     const db = await connection();
