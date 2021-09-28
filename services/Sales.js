@@ -58,10 +58,7 @@ const createSales = async (sale) => {
     return updateProductq;
   }
   await updateProductq;
-  // sale.(async ({ productId, quantity }) => {
-  //   const resultUpdate = await updateProductQuantity(productId, quantity);
-  //   return resultUpdate;
-  // });
+
   return result;
 };
 
