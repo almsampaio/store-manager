@@ -41,6 +41,12 @@ const modelDelete = async (id) => {
   return 'Product deleted';
 };
 
+const modelQuantityUpdate = async (productId, quantity) => {
+    const db = await connection();
+    await db.collection('products')
+  .updateOne({ _id: ObjectId(productId) }, { $inc: { quantity } });
+};
+
 module.exports = {
   modelCreate,
   modelGetAll,
@@ -48,4 +54,5 @@ module.exports = {
   modelGetById,
   modelUpdate,
   modelDelete,
+  modelQuantityUpdate,
 };

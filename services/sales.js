@@ -9,6 +9,9 @@ const servicesCreate = async (saleData) => {
   return { status: status.HTTP_UNPROCESSABLE_ENTITY,
     message: 'Wrong product ID or invalid quantity' };
   }
+  saleData.forEach(async (e) => {
+    await modelProducts.modelQuantityUpdate(e.productId, -e.quantity);
+  });
   const newProduct = await modelSales.modelCreate(saleData);
   return { status: status.HTTP_OK_STATUS, info: newProduct };
 };
@@ -34,11 +37,15 @@ const servicesUpdate = async (saleData, id) => {
 };
 
 const servicesDelete = async (id) => {
-  const searchProduct = await modelSales.modelGetById(id);
+  const saleData = await modelSales.modelGetById(id);
 
-  if (!searchProduct) { 
+  if (!saleData) { 
     return { status: status.HTTP_UNPROCESSABLE_ENTITY, message: 'Wrong sale ID format' };
   }
+  
+  saleData.itensSold.forEach(async (e) => {
+    await modelProducts.modelQuantityUpdate(e.productId, e.quantity);
+  });
 
   const model = await modelSales.modelDelete(id);
   return { status: status.HTTP_OK_STATUS, info: model }; 
