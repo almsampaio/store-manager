@@ -42,9 +42,9 @@ const modelDelete = async (id) => {
 };
 
 const modelQuantityUpdate = async (productId, quantity) => {
-    const db = await connection();
+  const db = await connection();
     await db.collection('products')
-  .updateOne({ _id: ObjectId(productId) }, { $inc: { quantity } });
+    .updateOne({ _id: ObjectId(productId) }, { $inc: { quantity } });
 };
 
 module.exports = {

@@ -9,9 +9,6 @@ const servicesCreate = async (saleData) => {
   return { status: status.HTTP_UNPROCESSABLE_ENTITY,
     message: 'Wrong product ID or invalid quantity' };
   }
-  saleData.forEach(async (e) => {
-    await modelProducts.modelQuantityUpdate(e.productId, -e.quantity);
-  });
   const newProduct = await modelSales.modelCreate(saleData);
   return { status: status.HTTP_OK_STATUS, info: newProduct };
 };

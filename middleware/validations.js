@@ -1,4 +1,5 @@
 const status = require('../status');
+const modelProduct = require('../models/products');
 
 const nameValidation = (req, res, next) => {
   const { name } = req.body;
@@ -39,6 +40,25 @@ const quantityValidation = (req, res, next) => {
   next();
 };
 
+const quantityInStock = async (req, res, next) => {
+  const info = req.body;
+  const map = await info.map(async (e) => {
+  const getBy = await modelProduct.modelGetById(e.productId);
+  if (getBy.quantity - e.quantity < 0) {
+    return true;
+  }
+  await modelProduct.modelQuantityUpdate(e.productId, -e.quantity);
+  });
+  Promise.all(map).then((results) => {
+    if (results[0]) {
+      return res.status(status.HTTP_NOT_FOUND).json({ err: { 
+        code: 'stock_problem', message: 'Such amount is not permitted to sell',
+      } });
+    } 
+  });
+  next();
+};
+
 const quantitySaleValidation = (req, res, next) => {
   const sale = req.body;
   const err = { err: { 
@@ -58,4 +78,5 @@ module.exports = {
   nameValidation,
   quantityValidation,
   quantitySaleValidation,
+  quantityInStock,
 };
