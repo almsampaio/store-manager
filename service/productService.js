@@ -8,7 +8,7 @@ module.exports.createProduct = async (serviceData) => {
     const duplicateName = await connection()
       .then((db) => db.collection('products').findOne({ name }));
     if (duplicateName) {
-      throw new Error(constants.productMessage.DUPLICATE_NAME);
+      throw new Error(constants.productMessage.PRODUCT_EXISTING);
     }
     const product = productModel.createProduct({ ...serviceData });
     return await product;
