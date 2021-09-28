@@ -38,7 +38,7 @@ const checkProductQuantify = (req, res, next) => {
 
 // validações Sales
 
-const checkSalesQuantity = (req, res, next) => {
+const checkSales = (req, res, next) => {
 let error = null;
 const message = 'Wrong product ID or invalid quantity';
 
@@ -55,4 +55,4 @@ req.body.forEach((sales) => {
 next();
 };
 
-module.exports = { checkName, checkProductQuantify, checkSalesQuantity };
+module.exports = { checkName, checkProductQuantify, checkSales };
