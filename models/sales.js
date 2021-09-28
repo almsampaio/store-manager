@@ -25,7 +25,7 @@ const modelUpdate = async (itensSold, id) => {
   const db = await connection();
   await db.collection('sales')
   .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
-  return { id, itensSold };
+  return modelGetById(id);
 };
 
 const modelDelete = async (id) => {
