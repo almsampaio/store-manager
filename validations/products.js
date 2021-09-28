@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const service = require('../service/productsService');
 
 const validateInsertedName = async (req, res, next) => {
@@ -35,7 +36,19 @@ const validateInsertedQtd = (req, res, next) => {
   next();
 };
 
+const validateObjectID = (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    res.status(422).json({ err: { 
+        code: 'invalid_data',
+        message: 'Wrong id format',
+    } });
+  }
+  next();
+};
+
 module.exports = {
     validateInsertedName,
     validateInsertedQtd,
+    validateObjectID,
 };
