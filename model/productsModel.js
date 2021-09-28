@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 const collection = 'products';
@@ -14,7 +15,8 @@ const getAllProducts = async () => {
 const getById = async (id) => {
   try {
     const result = await connection().then((db) => db.collection(collection)
-      .find({ id }).toArray());
+      .find({ _id: ObjectId(id) }).toArray());
+    console.log(id);
     return result;
   } catch (error) {
     return error.message;
