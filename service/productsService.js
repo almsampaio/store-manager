@@ -12,6 +12,9 @@ const getAllProducts = async () => {
 
 const getById = async (id) => {
   const product = await model.getById(id);
+  if (product.length === 0) {
+    return false;
+  }
   return product;
 };
 

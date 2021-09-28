@@ -1,11 +1,15 @@
 const express = require('express');
 const controller = require('../controller/productsController');
-const { validateInsertedQtd, validateInsertedName } = require('../validations/products');
+const {
+    validateInsertedQtd,
+    validateInsertedName,
+    validateObjectID,
+ } = require('../validations/products');
 
 const router = express.Router();
 
 router.post('/', validateInsertedName, validateInsertedQtd, controller.addNewProduct);
 router.get('/', controller.getAllProducts);
-router.get('/:id', controller.getById);
+router.get('/:id', validateObjectID, controller.getById);
 
 module.exports = router;

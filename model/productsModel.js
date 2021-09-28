@@ -16,7 +16,6 @@ const getById = async (id) => {
   try {
     const result = await connection().then((db) => db.collection(collection)
       .find({ _id: ObjectId(id) }).toArray());
-    console.log(id);
     return result;
   } catch (error) {
     return error.message;
