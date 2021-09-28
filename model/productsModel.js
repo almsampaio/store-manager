@@ -11,6 +11,16 @@ const getAllProducts = async () => {
   }
 };
 
+const getById = async (id) => {
+  try {
+    const result = await connection().then((db) => db.collection(collection)
+      .find({ id }).toArray());
+    return result;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 const addNewProduct = async (newProduct) => {
   try {
     const result = await connection().then((db) => db.collection(collection)
@@ -24,4 +34,5 @@ const addNewProduct = async (newProduct) => {
 module.exports = {
     addNewProduct,
     getAllProducts,
+    getById,
 };
