@@ -9,15 +9,15 @@ const modelCreate = async (itensSold) => {
 
 const modelGetAll = async () => {
   const db = await connection();
-  const elements = db.collection('sales').find().toArray();
-  return elements;
+  const sales = db.collection('sales').find().toArray();
+  return sales;
 };
 
 const modelGetById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
-  const elements = db.collection('sales').findOne(ObjectId(id));
-  return elements;
+  const sales = db.collection('sales').findOne(ObjectId(id));
+  return sales;
 };
 
 const modelUpdate = async (itensSold, id) => {

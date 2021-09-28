@@ -19,12 +19,12 @@ const controllerGetById = async (req, res) => {
     return res.status(status).json({ err: { code: 'not_found', message } });
   }
 
-  res.status(status).json(info);
+  res.status(status).json({ sales: info });
 };
 
 const controllerGetAll = async (_req, res) => {
   const { status, info } = await services.servicesGetAll();
-  res.status(status).json({ itensSold: info });
+  res.status(status).json({ sales: info });
 };
 
 const controllerUpdate = async (req, res) => {
