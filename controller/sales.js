@@ -1,8 +1,8 @@
 const services = require('../services/sales');
 
 const controllerCreate = async (req, res) => {
-  const saleData = req.body;
-  const { status, info, message } = await services.servicesCreate(saleData);
+  const itensSold = req.body;
+  const { status, info, message } = await services.servicesCreate(itensSold);
 
   if (message) {
     return res.status(status).json({ err: { code: 'invalid_data', message } });
@@ -16,7 +16,7 @@ const controllerGetById = async (req, res) => {
   const { status, info, message } = await services.servicesGetById(id);
 
   if (message) {
-    return res.status(status).json({ err: { code: 'invalid_data', message } });
+    return res.status(status).json({ err: { code: 'not_found', message } });
   }
 
   res.status(status).json(info);
@@ -29,11 +29,10 @@ const controllerGetAll = async (_req, res) => {
 
 const controllerUpdate = async (req, res) => {
   const { id } = req.params;
-  const { quantity } = req.body;
-  const { status, info } = await services.servicesUpdate(quantity, id);
+  const saleData = req.body;
+  const { status, info } = await services.servicesUpdate(saleData, id);
   res.status(status).json(info);
 };
-
 const controllerDelete = async (req, res) => {
   const { id } = req.params;
   const { status, info, message } = await services.servicesDelete(id);

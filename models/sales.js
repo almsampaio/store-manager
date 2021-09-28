@@ -1,10 +1,10 @@
 const { ObjectId } = require('mongodb');
 const connection = require('../connection');
 
-const modelCreate = async (saleData) => {
+const modelCreate = async (itensSold) => {
   const db = await connection();
-  const { insertedId } = await db.collection('sales').insertOne({ saleData });
-  return { _id: insertedId, saleData };
+  const itens = await db.collection('sales').insertOne({ itensSold });
+  return { _id: itens.insertedId, itensSold };
 };
 
 const modelGetAll = async () => {
@@ -20,12 +20,12 @@ const modelGetById = async (id) => {
   return elements;
 };
 
-const modelUpdate = async (quantity, id) => {
+const modelUpdate = async (itensSold, id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
   await db.collection('sales')
-  .updateOne({ _id: ObjectId(id) }, { $set: { quantity } });
-  return modelGetById(id);
+  .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } });
+  return { id, itensSold };
 };
 
 const modelDelete = async (id) => {

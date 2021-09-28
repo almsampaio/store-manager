@@ -40,21 +40,17 @@ const quantityValidation = (req, res, next) => {
 };
 
 const quantitySaleValidation = (req, res, next) => {
-  const { quantity } = req.body;
+  const sale = req.body;
+  const err = { err: { 
+    code: 'invalid_data',
+    message: 'Wrong product ID or invalid quantity',
+  } };
 
-  if (quantity <= 0) {
-    return res.status(status.HTTP_UNPROCESSABLE_ENTITY).json({ err: { 
-      code: 'invalid_data',
-      message: 'Wrong product ID or invalid quantity',
-    } });
-  }
-
-  if (typeof quantity !== 'number') {
-    return res.status(status.HTTP_UNPROCESSABLE_ENTITY).json({ err: { 
-      code: 'invalid_data',
-      message: 'Wrong product ID or invalid quantity',
-    } });
-  }
+  sale.forEach((e) => {
+    if (e.quantity <= 0 || typeof e.quantity !== 'number') {
+      return res.status(status.HTTP_UNPROCESSABLE_ENTITY).json(err);
+    }
+});
   next();
 };
 

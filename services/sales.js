@@ -4,15 +4,13 @@ const modelProducts = require('../models/products');
 
 const servicesCreate = async (saleData) => {
   const { productId } = saleData[0];
-  const checkId = await modelProducts.modelGetById(productId);
-
-  if (!checkId) { 
-    return { status: status.UNPROCESSABLE_ENTITY,
-      message: 'Wrong product ID or invalid quantity' };
+  const check = await modelProducts.modelGetById(productId);
+  if (!check) {
+  return { status: status.HTTP_UNPROCESSABLE_ENTITY,
+    message: 'Wrong product ID or invalid quantity' };
   }
-
   const newProduct = await modelSales.modelCreate(saleData);
-  return { status: status.HTTP_CREATED, info: newProduct };
+  return { status: status.HTTP_OK_STATUS, info: newProduct };
 };
 
 const servicesGetAll = async () => {
@@ -24,14 +22,14 @@ const servicesGetById = async (id) => {
   const model = await modelSales.modelGetById(id);
 
   if (!model) {
-    return { status: status.HTTP_UNPROCESSABLE_ENTITY, message: 'Sale not found' };
+    return { status: status.HTTP_NOT_FOUND, message: 'Sale not found' };
   }
 
   return { status: status.HTTP_OK_STATUS, info: model }; 
 };
 
-const servicesUpdate = async (quantity, id) => {
-  const model = await modelSales.modelUpdate(quantity, id);
+const servicesUpdate = async (saleData, id) => {
+  const model = await modelSales.modelUpdate(saleData, id);
   return { status: status.HTTP_OK_STATUS, info: model }; 
 };
 
