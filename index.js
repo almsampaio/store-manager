@@ -9,4 +9,4 @@ app.get('/', (_request, response) => {
   response.send('Hello World 🧑‍🚀🚀');
 });
 
-app.listen(PORT, () => console.log(`WE'RE RUNING ON ${PORT}`))
+app.listen(PORT, () => console.log(`WE'RE RUNING ON ${PORT}`));
