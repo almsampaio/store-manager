@@ -7,7 +7,7 @@ const OPTIONS = {
 
 let db = null;
 
-const connection = () => (db
+module.exports = () => (db
   ? Promise.resolve(db)
   : MongoClient.connect(process.env.MONGO_DB_URL, OPTIONS)
   .then((conn) => {
@@ -20,5 +20,3 @@ const connection = () => (db
     throw new Error(error);
   })
 );
-
-module.exports = connection;
