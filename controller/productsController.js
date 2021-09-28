@@ -6,7 +6,7 @@ const addNewProduct = async (req, res) => {
       const operation = await service.addNewProduct({ name, quantity });
       res.status(201).json(operation);
     } catch (error) {
-      res.status(400).json(error);
+      res.status(400).json({ err: error.message });
     }
 };
 
@@ -19,7 +19,18 @@ const getAllProducts = async (_req, res) => {
     }
 };
 
+const getById = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const product = await service.getById(id);
+      res.status(200).json(product);
+    } catch (error) {
+      res.status(400).json({ err: error.message });
+    }
+};
+
 module.exports = {
     addNewProduct,
     getAllProducts,
+    getById,
 };
