@@ -1,24 +1,45 @@
+// const { MongoClient } = require('mongodb');
+
+// require('dotenv').config();
+
+// const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/StoreManager';
+
+// const OPTIONS = {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// };
+
+// const DB_NAME = 'StoreManager';
+
+// let db = null;
+
+// const connectionDb = () => (db ? Promise.resolve(db) : MongoClient.connect(MONGO_DB_URL, OPTIONS))
+//   .then((con) => {
+//     db = con.db(DB_NAME);
+//     return db;
+//   });
+
+//   module.exports = {
+//     connectionDb,
+//   };
 const { MongoClient } = require('mongodb');
 
 require('dotenv').config();
 
-const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/StoreManager';
+const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://localhost:27017/StoreManager';
 
-const OPTIONS = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
+const OPTIONS = { useNewUrlParser: true, useUnifiedTopology: true };
 
-const DBNAME = 'StoreManager';
+const DB_NAME = 'StoreManager';
 
 let db = null;
 
-const connectionDb = () => (db ? Promise.resolve(db) : MongoClient.connect(MONGO_DB_URL, OPTIONS))
+const connectionDB = () => (db
+  ? Promise.resolve(db)
+  : MongoClient.connect(MONGO_DB_URL, OPTIONS)
   .then((con) => {
-    db = con.db(DBNAME);
+    db = con.db(DB_NAME);
     return db;
-  });
+  }));
 
-  module.exports = {
-    connectionDb,
-  };
+module.exports = connectionDB;
