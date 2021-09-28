@@ -6,12 +6,13 @@ const getAll = async () => {
 };
 
 const newProduct = async (name, quantity) => {
-  const productNew = modelProduct.newProduct(name, quantity);
-  return productNew;
+  const productNew = await modelProduct.newProduct(name, quantity);
+  const { ops } = productNew;
+  return ops[0];
 };
 
 const searchById = async (id) => {
-  const searchId = modelProduct.searchById(id);
+  const searchId = await modelProduct.searchById(id);
   return searchId;
 };
 
