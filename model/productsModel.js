@@ -3,9 +3,13 @@ const connection = require('./connection');
 const collection = 'products';
 
 const addNewProduct = async (newProduct) => {
-  await connection().then((db) => db.collection(collection))
-  .insertOne(newProduct);
-  return true;
+  try {
+    await connection().then((db) => db.collection(collection))
+    .insertOne(newProduct);
+    return 'Produto adicionado com sucesso!';
+  } catch (error) {
+    return error;
+  }
 };
 
 module.exports = {
