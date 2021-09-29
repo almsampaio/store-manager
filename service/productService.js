@@ -49,6 +49,9 @@ module.exports.getProductById = async ({ id }) => {
 
 module.exports.updateProduct = async ({ id, updateInfo }) => {
   try {
+    if (!ObjectId.isValid(id)) {
+      throw new Error(constants.dataBaseMessage.INVALID_ID);
+    }
     const product = await connection()
       .then((db) => db.collection('products').updateOne(
         { _id: ObjectId(id) },
@@ -61,6 +64,23 @@ module.exports.updateProduct = async ({ id, updateInfo }) => {
     return newProduct;
   } catch (error) {
     console.log('Something went wrong: Service updateProduct', error);
+    throw new Error(error);
+  }
+};
+
+module.exports.deleteProduct = async ({ id }) => {
+  try {
+    if (!ObjectId.isValid(id)) {
+      throw new Error(constants.dataBaseMessage.INVALID_ID);
+    }
+    const product = await connection()
+      .then((db) => db.collection('products').findOneAndDelete({ _id: ObjectId(id) }));
+    if (!product) {
+      throw new Error(constants.productMessage.PRODUCT_NOT_FOUND);
+    }
+    return product.value;
+  } catch (error) {
+    console.log('Something went wrong: Service deleteProduct', error);
     throw new Error(error);
   }
 };
