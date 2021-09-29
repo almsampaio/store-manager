@@ -11,9 +11,20 @@ module.exports.createProduct = async (serviceData) => {
       throw new Error(constants.productMessage.PRODUCT_EXISTING);
     }
     const product = productModel.createProduct({ ...serviceData });
-    return await product;
+    return product;
   } catch (error) {
     console.log('Something went wrong: Service createProduct', error);
+    throw new Error(error);
+  }
+};
+
+module.exports.getAllProducts = async () => {
+  try {
+    const products = await connection()
+      .then((db) => db.collection('products').find().toArray());
+    return { products };
+  } catch (error) {
+    console.log('Something went wrong: Service getAllProducts', error);
     throw new Error(error);
   }
 };
