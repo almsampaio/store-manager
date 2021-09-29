@@ -9,6 +9,8 @@ const getAll = async () => {
 const newProduct = async (name, quantity) => {
   const validName = validations.validName(name);
   if (validName) return validName;
+  const nameDuplicate = validations.nameDuplicate(name);
+  if (nameDuplicate) return nameDuplicate;
   const productNew = await modelProduct.newProduct(name, quantity);
   const { ops } = productNew;
   return ops[0];
