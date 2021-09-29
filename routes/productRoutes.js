@@ -16,4 +16,6 @@ router.put('/:id', joiSchemaValidation.validateBody(productSchema.updateProductS
 
 router.get('/', productController.getAllProducts);
 
+router.delete('/:id', productController.deleteProduct);
+
 module.exports = router;
