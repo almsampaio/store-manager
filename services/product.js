@@ -4,6 +4,7 @@ const {
   getProducts,
   getProduct,
   updateProduct,
+  deleteProduct,
 } = require('../db/models/product');
 
 async function createService(data) {
@@ -32,4 +33,15 @@ async function updateProductService(id, data) {
   return res;
 }
 
-module.exports = { createService, listProductService, updateProductService };
+async function deleteProductService(id) {
+  const product = await getProduct(id);
+  await deleteProduct(id);
+
+  return {
+    id,
+    name: product.name,
+    quantity: product.quantity,
+  };
+}
+
+module.exports = { createService, listProductService, updateProductService, deleteProductService };

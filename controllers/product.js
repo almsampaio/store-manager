@@ -1,4 +1,9 @@
-const { createService, listProductService, updateProductService } = require('../services/product');
+const {
+  createService,
+  listProductService,
+  updateProductService,
+  deleteProductService,
+} = require('../services/product');
 
 async function create(request, response) {
   try {
@@ -34,7 +39,6 @@ async function update(request, response) {
     const product = await updateProductService(request.params.id, request.body);
     return response.status(200).json(product);
   } catch (error) {
-    console.log(error);
     return response.status(422).json({
       err: {
         code: 'invalid_data',
@@ -44,4 +48,18 @@ async function update(request, response) {
   }
 }
 
-module.exports = { create, list, update };
+async function remove(request, response) {
+  try {
+    const res = await deleteProductService(request.params.id);
+    return response.status(200).json(res);
+  } catch (error) {
+    return response.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+}
+
+module.exports = { create, list, update, remove };

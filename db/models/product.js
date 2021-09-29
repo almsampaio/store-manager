@@ -1,14 +1,10 @@
-const { ObjectId } = require('mongodb');
+const { ObjectID } = require('mongodb');
 const connection = require('../index');
 
-const create = async (name, quantity) => {
+const create = async (data) => {
   const createProduct = await connection().then((db) =>
-  db.collection('products').insertOne({ name, quantity }));
-  const { _id } = createProduct.ops[0];
-  return {
-    ...createProduct.ops[0].name,
-    _id,
-  };
+  db.collection('products').insertOne(data));
+  return createProduct.ops[0];
 };
 
 const findByName = async (name) => {
@@ -25,9 +21,8 @@ const getProducts = async () => {
 
 const getProduct = async (id) => {
   const product = await connection().then((db) =>
-  db.collection('products').findOne(new ObjectId(id)));
-  const { _id, name } = product;
-  return { _id, ...name };
+  db.collection('products').findOne(new ObjectID(id)));
+  return product;
 };
 
 const updateProduct = async (id, data) => {
@@ -37,9 +32,16 @@ const updateProduct = async (id, data) => {
   .then((result) => result.value);
 
   const newProduct = await connection().then((db) => db.collection('products')
-  .findOne(new ObjectId(id)));
+  .findOne(new ObjectID(id)));
 
   return newProduct;
+};
+
+const deleteProduct = async (id) => {
+  if (!ObjectID.isValid(id)) return null;
+
+  await connection().then((db) =>
+  db.collection('products').deleteOne({ _id: ObjectID(id) }));
 };
 
 module.exports = {
@@ -48,4 +50,5 @@ module.exports = {
   getProducts,
   getProduct,
   updateProduct,
+  deleteProduct,
 };
