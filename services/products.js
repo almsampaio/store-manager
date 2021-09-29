@@ -25,8 +25,14 @@ const searchById = async (id) => {
   return searchId;
 };
 
+const updateProduct = async (id, name, quantity) => {
+  const update = await modelProduct.updateProduct(id, name, quantity);
+  return update;
+};
+
 module.exports = {
   getAll,
   newProduct,
   searchById,
+  updateProduct,
 };
