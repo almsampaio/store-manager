@@ -1,5 +1,5 @@
 const {
-  createService,
+  createService, listSalesService,
 } = require('../services/sales');
 
 async function create(request, response) {
@@ -18,18 +18,18 @@ async function create(request, response) {
 }
 
 async function list(request, response) {
-  // const id = request.params.id || null;
-  // try {
-  //   const data = await listProductService(id);
-  //   return response.status(200).json(data);
-  // } catch (error) {
-  //   return response.status(422).json({
-  //     err: {
-  //       code: 'invalid_data',
-  //       message: 'Wrong id format',
-  //     },
-  //   });
-  // }
+  const id = request.params.id || null;
+  try {
+    const data = await listSalesService(id);
+    return response.status(200).json(data);
+  } catch (error) {
+    return response.status(404).json({
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    });
+  }
 }
 
 async function update(request, response) {
