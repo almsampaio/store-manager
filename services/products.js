@@ -26,6 +26,12 @@ const searchById = async (id) => {
 };
 
 const updateProduct = async (id, name, quantity) => {
+  const validName = validations.validName(name);
+  if (validName) return validName;
+  const notQuantityNegative = validations.notQuantityNegative(quantity);
+  if (notQuantityNegative) return notQuantityNegative;
+  const notNumberQuantity = validations.notNumberQuantity(quantity);
+  if (notNumberQuantity) return notNumberQuantity;
   const update = await modelProduct.updateProduct(id, name, quantity);
   return update;
 };

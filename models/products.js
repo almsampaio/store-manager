@@ -25,8 +25,10 @@ const searchById = async (id) => {
 };
 
 const updateProduct = async (id, name, quantity) => {
-  const update = await connectionDb()
-    .then((db) => db.collection('products')
+  if (!ObjectId(id)) return null;
+  const update = await connectionDb();
+  // .then((db) => db.collection('products')
+  await update.collection('products')
     .updateOne(
       {
         _id: ObjectId(id),
@@ -34,8 +36,9 @@ const updateProduct = async (id, name, quantity) => {
       {
         $set: { name, quantity },
       },
-    ));
-  return update;
+    );
+  console.log(update);
+  return { id, name, quantity };
 };
 
 module.exports = {
