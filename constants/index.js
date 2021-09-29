@@ -14,8 +14,12 @@ module.exports = {
     DATA_INVALID: 'invalid_data',
     PRODUCT_EXISTING: 'Product already exists',
     PRODUCT_FETCHED: 'Product Fetched Successfuly',
+    PRODUCT_NOT_FOUND: 'Product Not Found',
   },
   requestValidationMessage: {
     BAD_REQUEST: 'Invalid fields',
+  },
+  dataBaseMessage: {
+    INVALID_ID: 'Wrong id format',
   },
 };
