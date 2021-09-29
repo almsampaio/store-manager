@@ -16,6 +16,7 @@ const newProduct = async (name, quantity) => {
 };
 
 const searchById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
   const searchId = await connectionDb()
     // .then((db) => db.collection('products').find({ id }).toArray());
     .then((db) => db.collection('products').findOne(ObjectId(id)));

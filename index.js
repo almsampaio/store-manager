@@ -15,5 +15,6 @@ app.get('/', (_request, response) => {
 
 app.post('/products', controllerProducts.newProduct);
 app.get('/products', controllerProducts.getAll);
+app.get('/products/:id', controllerProducts.searchById);
 
 app.listen(3000, () => console.log('API in running!'));
