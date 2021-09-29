@@ -14,6 +14,8 @@ app.get('/', (_request, response) => {
 });
 
 app.post('/products', Product.create);
+app.get('/products', Product.getAll);
+app.get('/products/:id', Product.findById);
 
 app.listen(PORT, () => {
   console.log(`Ouvindo a porta ${PORT}`);
