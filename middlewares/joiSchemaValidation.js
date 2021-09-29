@@ -16,7 +16,6 @@ module.exports.validateBody = (schema) => ((req, res, next) => {
   const error = validateObjectSchema(req.body, schema);
   if (error) {
     response.status = 422;
-    response.message = constants.requestValidationMessage.BAD_REQUEST;
     response.err.code = constants.productMessage.DATA_INVALID;
     response.err.message = error;
     delete response.body;
