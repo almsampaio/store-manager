@@ -46,3 +46,21 @@ module.exports.getProductById = async ({ id }) => {
     throw new Error(error);
   }
 };
+
+module.exports.updateProduct = async ({ id, updateInfo }) => {
+  try {
+    const product = await connection()
+      .then((db) => db.collection('products').updateOne(
+        { _id: ObjectId(id) },
+        { $set: updateInfo },
+      ));
+    if (!product) {
+      throw new Error(constants.productMessage.PRODUCT_NOT_FOUND);
+    }
+    const newProduct = { _id: id, ...updateInfo };
+    return newProduct;
+  } catch (error) {
+    console.log('Something went wrong: Service updateProduct', error);
+    throw new Error(error);
+  }
+};
