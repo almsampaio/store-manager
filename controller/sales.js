@@ -1,5 +1,6 @@
 const services = require('../services/sales');
 const modelProduct = require('../models/products');
+const newstatus = require('../status');
 
 const controllerCreate = async (req, res) => {
   const itensSold = req.body;
@@ -15,7 +16,7 @@ const controllerCreate = async (req, res) => {
   if (message) {
     return res.status(status).json({ err: { code: 'invalid_data', message } });
   } if (response[0] !== undefined) {
-    return res.status(status).json({ err: 
+    return res.status(newstatus.HTTP_NOT_FOUND).json({ err: 
       { code: 'stock_problem', message: 'Such amount is not permitted to sell' } });
   }
   res.status(status).json(info);
