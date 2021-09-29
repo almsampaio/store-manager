@@ -36,13 +36,20 @@ const validateInsertedQtd = (req, res, next) => {
   next();
 };
 
-const validateObjectID = (req, res, next) => {
+const validateObjectID = async (req, res, next) => {
   const { id } = req.params;
+  const allProducts = await service.getAllProducts();
   if (!ObjectId.isValid(id)) {
     res.status(422).json({ err: { 
         code: 'invalid_data',
         message: 'Wrong id format',
     } });
+  }
+  if (!allProducts.some((product) => product.id === ObjectId(id))) {
+    res.status(422).json({ err: { 
+      code: 'invalid_data',
+      message: 'Wrong id format',
+  } });
   }
   next();
 };
