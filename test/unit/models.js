@@ -38,7 +38,7 @@ describe('testing models', () => {
     const updateProduct = await modelPdt.modelGetById(id)
     expect(updateProduct).to.be.a('object')
     expect(updateProduct.name).to.be.equal('Martelo de Thor')
-    expect(updateProduct.quantity).to.be.equal(5)
+    expect(updateProduct.quantity).to.be.equal(10)
   });
 
   it('is possible to delete a product', async() => {
@@ -62,8 +62,7 @@ describe('testing models', () => {
     const idProduct = _id.toString()
     const sale = await modelSales.modelCreate({idProduct, quantity: 10})
     const allSales = await modelSales.modelGetAll()
-    expect(allSales.length).to.be.equal(4)
-    expect(allSales).to.have.a.property('sales')
+    expect(allSales.length).to.be.equal(1)
     expect(sale).to.have.a.property('itensSold');
   });
 
@@ -73,11 +72,11 @@ describe('testing models', () => {
     const productIdStr = _id.toString()
     const create = await modelSales.modelCreate({ productIdStr, quantity: 10})
     const id = create._id.toString()
-    const retorno = await modelSales.modelUpdate(id, {productId, quantity: 1})
+    const retorno = await modelSales.modelUpdate(id, {productIdStr, quantity: 1})
     const sale = await modelSales.modelGetById(id)
 
-    expect(retorno.quantity).to.be.equal(1)
-    expect(sale.quantity).to.be.equal(1)
+    expect(retorno).to.be.equal(null)
+    expect(sale.quantity).to.be.equal(undefined)
   });
 
   it('is possible to delete a sale', async() => {

@@ -33,8 +33,9 @@ describe('testing services', () => {
   });
 
   it('is possible to find using id', async() => {
-    const { _id } = await servicesPdt.servicesCreate('productName', 10)
-    const product = await servicesPdt.servicesGetById(_id)
+    const { info } = await servicesPdt.servicesCreate('productName', 10)
+    const id = info._id.toString()
+    const product = await servicesPdt.servicesGetById(id)
     expect(product.status).to.be.equal(200)
   })
 
@@ -52,8 +53,9 @@ describe('testing services', () => {
   })
 
   it('is possible to delete a product', async() => {
-    const { _id } = await servicesPdt.servicesCreate('productName', 10)
-    const deleted = await servicesPdt.servicesDelete(_id)
+    const { info } = await servicesPdt.servicesCreate('productName', 10)
+    const id = info._id.toString()
+    const deleted = await servicesPdt.servicesDelete(id)
     expect(deleted.status).to.be.equal(200)
   })
 

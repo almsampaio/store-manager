@@ -41,6 +41,7 @@ const quantityValidation = (req, res, next) => {
 
 const quantitySaleValidation = (req, res, next) => {
   const sale = req.body;
+  let throwError = null;
   const err = { err: { 
     code: 'invalid_data',
     message: 'Wrong product ID or invalid quantity',
@@ -48,9 +49,13 @@ const quantitySaleValidation = (req, res, next) => {
 
   sale.forEach((e) => {
     if (e.quantity <= 0 || typeof e.quantity !== 'number') {
-      return res.status(status.HTTP_UNPROCESSABLE_ENTITY).json(err);
+      throwError = err;
     }
 });
+
+  if (throwError !== null) {
+    return res.status(status.HTTP_UNPROCESSABLE_ENTITY).json(throwError);
+  }
   next();
 };
 
