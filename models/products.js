@@ -24,6 +24,10 @@ const searchById = async (id) => {
   return searchId;
 };
 
+// const updateProduct = () => {
+
+// };
+
 module.exports = {
   newProduct,
   getAll,
