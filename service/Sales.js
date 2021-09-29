@@ -18,4 +18,12 @@ const createSales = async (sale) => {
     return { status: 200, data: sales };
 };
 
-module.exports = { getAllSales, getById, createSales }; 
+const updateSales = async (update) => {
+    const sales = await Sales.updateSales(update);
+    const message = 'Wrong product ID or invalid quantity';
+    
+    if (!sales) return { status: 404, message };
+    return { status: 200, data: sales };
+};
+
+module.exports = { getAllSales, getById, createSales, updateSales };    
