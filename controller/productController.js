@@ -42,3 +42,24 @@ module.exports.getAllProducts = async (req, res) => {
   }
   return res.status(response.status).send(condition ? response.body : response);
 };
+
+module.exports.getProductById = async (req, res) => {
+  let condition;
+  const response = { ...constants.defaultServerResponse };
+  try {
+    condition = true;
+    const responseFromService = await productService.getProductById(req.params);
+    response.status = 200;
+    response.body = responseFromService;
+    delete response.err;
+  } catch (error) {
+    condition = false;
+    console.log('Something went wrong: Controller: getProductById', error);
+    response.status = 422;
+    response.message = constants.productMessage.PRODUCT_NOT_FOUND;
+    response.err.code = constants.productMessage.DATA_INVALID;
+    response.err.message = error.message.slice(7);
+    delete response.body;
+  }
+  return res.status(response.status).send(condition ? response.body : response);
+};
