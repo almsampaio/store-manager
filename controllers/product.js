@@ -1,4 +1,4 @@
-const { createService, listProductService } = require('../services/product');
+const { createService, listProductService, updateProductService } = require('../services/product');
 
 async function create(request, response) {
   try {
@@ -29,4 +29,19 @@ async function list(request, response) {
   }
 }
 
-module.exports = { create, list };
+async function update(request, response) {
+  try {
+    const product = await updateProductService(request.params.id, request.body);
+    return response.status(200).json(product);
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
+}
+
+module.exports = { create, list, update };

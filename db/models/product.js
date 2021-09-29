@@ -30,9 +30,22 @@ const getProduct = async (id) => {
   return { _id, ...name };
 };
 
+const updateProduct = async (id, data) => {
+  await connection().then((db) =>
+  db.collection('products')
+  .findOneAndUpdate({ _id: id }, { $set: data }, { returnDocument: 'after' }))
+  .then((result) => result.value);
+
+  const newProduct = await connection().then((db) => db.collection('products')
+  .findOne(new ObjectId(id)));
+
+  return newProduct;
+};
+
 module.exports = {
   create,
   findByName,
   getProducts,
   getProduct,
+  updateProduct,
 };

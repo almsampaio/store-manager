@@ -1,4 +1,10 @@
-const { findByName, create, getProducts, getProduct } = require('../db/models/product');
+const {
+  findByName,
+  create,
+  getProducts,
+  getProduct,
+  updateProduct,
+} = require('../db/models/product');
 
 async function createService(data) {
   const productExists = await findByName(data.name);
@@ -18,4 +24,12 @@ async function listProductService(id) {
   return products;
 }
 
-module.exports = { createService, listProductService };
+async function updateProductService(id, data) {
+  const product = await getProduct(id);
+  if (!product) throw new Error('Wrong id format');
+
+  const res = await updateProduct(id, data);
+  return res;
+}
+
+module.exports = { createService, listProductService, updateProductService };
