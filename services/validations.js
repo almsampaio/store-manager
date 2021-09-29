@@ -26,7 +26,7 @@ const nameDuplicate = async (name) => {
 };
 
 const notQuantityNegative = (quantity) => {
-  if (quantity < 0) {
+  if (quantity <= 0) {
     return {
       err: {
         code: 'invalid_data',
@@ -37,8 +37,21 @@ const notQuantityNegative = (quantity) => {
   return false;
 };
 
+const notNumberQuantity = (quantity) => {
+  if (typeof (quantity) !== 'number') {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: '"quantity" must be a number',
+      },
+    };
+  }
+  return false;
+};
+
 module.exports = {
   validName,
   nameDuplicate,
   notQuantityNegative,
+  notNumberQuantity,
 };
