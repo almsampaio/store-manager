@@ -11,6 +11,9 @@ router.post('/',
 
 router.get('/:id', productController.getProductById);
 
+router.put('/:id', joiSchemaValidation.validateBody(productSchema.updateProductSchema),
+  productController.updateProduct);
+
 router.get('/', productController.getAllProducts);
 
 module.exports = router;
