@@ -393,7 +393,7 @@ describe('3 - Crie um endpoint para atualizar um produto', () => {
   });
 });
 
-describe.skip('4 - Crie um endpoint para deletar um produto', () => {
+describe('4 - Crie um endpoint para deletar um produto', () => {
   let connection;
   let db;
 
@@ -422,7 +422,7 @@ describe.skip('4 - Crie um endpoint para deletar um produto', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que não é possível deletar um produto com sucesso', async () => {
+  it('Será validado que não é possível deletar um produto com sucesso', async () => {
     let result;
     let resultProductId;
 
@@ -447,7 +447,7 @@ describe.skip('4 - Crie um endpoint para deletar um produto', () => {
       });
   });
 
-  it.skip('Será validado que não é possível deletar um produto que não existe', async () => {
+  it('Será validado que não é possível deletar um produto que não existe', async () => {
     await frisby
       .delete(`${url}/products/${invalidId}`)
       .expect('status', 422)
