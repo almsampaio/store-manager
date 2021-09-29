@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connection = require('../model/connection');
 const productModel = require('../model/productModel');
 const constants = require('../constants');
@@ -25,6 +26,23 @@ module.exports.getAllProducts = async () => {
     return { products };
   } catch (error) {
     console.log('Something went wrong: Service getAllProducts', error);
+    throw new Error(error);
+  }
+};
+
+module.exports.getProductById = async ({ id }) => {
+  try {
+    if (!ObjectId.isValid(id)) {
+      throw new Error(constants.dataBaseMessage.INVALID_ID);
+    }
+    const product = await connection()
+      .then((db) => db.collection('products').findOne({ _id: ObjectId(id) }));
+    if (!product) {
+      throw new Error(constants.productMessage.PRODUCT_NOT_FOUND);
+    }
+    return product;
+  } catch (error) {
+    console.log('Something went wrong: Service getProductById', error);
     throw new Error(error);
   }
 };
