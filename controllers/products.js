@@ -26,6 +26,8 @@ const searchById = async (req, res) => {
       },
     });
   }
+  // fix
+  return res.status(status.HTTP_OK_STATUS).json(searchProduct);
 };
 
 module.exports = {
