@@ -26,11 +26,12 @@ async function listProductService(id) {
 }
 
 async function updateProductService(id, data) {
+  console.log(data);
   const product = await getProduct(id);
   if (!product) throw new Error('Wrong id format');
 
-  const res = await updateProduct(id, data);
-  return res;
+  await updateProduct(id, data);
+  return { _id: id, ...data };
 }
 
 async function deleteProductService(id) {

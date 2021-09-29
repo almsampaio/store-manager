@@ -30,11 +30,6 @@ const updateProduct = async (id, data) => {
   db.collection('products')
   .findOneAndUpdate({ _id: id }, { $set: data }, { returnDocument: 'after' }))
   .then((result) => result.value);
-
-  const newProduct = await connection().then((db) => db.collection('products')
-  .findOne(new ObjectID(id)));
-
-  return newProduct;
 };
 
 const deleteProduct = async (id) => {
