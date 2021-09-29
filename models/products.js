@@ -38,7 +38,6 @@ const modelDelete = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
   await db.collection('products').deleteOne({ _id: ObjectId(id) });
-  return 'Product deleted';
 };
 
 const modelQuantityUpdate = async (productId, quantity) => {

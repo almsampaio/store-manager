@@ -40,7 +40,7 @@ const servicesDelete = async (id) => {
     return { status: status.HTTP_UNPROCESSABLE_ENTITY, message: 'Wrong sale ID format' };
   }
   
-  saleData.itensSold.forEach(async (e) => {
+  saleData.itensSold.map(async (e) => {
     await modelProducts.modelQuantityUpdate(e.productId, e.quantity);
   });
 

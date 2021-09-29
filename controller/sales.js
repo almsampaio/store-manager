@@ -1,13 +1,23 @@
 const services = require('../services/sales');
+const modelProduct = require('../models/products');
 
 const controllerCreate = async (req, res) => {
   const itensSold = req.body;
   const { status, info, message } = await services.servicesCreate(itensSold);
-
+  const map = await itensSold.map(async (e) => {
+    const getBy = await modelProduct.modelGetById(e.productId);
+    if (getBy.quantity - e.quantity < 0) {
+      return true;
+    }
+    await modelProduct.modelQuantityUpdate(e.productId, -e.quantity);
+    });
+    const response = await Promise.all(map);
   if (message) {
     return res.status(status).json({ err: { code: 'invalid_data', message } });
+  } if (response[0] !== undefined) {
+    return res.status(status).json({ err: 
+      { code: 'stock_problem', message: 'Such amount is not permitted to sell' } });
   }
-
   res.status(status).json(info);
 };
 
