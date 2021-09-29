@@ -1,4 +1,5 @@
 const modelProduct = require('../models/products');
+const validations = require('./validations');
 
 const getAll = async () => {
   const productsAll = await modelProduct.getAll();
@@ -6,6 +7,8 @@ const getAll = async () => {
 };
 
 const newProduct = async (name, quantity) => {
+  const validName = validations.validName(name);
+  if (validName) return validName;
   const productNew = await modelProduct.newProduct(name, quantity);
   const { ops } = productNew;
   return ops[0];

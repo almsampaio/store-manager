@@ -9,6 +9,9 @@ const getAll = async (req, res) => {
 const newProduct = async (req, res) => {
   const { name, quantity } = req.body;
   const productNew = await serviceProduct.newProduct(name, quantity);
+  if (productNew.err) {
+    return res.status(status.UNPROCESSABLE_ENTITY).json(productNew);
+  }
   res.status(status.HTTP_CREATE_STATUS).json(productNew);
 };
 
