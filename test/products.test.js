@@ -176,6 +176,7 @@ describe('2 - Crie um endpoint para listar os produtos', () => {
       .then((res) => {
         let { body } = res;
         body = JSON.parse(body);
+        console.log(body)
         const firstProductName = body.products[0].name;
         const firstQuantityProduct = body.products[0].quantity;
         const secondProductName = body.products[1].name;
