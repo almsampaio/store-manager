@@ -24,12 +24,23 @@ const searchById = async (id) => {
   return searchId;
 };
 
-// const updateProduct = () => {
-
-// };
+const updateProduct = async (id, name, quantity) => {
+  const update = await connectionDb()
+    .then((db) => db.collection('products')
+    .updateOne(
+      {
+        _id: ObjectId(id),
+      },
+      {
+        $set: { name, quantity },
+      },
+    ));
+  return update;
+};
 
 module.exports = {
   newProduct,
   getAll,
   searchById,
+  updateProduct,
 };
