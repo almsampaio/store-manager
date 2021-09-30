@@ -1,3 +1,4 @@
+// Solução enconntrado em parceria com Eduardo Costa - Turma 10-A
 const connectionDb = require('./connection');
 
 const getAll = async () => {
@@ -6,6 +7,16 @@ const getAll = async () => {
   return allSales;
 };
 
+const inputSales = async (salesArray) => {
+  const { ops: newSale } = connectionDb()
+    .then((db) => db.collection('sales')
+      .inserOne(
+        { itensSold: salesArray },
+    ));
+  return newSale;
+};
+
 module.exports = {
   getAll,
+  inputSales,
 };
