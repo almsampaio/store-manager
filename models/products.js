@@ -37,8 +37,20 @@ const updateProduct = async (id, name, quantity) => {
         $set: { name, quantity },
       },
     );
-  console.log(update);
   return { id, name, quantity };
+};
+
+const deleteProduct = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const delProd = await connectionDb();
+  const findProduct = await searchById(id);
+  await delProd.collection('products')
+    .deleteOne(
+      {
+        _id: ObjectId(id),
+      },
+    );
+  return findProduct;
 };
 
 module.exports = {
@@ -46,4 +58,5 @@ module.exports = {
   getAll,
   searchById,
   updateProduct,
+  deleteProduct,
 };
