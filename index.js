@@ -22,6 +22,6 @@ app.delete('/products/:id', controllerProducts.deleteProduct);
 
 app.post('/sales', controllerSales.inputSales);
 app.get('/sales', controllerSales.getAll);
-app.get('/sales/:id', controllerSales.searchById);
+app.get('/sales/:id', controllerSales.searchSale);
 
 app.listen(3000, () => console.log('API in running!'));
