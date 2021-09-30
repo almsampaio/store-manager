@@ -1,4 +1,3 @@
-const { del } = require('frisby');
 const modelProduct = require('../models/products');
 const validations = require('./validations');
 
