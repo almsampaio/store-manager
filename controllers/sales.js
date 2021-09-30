@@ -3,7 +3,7 @@ const status = require('../services/status');
 
 const getAll = async (req, res) => {
   const allSales = await serviceSales.getAll();
-  return res.status(status.HTTP_OK_STATUS).json(allSales);
+  return res.status(status.HTTP_OK_STATUS).json({ sales: allSales });
 };
 
 const inputSales = async (req, res) => {
