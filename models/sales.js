@@ -39,14 +39,12 @@ const updateSale = async (id, itensSold) => {
 };
 
 const deleteSale = async (id) => {
-  // console.log(id);
-  if (!ObjectId.isValid(id)) return null;
+  console.log(id);
   const db = await connectionDb();
-  const delSale = await db.collection('sales').findOne({ _id: ObjectId(id) });
-  // console.log(delSale);
-  if (delSale) {
-    await db.collection('sales')
-      .deleteOne({ _id: ObjectId(id) });
+  const salesCollection = db.collection('sales');
+  if (ObjectId.isValid(id)) {
+    const delSale = await salesCollection.findOne({ _id: ObjectId(id) });
+    await salesCollection.deleteOne({ _id: ObjectId(id) });
     return delSale;
   }
 };

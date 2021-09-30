@@ -34,7 +34,8 @@ const deleteSale = async (id) => {
         message: 'Wrong sale ID format',
       },
     }; 
-}
+  }
+  console.log(delSale);
   return delSale;
 };
 
