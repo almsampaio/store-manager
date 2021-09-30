@@ -1,3 +1,4 @@
+const { del } = require('frisby');
 const modelProduct = require('../models/products');
 const validations = require('./validations');
 
@@ -36,9 +37,23 @@ const updateProduct = async (id, name, quantity) => {
   return update;
 };
 
+const deleteProduct = async (id) => {
+  const delProd = modelProduct.deleteProduct(id);
+  if (!delProd) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return delProd;
+};
+
 module.exports = {
   getAll,
   newProduct,
   searchById,
   updateProduct,
+  deleteProduct,
 };
