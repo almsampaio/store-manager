@@ -1,4 +1,5 @@
 const modelSales = require('../models/sales');
+const validations = require('./validations');
 
 // const getAll = async () => {
 //   const allSales = await modelSales.getAll();
@@ -6,6 +7,8 @@ const modelSales = require('../models/sales');
 // };
 
 const inputSales = async (salesArray) => {
+  const validSales = await validations.validSales(salesArray);
+  if (validSales) return validSales;
   const newSale = await modelSales.inputSales(salesArray);
   return newSale;
 };

@@ -9,7 +9,7 @@ const status = require('../services/status');
 const inputSales = async (req, res) => {
   const salesArray = req.body;
   const newSale = await serviceSales.inputSales(salesArray);
-  // if (inputSales.err) return res.status(status.UNPROCESSABLE_ENTITY).json(newSale);
+  if (newSale.err) return res.status(status.UNPROCESSABLE_ENTITY).json(newSale);
   return res.status(status.HTTP_OK_STATUS).json(newSale);
 };
 
