@@ -18,8 +18,14 @@ const searchSale = async (id) => {
   return sale;
 };
 
+const updateSale = async (id, itensSold) => {
+  const updateSaleId = await modelSales.updateSale(id, itensSold);
+  return updateSaleId,
+};
+
 module.exports = {
   getAll,
   inputSales,
   searchSale,
+  updateSale,
 };
