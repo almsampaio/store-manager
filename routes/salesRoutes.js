@@ -8,4 +8,8 @@ const router = express.Router();
 router.post('/', joiSchemaValidation.validateBody(salesSchema.createSalesSchema),
 salesController.createSales);
 
+router.get('/:id', salesController.getsalesById);
+
+router.get('/', salesController.getAllSales);
+
 module.exports = router;
