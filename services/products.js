@@ -38,7 +38,7 @@ const updateProduct = async (id, name, quantity) => {
 };
 
 const deleteProduct = async (id) => {
-  const delProd = modelProduct.deleteProduct(id);
+  const delProd = await modelProduct.deleteProduct(id);
   if (!delProd) {
     return {
       err: {
