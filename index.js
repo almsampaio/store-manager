@@ -22,6 +22,7 @@ app.get('/', (_request, response) => {
 
 // routers
 app.use('/products', require('./routes/productRoutes'));
+app.use('/sales', require('./routes/salesRoutes'));
 
 // port and listening
 const PORT = process.env.PORT || 3000;
