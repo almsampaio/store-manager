@@ -24,5 +24,6 @@ app.delete('/products/:id', Products.deleteProduct);
 
 app.put('/sales/:id', Validate.checkSales, Sales.updateSales);
 app.get('/sales/:id', Sales.getById);
+app.delete('/sales/:id', Sales.deleteSales);
 app.get('/sales/', Sales.getAllSales);
 app.post('/sales', Validate.checkSales, Sales.createSales); // 

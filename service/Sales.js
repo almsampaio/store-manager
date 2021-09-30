@@ -23,4 +23,13 @@ const updateSales = async (id, itensSold) => {
     return { status: 200, data: sales };
 };
 
-module.exports = { getAllSales, getById, createSales, updateSales };  
+const deleteSales = async (id) => {
+const products = await Sales.getById(id);
+  const message = 'Wrong sale ID format';
+
+  if (!products) return { status: 422, message }; 
+  const result = await Sales.deleteSales(id);
+  return { status: 200, data: result };
+};
+
+module.exports = { getAllSales, getById, createSales, updateSales, deleteSales };  
