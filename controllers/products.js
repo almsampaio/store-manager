@@ -30,6 +30,13 @@ const searchById = async (req, res) => {
   return res.status(status.HTTP_OK_STATUS).json(searchProduct);
 };
 
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const delProd = await serviceProduct.deleteProduct(id);
+  if (delProd.err) return res.status(status.UNPROCESSABLE_ENTITY).json(delProd);
+  return res.status(status.HTTP_OK_STATUS).json(delProd);
+};
+
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
@@ -43,4 +50,5 @@ module.exports = {
   newProduct,
   searchById,
   updateProduct,
+  deleteProduct,
 };
