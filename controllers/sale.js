@@ -1,5 +1,5 @@
 const {
-  createService, listSalesService, updateSaleService,
+  createService, listSalesService, updateSaleService, deleteSaleService,
 } = require('../services/sales');
 
 async function create(request, response) {
@@ -47,17 +47,17 @@ async function update(request, response) {
 }
 
 async function remove(request, response) {
-  // try {
-  //   const res = await deleteProductService(request.params.id);
-  //   return response.status(200).json(res);
-  // } catch (error) {
-  //   return response.status(422).json({
-  //     err: {
-  //       code: 'invalid_data',
-  //       message: 'Wrong id format',
-  //     },
-  //   });
-  // }
+  try {
+    const res = await deleteSaleService(request.params.id);
+    return response.status(200).json(res);
+  } catch (error) {
+    return response.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    });
+  }
 }
 
 module.exports = { create, list, update, remove };

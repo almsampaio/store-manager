@@ -1,4 +1,4 @@
-const { create, getSale, getSales, updateSale } = require('../db/models/sale');
+const { create, getSale, getSales, updateSale, deleteSale } = require('../db/models/sale');
 
 async function createService(data) {
   const addSale = await create(data);
@@ -16,7 +16,6 @@ async function listSalesService(id) {
 }
 
 async function updateSaleService(id, data) {
-  console.log(data);
   const sale = await getSale(id);
   if (!sale) throw new Error('Wrong id format');
 
@@ -24,4 +23,11 @@ async function updateSaleService(id, data) {
   return { _id: id, itensSold: data };
 }
 
-module.exports = { createService, listSalesService, updateSaleService };
+async function deleteSaleService(id) {
+  const sale = await getSale(id);
+  await deleteSale(id);
+
+  return { _id: id, itensSold: sale };
+}
+
+module.exports = { createService, listSalesService, updateSaleService, deleteSaleService };
