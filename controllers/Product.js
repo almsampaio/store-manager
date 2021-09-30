@@ -7,8 +7,8 @@ const CREATED_STATUS = 201;
 const UNPROCESSABLE_ENTITY_STATUS = 422;
 
 const create = rescue(async (req, res) => {
-  const { name, quantity } = req.body;
-  const newProduct = await service.create(name, quantity);
+  const params = req.body;
+  const newProduct = await service.create(params);
   if (newProduct.err) return res.status(UNPROCESSABLE_ENTITY_STATUS).json(newProduct);
 
   res.status(CREATED_STATUS).json(newProduct);
@@ -27,8 +27,18 @@ const findById = rescue(async (req, res) => {
   res.status(OK_STATUS).json(product);
 });
 
+const update = rescue(async (req, res) => {
+  const { id } = req.params;
+  const params = req.body;
+  const updateProduct = await service.update(id, params);
+  if (updateProduct.err) return res.status(UNPROCESSABLE_ENTITY_STATUS).json(updateProduct);
+
+  res.status(OK_STATUS).json(updateProduct);
+});
+
 module.exports = {
   create,
   getAll,
   findById,
+  update,
 };
