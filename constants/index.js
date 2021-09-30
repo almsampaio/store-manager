@@ -16,6 +16,10 @@ module.exports = {
     DUPLICATE_NAME: 'Name already exist with given name',
     DATA_INVALID: 'invalid_data',
   },
+  salesMessage: {
+    status: '',
+    body: {},
+  },
   requestValidationMessage: {
     BAD_REQUEST: 'Invalid fields',
   },
