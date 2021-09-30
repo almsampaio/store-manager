@@ -27,8 +27,16 @@ const searchSale = async (req, res) => {
   return res.status(status.HTTP_OK_STATUS).json(sale);
 };
 
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+  const { itensSold } = req.body;
+  const updateSaleId = await serviceSales.updateSale(id, itensSold);
+  return res.status(status.HTTP_OK_STATUS).json(updateSaleId);
+};
+
 module.exports = {
   getAll,
   inputSales,
   searchSale,
+  updateSale,
 };
