@@ -1,4 +1,5 @@
 // Solução enconntrado em parceria com Eduardo Costa - Turma 10-A
+const { ObjectId } = require('mongodb');
 const connectionDb = require('./connection');
 
 const getAll = async () => {
@@ -18,7 +19,17 @@ const inputSales = async (salesArray) => {
   return newSale[0];
 };
 
+const searchSale = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const sale = await connectionDb();
+  await sale.collection('sales')
+    .findOne(ObjectId(id));
+  if (!sale) return null;
+  return sale;
+};
+
 module.exports = {
   getAll,
   inputSales,
+  searchSale,
 };
