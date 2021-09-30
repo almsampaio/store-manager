@@ -15,4 +15,9 @@ module.exports.createProduct = ({ name, quantity }) => (connection()
     id: result.insertedId,
     name,
     quantity,
-})));
+}))
+  .catch((error) => {
+    console.log('Unable to create product ===', error);
+    throw new Error(error);
+  })
+);
