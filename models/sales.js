@@ -8,7 +8,7 @@ const getAll = async () => {
 };
 
 const inputSales = async (salesArray) => {
-  const { ops: newSale } = connectionDb()
+  const { ops: newSale } = await connectionDb()
     .then((db) => db.collection('sales')
       .inserOne(
         { itensSold: salesArray },
