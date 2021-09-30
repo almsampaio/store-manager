@@ -17,6 +17,7 @@ app.post('/products', Product.create);
 app.get('/products', Product.getAll);
 app.get('/products/:id', Product.findById);
 app.put('/products/:id', Product.update);
+app.delete('/products/:id', Product.deleteOne);
 
 app.listen(PORT, () => {
   console.log(`Ouvindo a porta ${PORT}`);

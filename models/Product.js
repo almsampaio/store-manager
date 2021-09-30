@@ -31,14 +31,27 @@ const update = async (id, params) => {
   return updateProduct.value;
 };
 
+const deleteOne = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const deletedProduct = await connection()
+    .then((db) => db.collection('products').findOneAndDelete({ _id: new ObjectId(id) }));
+
+  return deletedProduct.value;
+};
+
 module.exports = {
   createData,
   getAll,
   findById,
   update,
+  deleteOne,
 };
 
 /* Referências:
   Como filtrar e alterar um objeto no banco de dados: https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndUpdate/#mongodb-method-db.collection.findOneAndUpdate
   Como retornar o documento atualizado no findOneAndUpdate: https://stackoverflow.com/questions/24747189/update-and-return-document-in-mongodb
+  Como filtrar e deletar um documento no banco de dados: https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndDelete/
+
 */

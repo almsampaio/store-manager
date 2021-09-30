@@ -67,8 +67,23 @@ const update = async (id, params) => {
   return updateProduct;
 };
 
+const deleteOne = async (id) => {
+  const deletedProduct = await Product.deleteOne(id);
+
+  if (deletedProduct === null) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    };
+  }
+  return deletedProduct;
+};
+
 module.exports = {
   create,
   findById,
   update,
+  deleteOne,
 };

@@ -36,9 +36,18 @@ const update = rescue(async (req, res) => {
   res.status(OK_STATUS).json(updateProduct);
 });
 
+const deleteOne = rescue(async (req, res) => {
+  const { id } = req.params;
+  const deletedProduct = await service.deleteOne(id);
+  if (deletedProduct.err) return res.status(UNPROCESSABLE_ENTITY_STATUS).json(deletedProduct);
+
+  res.status(OK_STATUS).json(deletedProduct);
+});
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  deleteOne,
 };
