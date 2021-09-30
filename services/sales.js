@@ -13,7 +13,13 @@ const inputSales = async (salesArray) => {
   return newSale;
 };
 
+const searchSale = async (id) => {
+  const sale = await modelSales.searchSale(id);
+  return sale;
+};
+
 module.exports = {
   getAll,
   inputSales,
+  searchSale,
 };
