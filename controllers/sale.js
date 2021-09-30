@@ -1,5 +1,5 @@
 const {
-  createService, listSalesService,
+  createService, listSalesService, updateSaleService,
 } = require('../services/sales');
 
 async function create(request, response) {
@@ -7,7 +7,6 @@ async function create(request, response) {
     const createSale = await createService(request.body);
     return response.status(200).json(createSale);
   } catch (error) {
-    console.log(error);
     return response.status(422).json({
       err: {
         code: 'invalid_data',
@@ -33,17 +32,18 @@ async function list(request, response) {
 }
 
 async function update(request, response) {
-  // try {
-  //   const product = await updateProductService(request.params.id, request.body);
-  //   return response.status(200).json(product);
-  // } catch (error) {
-  //   return response.status(422).json({
-  //     err: {
-  //       code: 'invalid_data',
-  //       message: 'Wrong id format',
-  //     },
-  //   });
-  // }
+  try {
+    const product = await updateSaleService(request.params.id, request.body);
+    return response.status(200).json(product);
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+      },
+    });
+  }
 }
 
 async function remove(request, response) {

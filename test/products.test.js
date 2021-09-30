@@ -384,7 +384,6 @@ describe('3 - Crie um endpoint para atualizar um produto', () => {
       })
       .expect('status', 200)
       .then((secondResponse) => {
-        console.log(secondResponse)
         const { json } = secondResponse;
         const productName = json.name;
         const quantityProduct = json.quantity;

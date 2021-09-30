@@ -22,7 +22,7 @@ const getSale = async (id) => {
 const updateSale = async (id, data) => {
   await connection().then((db) =>
   db.collection('sales')
-  .findOneAndUpdate({ _id: id }, { $set: data }, { returnDocument: 'after' }))
+  .findOneAndUpdate({ _id: id }, { $set: { itensSold: data } }, { returnDocument: 'after' }))
   .then((result) => result.value);
 };
 
