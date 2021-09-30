@@ -1,14 +1,14 @@
 // Solução enconntrado em parceria com Eduardo Costa - Turma 10-A
 const connectionDb = require('./connection');
 
-// const getAll = async () => {
-//   const allSales = await connectionDb()
-//     .then((db) => db.collection('sales').find({}).toArray());
-//   return allSales;
-// };
+const getAll = async () => {
+  const allSales = await connectionDb()
+    .then((db) => db.collection('sales').find({}).toArray());
+  return allSales;
+};
 
 const inputSales = async (salesArray) => {
-  const { ops: newSale} = await connectionDb()
+  const { ops: newSale } = await connectionDb()
     .then((db) => db.collection('sales')
       .insertOne(
         {
@@ -19,6 +19,6 @@ const inputSales = async (salesArray) => {
 };
 
 module.exports = {
-  // getAll,
+  getAll,
   inputSales,
 };

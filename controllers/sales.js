@@ -1,10 +1,10 @@
 const serviceSales = require('../services/sales');
 const status = require('../services/status');
 
-// const getAll = async (req, res) => {
-//   const allSales = await serviceSales.getAll();
-//   return allSales;
-// };
+const getAll = async (req, res) => {
+  const allSales = await serviceSales.getAll();
+  return res.status(status.HTTP_OK_STATUS).json(allSales);
+};
 
 const inputSales = async (req, res) => {
   const salesArray = req.body;
@@ -14,6 +14,6 @@ const inputSales = async (req, res) => {
 };
 
 module.exports = {
-  // getAll,
+  getAll,
   inputSales,
 };

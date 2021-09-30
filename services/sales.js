@@ -1,10 +1,10 @@
 const modelSales = require('../models/sales');
 const validations = require('./validations');
 
-// const getAll = async () => {
-//   const allSales = await modelSales.getAll();
-//   return allSales;
-// };
+const getAll = async () => {
+  const allSales = await modelSales.getAll();
+  return allSales;
+};
 
 const inputSales = async (salesArray) => {
   const validSales = await validations.validSales(salesArray);
@@ -14,6 +14,6 @@ const inputSales = async (salesArray) => {
 };
 
 module.exports = {
-  // getAll,
+  getAll,
   inputSales,
 };
