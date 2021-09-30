@@ -19,8 +19,18 @@ const searchSale = async (id) => {
 };
 
 const updateSale = async (id, itensSold) => {
+  const validSales = await validations.validSales(itensSold);
+  if (validSales && validSales.err.code) return validSales;
+  // if (!validSales) {
+  //   return {
+  //     err: {
+  //     code: 'invalida_data',
+  //     message: 'Wrong product ID or invalid quantity',
+  //     },
+  //   };
+  // }
   const updateSaleId = await modelSales.updateSale(id, itensSold);
-  return updateSaleId,
+  return updateSaleId;
 };
 
 module.exports = {

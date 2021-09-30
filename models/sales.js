@@ -29,13 +29,13 @@ const searchSale = async (id) => {
 };
 
 const updateSale = async (id, itensSold) => {
-  const updateSaleId = connectionDb();
+  const updateSaleId = await connectionDb();
   await updateSaleId.collection('sales')
     .updateOne(
       { _id: ObjectId(id) },
       { $set: { itensSold } },
     );
-  return updateSaleId;
+  return { _id: id, itensSold };
 };
 
 module.exports = {
