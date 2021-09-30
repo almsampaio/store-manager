@@ -26,9 +26,18 @@ async function listProductService(id) {
 }
 
 async function updateProductService(id, data) {
-  console.log(data);
   const product = await getProduct(id);
   if (!product) throw new Error('Wrong id format');
+
+  await updateProduct(id, data);
+  return { _id: id, ...data };
+}
+
+async function updateQntd(id, data) {
+  const product = await getProduct(id);
+  if (!product) throw new Error('Wrong id format');
+
+  const qnt = product.quantity;
 
   await updateProduct(id, data);
   return { _id: id, ...data };
@@ -45,4 +54,4 @@ async function deleteProductService(id) {
   };
 }
 
-module.exports = { createService, listProductService, updateProductService, deleteProductService };
+module.exports = { updateQntd, createService, listProductService, updateProductService, deleteProductService };
