@@ -13,7 +13,22 @@ const inputSales = async (req, res) => {
   return res.status(status.HTTP_OK_STATUS).json(newSale);
 };
 
+const searchSale = async (req, res) => {
+  const { id } = req.params;
+  const sale = await serviceSales.searchSale(id);
+  if (!sale) {
+    return res.status(404).json({
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    });
+  }
+  return res.status(status.HTTP_OK_STATUS).json(sale);
+};
+
 module.exports = {
   getAll,
   inputSales,
+  searchSale,
 };
