@@ -20,6 +20,9 @@ module.exports = {
     status: '',
     body: {},
   },
+  sales: {
+    SALES_NOT_FOUND: 'Sales Not Found',
+  },
   requestValidationMessage: {
     BAD_REQUEST: 'Invalid fields',
   },
