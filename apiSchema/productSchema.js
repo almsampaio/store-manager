@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
 module.exports.createProductSchema = Joi.object().keys({
   name: Joi.string().min(5).not().empty()
