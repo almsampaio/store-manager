@@ -23,7 +23,7 @@ const searchSale = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const sale = await connectionDb();
   await sale.collection('sales')
-    .findOne(ObjectId(id));
+    .findOne({ _id: ObjectId(id) }); 
   if (!sale) return null;
   return sale;
 };
@@ -38,9 +38,23 @@ const updateSale = async (id, itensSold) => {
   return { _id: id, itensSold };
 };
 
+const deleteSale = async (id) => {
+  // console.log(id);
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connectionDb();
+  const delSale = await db.collection('sales').findOne({ _id: ObjectId(id) });
+  // console.log(delSale);
+  if (delSale) {
+    await db.collection('sales')
+      .deleteOne({ _id: ObjectId(id) });
+    return delSale;
+  }
+};
+
 module.exports = {
   getAll,
   inputSales,
   searchSale,
   updateSale,
+  deleteSale,
 };

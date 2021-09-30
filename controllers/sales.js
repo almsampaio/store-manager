@@ -35,9 +35,18 @@ const updateSale = async (req, res) => {
   return res.status(status.HTTP_OK_STATUS).json(updateSaleId);
 };
 
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+  const delSale = await serviceSales.deleteSale(id);
+  // console.log(delSale);
+  if (delSale.err) return res.status(status.UNPROCESSABLE_ENTITY).json(delSale);
+  return res.status(status.HTTP_OK_STATUS).json({ delSale });
+};
+
 module.exports = {
   getAll,
   inputSales,
   searchSale,
   updateSale,
+  deleteSale,
 };
