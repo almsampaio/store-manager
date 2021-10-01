@@ -19,10 +19,11 @@ const inputSales = async (salesArray) => {
   return newSale[0];
 };
 
+// Solução encontrada por Daniel Ribeiro - Turma 10-A
 const searchSale = async (id) => {
   if (!ObjectId.isValid(id)) return null;
-  const sale = await connectionDb();
-  await sale.collection('sales')
+  const db = await connectionDb();
+  const sale = await db.collection('sales')
     .findOne({ _id: ObjectId(id) }); 
   if (!sale) return null;
   return sale;
