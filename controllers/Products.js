@@ -11,7 +11,7 @@ async function createProduct(req, res) {
 async function getProducts(_req, res) {
   const products = await Products.getProducts();
 
-  res.status(200).json(products);
+  res.status(200).json({ products });
 }
 
 async function getProductById(req, res) {

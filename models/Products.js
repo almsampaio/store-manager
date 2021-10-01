@@ -17,7 +17,7 @@ async function getProducts() {
 
 async function getProductById(id) {
   const product = await connection()
-    .then((db) => db.collection('products').find({ _id: id }));
+    .then((db) => db.collection('products').findOne({ _id: id }));
   
   return product;
 }
