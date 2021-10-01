@@ -38,7 +38,7 @@ const updateSale = async (req, res) => {
 const deleteSale = async (req, res) => {
   const { id } = req.params;
   const delSale = await serviceSales.deleteSale(id);
-  console.log(delSale);
+  // console.log(delSale);
   if (delSale.err) return res.status(status.UNPROCESSABLE_ENTITY).json(delSale);
   return res.status(status.HTTP_OK_STATUS).json(delSale);
 };

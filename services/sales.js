@@ -9,6 +9,8 @@ const getAll = async () => {
 const inputSales = async (salesArray) => {
   const validSales = await validations.validSales(salesArray);
   if (validSales) return validSales;
+  const updateSalesArray = await modelSales.updateQuantity(salesArray);
+  console.log(updateSalesArray);
   const newSale = await modelSales.inputSales(salesArray);
   return newSale;
 };
@@ -35,7 +37,7 @@ const deleteSale = async (id) => {
       },
     }; 
   }
-  console.log(delSale);
+  // console.log(delSale);
   return delSale;
 };
 
