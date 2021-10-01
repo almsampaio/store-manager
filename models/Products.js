@@ -14,7 +14,16 @@ async function getProducts() {
 
   return products;
 }
+
+async function getProductById(id) {
+  const product = await connection()
+    .then((db) => db.collection('products').find({ _id: id }));
+  
+  return product;
+}
+
 module.exports = {
   createProduct,
   getProducts,
+  getProductById,
 };

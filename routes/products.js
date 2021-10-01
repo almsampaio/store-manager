@@ -7,6 +7,23 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-router.post('/', Products.createProduct);
+const {
+  nameLengthValidation,
+  notEqualNameValidation,
+  quantityGreaterThanZeroValidation,
+  quantityMustBeANumberValidation,
+  isValidId,
+} = require('../middlewares/validations');
+
+const postValidationsArray = [
+  nameLengthValidation,
+  notEqualNameValidation,
+  quantityGreaterThanZeroValidation,
+  quantityMustBeANumberValidation,
+];
+
+router.get('/', Products.getProducts);
+router.get('/:id', isValidId, Products.getProductById);
+router.post('/', postValidationsArray, Products.createProduct);
 
 module.exports = router;
