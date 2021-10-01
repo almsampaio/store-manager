@@ -24,7 +24,7 @@ module.exports.getAllSales = async () => {
   }
 };
 
-module.exports.getsalesById = async ({ id }) => {
+module.exports.getSalesById = async ({ id }) => {
   try {
     if (!ObjectId.isValid(id)) {
       throw new Error(constants.dataBaseMessage.INVALID_ID);
@@ -36,7 +36,7 @@ module.exports.getsalesById = async ({ id }) => {
     }
     return product;
   } catch (error) {
-    console.log('Something went wrong: Service getsalesById', error);
+    console.log('Something went wrong: Service getSalesById', error);
     throw new Error(error);
   }
 };
@@ -58,6 +58,23 @@ module.exports.updateSales = async ({ id, updateInfo }) => {
     return newSales;
   } catch (error) {
     console.log('Something went wrong: Service updateSales', error);
+    throw new Error(error);
+  }
+};
+
+module.exports.deleteSales = async ({ id }) => {
+  try {
+    if (!ObjectId.isValid(id)) {
+      throw new Error(constants.dataBaseMessage.INVALID_ID);
+    }
+    const sale = await connection()
+      .then((db) => db.collection('sales').findOneAndDelete({ _id: ObjectId(id) }));
+    if (!sale) {
+      throw new Error({ error: constants.sales.SALES_NOT_FOUND });
+    }
+    return sale.value;
+  } catch (error) {
+    console.log('Something went wrong: Service deleteSales', error);
     throw new Error(error);
   }
 };
