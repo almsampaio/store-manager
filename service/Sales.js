@@ -14,6 +14,12 @@ const getById = async (id) => {
     return { status: 200, data: sale };
   };
 
+  const verifyStorage = async (id, quantity) => {
+  const product = await Product.getById(id);
+  const newQuantyti = product.quantity - quantity;
+  return newQuantyti;
+  };
+
   const updateItensSales = async (id, quantyti) => {
     const product = await Product.getById(id);
     const newQuantyti = product.quantity - quantyti;
@@ -22,10 +28,17 @@ const getById = async (id) => {
 
   const createSales = async (sale) => {
     const product = sale[0];
+    const result = await Promise.all(sale.map(async (prod) => (  
+    await verifyStorage(prod.productId, prod.quantity) >= 0)));
     await updateItensSales(product.productId, product.quantity);
+    const stopSale = result.every((e) => e === true);
+    if (!stopSale) {
+ return { status: 404,
+       data: { err: { code: 'stock_problem', message: 'Such amount is not permitted to sell' } } }; 
+}
     const sales = await Sales.createSales(sale);
     return { status: 200, data: sales };
-};
+  };
 
  const updateSales = async (id, itensSold) => {
    const sales = await Sales.updateSales(id, itensSold);
