@@ -10,6 +10,9 @@ salesController.createSales);
 
 router.get('/:id', salesController.getsalesById);
 
+router.put('/:id', joiSchemaValidation.validateBody(salesSchema.updateSalesSchema),
+  salesController.updateSales);
+
 router.get('/', salesController.getAllSales);
 
 module.exports = router;
