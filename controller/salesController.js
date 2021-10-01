@@ -27,10 +27,10 @@ module.exports.getAllSales = async (_req, res) => {
   return res.status(response.status).send(response.body);
 };
 
-module.exports.getsalesById = async (req, res) => {
+module.exports.getSalesById = async (req, res) => {
   const response = { ...constants.salesMessage };
   try {
-    const responseFromService = await salesService.getsalesById(req.params);
+    const responseFromService = await salesService.getSalesById(req.params);
     response.status = 200;
     response.body = responseFromService;
   } catch (error) {
@@ -52,6 +52,19 @@ module.exports.updateSales = async (req, res) => {
   } catch (error) {
     response.status = 422;
     response.body = { err: error.message };
+  }
+  return res.status(response.status).send(response.body);
+};
+
+module.exports.deleteSales = async (req, res) => {
+  const response = { ...constants.salesMessage };
+  try {
+    const responseFromService = await salesService.deleteSales(req.params);
+    response.status = 200;
+    response.body = responseFromService;
+  } catch (error) {
+    response.status = 422;
+    response.body = { err: { code: 'invalid_data', message: 'Wrong sale ID format' } };
   }
   return res.status(response.status).send(response.body);
 };
