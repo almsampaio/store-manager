@@ -39,3 +39,19 @@ module.exports.getsalesById = async (req, res) => {
   }
   return res.status(response.status).send(response.body);
 };
+
+module.exports.updateSales = async (req, res) => {
+  const response = { ...constants.salesMessage };
+  try {
+    const responseFromService = await salesService.updateSales(
+      { id: req.params.id, updateInfo: req.body },
+    );
+    response.status = 200;
+    response.body = responseFromService;
+    delete response.err;
+  } catch (error) {
+    response.status = 422;
+    response.body = { err: error.message };
+  }
+  return res.status(response.status).send(response.body);
+};
