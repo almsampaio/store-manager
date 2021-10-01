@@ -40,3 +40,24 @@ module.exports.getsalesById = async ({ id }) => {
     throw new Error(error);
   }
 };
+
+module.exports.updateSales = async ({ id, updateInfo }) => {
+  const [{ productId, quantity }] = updateInfo;
+  try {
+    if (!ObjectId.isValid(id)) {
+      throw new Error(constants.dataBaseMessage.INVALID_ID);
+    }
+    const sales = await connection()
+      .then((db) => db.collection('sales').updateOne(
+        { _id: ObjectId(id) }, { $set: { itensSold: { productId, quantity } } },
+      ));
+    if (!sales) {
+      throw new Error(constants.productMessage.PRODUCT_NOT_FOUND);
+    }
+    const newSales = { _id: id, itensSold: [...updateInfo] };
+    return newSales;
+  } catch (error) {
+    console.log('Something went wrong: Service updateSales', error);
+    throw new Error(error);
+  }
+};
