@@ -23,7 +23,8 @@ const createSales = async (itenSales) => {
 const updateSales = async (id, itensSold) => {
     if (!ObjectID.isValid(id)) return null;
     const db = await Connection();
-    await db.collection('sales').updateOne({ _id: ObjectID(id) }, { $set: { itensSold } });
+    await db.collection('sales')
+    .updateOne({ _id: ObjectID(id) }, { $set: { itensSold } });
     const sale = await getById(id);
     return sale;
   }; 
@@ -34,4 +35,11 @@ const updateSales = async (id, itensSold) => {
     await db.collection('sales').deleteOne({ _id: ObjectID(id) });
     return true;
   };
-module.exports = { getAllSales, getById, createSales, updateSales, deleteSales };
+
+  const getByItensSold = async (itensSold) => {
+    const db = await Connection();
+    const sale = await db.collection('sales').findOne({ itensSold });
+    return sale;
+  };
+
+module.exports = { getAllSales, getById, createSales, updateSales, deleteSales, getByItensSold };
