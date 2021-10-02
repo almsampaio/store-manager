@@ -27,7 +27,7 @@ async function editProduct(id, name, quantity) {
     .then((db) => db.collection('products').updateOne({ _id: id }, { $set: { name, quantity } }));
 
   return {
-    id, name, quantity
+    id, name, quantity,
   };
 }
 
