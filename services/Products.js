@@ -14,12 +14,17 @@ async function getProducts() {
 
 async function getProductById(id) {
   const product = await Products.getProductById(id);
-
   return product;
+}
+
+async function editProduct(id, name, quantity) {
+  const editedProduct = await Products.editProduct(id, name, quantity);
+  return editedProduct;
 }
 
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
+  editProduct,
 };

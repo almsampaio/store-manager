@@ -18,12 +18,22 @@ async function getProducts() {
 async function getProductById(id) {
   const product = await connection()
     .then((db) => db.collection('products').findOne({ _id: id }));
-  
+
   return product;
+}
+
+async function editProduct(id, name, quantity) {
+  await connection()
+    .then((db) => db.collection('products').updateOne({ _id: id }, { $set: { name, quantity } }));
+
+  return {
+    id, name, quantity
+  };
 }
 
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
+  editProduct,
 };

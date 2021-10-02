@@ -21,8 +21,19 @@ async function getProductById(req, res) {
   res.status(200).json(productById);
 }
 
+async function editProduct(req, res) {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+
+  const editedProduct = await Products.editProduct(new ObjectId(id), name, quantity);
+  // console.log(editedProduct);
+
+  res.status(200).json(editedProduct);
+}
+
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
+  editProduct,
 };

@@ -22,8 +22,17 @@ const postValidationsArray = [
   quantityMustBeANumberValidation,
 ];
 
+const putValidationsArray = [
+  nameLengthValidation,
+  quantityGreaterThanZeroValidation,
+  quantityMustBeANumberValidation,
+];
+
 router.get('/', Products.getProducts);
 router.get('/:id', isValidId, Products.getProductById);
+
 router.post('/', postValidationsArray, Products.createProduct);
+
+router.put('/:id', isValidId, putValidationsArray, Products.editProduct);
 
 module.exports = router;
