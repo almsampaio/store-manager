@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
+router.get('/', Sales.getSales);
+router.get('/:id', Sales.getSaleById);
 router.post('/', quantityValidation, Sales.createSales);
 
 module.exports = router;

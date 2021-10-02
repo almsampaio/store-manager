@@ -7,7 +7,7 @@ function quantityValidation(req, _res, next) {
 
   sales.forEach((sale) => {
     if (sale.quantity <= 0 || typeof sale.quantity !== 'number') {
-      next({ code: 'invalid_data', message: INVALID_DATA_ERROR_MESSAGE });
+      next({ status: 422, code: 'invalid_data', message: INVALID_DATA_ERROR_MESSAGE });
     }
   });
 
