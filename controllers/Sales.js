@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const Sales = require('../services/Sales');
 
 async function createSales(req, res) {
@@ -26,8 +26,18 @@ async function getSaleById(req, res, next) {
   res.status(200).json(sale);
 }
 
+async function editSale(req, res) {
+  const { id } = req.params;
+  const items = [...req.body];
+
+  const editedSale = await Sales.editSale(new ObjectId(id), items);
+
+  res.status(200).json(editedSale);
+}
+
 module.exports = {
   createSales,
   getSales,
   getSaleById,
+  editSale,
 };

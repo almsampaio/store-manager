@@ -2,7 +2,6 @@
 const connection = require('./connection');
 
 async function createSales(sales) {
-  await connection().then((db) => db.collection('sales').find().toArray());
   const salesCollection = await connection()
     .then((db) => db.collection('sales'));
 
@@ -29,8 +28,18 @@ async function getSaleById(id) {
     return sale;
 }
 
+async function editSale(id, items) {
+  await connection()
+    .then((db) => db.collection('sales')
+    .findOneAndUpdate({ _id: id }, { $set: { itensSold: items } }));
+  
+  const editedSale = await getSaleById(id);
+  return editedSale;
+}
+
 module.exports = {
   createSales,
   getSales,
   getSaleById,
+  editSale,
 };

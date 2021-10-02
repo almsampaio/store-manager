@@ -17,8 +17,14 @@ async function getSaleById(id) {
   return sale;
 }
 
+async function editSale(id, items) {
+  const editedSale = await Sales.editSale(id, items);
+  return editedSale;
+}
+
 module.exports = {
   createSales,
   getSales,
   getSaleById,
+  editSale,
 };
