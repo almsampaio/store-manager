@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 
-const MONGO_DB_URL = 'mongo://localhost:27017/StoreManager';
+const MONGO_DB_URL = 'mongo://mongodb:27017/StoreManager';
 const DB_NAME = 'StoreManager';
-const OPTIONS = { newUrlParser: true, unifiedTopology: true };
+const OPTIONS = { useNewUrlParser: true, newUnifiedTopology: true };
 
 module.exports = () =>
   MongoClient.connect(MONGO_DB_URL, OPTIONS)

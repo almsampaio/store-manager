@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 const { findByName } = require('../models/modelProducts');
 
 const HTTP_UNPROCESSABLE_ENTITY = 422;
@@ -11,7 +12,7 @@ const validateName = (name) => {
       err: {
         code: 'invalid_data',
         message: '"name" length must be at least 5 characters long',
-      },
+      }, 
     };
   }
 };

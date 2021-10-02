@@ -1,5 +1,5 @@
 const { validateName, validateQuantity, 
-  validateNumber, alreadyExits } = require('validations');
+  validateNumber, alreadyExits } = require('./validations');
 const { createNewProduct } = require('../models/modelProducts');
 
 const HTTP_CREATED_STATUS = 201;
