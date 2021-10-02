@@ -2,12 +2,12 @@ const { ObjectId } = require('mongodb');
 const connection = require('../model/connection');
 const salesModel = require('../model/salesModel');
 const constants = require('../constants');
-const { updateProductSales } = require('../helpers');
+const { updateProductAfterSalesCreation, updateProductAfterDeletingSales } = require('../helpers');
 
 module.exports.createSales = async (serviceData) => {
   try {
     const sales = await salesModel.createSales(serviceData);
-    await updateProductSales(sales);
+    await updateProductAfterSalesCreation(sales);
     return sales;
   } catch (error) {
     console.log('Something went wrong: Service createSales', error);
@@ -74,6 +74,7 @@ module.exports.deleteSales = async ({ id }) => {
     if (!sale) {
       throw new Error({ error: constants.sales.SALES_NOT_FOUND });
     }
+    await updateProductAfterDeletingSales(sale.value);
     return sale.value;
   } catch (error) {
     console.log('Something went wrong: Service deleteSales', error);
