@@ -2,10 +2,12 @@ const { ObjectId } = require('mongodb');
 const connection = require('../model/connection');
 const salesModel = require('../model/salesModel');
 const constants = require('../constants');
+const { updateProductSales } = require('../helpers');
 
 module.exports.createSales = async (serviceData) => {
   try {
     const sales = await salesModel.createSales(serviceData);
+    await updateProductSales(sales);
     return sales;
   } catch (error) {
     console.log('Something went wrong: Service createSales', error);
