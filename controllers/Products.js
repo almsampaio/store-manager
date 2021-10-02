@@ -26,9 +26,15 @@ async function editProduct(req, res) {
   const { name, quantity } = req.body;
 
   const editedProduct = await Products.editProduct(new ObjectId(id), name, quantity);
-  // console.log(editedProduct);
 
   res.status(200).json(editedProduct);
+}
+
+async function deleteProduct(req, res) {
+  const { id } = req.params;
+  const deletedProduct = await Products.deleteProduct(new ObjectId(id));
+
+  res.status(200).json(deletedProduct);
 }
 
 module.exports = {
@@ -36,4 +42,5 @@ module.exports = {
   getProducts,
   getProductById,
   editProduct,
+  deleteProduct,
 };

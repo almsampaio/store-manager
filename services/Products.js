@@ -22,9 +22,15 @@ async function editProduct(id, name, quantity) {
   return editedProduct;
 }
 
+async function deleteProduct(id) {
+  const deletedProduct = await Products.deleteProduct(id);
+  return deletedProduct;
+}
+
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
   editProduct,
+  deleteProduct,
 };
