@@ -35,9 +35,17 @@ async function editSale(req, res) {
   res.status(200).json(editedSale);
 }
 
+async function deleteSale(req, res) {
+  const { id } = req.params;
+  const deletedSale = Sales.deleteSale(id);
+
+  res.status(200).json(deletedSale);
+}
+
 module.exports = {
   createSales,
   getSales,
   getSaleById,
   editSale,
+  deleteSale,
 };

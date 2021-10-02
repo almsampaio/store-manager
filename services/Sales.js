@@ -22,9 +22,15 @@ async function editSale(id, items) {
   return editedSale;
 }
 
+async function deleteSale(id) {
+  const deletedSale = await Sales.deleteSale(id);
+  return deletedSale;
+}
+
 module.exports = {
   createSales,
   getSales,
   getSaleById,
   editSale,
+  deleteSale,
 };

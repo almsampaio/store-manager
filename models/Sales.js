@@ -37,9 +37,17 @@ async function editSale(id, items) {
   return editedSale;
 }
 
+async function deleteSale(id) {
+  const deletedSale = await connection()
+    .then((db) => db.collection('sales').deleteOne({ _id: id }));
+
+  return deletedSale;
+}
+
 module.exports = {
   createSales,
   getSales,
   getSaleById,
   editSale,
+  deleteSale,
 };

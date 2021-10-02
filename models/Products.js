@@ -23,12 +23,18 @@ async function getProductById(id) {
 }
 
 async function editProduct(id, name, quantity) {
+  // await connection()
+  //   .then((db) => db.collection('sales')
+  //   .findOneAndUpdate({ _id: id }, { $set: { itensSold: items } }));
+  
+  // const editedSale = await getSaleById(id);
+  // return editedSale;
   await connection()
-    .then((db) => db.collection('products').updateOne({ _id: id }, { $set: { name, quantity } }));
+    .then((db) => db.collection('products')
+    .findOneAndUpdate({ _id: id }, { $set: { name, quantity } }));
 
-  return {
-    id, name, quantity,
-  };
+  const editedProduct = await getProductById(id);
+  return editedProduct;
 }
 
 async function deleteProduct(id) {
