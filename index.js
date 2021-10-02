@@ -1,7 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
-const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 const { createProduct, getAllProducts, productById } = require('./controllers/controllerProducts');
 
