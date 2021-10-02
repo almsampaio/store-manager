@@ -106,6 +106,7 @@ after(() => mongoConnection.connection.restore());
             const result = await productModels.update(id, 'produto alterado', 50);
 
             const produtoAlterado = { _id: id, name: 'produto alterado', quantity: 50 };
+            console.log(produtoAlterado);
 
             expect(result).to.be.deep.equal(produtoAlterado);
 
