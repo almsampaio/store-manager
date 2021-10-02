@@ -1,4 +1,3 @@
-// const { ObjectId } = require('mongodb');
 const { getProductById, updateProduct } = require('../service/productService');
 
 const getNewProduct = (productData) => {
@@ -13,13 +12,24 @@ const getNewProduct = (productData) => {
   return updateProduct(newProductUpdate);
 };
 
-module.exports.updateProductSales = async ({ itensSold }) => {
+module.exports.updateProductAfterSalesCreation = async ({ itensSold }) => {
   await itensSold.forEach((product) => (
     getProductById({ id: product.productId })
       .then((sales) => getNewProduct({
         id: product.productId,
         name: sales.name,
         quantity: sales.quantity - product.quantity,
+      }))
+  ));
+};
+
+module.exports.updateProductAfterDeletingSales = async ({ itensSold }) => {
+  await itensSold.forEach((product) => (
+    getProductById({ id: product.productId })
+      .then((sales) => getNewProduct({
+        id: product.productId,
+        name: sales.name,
+        quantity: sales.quantity + product.quantity,
       }))
   ));
 };
