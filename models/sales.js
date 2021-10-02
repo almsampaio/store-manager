@@ -31,9 +31,14 @@ const returnStock = async (salesArray) => {
   const restoreStock = salesArray.forEach(async (product) => {
     const { quantity, productId } = product;
     const findProduct = await collection.findOne({ _id: ObjectId(productId) });
-    
-
+    const newQuantity = findProduct.quantity + quantity;
+    const updateProduct = await collection.findOneAndUpdate(
+      { _id: ObjectId(productId) },
+      { $set: { quantity: newQuantity } },
+    );
+    return updateProduct;
   });
+  return restoreStock;
 };
 
 const inputSales = async (salesArray) => {
@@ -95,4 +100,5 @@ module.exports = {
   updateSale,
   deleteSale,
   updateQuantity,
+  returnStock,
 };

@@ -28,6 +28,8 @@ const updateSale = async (id, itensSold) => {
 };
 
 const deleteSale = async (id) => {
+  const returnStock = await modelSales.returnStock(id);
+  console.log(returnStock);
   const delSale = await modelSales.deleteSale(id);
   if (!delSale) {
     return {
