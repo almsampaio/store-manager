@@ -1,57 +1,56 @@
-/* eslint-disable no-throw-literal */
 const { findByName } = require('../models/modelProducts');
+const { HTTP_UNPROCESSABLE_ENTITY } = require('../httpRequests');
 
-const HTTP_UNPROCESSABLE_ENTITY = 422;
-
-const validateName = (name) => {
+const validateName = async (req, res) => {
+  const { name } = req.body;
   const nameLength = 5;
 
   if (name.length < nameLength) {
-    throw {
-      status: HTTP_UNPROCESSABLE_ENTITY,
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({ 
       err: {
         code: 'invalid_data',
         message: '"name" length must be at least 5 characters long',
-      }, 
-    };
+    } });
   }
 };
 
-const alreadyExists = async (name) => {
+const alreadyExists = async (req, res) => {
+  const { name } = req.body;
   const result = await findByName(name);
 
   if (result) {
-    throw {
-      status: HTTP_UNPROCESSABLE_ENTITY,
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
         message: 'Product already exists',
       },
-    };
+    });
   }
 };
 
-const validateQuantity = (quatity) => {
-  if (quatity < 1) {
-    throw {
-      status: HTTP_UNPROCESSABLE_ENTITY,
+const validateQuantity = async (res, req) => {
+  const { quantity } = req.body;
+
+  if (quantity < 1) {
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be larger than or equal to 1',
       },
-    };
+    });
   }
 };
 
-const validateNumber = (quantity) => {
+const validateNumber = async (res, req) => {
+  const { quantity } = req.body;
+
   if (typeof quantity !== 'number') {
-    throw {
-      status: HTTP_UNPROCESSABLE_ENTITY,
+    return res.status(HTTP_UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
         message: '"quantity" must be a number',
       },
-    };
+    });
   }
 };
 
