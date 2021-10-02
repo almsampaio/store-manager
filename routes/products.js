@@ -13,7 +13,7 @@ const {
   quantityGreaterThanZeroValidation,
   quantityMustBeANumberValidation,
   isValidId,
-} = require('../middlewares/validations');
+} = require('../middlewares/productsValidations');
 
 const postValidationsArray = [
   nameLengthValidation,

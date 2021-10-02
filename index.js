@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const productsRoutes = require('./routes/products');
+const salesRoutes = require('./routes/sales');
 const errorMiddleware = require('./middlewares/errorHandling');
 
 app.use(bodyParser.json());
@@ -14,5 +15,6 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productsRoutes);
+app.use('/sales', salesRoutes);
 app.use(errorMiddleware);
 app.listen(PORT, () => console.log('Store manager rodando na porta 3000'));
