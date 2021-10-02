@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
-const { createProduct } = require('./controllers/controllerProducts');
+const { createProduct, getAllProducts, productById } = require('./controllers/controllerProducts');
 
 const PORT = 3000;
 
@@ -16,6 +16,8 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => console.log('Aplicação rodando', PORT));
 
 app.post('/products', rescue(createProduct));
+app.get('/products', rescue(getAllProducts));
+app.get('/products/:id', rescue(productById));
 
 app.use((err, _req, res) => {
   const {
