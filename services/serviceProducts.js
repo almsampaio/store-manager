@@ -12,6 +12,12 @@ const validateQuantity = (quantity) => quantity >= 1;
 
 const validateTypeQuantity = (quantity) => typeof (quantity) === 'number';
 
+const validateId = (id) => {
+  const idLength = 24;
+
+  return id.length < idLength;
+};
+
 const productAdditional = async (dataProduct) => {
   const { name, quantity } = dataProduct;
 
@@ -36,9 +42,7 @@ const getProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  const idLength = 24;
-
-  if (id.length < idLength) return errorId;
+  if (!validateId(id)) return errorId;
 
   const product = await Model.products.productById(id);
 
@@ -47,8 +51,25 @@ const getProductById = async (id) => {
   return product;
 };
 
+const updateProduct = async (id, productUpdated) => {
+  if (!validateId(id)) return errorId;
+
+  const { name, quantity } = productUpdated;
+
+  if (!validateName(name)) return errorName;
+
+  if (!validateQuantity(quantity)) return errorTypeQuantity;
+
+  if (!validateQuantity(quantity)) return errorQuantity;
+
+  const product = await Model.products.updateProduct(id, { name, quantity });
+
+  return (product.matchedCount === 1) ? { _id: id, name, quantity } : errorId;
+};
+
 module.exports = {
   productAdditional,
   getProducts,
   getProductById,
+  updateProduct,
 };

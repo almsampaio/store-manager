@@ -50,9 +50,24 @@ const productById = async (id) => {
     return product;
 };
 
+const updateProduct = async (id, productUpdated) => {
+  const { name, quantity } = productUpdated;
+
+  const productsCollection = await connection()
+    .then((db) => db.collection(collection));
+
+  const productUpdate = await productsCollection.updateOnde(
+    { _id: ObjectId(id) },
+    { $set: { name, quantity } },
+  );
+
+  return productUpdate;
+};
+
 module.exports = {
   additionProduct,
   productByName,
   getProducts,
   productById,
+  updateProduct,
 };
