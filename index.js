@@ -20,4 +20,9 @@ app.post('/products',
 app.get('/products', Products.getAllProducts);
 app.get('/products/:id', Products.getProductById);
 
+app.put('/products/:id',
+  validations.nameValidation,
+  validations.quantityValidation,
+  Products.updateProduct);
+
 app.listen(PORT, () => console.log('Online'));
