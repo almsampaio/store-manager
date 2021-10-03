@@ -17,3 +17,5 @@ app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
 // routes para os Products
 app.get('/products', productController.getAll);
 app.post('/products', productController.create);
+
+// req 1 finished
