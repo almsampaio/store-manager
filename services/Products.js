@@ -7,7 +7,7 @@ const getAllProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  const product = await Products.getById(id);
+  const product = await Products.getProductById(id);
   const message = 'Wrong id format';
 
   if (!product) return { status: 422, message };
@@ -30,9 +30,19 @@ const updateProduct = async (id, data) => {
   return { status: 200, data: product };
 };
 
+const removeProduct = async (id) => {
+  const product = await Products.getProductById(id);
+  const message = 'Wrong id format';
+
+  if (!product) return { status: 422, message };
+  const result = await Products.removeProduct(id);
+  return { status: 200, data: result };
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
+  removeProduct,
 };

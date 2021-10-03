@@ -25,4 +25,6 @@ app.put('/products/:id',
   validations.quantityValidation,
   Products.updateProduct);
 
+app.delete('/products/:id', Products.removeProduct);
+
 app.listen(PORT, () => console.log('Online'));

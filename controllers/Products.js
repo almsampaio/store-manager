@@ -28,9 +28,17 @@ const updateProduct = async (req, res) => {
   res.status(status).json(data);
 };
 
+const removeProduct = async (req, res) => {
+  const { id } = req.params;
+  const { status, data, message } = await Products.removeProduct(id);
+  if (message) return res.status(status).json({ err: { code: 'invalid_data', message } });
+  res.status(status).json(data);
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
+  removeProduct,
 };
