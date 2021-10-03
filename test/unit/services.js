@@ -4,20 +4,20 @@ const { expect } = require('chai')
 const ProductModel = require('../../models/Product')
 const ProductService = require('../../services/Product')
 
-describe('Insere um novo produto no BD', () => {
+describe('Insere um novo produto no BD (service)', () => {
   describe('quando o payload informado não é válido', () => {
     const payloadProduct = {}
 
-    it('retorna um boolean', async () => {
+    it('retorna um objeto', async () => {
       const response = await ProductService.create(payloadProduct)
 
-      expect(response).to.be.a('boolean')
+      expect(response).to.be.a('object')
     });
 
-    it('o boolean contém false', async () => {
-      const response = await ProductService.create(payloadProduct)
+    it('o objeto possui uma property json com err dentro', async () => {
+      const { json } = await ProductService.create(payloadProduct)
 
-      expect(response).to.be.equal(false)
+      expect(json).to.have.property('err')
     });
 
 
@@ -47,10 +47,9 @@ describe('Insere um novo produto no BD', () => {
     });
 
     it('tal objeto possui o "id" do novo produto inserido', async () => {
-      const response = await ProductService.create(payloadProduct)
+      const { json } = await ProductService.create(payloadProduct)
 
-      expect(response).to.have.a.property('id')
+      expect(json).to.have.a.property('id')
     });
   });
-
 });

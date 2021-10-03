@@ -19,23 +19,30 @@ describe('Ao chamar o controller de create', () => {
         .returns()
 
       sinon.stub(ProductService, 'create')
-        .resolves(false)
+        .resolves({
+          status: 422,
+          json: {
+            err: {
+              message: 'Dados inválidos'
+            }
+          }
+        })
     })
 
     after(async () => {
       ProductService.create.restore()
     })
 
-    it('é chamado o status de código 400', async () => {
+    it('é chamado o status de código 422', async () => {
       await ProductController.create(request, response)
 
-      expect(response.status.calledWith(400)).to.be.equal(true)
+      expect(response.status.calledWith(422)).to.be.equal(true)
     });
 
     it('é chamado o json com a mensagem "Dados inválidos"', async () => {
       await ProductController.create(request, response)
 
-      expect(response.json.calledWith({message: 'Dados inválidos'})).to.be.equal(true)
+      expect(response.json.calledWith({err :{message: 'Dados inválidos'}})).to.be.equal(true)
     });
 
   });
@@ -57,7 +64,10 @@ describe('Ao chamar o controller de create', () => {
         .returns()
 
       sinon.stub(ProductService, 'create')
-        .resolves(true)
+        .resolves({
+          status: 201,
+          json: request.body
+        })
     })
 
     after(async () => {
@@ -70,10 +80,12 @@ describe('Ao chamar o controller de create', () => {
       expect(response.status.calledWith(201)).to.be.equal(true)
     });
 
-    it('é chamado o json com a mensagem "Produto criado com sucesso!', async () => {
+    it('é chamado o json com o produto criado', async () => {
       await ProductController.create(request, response)
 
-      expect(response.json.calledWith({message: 'Produto criado com sucesso!'})).to.be.equal(true)
+      expect(
+        response.json.calledWith(request.body)
+      ).to.be.equal(true)
     });
   });
 });

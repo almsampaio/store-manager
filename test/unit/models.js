@@ -8,7 +8,7 @@ const ProductModel = require('../../models/Product')
 
 const DB_NAME = 'StoreManager';
 
-describe('Insere um novo produto no BD', () => {
+describe('Insere um novo produto no BD (model)', () => {
   let connectionMock
 
   const payloadProduct = {
@@ -45,7 +45,7 @@ describe('Insere um novo produto no BD', () => {
     it('tal objeto possui o "id" do novo produto inserido', async () => {
       const response = await ProductModel.create(payloadProduct)
 
-      expect(response).to.have.a.property('id')
+      expect(response).to.have.a.property('_id')
     })
   });
 });

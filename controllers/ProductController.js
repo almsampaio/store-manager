@@ -4,13 +4,9 @@ const ProductService = require('../services/Product');
 const create = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const product = await ProductService.create({ name, quantity });
+  const { status, json } = await ProductService.create({ name, quantity });
 
-  if (!product) {
-    return res.status(400).json({ message: 'Dados inválidos' });
-  }
-
-  res.status(201).json({ message: 'Produto criado com sucesso!' });
+  return res.status(status).json(json);
 };
 
 const getAll = async (req, res) => {
