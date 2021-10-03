@@ -1,6 +1,6 @@
 const Model = require('../models');
 const { errorName, errorQuantity, 
-  errorTypeQuantity, errorAlreadyExists } = require('../utils/objectError');
+  errorTypeQuantity, errorAlreadyExists, errorId } = require('../utils/objectError');
 
 const validateName = (name) => {
   const nameLength = 5;
@@ -35,7 +35,20 @@ const getProducts = async () => {
   return products;
 };
 
+const getProductById = async (id) => {
+  const idLength = 24;
+
+  if (id.length < idLength) return errorId;
+
+  const product = await Model.products.productById(id);
+
+  if (!product) return errorId;
+
+  return product;
+};
+
 module.exports = {
   productAdditional,
   getProducts,
+  getProductById,
 };
