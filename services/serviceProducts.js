@@ -67,9 +67,20 @@ const updateProduct = async (id, productUpdated) => {
   return (product.matchedCount === 1) ? { _id: id, name, quantity } : errorId;
 };
 
+const deleteProduct = async (id) => {
+  if (!validateId(id)) return errorId;
+
+  const productDeleted = await Model.products.getProductById(id);
+
+  const product = await Model.products.deleteProduct(id);
+
+  return (product.deletedCount === 1) ? productDeleted : errorId;
+};
+
 module.exports = {
   productAdditional,
   getProducts,
   getProductById,
   updateProduct,
+  deleteProduct,
 };
