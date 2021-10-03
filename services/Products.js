@@ -15,6 +15,11 @@ const getProductById = async (id) => {
 };
 
 const createProduct = async (name, quantity) => {
+  const findProduct = await Products.findProductByName(name);
+  const message = 'Product already exists';
+
+  if (findProduct) return { status: 422, message };
+
   const product = await Products.createProduct(name, quantity);
 
   return { status: 201, data: product };

@@ -20,8 +20,15 @@ const createProduct = async (name, quantity) => {
   return { _id: product.insertedId, name, quantity };
 };
 
+const findProductByName = async (name) => {
+  const db = await Connection();
+  const product = db.collection('products').findOne({ name });
+  return product;
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
+  findProductByName,
 };
