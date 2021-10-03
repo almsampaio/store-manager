@@ -1,5 +1,7 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
+
+const Products = require('./Products');
 
 async function createSales(sales) {
   const salesCollection = await connection()
@@ -7,6 +9,10 @@ async function createSales(sales) {
 
   const { insertedId: _id } = await salesCollection
     .insertOne({ sales });
+
+  sales.forEach(async (sale) => {
+    await Products.updateProductQuantityOperation(ObjectId(sale.productId), -sale.quantity);
+  });
 
   return {
     _id,
@@ -38,6 +44,10 @@ async function editSale(id, items) {
 }
 
 async function deleteSale(id) {
+  const { sales } = await getSaleById(ObjectId(id));
+  sales.forEach(async (item) => {
+    await Products.updateProductQuantityOperation(ObjectId(item.productId), item.quantity);
+  });
   const deletedSale = await connection()
     .then((db) => db.collection('sales').deleteOne({ _id: id }));
 

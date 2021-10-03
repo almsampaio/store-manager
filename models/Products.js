@@ -1,5 +1,13 @@
 const connection = require('./connection');
 
+async function updateProductQuantityOperation(productId, productQuantity) {
+  await connection()
+    .then((db) => db.collection('products')
+    .findOneAndUpdate({ _id: productId }, { $inc: { quantity: productQuantity } }));
+}
+
+// async function 
+
 async function createProduct({ name, quantity }) {
   const products = await connection()
     .then((db) => db.collection('products'));
@@ -23,12 +31,6 @@ async function getProductById(id) {
 }
 
 async function editProduct(id, name, quantity) {
-  // await connection()
-  //   .then((db) => db.collection('sales')
-  //   .findOneAndUpdate({ _id: id }, { $set: { itensSold: items } }));
-  
-  // const editedSale = await getSaleById(id);
-  // return editedSale;
   await connection()
     .then((db) => db.collection('products')
     .findOneAndUpdate({ _id: id }, { $set: { name, quantity } }));
@@ -52,4 +54,5 @@ module.exports = {
   getProductById,
   editProduct,
   deleteProduct,
+  updateProductQuantityOperation,
 };
