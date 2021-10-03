@@ -18,6 +18,26 @@ const additionProduct = async (dataProduct) => {
   };
 };
 
+const productByName = async (name) => {
+  const collectionProducts = await connection()
+    .then((db) => db.collection('products'));
+    
+    const product = await collectionProducts.findOne({ name });
+
+  return product;
+};
+
+const getProducts = async () => {
+  const productsCollection = await connection()
+    .then((db) => db.collection('products'));
+  
+  const products = await productsCollection.find({}).toArray();
+
+  return products;
+};
+
 module.exports = {
   additionProduct,
+  productByName,
+  getProducts,
 };

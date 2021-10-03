@@ -1,6 +1,6 @@
-const { HTTP_UNPROCESSABLE_ENTITY } = require('../httpRequests');
 const Model = require('../models');
-const { objectError } = require('../utils/objectError');
+const { errorName, errorQuantity, 
+  errorTypeQuantity, errorAlreadyExists } = require('../utils/objectError');
 
 const validateName = (name) => {
   const nameLength = 5;
@@ -14,27 +14,25 @@ const validateTypeQuantity = (quantity) => typeof (quantity) === 'number';
 
 const productAdditional = async (dataProduct) => {
   const { name, quantity } = dataProduct;
-  const validateNameMessage = '"name" length must be at least 5 characters long';
-  const validateQuantityMessage = '"quantity" must be larger than or equal to 1';
-  const validateTypeQuantityMessage = '"quantity" must be a number';
 
-  if (!validateName(name)) {
-  return objectError(HTTP_UNPROCESSABLE_ENTITY, 
-    'invalid_data', validateNameMessage); 
-}
+  if (!validateName(name)) return errorName;
 
-  if (!validateQuantity(quantity)) {
-    return objectError(HTTP_UNPROCESSABLE_ENTITY, 
-      'invalid_data', validateQuantityMessage); 
-  }
+  if (!validateQuantity(quantity)) return errorQuantity;
 
-  if (!validateTypeQuantity(quantity)) {
-    return objectError(HTTP_UNPROCESSABLE_ENTITY, 
-      'invalid_data', validateTypeQuantityMessage);
-}
-  return Model.products.productAdditional(dataProduct);
+  if (!validateTypeQuantity(quantity)) return errorTypeQuantity;
+
+  const alreadyExists = await Model.products.productByName(name);
+
+  if (alreadyExists) return errorAlreadyExists;
+
+  const additionalProduct = await Model.products.productAdditional(dataProduct); 
+  
+  return additionalProduct;
 };
+
+const getProducts = async () => await Model.products.getProducts();
 
 module.exports = {
   productAdditional,
+  getProducts,
 };

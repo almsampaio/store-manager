@@ -1,5 +1,6 @@
 const Service = require('../services');
-const { HTTP_UNPROCESSABLE_ENTITY, HTTP_CREATED_STATUS } = require('../httpRequests');
+const { HTTP_UNPROCESSABLE_ENTITY, 
+  HTTP_CREATED_STATUS, HTTP_OK_STATUS } = require('../httpRequests');
 
 const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
@@ -14,6 +15,13 @@ const addProduct = async (req, res) => {
   res.status(HTTP_CREATED_STATUS).json(product);
 };
 
+const getProducts = async (_req, res) => {
+  const products = await Service.products.getProducts();
+
+  res.status(HTTP_OK_STATUS).json(products);
+};
+
 module.exports = {
   addProduct,
+  getProducts,
 };
