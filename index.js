@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ProductController = require('./controllers/ProductController');
 
-const HTTP_OK_STATUS = 200;
+// const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
 const app = express();
