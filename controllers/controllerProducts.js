@@ -1,24 +1,19 @@
-const { create, allProducts, getById } = require('../services/serviceProducts');
+const Service = require('../services');
+const { HTTP_UNPROCESSABLE_ENTITY, HTTP_CREATED_STATUS } = require('../httpRequests');
 
-const createProduct = async (req, res) => {
+const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
-  const { status, result } = await create(name, quantity);
-  return res.status(status).json(result);
-};
 
-const getAllProducts = async (_req, res) => {
-  const { status, result } = await allProducts();
-  return res.status(status).json(result);
-};
+  const product = await Service.products.addProduct({
+    name,
+    quantity,
+  });
 
-const productById = async (req, res) => {
-  const { id } = req.params;
-  const { status, result } = await getById(id);
-  return res.status(status).json(result);
+  if (product.err) return res.status(HTTP_UNPROCESSABLE_ENTITY).json(product);
+
+  res.status(HTTP_CREATED_STATUS).json(product);
 };
 
 module.exports = {
-  createProduct,
-  getAllProducts,
-  productById,
+  addProduct,
 };
