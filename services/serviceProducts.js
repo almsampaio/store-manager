@@ -30,7 +30,10 @@ const productAdditional = async (dataProduct) => {
   return additionalProduct;
 };
 
-const getProducts = async () => await Model.products.getProducts();
+const getProducts = async () => {
+  const products = await Model.products.getProducts();
+  return products;
+};
 
 module.exports = {
   productAdditional,
