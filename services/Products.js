@@ -1,6 +1,3 @@
-/* eslint max-lines-per-function:  0 */ //
-/* eslint no-use-before-define:  0 */ //
-
 const Joi = require('@hapi/joi');
 
 const model = require('../models/Products');
@@ -12,33 +9,6 @@ const validateProduct = Joi.object({
   name: Joi.string().min(MIN_NAME_LENGTH).required(),
   quantity: Joi.number().min(1).required(),
 });
-
-const create = async (name, quantity) => {
-  const { error } = validateProduct.validate({ name, quantity });
-
-  if (error) { 
-    return {
-      status: UNPROCESSABLE_ENTITY,
-      code: 'invalid_data',
-      error,
-    };
-  }
-
-  const allProducts = await readAll();
-  const isNameUsed = allProducts.some((product) => product.name === name);
-
-  if (isNameUsed) {
-    return {
-      status: UNPROCESSABLE_ENTITY,
-      code: 'invalid_data',
-      error: { message: 'Product already exists' },
-    };
-  }
-
-  const newProduct = model.create(name, quantity);
-
-  return newProduct;
-};
 
 const readAll = async () => {
   const products = await model.readAll();
@@ -58,6 +28,39 @@ const readById = async (id) => {
   }
 
   return product;
+};
+
+const objectError = {
+  status: UNPROCESSABLE_ENTITY,
+  code: 'invalid_data',
+};
+
+const create = async (name, quantity) => {
+  const { error } = validateProduct.validate({ name, quantity });
+  const allProducts = await readAll();
+  
+  if (error) { 
+     objectError.error = error;
+     return objectError;
+  //   return {
+  //     status: UNPROCESSABLE_ENTITY,
+  //     code: 'invalid_data',
+  //     error,
+  //   };
+  }
+
+  const isNameUsed = allProducts.some((product) => product.name === name);
+
+  if (isNameUsed) {
+    return {
+      status: UNPROCESSABLE_ENTITY,
+      code: 'invalid_data',
+      error: { message: 'Product already exists' },
+    };
+  }
+
+  const newProduct = model.create(name, quantity);
+  return newProduct;
 };
 
 const update = async (id, name, quantity) => {

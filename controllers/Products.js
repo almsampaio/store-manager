@@ -27,7 +27,7 @@ const readById = async (req, res, next) => {
   res.status(OK).json(product);
 };
 
-const update = async(req, res, next) => {
+const update = async (req, res, next) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
   const updateProduct = await service.update(id, name, quantity);
@@ -37,7 +37,7 @@ const update = async(req, res, next) => {
   res.status(OK).json(updateProduct);
 };
 
-const destroy = async(req, res, next) => {
+const destroy = async (req, res, next) => {
   const { id } = req.params;
   const productDeleted = await service.destroy(id);
 

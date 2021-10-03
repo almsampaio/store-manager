@@ -11,7 +11,7 @@ const create = async (req, res, next) => {
   res.status(OK).json(newSale);
 };
 
-const readAll = async (_req, res, _next) =>  {
+const readAll = async (_req, res, _next) => {
   const all = await service.readAll();
 
   res.status(OK).json({ sales: all });
@@ -36,7 +36,7 @@ const update = async (req, res, next) => {
   res.status(OK).json(updateSale);
 };
 
-const destroy =  async (req, res, next) => {
+const destroy = async (req, res, next) => {
   const { id } = req.params;
   const saleDeleted = await service.destroy(id);
 

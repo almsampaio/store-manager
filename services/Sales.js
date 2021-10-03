@@ -1,17 +1,26 @@
-/* eslint max-lines-per-function:  0 */ //
 const Joi = require('@hapi/joi');
 
 const model = require('../models/Sales');
 const stock = require('../models/Products');
 
 const NOT_FOUND = 404;
-
 const UNPROCESSABLE_ENTITY = 422;
+const NO_STOCK = 0;
 
 const validateSale = Joi.array().items({
   productId: Joi.string().required(),
   quantity: Joi.number().min(1).required(),
 });
+
+const validateStock = (itemQuantity) => {
+  if (itemQuantity < NO_STOCK) {
+    return {
+      status: NOT_FOUND,
+      code: 'stock_problem',
+      error: { message: 'Such amount is not permitted to sell' },
+    };
+  }
+};
 
 const create = async (items) => {
   const { error } = validateSale.validate(items);
@@ -27,16 +36,9 @@ const create = async (items) => {
   const { productId } = items[0];
   const { name, quantity } = await stock.readById(productId);
   const itemQuantity = quantity - items[0].quantity;
-  const NO_STOCK = 0;
 
-  if (itemQuantity < NO_STOCK) {
-    return {
-      status: NOT_FOUND,
-      code: 'stock_problem',
-      error: { message: 'Such amount is not permitted to sell' },
-    };
-  }
-
+  validateStock(itemQuantity);
+  
   await stock.update(productId, name, itemQuantity);
   const newSale = await model.create(items);
 
