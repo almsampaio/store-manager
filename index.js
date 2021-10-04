@@ -15,7 +15,8 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
 
 // routes para os Products
-app.get('/products', productController.getAll);
 app.post('/products', productController.create);
+app.get('/products', productController.getAll);
+app.get('/products/:id', productController.getProductById);
 
 // req 1 finished
