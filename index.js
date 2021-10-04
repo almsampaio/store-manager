@@ -24,3 +24,4 @@ app.delete('/products/:id', productController.deleteProduct);
 // req 1 finished
 // req 2 finished
 // req 3 finished
+// req 4 finished
