@@ -73,4 +73,5 @@ module.exports = {
   getProductById,
   updateProductByid,
   deleteProductById,
+  dataProducts,
 };
