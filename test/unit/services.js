@@ -1,31 +1,31 @@
-//     const sinon = require('sinon');
-//     const { expect } = require('chai');
+    // const sinon = require('sinon');
+    // const { expect } = require('chai');
 
-//     const productServices = require('../../services/products');
-//     const productModels = require('../../models/products');
+    // const productServices = require('../../services/products');
+    // const productModels = require('../../models/products');
 
-//     describe('Ao chamar os services de products', () => {
-//     describe('chamando a função "addProduct"', () => {
-//     describe('com menos de 5 caracteres', () => {
-//         const name = 'prod';
-//         const quantity = 10
+    // describe('Ao chamar os services de products', () => {
+    // describe('chamando a função "addProduct"', () => {
+    // describe('com menos de 5 caracteres', () => {
+    //     const name = 'prod';
+    //     const quantity = 10
 
-//         it('retorna erro de comprimento inválido', async () => {
-//         const result = await productServices.addProduct(name, quantity);
+    //     it('retorna erro de comprimento inválido', async () => {
+    //     const result = await productServices.addProduct(name, quantity);
 
-//         expect(result).to.be.deep.equal({ message: '"name" length must be at least 5 characters long' });
-//         });
-//     });
+    //     expect(result).to.be.deep.equal({ message: '"name" length must be at least 5 characters long' });
+    //     });
+    // });
 
-//     describe('com um nome já existente', () => {
-//         const name = 'produto teste';
-//         const quantity = 10
+    // describe('com um nome já existente', () => {
+    //     const name = 'produto teste';
+    //     const quantity = 10
 
-//         before(() => {
-//         sinon.stub(productModels, 'getProductByName').resolves(true);
-//         });
+    //     before(() => {
+    //     sinon.stub(productModels, 'getProductByName').resolves(true);
+    //     });
 
-//         after(() => productModels.getProductByName.restore());
+    //     after(() => productModels.getProductByName.restore());
 
 //         it('com um nome já existente retorna erro', async () => {
 //         const result = await productServices.createProduct(name, quantity);
