@@ -19,6 +19,7 @@ app.post('/products', productController.create);
 app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getProductById);
 app.put('/products/:id', productController.update);
+app.delete('/products/:id', productController.deleteProduct);
 
 // req 1 finished
 // req 2 finished
