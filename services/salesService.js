@@ -1,10 +1,12 @@
 const salesModel = require('../models/salesModel');
-const { saleValidate } = require('../schemas/salesSchema');
+const { saleValidate, updateProducts, sellProducts } = require('../schemas/salesSchema');
 
 const create = async (sale) => {
     const validations = saleValidate(sale);
 
     if (validations.err) return validations;
+
+    sellProducts(sale);
 
     const createdSale = await salesModel.create(sale);
 
@@ -32,7 +34,9 @@ const update = async (id, sale) => {
     return updatedSale;
 };
 
-const remove = async (id) => { 
+const remove = async (id) => {
+    const { sale } = await salesModel.getById(id);
+    updateProducts(sale);
     await salesModel.remove(id);
 };
 
