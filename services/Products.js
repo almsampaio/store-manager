@@ -1,6 +1,5 @@
 const productModel = require('../models/Products');
 const validations = require('../middlewares/productsValidations');
-// const { HTTP_OK_STATUS } = require('../httpStatus/httpStatus');
 
 const getAll = async () => {
   const products = await productModel.getAll();
@@ -30,8 +29,18 @@ const create = async (name, quantity) => {
   return product;
 };
 
+const update = async (id, name, quantity) => {
+  const product = await productModel.update(id, name, quantity);
+  
+  const productsValidations = await validations.productsValidations(name, quantity);
+  if (productsValidations.err) return productsValidations;
+  
+  return product;
+};
+
 module.exports = {
   getAll,
   create,
   getProductById,
+  update,
 };
