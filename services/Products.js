@@ -1,10 +1,19 @@
 const productModel = require('../models/Products');
 const validations = require('../middlewares/productsValidations');
-const { HTTP_OK_STATUS } = require('../httpStatus/httpStatus');
+// const { HTTP_OK_STATUS } = require('../httpStatus/httpStatus');
 
 const getAll = async () => {
   const products = await productModel.getAll();
-  return { status: HTTP_OK_STATUS, data: products };
+  return products;
+};
+
+const getProductById = async (id) => {
+  const product = await productModel.getProductById(id);
+  if (product === false || product === null) {
+    return { err: { code: 'invalid_data', message: 'Wrong id format' } };
+  }
+
+  return product;
 };
 
 const create = async (name, quantity) => {
@@ -24,4 +33,5 @@ const create = async (name, quantity) => {
 module.exports = {
   getAll,
   create,
+  getProductById,
 };
