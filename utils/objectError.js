@@ -33,10 +33,18 @@ const errorId = {
   message: 'Wrong id format',
 };
 
+const errorSales = {
+  err: {
+    code: errorCode,
+    message: 'Wrong product ID or invalid quantity',
+  },
+};
+
 module.exports = {
   errorName,
   errorTypeQuantity,
   errorQuantity,
   errorAlreadyExists,
   errorId,
+  errorSales,
 };
