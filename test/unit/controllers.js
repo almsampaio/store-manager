@@ -122,7 +122,7 @@ describe('Ao chamar o controller de get', () => {
     it('retorna um array', async () => {
       await ProductController.getAll(request, response)
 
-      expect(response.json.calledWith([])).to.be.equal(true)
+      expect(response.json.calledWith({ products: [] })).to.be.equal(true)
     });
   });
 
