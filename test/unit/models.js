@@ -6,19 +6,9 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoConnection = require('../../models/connection');
 const productModels = require('../../models/products');
 const salesModels = require('../../models/sales');
+const Sinon = require('sinon');
 
 
-// describe('Main Db - Default connection', () => {
-//     it('the connect goes correctly', async () => {
-//         const conn = await conn.db(DB_NAME)
-//         console.log(conn);
-//         // const receivedDbName = conn.db;
-        
-//         expect(conn).to.be.eq('StoreManager');
-//     });
-// })
-
-describe('Ao chamar os models de products', () => {
 const DBServer = new MongoMemoryServer();
 let connectionMock;
 
@@ -40,6 +30,18 @@ connectionMock = await MongoClient
 
 after(() => mongoConnection.connection.restore());
 
+describe('Ao chamar os models de products', () => {
+
+    // describe('testando DB name', () => {
+    //     it('com sucesso', async () => {
+    //         const mock = sinon.stub();
+    //         sinon.stub(MongoClient.prototype, 'connect').resolves({ db: mock })
+    //         await mongoConnection()
+    //         console.log(mock.firstCall);
+    //     expect(mock.calledOnceWith('StoreManager')).to.be.eq(true)
+    //     MongoClient.connect.restore();
+    //     });
+    // })
 
     describe('chamando a função "addProduct"', () => {
         describe('com sucesso', () => {
@@ -156,29 +158,29 @@ after(() => mongoConnection.connection.restore());
 // Sales
 
 describe('Ao chamar os models de sales', () => {
-    const DBServer = new MongoMemoryServer();
-    let connectionMock;
+//     const DBServer = new MongoMemoryServer();
+//     let connectionMock;
 
-    let id;
-    let testProduct;
-    let testSale;
+    // let id;
+    // let testProduct;
+    // let testSale;
 
-    before(async () => {
-        const URLMock = await DBServer.getUri();
-        connectionMock = await MongoClient
-        .connect(URLMock, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        })
-        .then((conn) => conn.db('StoreManager'));
+    // before(async () => {
+    //     const URLMock = await DBServer.getUri();
+    //     connectionMock = await MongoClient
+    //     .connect(URLMock, {
+    //         useNewUrlParser: true,
+    //         useUnifiedTopology: true,
+    //     })
+    //     .then((conn) => conn.db('StoreManager'));
 
-        sinon.stub(mongoConnection, 'connection').resolves(connectionMock);
+    //     sinon.stub(mongoConnection, 'connection').resolves(connectionMock);
 
-        const result = await productModels.addProduct('product test', 20);
-        testProduct = result;
-    });
+    //     const result = await productModels.addProduct('product test', 20);
+    //     testProduct = result;
+    // });
 
-    after(() => mongoConnection.connection.restore());
+    // after(() => mongoConnection.connection.restore());
 
     describe('chamando a função "addSales"', () => {
         it('retorna a venda criada', async () => {
@@ -246,10 +248,10 @@ describe('Ao chamar os models de sales', () => {
         expect(result).to.be.null;
         });
 
-        it('retorna a venda deletada', async () => {
-        const result = await salesModels.removeSales(id);
+        // it('retorna a venda deletada', async () => {
+        // const result = await salesModels.removeSales(id);
 
-        expect(result).to.be.deep.equal(testSale);
-        });
+        // expect(result).to.be.deep.equal(testSale);
+        // });
     });
 });
