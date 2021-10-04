@@ -22,3 +22,4 @@ app.put('/products/:id', productController.update);
 
 // req 1 finished
 // req 2 finished
+// req 3 finished
