@@ -173,4 +173,95 @@ describe('Ao chamar o controller de get', () => {
   });
 });
 
+describe('Ao chamar o controller de update', () => {
+  describe('quando o payload informado não é válido', () => {
+    const response = {}
+    const request = {}
 
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      request.params = { id: ID_EXAMPLE }
+      request.body = {
+        name: 'Example product',
+        quantity: 7
+      }
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(ProductService, 'update')
+        .resolves({
+          status: 422,
+          json: {
+            err: {
+              message: 'Dados inválidos'
+            }
+          }
+        })
+    })
+
+    after(async () => {
+      ProductService.update.restore()
+    })
+
+    it('é chamado o status de código 422', async () => {
+      await ProductController.update(request, response)
+
+      expect(response.status.calledWith(422)).to.be.equal(true)
+    });
+
+    it('é chamado o json com a mensagem "Dados inválidos"', async () => {
+      await ProductController.update(request, response)
+
+      expect(response.json.calledWith({err :{message: 'Dados inválidos'}})).to.be.equal(true)
+    });
+
+  });
+
+  describe('quando é inserido com sucesso', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      request.params = { id: ID_EXAMPLE }
+      request.body = {
+        name: 'Example product',
+        quantity: 7
+      }
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(ProductService, 'update')
+        .resolves({
+          status: 200,
+          json: request.body
+        })
+    })
+
+    after(async () => {
+      ProductService.update.restore()
+    })
+
+    it('é chamado o status com código 200', async () => {
+      await ProductController.update(request, response)
+
+      expect(response.status.calledWith(200)).to.be.equal(true)
+    });
+
+    it('é chamado o json com o produto criado', async () => {
+      await ProductController.update(request, response)
+
+      expect(response.json.calledWith(request.body)).to.be.equal(true)
+    });
+  });
+});

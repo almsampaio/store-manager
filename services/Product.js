@@ -48,6 +48,23 @@ const isNameValid = async (name) => {
   };
 };
 
+const isNameValidUpdate = (name) => {
+  if (!name || typeof name !== 'string') {
+    return {
+      isValid: false,
+      status: 422,
+      message: 'Dados inválidos',
+    };
+  }
+
+  const validateNameLengthObj = validateNameLength(name);
+  if (!validateNameLengthObj.isValid) return validateNameLengthObj;
+
+  return {
+    isValid: true,
+  };
+};
+
 const validateQuantityLength = (quantity) => {
   if (quantity <= 0) {
     return {
@@ -110,6 +127,17 @@ const isValid = async (name, quantity) => {
   };
 };
 
+const isValidUpdate = (name, quantity) => {
+  const isNameValidObj = isNameValidUpdate(name);
+  if (!isNameValidObj.isValid) return isNameValidObj;
+  const isQuantityValidObj = isQuantityValid(quantity);
+  if (!isQuantityValidObj.isValid) return isQuantityValidObj;
+
+  return {
+    isValid: true,
+  };
+};
+
 const create = async ({ name, quantity }) => {
   const isValidObj = await isValid(name, quantity);
   if (!isValidObj.isValid) {
@@ -132,7 +160,30 @@ const create = async ({ name, quantity }) => {
   };
 };
 
+const update = async ({ id, name, quantity }) => {
+  const isValidObj = isValidUpdate(name, quantity);
+  if (!isValidObj.isValid) {
+    return {
+      status: isValidObj.status,
+      json: {
+        err: {
+          message: isValidObj.message,
+          code: 'invalid_data',
+        },
+      },
+    };
+  }
+
+  const product = await ProductModel.update({ id, name, quantity });
+
+  return {
+    status: 200,
+    json: product,
+  };
+};
+
 module.exports = {
   create,
   isValid,
+  update,
 };

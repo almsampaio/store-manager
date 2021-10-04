@@ -96,3 +96,43 @@ describe('Busca por produtos no BD (model)', () => {
     })
   });
 });
+
+describe('Atualiza um produto no BD (model)', () => {
+  let connectionMock
+
+  const payloadProduct = {
+    name: 'Example Product',
+    quantity: 10
+  }
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+
+    connectionMock = await MongoClient
+      .connect(URLMock, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .then((conn) => conn.db(DB_NAME));
+
+
+    sinon.stub(connection, 'getConnection').resolves(connectionMock);
+  })
+
+  after(async () => {
+    connection.getConnection.restore()
+  })
+
+  describe('quando é atualizado com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const responseCreate = await ProductModel.create(payloadProduct)
+      const responseUpdate = await ProductModel.update({
+        ...payloadProduct,
+        id: responseCreate._id
+      })
+
+      expect(responseUpdate).to.be.a('object')
+    })
+  });
+});
