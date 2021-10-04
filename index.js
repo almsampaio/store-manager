@@ -20,3 +20,4 @@ app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getProductById);
 
 // req 1 finished
+// req 2 finished
