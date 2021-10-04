@@ -248,7 +248,6 @@ describe('Ao chamar os models de sales', () => {
 
         it('retorna a venda deletada', async () => {
         const result = await salesModels.removeSales(id);
-        console.log(result);
 
         expect(result).to.be.deep.equal(testSale);
         });
