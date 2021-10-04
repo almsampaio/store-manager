@@ -1,4 +1,3 @@
-// const rescue = require('express-rescue');
 const productService = require('../services/Products');
 
 const {
@@ -32,8 +31,19 @@ const create = async (req, res) => {
   return res.status(HTTP_CREATED_STATUS).json(newProduct);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const product = await productService.update(id, name, quantity);
+
+  if (product.err) return res.status(HTTP_UNPROCESSED_STATUS).json(product);
+
+  return res.status(HTTP_OK_STATUS).json(product);
+};
+
 module.exports = {
   getAll,
   create,
   getProductById,
+  update,
 };
