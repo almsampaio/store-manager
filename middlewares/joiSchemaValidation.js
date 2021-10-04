@@ -1,4 +1,3 @@
-// const Joi = require('joi');
 const constants = require('../constants');
 
 const validateObjectSchema = (data, schema) => {
@@ -16,9 +15,8 @@ module.exports.validateBody = (schema) => ((req, res, next) => {
   const error = validateObjectSchema(req.body, schema);
   if (error) {
     response.status = 422;
-    response.err.code = constants.productMessage.DATA_INVALID;
+    response.err.code = constants.DATA_INVALID;
     response.err.message = error;
-    delete response.body;
     return res.status(response.status).send(response);
   }
   return next();

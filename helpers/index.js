@@ -1,35 +1,36 @@
 const { getProductById, updateProduct } = require('../service/productService');
 
-const getNewProduct = (productData) => {
-  const { id, name, quantity } = productData;
-  const newProductUpdate = {
+const updateCreate = async ({ productId: id, quantity: saleQuantity }) => {
+  const { quantity: productQuantity } = await getProductById({ id });
+  const resultQuantity = productQuantity - saleQuantity;
+  // const newProduct = {
+  //   id,
+  //   updateInfo: {
+  //     name,
+  //     quantity: resultQuantity,
+  //   },
+  // };
+  // if (newProduct.updateInfo.quantity < 0) {
+  //   return null;
+  // }
+  // await updateProduct(newProduct);
+  return resultQuantity;
+};
+
+const updateDelete = async ({ productId: id, quantity: saleQuantity }) => {
+  const { name, quantity: productQuantity } = await getProductById({ id });
+  const resultQuantity = productQuantity + saleQuantity;
+  const newProduct = {
     id,
     updateInfo: {
       name,
-      quantity,
+      quantity: resultQuantity,
     },
   };
-  return updateProduct(newProductUpdate);
+  await updateProduct(newProduct);
 };
 
-module.exports.updateProductAfterSalesCreation = async ({ itensSold }) => {
-  await itensSold.forEach((product) => (
-    getProductById({ id: product.productId })
-      .then((sales) => getNewProduct({
-        id: product.productId,
-        name: sales.name,
-        quantity: sales.quantity - product.quantity,
-      }))
-  ));
-};
-
-module.exports.updateProductAfterDeletingSales = async ({ itensSold }) => {
-  await itensSold.forEach((product) => (
-    getProductById({ id: product.productId })
-      .then((sales) => getNewProduct({
-        id: product.productId,
-        name: sales.name,
-        quantity: sales.quantity + product.quantity,
-      }))
-  ));
+module.exports = {
+  updateDelete,
+  updateCreate,
 };
