@@ -1,30 +1,31 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 const COLLECTION_NAME = 'products';
 
-const getAll = async () => connection.getConnection()
-  .then((db) => db.collection(COLLECTION_NAME).find().toArray())
-  // .then((products) => products)
-  .catch((err) => {
-    console.error(err);
-    console.log('-----------------------------------------------------------------------');
-  });
+const getAll = async () => {
+  const products = await connection.getConnection()
+    .then((db) => db.collection(COLLECTION_NAME).find().toArray())
+    .then((data) => data)
+    .catch((err) => {
+      console.error(err);
+    });
 
-// const findById = async (id) => {
-//   const productData = await connection.getConnection()
-//     .then((db) => db.collection(COLLECTION_NAME).findOne(ObjectId(id)));
+  return products;
+};
 
-//   if (!productData) return null;
+const getById = async (id) => {
+  try {
+    const product = await connection.getConnection()
+    .then((db) => db.collection(COLLECTION_NAME).findOne(ObjectId(id)));
 
-//   const { name, quantity } = productData;
+    if (!product) return null;
 
-//   return {
-//     id,
-//     name,
-//     quantity,
-//   };
-// };
+    return product;
+  } catch (err) {
+    return null;
+  }
+};
 
 const create = async ({ name, quantity }) => {
   const { ops } = await connection.getConnection()
@@ -35,6 +36,6 @@ const create = async ({ name, quantity }) => {
 
 module.exports = {
   getAll,
-  // findById,
+  getById,
   create,
 };
