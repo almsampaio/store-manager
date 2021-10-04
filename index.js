@@ -18,6 +18,7 @@ app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
 app.post('/products', productController.create);
 app.get('/products', productController.getAll);
 app.get('/products/:id', productController.getProductById);
+app.put('/products/:id', productController.update);
 
 // req 1 finished
 // req 2 finished
