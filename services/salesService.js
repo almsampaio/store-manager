@@ -1,4 +1,5 @@
 const salesModel = require('../models/salesModel');
+const productsModel = require('../models/productsModel');
 const { saleValidate, updateProducts, sellProducts } = require('../schemas/salesSchema');
 
 const create = async (sale) => {
@@ -6,7 +7,17 @@ const create = async (sale) => {
 
     if (validations.err) return validations;
 
-    sellProducts(sale);
+    const { productId, quantity } = sale[0];
+
+    const product = await productsModel.getById(productId);
+
+    const updateQtty = product.quantity - quantity;
+
+    if (updateQtty < 0) {
+        return { status: 404,
+            err: { code: 'stock_problem', message: 'Such amount is not permitted to sell' } };
+    }
+    sellProducts(productId, updateQtty);
 
     const createdSale = await salesModel.create(sale);
 

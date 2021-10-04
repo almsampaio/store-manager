@@ -807,7 +807,7 @@ describe('10 - Valide a quantidade de produtos', () => {
     await connection.close();
   });
 
-  it.skip('Será validado que o estoque do produto nunca fique com a quantidade menor que zero', async () => {
+  it('Será validado que o estoque do produto nunca fique com a quantidade menor que zero', async () => {
     let result;
     let responseProductId;
 

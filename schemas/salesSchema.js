@@ -17,10 +17,8 @@ const updateProducts = async (sale) => {
     await update(productId, product.name, updateQtty);
 };
 
-const sellProducts = async (sale) => {
-    const { productId, quantity } = sale[0];
+const sellProducts = async (productId, updateQtty) => {
     const product = await getById(productId);
-    const updateQtty = product.quantity - quantity;
     await update(productId, product.name, updateQtty);
 };
 
