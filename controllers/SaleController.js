@@ -20,10 +20,10 @@ const getById = async (req, res) => {
   const sale = await SaleModel.getById(id);
 
   if (!sale) {
-    return res.status(422).json({
+    return res.status(404).json({
       err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
+        code: 'not_found',
+        message: 'Sale not found',
       },
     });
   }
