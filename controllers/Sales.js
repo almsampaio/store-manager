@@ -23,10 +23,21 @@ const {
   
   const create = async (req, res) => {
     const itensSold = req.body;
-    const sales = await saleService.create(itensSold);
-    if (sales.err) {
-      return res.status(HTTP_UNPROCESSED_STATUS).json(sales);
+    const salesList = await saleService.create(itensSold);
+    if (salesList.err) {
+      return res.status(HTTP_UNPROCESSED_STATUS).json(salesList);
     }
+    return res.status(HTTP_OK_STATUS).json(salesList);
+  };
+
+  const update = async (req, res) => {
+    const { id } = req.params;
+    const itensSold = req.body;
+  
+    const sales = await saleService.update(id, itensSold);
+  
+    if (sales.err) return res.status(HTTP_UNPROCESSED_STATUS).json(sales);
+  
     return res.status(HTTP_OK_STATUS).json(sales);
   };
 
@@ -34,4 +45,5 @@ module.exports = {
   getAll,
   create,
   getSaleById,
+  update,
 };

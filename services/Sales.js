@@ -39,8 +39,23 @@ const create = async (itensSold) => {
   return newSale;
 };
 
+const update = async (id, itensSold) => {
+  const validateId = await itensSold
+    .every((item) => productModel.getProductById(item.productId));
+  
+  const validadeType = await itensSold.every((item) => typeof item.quantity === 'number');
+  const validateCount = await itensSold.every((item) => item.quantity > 0);
+
+  if (!validadeType || !validateCount || !validateId) {
+    return { err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' } };
+  }
+  const sale = await saleModel.update(id, itensSold);
+  return sale;
+};
+
 module.exports = {
   getAll,
   create,
   getSaleById,
+  update,
 };
