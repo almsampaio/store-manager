@@ -6,6 +6,15 @@ const error = {
   message: 'Wrong product ID or invalid quantity',
 };
 
+const incrementQuantityProduct = async (sale) => {
+  const { productId, quantity } = sale;
+  const product = await Product.findById(productId);
+  const calculateQuantity = product.quantity + quantity;
+  await Product.update(productId, { quantity: calculateQuantity });
+
+  return true;
+};
+
 const isValidQuantity = (sale) => {
   const { quantity } = sale;
   return typeof quantity !== 'string' && quantity > 0;
@@ -97,6 +106,11 @@ const deleteOne = async (id) => {
       },
     };
   }
+
+  await Promise.all(deletedSale.itensSold.map(async (sale) => {
+    await incrementQuantityProduct(sale);
+  }));
+
   return deletedSale;
 };
 
