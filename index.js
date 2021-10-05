@@ -2,7 +2,7 @@
 const express = require('express');
 const dotEnv = require('dotenv');
 const bodyParser = require('body-parser');
-const dbConnection = require('./model/connection');
+const dbConnection = require('./models/connection');
 
 // instance and config
 const app = express();

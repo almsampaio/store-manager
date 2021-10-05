@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
-const connection = require('../model/connection');
-const productModel = require('../model/productModel');
+const connection = require('../models/connection');
+const productModel = require('../models/productModel');
 const constants = require('../constants');
 
 module.exports.createProduct = async (serviceData) => {

@@ -1,4 +1,4 @@
-const { getProductById, updateProduct } = require('../service/productService');
+const { getProductById, updateProduct } = require('../services/productService');
 
 const updateCreate = async ({ productId: id, quantity: saleQuantity }) => {
   const { quantity: productQuantity } = await getProductById({ id });

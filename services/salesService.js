@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
-const connection = require('../model/connection');
-const salesModel = require('../model/salesModel');
+const connection = require('../models/connection');
+const salesModel = require('../models/salesModel');
 const constants = require('../constants');
 const { updateCreate, updateDelete } = require('../helpers');
 const { getProductById, updateProduct } = require('./productService');

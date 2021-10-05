@@ -1,5 +1,5 @@
 const express = require('express');
-const productController = require('../controller/productController');
+const productController = require('../controllers/productController');
 const joiSchemaValidation = require('../middlewares/joiSchemaValidation');
 const productSchema = require('../apiSchema/productSchema');
 

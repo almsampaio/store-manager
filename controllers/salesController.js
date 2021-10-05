@@ -1,4 +1,4 @@
-const salesService = require('../service/salesService');
+const salesService = require('../services/salesService');
 const constants = require('../constants');
 
 const createSales = async (req, res) => {

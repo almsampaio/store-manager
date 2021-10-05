@@ -1,4 +1,4 @@
-const productService = require('../service/productService');
+const productService = require('../services/productService');
 const constants = require('../constants');
 
 module.exports.createProduct = async (req, res) => {
