@@ -3,13 +3,15 @@ const errors = require('../errors/salesErrors');
 
 const validateInsertedData = async (req, res, next) => {
     const { productId, quantity } = req.body;
-    if (Number(quantity) <= 0) {
+    if (typeof quantity !== 'number') {
       res.status(422).json(errors.invalidData);
-    }
-    if (!ObjectId.isValid(productId)) {
+    } else if (quantity <= 0) {
       res.status(422).json(errors.invalidData);
+    } else if (!ObjectId.isValid(productId)) {
+      res.status(422).json(errors.invalidData);
+    } else {
+      next();
     }
-    next();
 };
 
 module.exports = {
