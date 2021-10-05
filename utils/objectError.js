@@ -1,4 +1,6 @@
 const errorCode = 'invalid_data';
+const errorCodeNotFound = 'not_found';
+const errorCodeStock = 'stock_problem';
 
 const errorName = {
   err: {
@@ -40,6 +42,27 @@ const errorSales = {
   },
 };
 
+const errorSaleNotFound = {
+  err: {
+    code: errorCodeNotFound,
+    message: 'Sale not found',
+  },
+};
+
+const errorSaleId = {
+  err: {
+    code: errorCode,
+    message: 'Wrong sale ID format',
+  },
+};
+
+const errorStock = {
+  err: {
+    code: errorCodeStock,
+    message: 'Such amount is not permitted to sell',
+  },
+};
+
 module.exports = {
   errorName,
   errorTypeQuantity,
@@ -47,4 +70,7 @@ module.exports = {
   errorAlreadyExists,
   errorId,
   errorSales,
+  errorSaleNotFound,
+  errorSaleId,
+  errorStock,
 };

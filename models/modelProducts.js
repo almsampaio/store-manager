@@ -31,12 +31,14 @@ const productByName = async (name) => {
 };
 
 const getProducts = async () => {
+  const product = {};
+  
   const productsCollection = await connection()
     .then((db) => db.collection(collection));
   
-  const products = await productsCollection.find({}).toArray();
+  product.products = await productsCollection.find({}).toArray();
 
-  return products;
+  return product;
 };
 
 const productById = async (id) => {
