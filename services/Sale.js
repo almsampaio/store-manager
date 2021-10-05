@@ -39,6 +39,21 @@ const create = async (sales) => {
   return newSale;
 };
 
+const findById = async (id) => {
+  const sale = await Sale.findById(id);
+  if (sale === null) {
+    return {
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    };
+  }
+
+  return sale;
+};
+
 module.exports = {
   create,
+  findById,
 };
