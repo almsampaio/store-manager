@@ -6,6 +6,11 @@ const error = {
   message: 'Wrong product ID or invalid quantity',
 };
 
+const stockError = {
+  code: 'stock_problem',
+  message: 'Such amount is not permitted to sell',
+};
+
 const incrementQuantityProduct = async (sale) => {
   const { productId, quantity } = sale;
   const product = await Product.findById(productId);
@@ -46,7 +51,7 @@ const validate = async (sales) => {
     return sale;
   }));
   if (quantityError) {
-    return { err: 'falhou' };
+    return { err: stockError };
   }
 
   return {};
@@ -120,3 +125,13 @@ module.exports = {
   update,
   deleteOne,
 };
+
+/* Referências:
+  Consulta ao repositório do Lucas Pedroso e Felipe Flores,
+  ambos Turma 10A para entender como tratar problema de assincronicidade dos retornos nas validacoes
+  relacionadas ao produto e como usar o Promise.all como solucao:
+  https://github.com/tryber/sd-010-a-store-manager/pull/75
+  https://github.com/tryber/sd-010-a-store-manager/pull/90
+
+  Colaboracao do Felipe Teixeira (meu marido) que também é desenvolvedor.
+*/

@@ -8,7 +8,13 @@ const NOT_FOUND_STATUS = 404;
 
 const create = rescue(async (req, res) => {
   const newSale = await service.create(req.body);
-  if (newSale.err) return res.status(UNPROCESSABLE_ENTITY_STATUS).json(newSale);
+
+  if (newSale.err && newSale.err.code === 'invalid_data') {
+    return res.status(UNPROCESSABLE_ENTITY_STATUS).json(newSale);
+  }
+  if (newSale.err && newSale.err.code === 'stock_problem') {
+    return res.status(NOT_FOUND_STATUS).json(newSale);
+  }
 
   res.status(OK_STATUS).json(newSale);
 });
