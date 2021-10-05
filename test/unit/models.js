@@ -136,3 +136,41 @@ describe('Atualiza um produto no BD (model)', () => {
     })
   });
 });
+
+describe('Deleta um produto no BD (model)', () => {
+  let connectionMock
+
+  const payloadProduct = {
+    name: 'Example Product',
+    quantity: 10
+  }
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+
+    connectionMock = await MongoClient
+      .connect(URLMock, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .then((conn) => conn.db(DB_NAME));
+
+
+    sinon.stub(connection, 'getConnection').resolves(connectionMock);
+  })
+
+  after(async () => {
+    connection.getConnection.restore()
+  })
+
+  describe('quando é deletado com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const responseCreate = await ProductModel.create(payloadProduct)
+      const responseUpdate = await ProductModel.deleteById(responseCreate._id)
+
+      expect(responseUpdate).to.be.a('object')
+    })
+  });
+});
+

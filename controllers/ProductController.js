@@ -40,9 +40,22 @@ const update = async (req, res) => {
   return res.status(status).json(json);
 };
 
+const deleteById = async (req, res) => {
+  const { id } = req.params;
+
+  const deletedProduct = await ProductModel.deleteById(id);
+
+  if (!deletedProduct) {
+    return res.status(422).json({ err: { code: 'invalid_data', message: 'Wrong id format' } });
+  }
+
+  return res.status(200).json(deletedProduct);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  deleteById,
 };

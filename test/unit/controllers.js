@@ -265,3 +265,86 @@ describe('Ao chamar o controller de update', () => {
     });
   });
 });
+
+describe('Ao chamar o controller de deleteById', () => {
+  describe('quando o id informado não é válido', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      request.params = { id: ID_EXAMPLE }
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(ProductModel, 'deleteById')
+        .resolves(null)
+    })
+
+    after(async () => {
+      ProductModel.deleteById.restore()
+    })
+
+    it('é chamado o status de código 422', async () => {
+      await ProductController.deleteById(request, response)
+
+      expect(response.status.calledWith(422)).to.be.equal(true)
+    });
+
+    it('é chamado o json com a mensagem "Wrong id format"', async () => {
+      await ProductController.deleteById(request, response)
+
+      expect(response.json.calledWith({err :{message: 'Wrong id format', code: 'invalid_data'}})).to.be.equal(true)
+    });
+
+  });
+
+  describe('quando é inserido com sucesso', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      request.params = { id: ID_EXAMPLE }
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(ProductModel, 'deleteById')
+        .resolves({
+          _id: ID_EXAMPLE,
+          name: 'Example name',
+          quantity: 7
+        })
+    })
+
+    after(async () => {
+      ProductModel.deleteById.restore()
+    })
+
+    it('é chamado o status com código 200', async () => {
+      await ProductController.deleteById(request, response)
+
+      expect(response.status.calledWith(200)).to.be.equal(true)
+    });
+
+    it('é chamado o json com o produto deletado', async () => {
+      await ProductController.deleteById(request, response)
+
+      expect(response.json.calledWith({
+        _id: '604cb554311d68f491ba5781',
+        name: 'Example name',
+        quantity: 7
+      })).to.be.equal(true)
+    });
+  });
+});
