@@ -4,7 +4,7 @@ const {
     validateInsertedQtd,
     validateInsertedName,
     validateObjectID,
- } = require('../validations/products');
+ } = require('../validations/productsValidations');
 
 const router = express.Router();
 
