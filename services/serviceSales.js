@@ -68,7 +68,7 @@ const getSaleById = async (id) => {
 
 const updateSale = async (id, saleUpdated) => {
   let dataError = false;
-  const stockError = false;
+  let stockError = false;
   const sales = [];
   
   if (!validateId(id)) return errorSales;
@@ -92,9 +92,9 @@ const updateSale = async (id, saleUpdated) => {
   const saleOld = await Model.sales.saleById(id);
 
   stock.forEach((_product, index) => {
-    if (stock[index].quantity < (saleUpdated[index].quantity - saleOld.itensSold[index].quantity)) {
+    if (stock[index].quantity < (saleUpdated[index].quantity - saleOld.itensSold[index].quantity)) { 
+      stockError = true; 
     }
-    stockError = true;
   });
 
   if (stockError) return errorStock;
