@@ -5,6 +5,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const connection = require('../../models/connection')
 const ProductModel = require('../../models/Product')
+const SaleModel = require('../../models/Sale')
 
 const DB_NAME = 'StoreManager';
 
@@ -174,3 +175,59 @@ describe('Deleta um produto no BD (model)', () => {
   });
 });
 
+describe('Insere um novo produto no BD (model)', () => {
+  let connectionMock
+
+  const payloadProduct = {
+    name: 'Example product',
+    quantity: 2
+  }
+
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+
+    connectionMock = await MongoClient
+      .connect(URLMock, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .then((conn) => conn.db(DB_NAME));
+
+
+    sinon.stub(connection, 'getConnection').resolves(connectionMock);
+  })
+
+  after(async () => {
+    connection.getConnection.restore()
+  })
+
+  describe('quando é inserido com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const product = await ProductModel.create(payloadProduct)
+      const payloadSale = [
+        {
+          productId: product.id,
+          quantity: 2
+        }
+      ]
+      const response = await SaleModel.create(payloadSale)
+
+      expect(response).to.be.a('object')
+    })
+
+    it('tal objeto possui o "id" da nova venda inserido', async () => {
+      const product = await ProductModel.create(payloadProduct)
+      const payloadSale = [
+        {
+          productId: product.id,
+          quantity: 2
+        }
+      ]
+      const response = await SaleModel.create(payloadSale)
+
+      expect(response).to.have.a.property('_id')
+    })
+  });
+});

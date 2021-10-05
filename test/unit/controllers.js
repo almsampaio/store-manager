@@ -5,7 +5,11 @@ const ProductController = require('../../controllers/ProductController')
 const ProductModel = require('../../models/Product')
 const ProductService = require('../../services/Product')
 
-describe('Ao chamar o controller de create', () => {
+const SaleController = require('../../controllers/SaleController')
+const SaleModel = require('../../models/Sale')
+const SaleService = require('../../services/Sale')
+
+describe('Ao chamar o ProductController de create', () => {
   describe('quando o payload informado não é válido', () => {
     const response = {}
     const request = {}
@@ -91,7 +95,7 @@ describe('Ao chamar o controller de create', () => {
   });
 });
 
-describe('Ao chamar o controller de get', () => {
+describe('Ao chamar o ProductController de get', () => {
   describe('quando é chamado getAll', () => {
     const response = {}
     const request = {}
@@ -173,7 +177,7 @@ describe('Ao chamar o controller de get', () => {
   });
 });
 
-describe('Ao chamar o controller de update', () => {
+describe('Ao chamar o ProductController de update', () => {
   describe('quando o payload informado não é válido', () => {
     const response = {}
     const request = {}
@@ -266,7 +270,7 @@ describe('Ao chamar o controller de update', () => {
   });
 });
 
-describe('Ao chamar o controller de deleteById', () => {
+describe('Ao chamar o ProductController de deleteById', () => {
   describe('quando o id informado não é válido', () => {
     const response = {}
     const request = {}
@@ -345,6 +349,92 @@ describe('Ao chamar o controller de deleteById', () => {
         name: 'Example name',
         quantity: 7
       })).to.be.equal(true)
+    });
+  });
+});
+
+describe('Ao chamar o SaleController de create', () => {
+  describe('quando o payload informado não é válido', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      request.body = {}
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(SaleService, 'create')
+        .resolves({
+          status: 422,
+          json: {
+            err: {
+              message: 'Dados inválidos'
+            }
+          }
+        })
+    })
+
+    after(async () => {
+      SaleService.create.restore()
+    })
+
+    it('é chamado o status de código 422', async () => {
+      await SaleController.create(request, response)
+
+      expect(response.status.calledWith(422)).to.be.equal(true)
+    });
+
+    it('é chamado o json com a mensagem "Dados inválidos"', async () => {
+      await SaleController.create(request, response)
+
+      expect(response.json.calledWith({err :{message: 'Dados inválidos'}})).to.be.equal(true)
+    });
+
+  });
+
+  describe('quando é inserido com sucesso', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      request.body = {
+        name: 'Example product',
+        quantity: 7
+      }
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(SaleService, 'create')
+        .resolves({
+          status: 200,
+          json: request.body
+        })
+    })
+
+    after(async () => {
+      SaleService.create.restore()
+    })
+
+    it('é chamado o status com código 200', async () => {
+      await SaleController.create(request, response)
+
+      expect(response.status.calledWith(200)).to.be.equal(true)
+    });
+
+    it('é chamado o json com a venda criada', async () => {
+      await SaleController.create(request, response)
+
+      expect(
+        response.json.calledWith(request.body)
+      ).to.be.equal(true)
     });
   });
 });
