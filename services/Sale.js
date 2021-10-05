@@ -53,7 +53,22 @@ const findById = async (id) => {
   return sale;
 };
 
+const deleteOne = async (id) => {
+  const deletedSale = await Sale.deleteOne(id);
+
+  if (deletedSale === null) {
+    return {
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    };
+  }
+  return deletedSale;
+};
+
 module.exports = {
   create,
   findById,
+  deleteOne,
 };
