@@ -15,7 +15,7 @@ function readCoverageFile() {
   return fs.readFile(COVERAGE_FILE_PATH).then(JSON.parse);
 }
 
-describe.skip('11 - Escreva testes para seus models', () => {
+describe('11 - Escreva testes para seus models', () => {
   beforeAll(async () => {
     await exec(NPX_NYC_COMMAND('models'));
   });
@@ -30,20 +30,20 @@ describe.skip('11 - Escreva testes para seus models', () => {
   });
 });
 
-describe.skip('12 - Escreva testes para seus services', () => {
+describe('12 - Escreva testes para seus services', () => {
   beforeAll(async () => {
-    await exec(NPX_NYC_COMMAND('services'));
+  await exec(NPX_NYC_COMMAND('services'));
   });
-
+  
   afterAll(async () => {
-    await exec('rm -rf coverage .nyc_output');
+  await exec('rm -rf coverage .nyc_output');
   });
-
+  
   it('Será validado que cobertura total das linhas dos arquivos na pasta `services` é maior ou igual a 80%', async () => {
-    const coverageResults = await readCoverageFile();
-    expect(coverageResults.total.lines.pct).toBeGreaterThanOrEqual(80);
+  const coverageResults = await readCoverageFile();
+  expect(coverageResults.total.lines.pct).toBeGreaterThanOrEqual(80);
   });
-});
+  }); 
 
 describe.skip('13 - Escreva testes para seus controllers', () => {
   beforeAll(async () => {
