@@ -9,6 +9,16 @@ const addNewSale = async (newSale) => {
     }
 };
 
+const getAllSales = async () => {
+  try {
+    const sales = await model.getAllSales();
+    return sales;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
     addNewSale,
+    getAllSales,
 };
