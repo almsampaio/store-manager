@@ -51,16 +51,20 @@ const getProductById = async (id) => {
   return product;
 };
 
-const updateProduct = async (id, productUpdated) => {
+const validateAll = (id, { name, quantity }) => {
   if (!validateId(id)) return errorId;
-
-  const { name, quantity } = productUpdated;
-
+  
   if (!validateName(name)) return errorName;
 
   if (!validateQuantity(quantity)) return errorTypeQuantity;
 
   if (!validateQuantity(quantity)) return errorQuantity;
+};
+
+const updateProduct = async (id, productUpdated) => {
+  const { name, quantity } = productUpdated;
+
+  validateAll();
 
   const product = await Model.products.updateProduct(id, { name, quantity });
 
