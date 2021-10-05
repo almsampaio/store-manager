@@ -1,30 +1,25 @@
 const express = require('express');
-const BodyParser = require('body-parser');
-const Products = require('./controllers/Products');
-const validations = require('./middlewares/validations');
+const bodyParser = require('body-parser');
+const products = require('./routes/products');
+const sales = require('./routes/sales');
+
+const app = express();
+app.use(bodyParser.json());
 
 const PORT = 3000;
-const app = express();
-app.use(BodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
-app.post('/products',
-  validations.nameValidation,
-  validations.quantityValidation,
-  Products.createProduct);
+app.use('/products', products);
+app.use('/sales', sales);
 
-app.get('/products', Products.getAllProducts);
-app.get('/products/:id', Products.getProductById);
+app.use(({ status, err }, _req, res, _next) => {
+  res.status(status).json({ err });
+});
 
-app.put('/products/:id',
-  validations.nameValidation,
-  validations.quantityValidation,
-  Products.updateProduct);
-
-app.delete('/products/:id', Products.removeProduct);
-
-app.listen(PORT, () => console.log('Online'));
+app.listen(PORT, () => {
+  console.log(`Server localhost:${PORT} is Online`);
+});
