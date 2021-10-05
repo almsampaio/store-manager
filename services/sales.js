@@ -8,9 +8,12 @@ const getAll = async () => {
 
 const inputSales = async (salesArray) => {
   const validSales = await validations.validSales(salesArray);
+  
   if (validSales) return validSales;
-  const updateSalesArray = await modelSales.updateQuantity(salesArray);
-  console.log(updateSalesArray);
+
+  await modelSales.updateQuantity(salesArray);
+  // console.log(updateSalesArray);
+  
   const newSale = await modelSales.inputSales(salesArray);
   return newSale;
 };
@@ -28,10 +31,20 @@ const updateSale = async (id, itensSold) => {
 };
 
 const deleteSale = async (id) => {
-  const returnStock = await modelSales.returnStock(id);
-  console.log(returnStock);
-  const delSale = await modelSales.deleteSale(id);
-  if (!delSale) {
+
+  const validSales = await modelSales.searchSale(id);
+  if (validSales) {
+    
+    await modelSales.returnStock(id);
+
+    const delSale = await modelSales.deleteSale(id);
+    
+    return delSale;
+  }
+
+  // console.log(returnStock);
+  
+  if (!validSales) {
     return {
       err: {
         code: 'invalid_data',
@@ -39,8 +52,8 @@ const deleteSale = async (id) => {
       },
     }; 
   }
+  
   // console.log(delSale);
-  return delSale;
 };
 
 module.exports = {

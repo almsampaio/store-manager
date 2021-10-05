@@ -51,6 +51,7 @@ const notNumberQuantity = (quantity) => {
 
 const validSales = async (salesArray) => {
   const verifyQuantity = await salesArray.find((sale) => sale.quantity <= 0);
+
   const verifyTypeQuantity = await salesArray.find((sale) => typeof sale.quantity !== 'number');
 
   if (verifyQuantity || verifyTypeQuantity) {

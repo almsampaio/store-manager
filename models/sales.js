@@ -12,31 +12,53 @@ const getAll = async () => {
 const updateQuantity = async (salesArray) => {
   const db = await connectionDb();
   const collection = await db.collection('products');
-  const updateSalesArray = salesArray.forEach(async (product) => {
+  
+  const updateSalesArray = salesArray.map(async (product) => {
     const { quantity, productId } = product;
+
     const findProduct = await collection.findOne({ _id: ObjectId(productId) });
     const newQuantity = findProduct.quantity - quantity;
+    if (newQuantity < 0) {
+      return {
+        err: { code: 'stock_problem', message: 'Such amount is not permitted to sell ' },
+      }; 
+    }
+
     const updateProduct = await collection.findOneAndUpdate(
       { _id: ObjectId(productId) },
       { $set: { quantity: newQuantity } },
     );
-    return updateProduct;
+    return updateProduct.value;
   });
   return updateSalesArray;
 };
 
-const returnStock = async (salesArray) => {
-  const db = connectionDb();
-  const collection = db.collection('products');
-  const restoreStock = salesArray.forEach(async (product) => {
+  // const updateSalesArray = salesArray.forEach(async (product) => {
+  //   const { quantity, productId } = product;
+  //   const findProduct = await collection.findOne({ _id: ObjectId(productId) });
+  //   const newQuantity = findProduct.quantity - quantity;
+  //   const updateProduct = await collection.findOneAndUpdate(
+  //     { _id: ObjectId(productId) },
+  //     { $set: { quantity: newQuantity } },
+  //   );
+  //   return updateProduct;
+  // });
+  // return updateSalesArray;
+
+const returnStock = async (id) => {
+  const db = await connectionDb();
+  const findSale = await db.collection('sales').findOne({ _id: ObjectId(id) });
+  const { itensSold } = findSale;
+  // console.log(findSale);
+  const restoreStock = itensSold.map(async (product) => {
     const { quantity, productId } = product;
-    const findProduct = await collection.findOne({ _id: ObjectId(productId) });
+    const findProduct = await db.collection('products').findOne({ _id: ObjectId(productId) });
     const newQuantity = findProduct.quantity + quantity;
-    const updateProduct = await collection.findOneAndUpdate(
+    const updateProduct = await db.collection('products').findOneAndUpdate(
       { _id: ObjectId(productId) },
       { $set: { quantity: newQuantity } },
     );
-    return updateProduct;
+    return updateProduct.value;
   });
   return restoreStock;
 };
