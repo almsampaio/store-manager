@@ -1,4 +1,5 @@
 const Sale = require('../models/Sale');
+const Product = require('../models/Product');
 
 const error = {
   code: 'invalid_data',
@@ -7,14 +8,36 @@ const error = {
 
 const isValidQuantity = (sale) => {
   const { quantity } = sale;
-  return typeof quantity === 'number' && quantity > 0;
+  return typeof quantity !== 'string' && quantity > 0;
 };
 
-const validate = (sales) => {
-  const isInvalid = sales.some((sale) => !isValidQuantity(sale));
+const invalidQuantityProduct = async (sale) => {
+  const { productId, quantity } = sale;
+  const product = await Product.findById(productId);
+  const calculateQuantity = product.quantity - quantity;
+  if (calculateQuantity >= 0) {
+    await Product.update(productId, { quantity: calculateQuantity });
+    return false;
+  }
 
+  return true;
+};
+
+const validate = async (sales) => {
+  const isInvalid = sales.some((sale) => !isValidQuantity(sale));
   if (isInvalid) {
     return { err: error };
+  }
+
+  let quantityError = false;
+  await Promise.all(sales.map(async (sale) => {
+    if (await invalidQuantityProduct(sale)) {
+      quantityError = true;
+    }
+    return sale;
+  }));
+  if (quantityError) {
+    return { err: 'falhou' };
   }
 
   return {};
@@ -25,7 +48,7 @@ const create = async (sales) => {
     itensSold: [],
   };
 
-  const validations = validate(sales);
+  const validations = await validate(sales);
   if (validations.err) {
     return validations;
   }
@@ -36,6 +59,7 @@ const create = async (sales) => {
   });
 
   const newSale = await Sale.createSale(venda);
+
   return newSale;
 };
 
@@ -54,7 +78,7 @@ const findById = async (id) => {
 };
 
 const update = async (id, sales) => {
-  const validations = validate(sales);
+  const validations = await validate(sales);
   if (validations.err) return validations;
 
   const updateSale = await Sale.update(id, sales);
