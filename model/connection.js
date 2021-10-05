@@ -10,7 +10,7 @@ let db = null;
 const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
 const DB_NAME = 'StoreManager';
 
-module.exports = () => (db
+const getConnection = () => (db
   ? Promise.resolve(db)
   : MongoClient.connect(process.env.MONGO_DB_URL || MONGO_DB_URL, OPTIONS)
   .then((conn) => {
@@ -23,3 +23,5 @@ module.exports = () => (db
     throw new Error(error);
   })
 );
+
+module.exports = getConnection;
