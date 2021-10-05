@@ -438,3 +438,83 @@ describe('Ao chamar o SaleController de create', () => {
     });
   });
 });
+
+describe('Ao chamar o SaleController de get', () => {
+  describe('quando é chamado getAll', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      request.body = {}
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(SaleModel, 'getAll')
+        .resolves([])
+    })
+
+    after(async () => {
+      SaleModel.getAll.restore()
+    })
+
+    it('é chamado o status de código 200', async () => {
+      await SaleController.getAll(request, response)
+
+      expect(response.status.calledWith(200)).to.be.equal(true)
+    });
+
+    it('retorna um array', async () => {
+      await SaleController.getAll(request, response)
+
+      expect(response.json.calledWith({ sales: [] })).to.be.equal(true)
+    });
+  });
+
+  describe('quando é chamado getById', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+      const fakeSale = {
+        _id: ID_EXAMPLE,
+        itensSold: []
+      }
+
+      request.body = {}
+      request.params = { id: ID_EXAMPLE }
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(SaleModel, 'getById')
+        .resolves(fakeSale)
+    })
+
+    after(async () => {
+      SaleModel.getById.restore()
+    })
+
+    it('é chamado o status de código 200', async () => {
+      await SaleController.getById(request, response)
+
+      expect(response.status.calledWith(200)).to.be.equal(true)
+    });
+
+    it('retorna o produto buscado', async () => {
+      await SaleController.getById(request, response)
+
+      expect(response.json.calledWith({
+        _id: '604cb554311d68f491ba5781',
+        itensSold: []
+      })).to.be.equal(true)
+    });
+  });
+});

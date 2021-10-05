@@ -9,7 +9,7 @@ const SaleModel = require('../../models/Sale')
 
 const DB_NAME = 'StoreManager';
 
-describe('Insere um novo produto no BD (model)', () => {
+describe('Insere um novo produto no Product BD (model)', () => {
   let connectionMock
 
   const payloadProduct = {
@@ -51,7 +51,7 @@ describe('Insere um novo produto no BD (model)', () => {
   });
 });
 
-describe('Busca por produtos no BD (model)', () => {
+describe('Busca por produtos no Product BD (model)', () => {
   let connectionMock
 
   const payloadProduct = {
@@ -98,7 +98,7 @@ describe('Busca por produtos no BD (model)', () => {
   });
 });
 
-describe('Atualiza um produto no BD (model)', () => {
+describe('Atualiza um produto no Product BD (model)', () => {
   let connectionMock
 
   const payloadProduct = {
@@ -138,7 +138,7 @@ describe('Atualiza um produto no BD (model)', () => {
   });
 });
 
-describe('Deleta um produto no BD (model)', () => {
+describe('Deleta um produto no Product BD (model)', () => {
   let connectionMock
 
   const payloadProduct = {
@@ -175,7 +175,7 @@ describe('Deleta um produto no BD (model)', () => {
   });
 });
 
-describe('Insere um novo produto no BD (model)', () => {
+describe('Insere um novo produto no Sale BD (model)', () => {
   let connectionMock
 
   const payloadProduct = {
@@ -228,6 +228,58 @@ describe('Insere um novo produto no BD (model)', () => {
       const response = await SaleModel.create(payloadSale)
 
       expect(response).to.have.a.property('_id')
+    })
+  });
+});
+
+describe('Busca por produtos no Sale BD (model)', () => {
+  let connectionMock
+
+  const payloadProduct = {
+    name: 'Example Product',
+    quantity: 10
+  };
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+
+    connectionMock = await MongoClient
+      .connect(URLMock, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .then((conn) => conn.db(DB_NAME));
+
+
+    sinon.stub(connection, 'getConnection').resolves(connectionMock);
+  })
+
+  after(async () => {
+    connection.getConnection.restore()
+  })
+
+  describe('quando busca por todos retorna um array', () => {
+    it('retorna um array', async () => {
+      const response = await SaleModel.getAll()
+
+      expect(response).to.be.an('array')
+    })
+  });
+
+  describe('quando busca por id retorna o produto daquele id', () => {
+    it('retorna a sale', async () => {
+      const { _id } = await ProductModel.create(payloadProduct);
+      const { _id: saleId } = await SaleModel.create([
+        {
+          productId: _id,
+          quantity: 2
+        }
+      ]);
+      const response = await SaleModel.getById(saleId)
+
+      expect(response).to.have.property('_id')
+      expect(response).to.have.property('itensSold')
     })
   });
 });
