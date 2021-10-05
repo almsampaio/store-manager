@@ -32,3 +32,7 @@ app.post('/sales', saleController.create);
 app.get('/sales', saleController.getAll);
 app.get('/sales/:id', saleController.getSaleById);
 app.put('/sales/:id', saleController.update);
+app.delete('/sales/:id', saleController.deleteSale);
+
+// para os requisitos 8, 9 e 10, consultei o PR
+// https://github.com/tryber/sd-010-a-store-manager/pull/18/files

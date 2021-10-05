@@ -18,6 +18,7 @@ const getSaleById = async (id) => {
 const create = async (itensSold) => {
   const db = await connection();
   const result = await db.collection('sales').insertOne({ itensSold });
+
   return { _id: result.insertedId, itensSold };
 };
 
@@ -31,9 +32,15 @@ const update = async (id, itensSold) => {
   return sale;
 };
 
+const deleteSale = async (id) => {
+  const db = await connection();
+  await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   getAll,
   create,
   getSaleById,
   update,
+  deleteSale,
 };

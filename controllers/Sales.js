@@ -23,11 +23,15 @@ const {
   
   const create = async (req, res) => {
     const itensSold = req.body;
-    const salesList = await saleService.create(itensSold);
-    if (salesList.err) {
-      return res.status(HTTP_UNPROCESSED_STATUS).json(salesList);
+    const { productSales, notValid, error } = await saleService.create(itensSold);
+    
+    if (notValid) {
+      return res.status(HTTP_UNPROCESSED_STATUS).json(notValid);
     }
-    return res.status(HTTP_OK_STATUS).json(salesList);
+    
+    if (error) return res.status(HTTP_NOT_FOUND_STATUS).json(error);
+
+    return res.status(HTTP_OK_STATUS).json(productSales);
   };
 
   const update = async (req, res) => {
@@ -41,9 +45,21 @@ const {
     return res.status(HTTP_OK_STATUS).json(sales);
   };
 
+  const deleteSale = async (req, res) => {
+    const { id } = req.params;
+    const { deletedSale, errorMessage } = await saleService.deleteSale(id);
+  
+    if (errorMessage) {
+      return res.status(HTTP_UNPROCESSED_STATUS).json(errorMessage);
+    }
+  
+    return res.status(HTTP_OK_STATUS).json(deletedSale);
+  };
+
 module.exports = {
   getAll,
   create,
   getSaleById,
   update,
+  deleteSale,
 };
