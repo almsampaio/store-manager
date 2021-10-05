@@ -1,8 +1,9 @@
 const { expect } = require('chai');
 const connection = require('../../models/connection')
-const salesService = require('../../service/Sales')
-const serviceProducts = require('../../service/Products')
-const productsModel = require('../../models/Products')
+const salesService = require('../../services/Sales')
+const serviceProducts = require('../../services/Products')
+const productsModel = require('../../models/Products');
+const { test } = require('mocha');
 
 describe('testando a camada service', () => {
   beforeEach( async () => {
@@ -33,7 +34,8 @@ describe('testando a camada service', () => {
   });
 
   it('é possivel filtrat por id', async() => {
-    const { info } = await serviceProducts.create('productName', 10)
+    const  info = await productsModel.create('productName', 10)
+    console.log(info);
     const id = info._id.toString()
     const product = await serviceProducts.getById(id)
     expect(product.status).to.be.equal(200)
@@ -47,14 +49,14 @@ describe('testando a camada service', () => {
   })
 
   it('é possivel atualizar um produto', async() => {
-    const { _id } = await serviceProducts.create('productName', 10)
-    const update = await serviceProducts.updateProduct('productName', 1, _id )
+    const { _id } = await productsModel.create('productName', 10)
+    console.log(_id);
+    const update = await serviceProducts.updateProduct(_id, 'productName', )
     expect(update.status).to.be.equal(200)
   })
 
   it('is possivel deletar um produto', async() => {
-    const { info } = await serviceProducts.create('productName', 10)
-    const id = info._id.toString()
+    const {_id: id} = await productsModel.create('productName', 10)
     const deleted = await serviceProducts.deleteProduct(id)
     expect(deleted.status).to.be.equal(200)
   })
@@ -68,17 +70,12 @@ describe('testando a camada service', () => {
 
   it('é possivel criar uma venda', async() => {
     const { _id } = await productsModel.findByName('Escudo do Capitão América')
+    console.log(_id);
     const productId = _id.toString()
-    const create = await servicesSales.createSales( [{ productId, quantity: 10}])
+    const create = await salesService.createSales( [{ productId, quantity:10 }])
     expect(create.status).to.be.equal(200)
   })
 
-  it('caso o id esteja incorreto retorne um erro', async() => {
-    const message = 'Wrong product ID or invalid quantity'
-    const create = await salesService.createSales( 'saasda', 10)
-    expect(create.status).to.be.equal(422)
-    expect(create.message).to.be.equal(message)
-  })
 
   it('é possivel listar todas as vendas', async() => {
     const allSales = await salesService.getAllSales()
@@ -86,11 +83,10 @@ describe('testando a camada service', () => {
   })
 
   it('é possivel localizar a venda pelo id', async() => {
-    const { _id } = await productsModel.findByName('Escudo do Capitão América')
-    const productId = _id.toString()
-    const { info } = await salesService.createSales( [{ productId, quantity: 10}])
-    const id = info._id.toString()
-    const product = await servicesSales.getById(id)
+      const {_id: productId } = await productsModel.findByName('Escudo do Capitão América')
+    const {data}  = await salesService.createSales( [{ productId, quantity: 10}])
+    console.log(data);
+    const product = await salesService.getById(data._id)
     expect(product.status).to.be.equal(200)
   })
 
@@ -102,26 +98,22 @@ describe('testando a camada service', () => {
   })
 
   it('é possivel atualizar uma venda pelo id', async() => {
-    const { _id } = await productsModel.findtByName('Escudo do Capitão América')
-    const productId = _id.toString()
-    const { info } = await salesService.createSales( [{ productId, quantity: 10}])
-    const id = info._id.toString()
-    const update = await salesService.updateSales( [{ productId, quantity: 21 }], id)
+    const { _id: productId } = await productsModel.findByName('Escudo do Capitão América')
+    const { data } = await salesService.createSales( [{ productId, quantity: 10}])
+    const update = await salesService.updateSales( [{ productId, quantity: 21 }], data._id)
     expect(update.status).to.be.equal(200)
   })
 
   it('Se o id estiver incorreto, retorne "null"', async() => {
     const product = await salesService.updateSales('sasada')
     expect(product.status).to.be.equal(200)
-    expect(product.info).to.be.equal(null)
+    expect(product.data).to.be.equal(null)
   })
 
   it('é possivel deletar uma venda pelo id', async() => {
-    const { _id } = await productsModel.findByName('Escudo do Capitão América')
-    const productId = _id.toString()
-    const { info } = await salesService.createSales( [{ productId, quantity: 10}])
-    const id = info._id.toString()
-    const deleted = await salesService.deleteSales( id )
+    const { _id: productId } = await productsModel.findByName('Escudo do Capitão América')
+    const { data } = await salesService.createSales( [{ productId, quantity: 10}])
+    const deleted = await salesService.deleteSales( data._id )
     expect(deleted.status).to.be.equal(200)
   })
 
