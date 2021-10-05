@@ -23,6 +23,7 @@ app.delete('/products/:id', Product.deleteOne);
 app.post('/sales', Sale.create);
 app.get('/sales', Sale.getAll);
 app.get('/sales/:id', Sale.findById);
+app.put('/sales/:id', Sale.update);
 app.delete('/sales/:id', Sale.deleteOne);
 
 app.listen(PORT, () => {

@@ -53,6 +53,15 @@ const findById = async (id) => {
   return sale;
 };
 
+const update = async (id, sales) => {
+  const validations = validate(sales);
+  if (validations.err) return validations;
+
+  const updateSale = await Sale.update(id, sales);
+
+  return updateSale;
+};
+
 const deleteOne = async (id) => {
   const deletedSale = await Sale.deleteOne(id);
 
@@ -70,5 +79,6 @@ const deleteOne = async (id) => {
 module.exports = {
   create,
   findById,
+  update,
   deleteOne,
 };

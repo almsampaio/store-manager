@@ -26,6 +26,15 @@ const findById = rescue(async (req, res) => {
   res.status(OK_STATUS).json(sale);
 });
 
+const update = rescue(async (req, res) => {
+  const { id } = req.params;
+  const sales = req.body;
+  const updateSale = await service.update(id, sales);
+  if (updateSale.err) return res.status(UNPROCESSABLE_ENTITY_STATUS).json(updateSale);
+
+  res.status(OK_STATUS).json(updateSale);
+});
+
 const deleteOne = rescue(async (req, res) => {
   const { id } = req.params;
   const deletedSale = await service.deleteOne(id);
@@ -38,5 +47,6 @@ module.exports = {
   create,
   getAll,
   findById,
+  update,
   deleteOne,
 };
