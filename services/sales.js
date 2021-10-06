@@ -1,4 +1,5 @@
 const modelSales = require('../models/sales');
+// const modelProduct = require('../models/products');
 const validations = require('./validations');
 
 const getAll = async () => {
@@ -8,16 +9,12 @@ const getAll = async () => {
 
 const inputSales = async (salesArray) => {
   const validSales = await validations.validSales(salesArray);
-  
   if (validSales) return validSales;
 
   await modelSales.updateQuantity(salesArray);
-  // console.log(updateSalesArray);
 
-  // if (newQuantity < 0) {
-  //   return {
-  //     err: { code: 'stock_problem', message: 'Such amount is not permitted to sell ' },
-  //   }; 
+  // const verifyStockNewSale = await validations.verifyStockNewSale(newSale);
+  // if (verifyStockNewSale) return verifyStockNewSale;
   
   const newSale = await modelSales.inputSales(salesArray);
   return newSale;
@@ -44,8 +41,6 @@ const deleteSale = async (id) => {
     
     return delSale;
   }
-
-  // console.log(returnStock);
   
   if (!validSales) {
     return {
@@ -55,8 +50,6 @@ const deleteSale = async (id) => {
       },
     }; 
   }
-  
-  // console.log(delSale);
 };
 
 module.exports = {

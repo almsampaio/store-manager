@@ -13,14 +13,11 @@ const getAll = async () => {
 const updateQuantity = async (salesArray) => {
   const db = await connectionDb();
   
-  // console.log(salesArray);
   const updateSalesArray = salesArray.map(async (product) => {
     const { quantity, productId } = product;
 
     const findProduct = await modelProduct.searchById(productId);
     
-    console.log(findProduct);
-
     const newQuantity = findProduct.quantity - quantity;
     if (newQuantity) {
       const updateProduct = await db.collection('products').findOneAndUpdate(
@@ -33,23 +30,10 @@ const updateQuantity = async (salesArray) => {
   return updateSalesArray;
 };
 
-  // const updateSalesArray = salesArray.forEach(async (product) => {
-  //   const { quantity, productId } = product;
-  //   const findProduct = await collection.findOne({ _id: ObjectId(productId) });
-  //   const newQuantity = findProduct.quantity - quantity;
-  //   const updateProduct = await collection.findOneAndUpdate(
-  //     { _id: ObjectId(productId) },
-  //     { $set: { quantity: newQuantity } },
-  //   );
-  //   return updateProduct;
-  // });
-  // return updateSalesArray;
-
 const returnStock = async (id) => {
   const db = await connectionDb();
   const findSale = await db.collection('sales').findOne({ _id: ObjectId(id) });
   const { itensSold } = findSale;
-  // console.log(findSale);
   const restoreStock = itensSold.map(async (product) => {
     const { quantity, productId } = product;
     const findProduct = await db.collection('products').findOne({ _id: ObjectId(productId) });
@@ -105,7 +89,6 @@ const updateSale = async (id, itensSold) => {
 };
 
 const deleteSale = async (id) => {
-  // console.log(id);
   const db = await connectionDb();
   const salesCollection = db.collection('sales');
   if (ObjectId.isValid(id)) {
