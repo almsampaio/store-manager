@@ -3,6 +3,7 @@ const productsModel = require('../models/Products');
 
 const invalidErrorMsg = 'Wrong product ID or invalid quantity';
 const notFoundErrorMsg = 'Sale not found';
+const invalidSaleErrorMsg = 'Wrong sale ID format';
 
 const invalidCode = 'invalid_data';
 const notFoundCode = 'not_found';
@@ -62,9 +63,19 @@ const updateSales = async ({ id, productId, quantity }) => {
   return updatedSales;
 };
 
+const deleteSales = async (id) => {
+  const validSale = await getById(id);
+
+  if (validSale.message) return { code: invalidCode, message: invalidSaleErrorMsg };
+
+  await salesModel.deleteSales(id);
+  return validSale;
+};
+
 module.exports = {
   getAll,
   getById,
   addSales,
   updateSales,
+  deleteSales,
 };

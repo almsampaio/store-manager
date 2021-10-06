@@ -28,3 +28,4 @@ app.post('/sales', salesController.addSales);
 app.get('/sales', salesController.getAll);
 app.get('/sales/:id', salesController.getById);
 app.put('/sales/:id', salesController.updateSales);
+app.delete('/sales/:id', salesController.deleteSales);

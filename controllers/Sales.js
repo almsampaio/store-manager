@@ -52,9 +52,19 @@ const updateSales = async (req, res) => {
   res.status(STATUS_CODE).json(updatedSales);
 };
 
+const deleteSales = async (req, res) => {
+  const { id } = req.params;
+
+  const deletedSale = await salesService.deleteSales(id);
+
+  if (deletedSale.message) return res.status(HTTP_UNPROCESSED_STATUS).json({ err: deletedSale });
+  res.status(HTTP_OK_STATUS).json(deletedSale);
+};
+
 module.exports = {
   getAll,
   getById,
   addSales,
   updateSales,
+  deleteSales,
 };
