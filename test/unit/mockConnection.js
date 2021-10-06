@@ -12,6 +12,4 @@ const getConnection = async () => {
     .then((connection) => connection.db(DB_NAME));
 };
 
-module.exports = {
-  getConnection,
-};
+module.exports = getConnection;
