@@ -3,9 +3,9 @@ const { errorName, errorQuantity,
   errorTypeQuantity, errorAlreadyExists, errorId } = require('../utils/objectError');
 
 const validateName = (name) => {
-  const nameLength = 5;
+  const regexName = /^.{5,}$/;
 
-  return name.length < nameLength;
+  return regexName.test(name);
 };
 
 const validateQuantity = (quantity) => quantity >= 1;
@@ -13,9 +13,9 @@ const validateQuantity = (quantity) => quantity >= 1;
 const validateTypeQuantity = (quantity) => typeof (quantity) === 'number';
 
 const validateId = (id) => {
-  const idLength = 24;
+  const regexId = /^.{24}$/;
 
-  return id.length < idLength;
+  return regexId.test(id);
 };
 
 const productAdditional = async (dataProduct) => {

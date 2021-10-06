@@ -6,9 +6,9 @@ const validateTypeQuantity = (quantity) => typeof (quantity) === 'number';
 const validateQuantity = (quantity) => quantity >= 1;
 
 const validateId = (id) => {
-  const idLength = 24;
+  const regexId = /^.{24}$/;
 
-  return (id.length < idLength);
+  return regexId.test(id);
 };
 
 const stockValidate = (stock) => {
