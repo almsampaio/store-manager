@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const productsController = require('./controllers/Products');
+const salesController = require('./controllers/Sales');
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,8 +16,14 @@ app.listen(PORT, () => {
   console.log(`iniciando o projeto na porta ${PORT}`);
 });
 
+// endpoint para products
 app.post('/products', productsController.addProduct);
 app.get('/products', productsController.getAll);
 app.get('/products/:id', productsController.getById);
 app.put('/products/:id', productsController.updateProduct);
 app.delete('/products/:id', productsController.deleteProduct);
+
+// endoints para sales
+app.post('/sales', salesController.addSales);
+app.get('/sales', salesController.getAll);
+app.get('/sales/:id', salesController.getById);
