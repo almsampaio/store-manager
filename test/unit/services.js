@@ -1,4 +1,3 @@
-const { MongoClient, ObjectId } = require('mongodb');
 const connection = require('../../models/connection');
 const chai = require('chai');
 
@@ -9,7 +8,6 @@ const products = [
   { name: 'Traje de encolhimento', quantity: 20 },
   { name: 'Escudo do Capitão América', quantity: 30 },
 ];
-
 
 const sales = [
   {
@@ -38,7 +36,6 @@ const sales = [
   }
 ]
 
-
 const productService = require('../../services/productsService');
 const salesService = require('../../services/salesService');
 
@@ -46,12 +43,12 @@ describe("Testes na camada Services", () => {
     beforeEach(async () => {
       const conn = await connection();
       const productsDB = await conn.collection('products');
-      const salesDB = await conn.collection('sales');
+      const salesDB = await conn.collection('allSales');
       await productsDB.deleteMany({});
       await salesDB.deleteMany({});
       await productsDB.insertMany(products);
       await salesDB.insertOne({ itensSold: sales });
-    })
+    });
     it (('Cria produto com sucesso'),async () => {
       const created = await productService.addNewProduct({ name: 'Joias do infinito' , quantity: 5 });
       const allProducts = await productService.getAllProducts();
@@ -92,36 +89,40 @@ describe("Testes na camada Services", () => {
     it ('Cria venda', async () => {
       const allProducts = await productService.getAllProducts();
       const { _id, quantity } = allProducts[0];
-      const newSale = await salesService.addNewSale({ _id, quantity });
+      const newSale = await salesService.addNewSale({ itensSold: [{ productId: _id, quantity }] });
       expect(newSale).to.have.a('object');
     });
     it ('Busca vendas', async () => {
-      const sales = await salesService.getAllSales();
-      console.log(sales);
-      expect(typeof sales).to.be.deep.equal('object');
+      const allSales = await salesService.getAllSales();
+      expect(typeof allSales).to.be.deep.equal('object');
     })
     it ('Busca vendas pelo id', async () => {
-      const allProducts = await productService.getAllProducts();
-      const { _id, quantity } = allProducts[0];
-      await salesService.addNewSale({ productId: _id, quantity });
-      const sales = await salesService.getSalesById(_id);
-      console.log(sales);
-    })
-    it ('Atualiza a venda', async () => {
-      const allProducts = await productService.getAllProducts();
-      const { _id, quantity } = allProducts[0];
-      const newSale = await salesService.addNewSale({ productId: _id, quantity });
-      const { _id: id } = newSale;
-      await salesService.updateSale(id,{ productId: _id, quantity: 3 });
-      const sales = await salesService.getAllSales();
-      expect(sales[0].itensSold.productId).to.be.deep.equal(_id);
+      const allSales = await salesService.getAllSales();
+      const { _id } = allSales[0];
+      const sortedSale = await salesService.getSalesById(_id);
+      const { _id: id } = sortedSale[0]
+      expect(id).to.be.deep.equal(_id);
     })
     it (' Deleta vendas', async () => {
-      const sales = await salesService.getAllSales();
-      const { _id } = sales[0];
-      await salesService.deleteSale(_id);
-      const salesReborn = await salesService.getAllSales();
-      const { _id: id } = salesReborn[0];
-      expect(id).to.not.be.equal(_id);
+      const allProducts = await productService.getAllProducts();
+      const { _id } = allProducts[0];
+      const newSale = await salesService.addNewSale({ itensSold: [{ productId: _id, quantity: 3 }] })
+      const { _id: id } = newSale;
+      const allSales = await salesService.getAllSales();
+      await salesService.deleteSale(id);
+      const allSalesReborn = await salesService.getAllSales();
+      expect(allSales).to.not.be.deep.equal(allSalesReborn);
+    })
+    it ('Atualizar venda', async () => {
+      const allProducts = await productService.getAllProducts();
+      const { _id } = allProducts[0];
+      const newSale = await salesService.addNewSale({ itensSold: [{ productId: _id, quantity: 3 }] })
+      const { _id: id } = newSale;
+      const sortedSale = await salesService.getSalesById(id);
+      const sortedReforged = await salesService.updateSale(id, [{ productId: _id, quantity: 2 }])
+      console.log(sortedReforged);
+      console.log(sortedSale);
+      expect(sortedSale[0].itensSold[0].quantity)
+        .to.not.be.equal(sortedReforged.itensSold[0].quantity);
     })
   });
