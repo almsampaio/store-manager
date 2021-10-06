@@ -27,8 +27,18 @@ const getSalesById = async (id) => {
     }
 };
 
+const updateSale = async (id, updatedFields) => {
+    try {
+      const operation = await model.updateSale(id, updatedFields);
+      return operation;
+    } catch (error) {
+      return error.message;
+    }
+};
+
 module.exports = {
     addNewSale,
     getAllSales,
     getSalesById,
+    updateSale,
 };
