@@ -1,61 +1,37 @@
-const productService = require('../services/Products');
-
+const productsService = require('../services/Products');
 const {
   HTTP_OK_STATUS,
-  HTTP_CREATED_STATUS,
   HTTP_UNPROCESSED_STATUS } = require('../httpStatus/httpStatus');
 
-const getAll = async (req, res) => {
-  const products = await productService.getAll();
-
-  res.status(HTTP_OK_STATUS).json(products);
+const getAll = async (_req, res) => {
+  const products = await productsService.getAll();
+  res.status(HTTP_OK_STATUS).json({ products });
 };
 
-const getProductById = async (req, res) => {
+const getById = async (req, res) => {
   const { id } = req.params;
-  const product = await productService.getProductById(id);
 
-  if (product.err) {
-    return res.status(HTTP_UNPROCESSED_STATUS).json(product);
-  }
+  const productsById = await productsService.getById(id);
 
-  return res.status(HTTP_OK_STATUS).json(product);
+  if (productsById.message) return res.status(HTTP_UNPROCESSED_STATUS).json({ err: productsById });
+  res.status(HTTP_OK_STATUS).json(productsById);
 };
 
-const create = async (req, res) => {
+const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
-  const newProduct = await productService.create(name, quantity);
+  const addedProduct = await productsService.addProduct({
+    name,
+    quantity,
+  });
 
-  if (newProduct.err) return res.status(HTTP_UNPROCESSED_STATUS).json(newProduct);
-
-  return res.status(HTTP_CREATED_STATUS).json(newProduct);
-};
-
-const update = async (req, res) => {
-  const { id } = req.params;
-  const { name, quantity } = req.body;
-  const product = await productService.update(id, name, quantity);
-
-  if (product.err) return res.status(HTTP_UNPROCESSED_STATUS).json(product);
-
-  return res.status(HTTP_OK_STATUS).json(product);
-};
-
-const deleteProduct = async (req, res) => {
-  const { id } = req.params;
-  const deletedProduct = await productService.deleteProduct(id);
-  
-  if (deletedProduct.err) {
-    return res.status(HTTP_UNPROCESSED_STATUS).json(deletedProduct);
+  if (addedProduct.message) {
+    return res.status(HTTP_UNPROCESSED_STATUS).json({ err: addedProduct });
   }
-
-  return res.status(HTTP_OK_STATUS).json(deletedProduct);
+  res.status(201).json(addedProduct);
 };
 
 module.exports = {
   getAll,
-  create,
-  getProductById,
-  update,
-  deleteProduct,
+  getById,
+  addProduct,
 };

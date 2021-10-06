@@ -1,55 +1,78 @@
-const productModel = require('../models/Products');
-const validations = require('../middlewares/productsValidations');
+const productsModel = require('../models/Products');
+
+const code = 'invalid_data';
+
+const nameExists = async (name) => {
+  const productsByName = await productsModel.getByName(name);
+
+  if (!productsByName.length) return { result: false };
+  return {
+    result: true,
+    message: 'Product already exists',
+  };
+};
+
+const nameIsValid = async (name) => {
+  const nameLength = name.length;
+
+  if (nameLength >= 5) return { result: true };
+  return {
+    result: false,
+    message: '"name" length must be at least 5 characters long',
+  };
+};
+
+const quantityIsNumber = async (quantity) => {
+  const isNumber = typeof quantity === 'number';
+
+  if (isNumber) return { result: true };
+  return {
+    result: false,
+    message: '"quantity" must be a number',
+  };
+};
+
+const quantityIsValid = async (quantity) => {
+  const isPositive = quantity > 0;
+
+  if (isPositive) return { result: true };
+  return {
+    result: false,
+    message: '"quantity" must be larger than or equal to 1',
+  };
+};
 
 const getAll = async () => {
-  const products = await productModel.getAll();
+  const products = await productsModel.getAll();
   return products;
 };
 
-const getProductById = async (id) => {
-  const product = await productModel.getProductById(id);
-  if (product === false || product === null) {
-    return { err: { code: 'invalid_data', message: 'Wrong id format' } };
-  }
+const getById = async (id) => {
+  const productsById = await productsModel.getById(id);
 
-  return product;
+  if (!productsById) return { code, message: 'Wrong id format' };
+  return productsById;
 };
 
-const create = async (name, quantity) => {
-  const findProductByName = await productModel.getProductByName(name);
+const addProduct = async ({ name, quantity }) => {
+  const productNameExists = await nameExists(name);
+  if (productNameExists.result) return { code, message: productNameExists.message };
 
-  if (findProductByName) {
-    return { err: { code: 'invalid_data', message: 'Product already exists' } };
-  }
+  const productNameIsValid = await nameIsValid(name);
+  if (!productNameIsValid.result) return { code, message: productNameIsValid.message };
 
-  const productsValidations = await validations.productsValidations(name, quantity);
-  if (productsValidations.err) return productsValidations;
+  const productQuantityIsNumber = await quantityIsNumber(quantity);
+  if (!productQuantityIsNumber.result) return { code, message: productQuantityIsNumber.message };
 
-  const product = await productModel.create(name, quantity);
-  return product;
-};
+  const productQuantityIsValid = await quantityIsValid(quantity);
+  if (!productQuantityIsValid.result) return { code, message: productQuantityIsValid.message };
 
-const update = async (id, name, quantity) => {
-  const product = await productModel.update(id, name, quantity);
-  
-  const productsValidations = await validations.productsValidations(name, quantity);
-  if (productsValidations.err) return productsValidations;
-  
-  return product;
-};
-
-const deleteProduct = async (id) => {
-  const product = await getProductById(id);
-  if (product.err) return product;
-
-  const deletedProduct = await productModel.deleteProduct(id);
-  return deletedProduct;
+  const addedProduct = await productsModel.addProduct({ name, quantity });
+  return addedProduct;
 };
 
 module.exports = {
   getAll,
-  create,
-  getProductById,
-  update,
-  deleteProduct,
+  getById,
+  addProduct,
 };
