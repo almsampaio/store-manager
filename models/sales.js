@@ -1,6 +1,7 @@
 // Solução enconntrado em parceria com Eduardo Costa - Turma 10-A
 const { ObjectId } = require('mongodb');
 const connectionDb = require('./connection');
+const modelProduct = require('./products');
 
 const getAll = async () => {
   const allSales = await connectionDb()
@@ -11,24 +12,23 @@ const getAll = async () => {
 // Solução encontrada por Daniel Ribeiro - Turma 10-A
 const updateQuantity = async (salesArray) => {
   const db = await connectionDb();
-  const collection = await db.collection('products');
   
+  // console.log(salesArray);
   const updateSalesArray = salesArray.map(async (product) => {
     const { quantity, productId } = product;
 
-    const findProduct = await collection.findOne({ _id: ObjectId(productId) });
-    const newQuantity = findProduct.quantity - quantity;
-    if (newQuantity < 0) {
-      return {
-        err: { code: 'stock_problem', message: 'Such amount is not permitted to sell ' },
-      }; 
-    }
+    const findProduct = await modelProduct.searchById(productId);
+    
+    console.log(findProduct);
 
-    const updateProduct = await collection.findOneAndUpdate(
-      { _id: ObjectId(productId) },
-      { $set: { quantity: newQuantity } },
-    );
-    return updateProduct.value;
+    const newQuantity = findProduct.quantity - quantity;
+    if (newQuantity) {
+      const updateProduct = await db.collection('products').findOneAndUpdate(
+        { _id: ObjectId(productId) },
+        { $set: { quantity: newQuantity } },
+      );
+      return updateProduct.value;
+    }
   });
   return updateSalesArray;
 };

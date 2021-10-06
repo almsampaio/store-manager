@@ -13,6 +13,11 @@ const inputSales = async (salesArray) => {
 
   await modelSales.updateQuantity(salesArray);
   // console.log(updateSalesArray);
+
+  // if (newQuantity < 0) {
+  //   return {
+  //     err: { code: 'stock_problem', message: 'Such amount is not permitted to sell ' },
+  //   }; 
   
   const newSale = await modelSales.inputSales(salesArray);
   return newSale;
@@ -31,10 +36,8 @@ const updateSale = async (id, itensSold) => {
 };
 
 const deleteSale = async (id) => {
-
   const validSales = await modelSales.searchSale(id);
-  if (validSales) {
-    
+  if (validSales) {    
     await modelSales.returnStock(id);
 
     const delSale = await modelSales.deleteSale(id);
