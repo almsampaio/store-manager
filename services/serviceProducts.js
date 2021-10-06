@@ -74,7 +74,7 @@ const updateProduct = async (id, productUpdated) => {
 const deleteProduct = async (id) => {
   if (!validateId(id)) return errorId;
 
-  const productDeleted = await Model.getProductById(id);
+  const productDeleted = await Model.productById(id);
 
   const product = await Model.deleteProduct(id);
 
