@@ -12,7 +12,15 @@ const notFound = {
   },
 };
 
+const invalidID = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong product ID',
+  },
+};
+
 module.exports = {
     invalidData,
+    invalidID,
     notFound,
 };
