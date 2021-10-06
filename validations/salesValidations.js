@@ -2,7 +2,8 @@ const { ObjectId } = require('mongodb');
 const errors = require('../errors/salesErrors');
 
 const validateInsertedData = async (req, res, next) => {
-    const { productId, quantity } = req.body;
+  req.body.forEach((sale) => {
+    const { productId, quantity } = sale;
     if (typeof quantity !== 'number') {
       res.status(422).json(errors.invalidData);
     } else if (quantity <= 0) {
@@ -12,6 +13,7 @@ const validateInsertedData = async (req, res, next) => {
     } else {
       next();
     }
+  });
 };
 
 module.exports = {

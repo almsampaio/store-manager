@@ -2,9 +2,11 @@ const service = require('../service/salesService');
 
 const addNewSale = async (req, res) => {
   try {
-    const { productId, quantity } = req.body;
+    req.body.forEach((sale) => {
+    const { productId, quantity } = sale;
     const operation = service.addNewSale({ productId, quantity });
     res.status(200).json(operation);
+    });
   } catch (error) {
     res.status(400).json(error.message);
   }
