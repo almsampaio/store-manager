@@ -44,25 +44,25 @@ const update = async ({ id, itensSold }) => {
   return sale;
 };
 
-// const deleteById = async (id) => {
-//   try {
-//     const response = await connection.getConnection()
-//     .then((db) => db.collection(COLLECTION_NAME).findOneAndDelete({ _id: ObjectId(id) }));
+const deleteById = async (id) => {
+  try {
+    const response = await connection.getConnection()
+    .then((db) => db.collection(COLLECTION_NAME).findOneAndDelete({ _id: ObjectId(id) }));
 
-//     if (!response.value) {
-//       return null;
-//     }
+    if (!response.value) {
+      return null;
+    }
 
-//     return response.value;
-//   } catch (err) {
-//     return null;
-//   }
-// };
+    return response.value;
+  } catch (err) {
+    return null;
+  }
+};
 
 module.exports = {
   getAll,
   getById,
   create,
   update,
-  // deleteById,
+  deleteById,
 };

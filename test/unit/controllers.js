@@ -622,3 +622,94 @@ describe('Ao chamar o SaleController de update', () => {
     });
   });
 });
+
+describe('Ao chamar o SaleController de deleteById', () => {
+  describe('quando o id informado não é válido', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      request.params = { id: ID_EXAMPLE }
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(SaleModel, 'deleteById')
+        .resolves(null)
+    })
+
+    after(async () => {
+      SaleModel.deleteById.restore()
+    })
+
+    it('é chamado o status de código 422', async () => {
+      await SaleController.deleteById(request, response)
+
+      expect(response.status.calledWith(422)).to.be.equal(true)
+    });
+
+    it('é chamado o json com a mensagem "Wrong id format"', async () => {
+      await SaleController.deleteById(request, response)
+
+      expect(response.json.calledWith({err :{message: 'Wrong sale ID format', code: 'invalid_data'}})).to.be.equal(true)
+    });
+
+  });
+
+  describe('quando é inserido com sucesso', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      request.params = { id: ID_EXAMPLE }
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(SaleModel, 'deleteById')
+        .resolves({
+          _id: ID_EXAMPLE,
+          itensSold: [
+            {
+              productId: 'Example id',
+              quantity: 2
+            }
+          ]
+        })
+    })
+
+    after(async () => {
+      SaleModel.deleteById.restore()
+    })
+
+    it('é chamado o status com código 200', async () => {
+      await SaleController.deleteById(request, response)
+
+      expect(response.status.calledWith(200)).to.be.equal(true)
+    });
+
+    it('é chamado o json com o produto deletado', async () => {
+      await SaleController.deleteById(request, response)
+
+      expect(response.json.calledWith({
+        _id: '604cb554311d68f491ba5781',
+        itensSold: [
+          {
+            productId: 'Example id',
+            quantity: 2
+          }
+        ]
+      })).to.be.equal(true)
+    });
+  });
+});

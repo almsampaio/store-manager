@@ -329,3 +329,46 @@ describe('Atualiza um produto no Sale BD (model)', () => {
     })
   });
 });
+
+describe('Deleta uma sale no Product BD (model)', () => {
+  let connectionMock
+
+  const payloadProduct = {
+    name: 'Example Product',
+    quantity: 10
+  }
+
+  before(async () => {
+    const DBServer = new MongoMemoryServer();
+    const URLMock = await DBServer.getUri();
+
+    connectionMock = await MongoClient
+      .connect(URLMock, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .then((conn) => conn.db(DB_NAME));
+
+
+    sinon.stub(connection, 'getConnection').resolves(connectionMock);
+  })
+
+  after(async () => {
+    connection.getConnection.restore()
+  })
+
+  describe('quando é deletado com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const responseProductCreate = await ProductModel.create(payloadProduct)
+      const responseSaleCreate = await SaleModel.create([
+        {
+          productId: responseProductCreate._id,
+          quantity: responseProductCreate.quantity
+        }
+      ])
+      const responseUpdate = await SaleModel.deleteById(responseSaleCreate._id)
+
+      expect(responseUpdate).to.be.a('object')
+    })
+  });
+});
