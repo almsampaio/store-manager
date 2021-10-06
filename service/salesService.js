@@ -34,6 +34,9 @@ const getSalesById = async (id) => {
 
 const updateSale = async (id, updatedFields) => {
     try {
+      await updatedFields.forEach(async ({ productId, quantity }) => {
+        await triggers.updateWhenSaleMaded(productId, quantity);
+      });
       const operation = await model.updateSale(id, updatedFields);
       return operation;
     } catch (error) {
@@ -43,6 +46,7 @@ const updateSale = async (id, updatedFields) => {
 
 const deleteSale = async (id) => {
     try {
+      await triggers.restoreWhenSaleDeleted(id);
       const operation = await model.deleteSale(id);
       return operation;
     } catch (error) {
