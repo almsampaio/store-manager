@@ -1,11 +1,11 @@
-const Service = require('../services');
+const Service = require('../services/serviceProducts');
 const { HTTP_UNPROCESSABLE_ENTITY, 
   HTTP_CREATED_STATUS, HTTP_OK_STATUS } = require('../httpRequests');
 
 const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const product = await Service.products.addProduct({
+  const product = await Service.addProduct({
     name,
     quantity,
   });
@@ -16,7 +16,7 @@ const addProduct = async (req, res) => {
 };
 
 const getProducts = async (_req, res) => {
-  const products = await Service.products.getProducts();
+  const products = await Service.getProducts();
 
   res.status(HTTP_OK_STATUS).json(products);
 };
@@ -24,7 +24,7 @@ const getProducts = async (_req, res) => {
 const getProductById = async (req, res) => {
   const { id } = req.params;
 
-  const product = await Service.products.getProductById(id);
+  const product = await Service.getProductById(id);
 
   if (product.err) return res.status(HTTP_UNPROCESSABLE_ENTITY).json(product);
 
@@ -35,7 +35,7 @@ const productUpdate = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
 
-  const product = await Service.products.productUpdate(id, {
+  const product = await Service.productUpdate(id, {
     name,
     quantity,
   });
@@ -48,7 +48,7 @@ const productUpdate = async (req, res) => {
 const productDelete = async (req, res) => {
   const { id } = req.params;
 
-  const product = await Service.products.productDelete(id);
+  const product = await Service.productDelete(id);
 
   if (product.err) return res.status(HTTP_UNPROCESSABLE_ENTITY).json(product);
 

@@ -1,10 +1,10 @@
+const Service = require('../services/serviceSales');
 const { HTTP_UNPROCESSABLE_ENTITY,
   HTTP_OK_STATUS, HTTP_NOT_FOUND_STATUS } = require('../httpRequests');
-const Service = require('../services');
 const { errorStock } = require('../utils/objectError');
 
 const additionalSales = async (req, res) => {
-  const sale = await Service.sales.addSales(req.body);
+  const sale = await Service.addSales(req.body);
 
   if (sale.err) {
     return res.status(
@@ -16,7 +16,7 @@ const additionalSales = async (req, res) => {
 };
 
 const getSales = async (_req, res) => {
-  const sales = await Service.sales.getSales();
+  const sales = await Service.getSales();
 
   res.status(HTTP_OK_STATUS).json(sales);
 };
@@ -24,7 +24,7 @@ const getSales = async (_req, res) => {
 const getSaleById = async (req, res) => {
   const { id } = req.params;
 
-  const sale = await Service.sales.getSaleById(id);
+  const sale = await Service.getSaleById(id);
 
   if (sale.err) return res.status(HTTP_NOT_FOUND_STATUS).json(sale);
 
@@ -34,7 +34,7 @@ const getSaleById = async (req, res) => {
 const saleUpdated = async (req, res) => {
   const { id } = req.params;
 
-  const sale = await Service.sales.updateSale(id, req.body);
+  const sale = await Service.updateSale(id, req.body);
 
   if (sale.err) {
     return res.status(
@@ -48,7 +48,7 @@ const saleUpdated = async (req, res) => {
 const saleDeleted = async (req, res) => {
   const { id } = req.params;
 
-  const sale = await Service.sales.deleteSale(id);
+  const sale = await Service.deleteSale(id);
 
   if (sale.err) {
     return res.status(

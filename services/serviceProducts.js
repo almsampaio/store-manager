@@ -1,4 +1,4 @@
-const Model = require('../models');
+const Model = require('../models/modelProducts');
 const { errorName, errorQuantity, 
   errorTypeQuantity, errorAlreadyExists, errorId } = require('../utils/objectError');
 
@@ -27,24 +27,24 @@ const productAdditional = async (dataProduct) => {
 
   if (!validateTypeQuantity(quantity)) return errorTypeQuantity;
 
-  const alreadyExists = await Model.products.productByName(name);
+  const alreadyExists = await Model.productByName(name);
 
   if (alreadyExists) return errorAlreadyExists;
 
-  const additionalProduct = await Model.products.productAdditional(dataProduct); 
+  const additionalProduct = await Model.productAdditional(dataProduct); 
   
   return additionalProduct;
 };
 
 const getProducts = async () => {
-  const products = await Model.products.getProducts();
+  const products = await Model.getProducts();
   return products;
 };
 
 const getProductById = async (id) => {
   if (!validateId(id)) return errorId;
 
-  const product = await Model.products.productById(id);
+  const product = await Model.productById(id);
 
   if (!product) return errorId;
 
@@ -66,7 +66,7 @@ const updateProduct = async (id, productUpdated) => {
 
   validateAll();
 
-  const product = await Model.products.updateProduct(id, { name, quantity });
+  const product = await Model.updateProduct(id, { name, quantity });
 
   return (product.matchedCount === 1) ? { _id: id, name, quantity } : errorId;
 };
@@ -74,9 +74,9 @@ const updateProduct = async (id, productUpdated) => {
 const deleteProduct = async (id) => {
   if (!validateId(id)) return errorId;
 
-  const productDeleted = await Model.products.getProductById(id);
+  const productDeleted = await Model.getProductById(id);
 
-  const product = await Model.products.deleteProduct(id);
+  const product = await Model.deleteProduct(id);
 
   return (product.deletedCount === 1) ? productDeleted : errorId;
 };
