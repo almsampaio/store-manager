@@ -32,12 +32,15 @@ const getSalesById = async (id) => {
     }
 };
 
-const updateSale = async (id, { productId, quantity }) => {
+const updateSale = async (id, newItensSolded) => {
   try {
     const operation = await connection().then((db) => db.collection(collection)
-    .findOneAndUpdate({ _id: ObjectId(id), 'itensSold.productId': ObjectId(productId) },
-    { $set: { productId, quantity } },
+    .findOneAndUpdate({ _id: ObjectId(id) },
+    { $set: { 
+      itensSold: newItensSolded,
+     } },
     { returnDocument: 'after' })); 
+    console.log(operation);
     return operation.value;
   } catch (error) {
     return error.message;
