@@ -2,7 +2,6 @@ const express = require('express');
 const controller = require('../controller/salesController');
 const { 
     validateInsertedData,
-    validateUpdatedData,
     validateID,
     validateIdOnDelete,
     validateExistenceSale,
@@ -13,7 +12,7 @@ const router = express.Router();
 router.post('/', validateInsertedData, controller.addNewSale);
 router.get('/', controller.getAllSales);
 router.get('/:id', validateID, controller.getSalesById);
-router.post('/:id', controller.updateSale);
+router.post('/:id', validateInsertedData, validateIdOnDelete, controller.updateSale);
 router.delete('/:id', validateIdOnDelete, validateExistenceSale, controller.deleteSale);
 
 module.exports = router;
