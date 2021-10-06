@@ -6,8 +6,8 @@ const collection = 'sales';
 const addNewSale = async (newSale) => {
     try {
         const result = await connection().then((db) => db.collection(collection)
-          .insertOne(newSale));
-        return result.ops.pop();
+          .insertMany(newSale)).catch((err) => err);
+        return result.ops;
       } catch (error) {
         return error.message;
       }
