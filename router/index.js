@@ -7,6 +7,4 @@ const router = express.Router();
 router.use('/products', products);
 router.use('/sales', sales);
 
-module.exports = {
-  router,
-};
+module.exports = router;
