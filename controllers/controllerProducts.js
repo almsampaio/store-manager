@@ -35,7 +35,7 @@ const productUpdate = async (req, res) => {
   const { id } = req.params;
   const { name, quantity } = req.body;
 
-  const product = await Service.productUpdate(id, {
+  const product = await Service.updateProduct(id, {
     name,
     quantity,
   });
@@ -48,7 +48,7 @@ const productUpdate = async (req, res) => {
 const productDelete = async (req, res) => {
   const { id } = req.params;
 
-  const product = await Service.productDelete(id);
+  const product = await Service.deleteProduct(id);
 
   if (product.err) return res.status(HTTP_UNPROCESSABLE_ENTITY).json(product);
 
