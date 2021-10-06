@@ -11,6 +11,4 @@ const connection = () => MongoClient.connect(MONGO_DB_URL, OPTIONS)
     process.exit(1);
   });
 
-module.exports = {
-  connection,
-};
+module.exports = connection;
