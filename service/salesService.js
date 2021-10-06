@@ -1,11 +1,12 @@
 const model = require('../model/salesModel');
+
 const triggers = require('../triggers/triggers');
 
 const addNewSale = async (newSale) => {
     try {
       const { itensSold } = newSale;
-      await itensSold.forEach(async ({ productId, quantity }) => {
-        await triggers.updateWhenSaleMaded(productId, quantity);
+      itensSold.forEach(async ({ productId, quantity }) => {
+       await triggers.updateWhenSaleMaded(productId, quantity);
       });
       const operation = await model.addNewSale(newSale);
       return operation;

@@ -19,8 +19,16 @@ const invalidID = {
   },
 };
 
+const outOfStock = {
+  err: {
+    code: 'out_of_stock',
+    message: 'Can\'t made a sale when quantity is zero',
+  },
+};
+
 module.exports = {
     invalidData,
     invalidID,
     notFound,
+    outOfStock,
 };
