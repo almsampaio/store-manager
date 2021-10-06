@@ -1,7 +1,8 @@
 const Service = require('../services/serviceSales');
 const { HTTP_UNPROCESSABLE_ENTITY,
   HTTP_OK_STATUS, HTTP_NOT_FOUND_STATUS } = require('../httpRequests');
-const { errorStock } = require('../utils/objectError');
+
+const errorStock = 'stock_problem';
 
 const additionalSales = async (req, res) => {
   const sale = await Service.addSales(req.body);
