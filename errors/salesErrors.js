@@ -5,6 +5,14 @@ const invalidData = {
     },
 };
 
+const notFound = {
+  err: {
+    code: 'not_found',
+    message: 'Sale not found',
+  },
+};
+
 module.exports = {
     invalidData,
+    notFound,
 };

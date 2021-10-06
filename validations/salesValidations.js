@@ -15,6 +15,15 @@ const validateInsertedData = async (req, res, next) => {
   next();
 };
 
+const validateID = async (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).json(errors.notFound);
+  }
+  next();
+};
+
 module.exports = {
   validateInsertedData,
+  validateID,
 };

@@ -1,4 +1,5 @@
 const service = require('../service/salesService');
+const errors = require('../errors/salesErrors');
 
 const addNewSale = async (req, res) => {
   try {
@@ -27,9 +28,12 @@ const getSalesById = async (req, res) => {
     try {
       const { id } = req.params;
       const sale = await service.getSalesById(id);
+      if (sale.length === 0) {
+        res.status(404).json(errors.notFound);
+      }
       res.status(200).json(sale);
     } catch (error) {
-      res.status(400).json(error.message);
+      res.status(400).json(error);
     }
 };
 
