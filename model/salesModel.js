@@ -25,15 +25,28 @@ const getAllSales = async () => {
 const getSalesById = async (id) => {
     try {
       const sale = await connection().then((db) => db.collection(collection)
-      .find({ _id: ObjectId(id) }));
+      .find({ _id: ObjectId(id) }).toArray());
       return sale;
     } catch (error) {
       return error.message;
     }
 };
 
+const updateSale = async (id, { productId, quantity }) => {
+  try {
+    const operation = await connection().then((db) => db.collection(collection)
+    .findOneAndUpdate({ _id: ObjectId(id) },
+    { $set: { productId, quantity } },
+    { returnDocument: 'after' })); 
+    return operation.value;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
     addNewSale,
     getAllSales,
     getSalesById,
+    updateSale,
 };
