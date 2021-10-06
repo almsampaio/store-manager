@@ -35,8 +35,26 @@ const addSales = async (req, res) => {
   res.status(HTTP_OK_STATUS).json(addedSales);
 };
 
+const updateSales = async (req, res) => {
+  const { productId, quantity } = req.body[0];
+  const { id } = req.params;
+  const updatedSales = await salesService.updateSales({ id, productId, quantity });
+
+  let STATUS_CODE = HTTP_OK_STATUS;
+  if (updatedSales.message) {
+    if (updatedSales.code === 'stock_problem') {
+      STATUS_CODE = HTTP_NOT_FOUND_STATUS;
+    } else {
+      STATUS_CODE = HTTP_UNPROCESSED_STATUS;
+    }
+    return res.status(STATUS_CODE).json({ err: updatedSales });
+  }
+  res.status(STATUS_CODE).json(updatedSales);
+};
+
 module.exports = {
   getAll,
   getById,
   addSales,
+  updateSales,
 };
