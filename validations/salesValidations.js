@@ -1,4 +1,5 @@
 const { ObjectId } = require('mongodb');
+const { getSalesById } = require('../service/salesService');
 const errors = require('../errors/salesErrors');
 
 const validateInsertedData = async (req, res, next) => {
@@ -35,8 +36,27 @@ const validateID = async (req, res, next) => {
   next();
 };
 
+const validateIdOnDelete = async (req, res, next) => {
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).json(errors.invalidID);
+  }
+  next();
+};
+
+const validateExistenceSale = async (req, res, next) => {
+  const { id } = req.params;
+  const search = await getSalesById(id);
+  if (search.length === 0) {
+    return res.status(404).json(errors.notFound);
+  }
+  next();
+};
+
 module.exports = {
   validateInsertedData,
   validateUpdatedData,
   validateID,
+  validateIdOnDelete,
+  validateExistenceSale,
 };
