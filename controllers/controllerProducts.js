@@ -5,7 +5,7 @@ const { HTTP_UNPROCESSABLE_ENTITY,
 const addProduct = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const product = await Service.addProduct({
+  const product = await Service.productAdditional({
     name,
     quantity,
   });
