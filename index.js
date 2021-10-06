@@ -19,3 +19,4 @@ app.post('/products', productsController.addProduct);
 app.get('/products', productsController.getAll);
 app.get('/products/:id', productsController.getById);
 app.put('/products/:id', productsController.updateProduct);
+app.delete('/products/:id', productsController.deleteProduct);
