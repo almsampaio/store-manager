@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb');
 const { getSalesById } = require('../service/salesService');
+const { getById } = require('../service/productsService');
 const errors = require('../errors/salesErrors');
 
 const validateInsertedData = async (req, res, next) => {
@@ -44,6 +45,25 @@ const validateIdOnDelete = async (req, res, next) => {
   next();
 };
 
+const validateQtdOnProd = async (req, res, next) => {
+  const newSales = req.body;
+  newSales.forEach(({ productId }) => {
+    const product = getById(productId);
+    if (product.quantity === 0) {
+      return res.status(422).json(errors.outOfStock);
+    }
+  next();
+  });
+};
+
+const validateQtd = async (req, res, next) => {
+  const newSales = req.body;
+  if (newSales.some(({ quantity }) => quantity < 0 || quantity >= 100)) {
+    res.status(404).json(errors.stockProblem);
+  }
+  next();
+};
+
 const validateExistenceSale = async (req, res, next) => {
   const { id } = req.params;
   const search = await getSalesById(id);
@@ -59,4 +79,6 @@ module.exports = {
   validateID,
   validateIdOnDelete,
   validateExistenceSale,
+  validateQtdOnProd,
+  validateQtd,
 };

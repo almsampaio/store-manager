@@ -33,10 +33,18 @@ const outOfStock = {
   },
 };
 
+const stockProblem = {
+  err: {
+    code: 'stock_problem',
+    message: 'Such amount is not permitted to sell',
+  },
+};
+
 module.exports = {
     invalidData,
     invalidID,
     notFound,
     outOfStock,
     notFoundDelete,
+    stockProblem,
 };
