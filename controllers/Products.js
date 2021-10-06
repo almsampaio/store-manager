@@ -30,8 +30,21 @@ const addProduct = async (req, res) => {
   res.status(201).json(addedProduct);
 };
 
+const updateProduct = async (req, res) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+
+  const updatedProduct = await productsService.updateProduct({ id, name, quantity });
+
+  if (updatedProduct.message) {
+    return res.status(HTTP_UNPROCESSED_STATUS).json({ err: updatedProduct });
+  }
+  res.status(HTTP_OK_STATUS).json(updatedProduct);
+};
+
 module.exports = {
   getAll,
   getById,
   addProduct,
+  updateProduct,
 };

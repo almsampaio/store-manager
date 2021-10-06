@@ -71,8 +71,23 @@ const addProduct = async ({ name, quantity }) => {
   return addedProduct;
 };
 
+const updateProduct = async ({ id, name, quantity }) => {
+  const productNameIsValid = await nameIsValid(name);
+  if (!productNameIsValid.result) return { code, message: productNameIsValid.message };
+
+  const productQuantityIsNumber = await quantityIsNumber(quantity);
+  if (!productQuantityIsNumber.result) return { code, message: productQuantityIsNumber.message };
+
+  const productQuantityIsValid = await quantityIsValid(quantity);
+  if (!productQuantityIsValid.result) return { code, message: productQuantityIsValid.message };
+
+  const updatedProduct = await productsModel.updateProduct({ id, name, quantity });
+  return updatedProduct;
+};
+
 module.exports = {
   getAll,
   getById,
   addProduct,
+  updateProduct,
 };
