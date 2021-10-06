@@ -14,7 +14,7 @@ const addNewProduct = async (req, res) => {
 const getAllProducts = async (_req, res) => {
     try {
       const products = await service.getAllProducts();
-      res.status(200).json(products);
+      res.status(200).json({ products });
     } catch (error) {
       res.status(400).json({ err: error.message });
     }
