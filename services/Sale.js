@@ -14,7 +14,7 @@ const validateProducts = async (itensSold) => {
   const areAllProductsValid = await everyAsync(
     itensSold,
     ({ productId }) => isProductIdValid(productId),
-);
+  );
   if (!areAllProductsValid) {
     return {
       isValid: false,
@@ -56,7 +56,7 @@ const validateQuantityType = (quantity) => {
     return {
       isValid: false,
       status: 422,
-      message: '"quantity" must be a number',
+      message: 'Wrong product ID or invalid quantity',
     };
   }
 
@@ -106,6 +106,18 @@ const validateQuantities = (itensSold) => {
 };
 
 const isValid = async (itensSold) => {
+  if (!itensSold || !itensSold.length) {
+    return {
+      isValid: false,
+      status: 422,
+      json: {
+        err: {
+          code: 'invalid_data', message: 'Wrong product ID or invalid quantity',
+        },
+      },
+    };
+  }
+
   const areAllQuantitiesValidObj = validateQuantities(itensSold);
   if (!areAllQuantitiesValidObj.isValid) return areAllQuantitiesValidObj;
   const areAllProductsValidObj = await validateProducts(itensSold);
@@ -138,7 +150,30 @@ const create = async (itensSold) => {
   };
 };
 
+const update = async ({ id, itensSold }) => {
+  const isValidObj = await isValid(itensSold);
+  if (!isValidObj.isValid) {
+    return {
+      status: isValidObj.status,
+      json: {
+        err: {
+          message: isValidObj.json.err.message,
+          code: 'invalid_data',
+        },
+      },
+    };
+  }
+
+  const sale = await SaleModel.update({ id, itensSold });
+
+  return {
+    status: 200,
+    json: sale,
+  };
+};
+
 module.exports = {
   create,
   isValid,
+  update,
 };

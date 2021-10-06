@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // app.delete('/sales/:id', SaleController.deleteById);
-// app.put('/sales/:id', SaleController.update);
+app.put('/sales/:id', SaleController.update);
 app.get('/sales/:id', SaleController.getById);
 app.get('/sales', SaleController.getAll);
 app.post('/sales', SaleController.create);

@@ -34,15 +34,15 @@ const create = async (itensSold) => {
   return ops[0];
 };
 
-// const update = async ({ id, name, quantity }) => {
-//   await connection.getConnection()
-//   .then((db) => db.collection(COLLECTION_NAME)
-//   .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } }));
+const update = async ({ id, itensSold }) => {
+  await connection.getConnection()
+  .then((db) => db.collection(COLLECTION_NAME)
+  .updateOne({ _id: ObjectId(id) }, { $set: { itensSold } }));
 
-//   const product = await getById(id);
+  const sale = await getById(id);
 
-//   return product;
-// };
+  return sale;
+};
 
 // const deleteById = async (id) => {
 //   try {
@@ -63,6 +63,6 @@ module.exports = {
   getAll,
   getById,
   create,
-  // update,
+  update,
   // deleteById,
 };

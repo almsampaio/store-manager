@@ -518,3 +518,107 @@ describe('Ao chamar o SaleController de get', () => {
     });
   });
 });
+
+describe('Ao chamar o SaleController de update', () => {
+  describe('quando o payload informado não é válido', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      request.params = { id: ID_EXAMPLE }
+      request.body = [
+        {
+          productId: 'Example product',
+          quantity: 7
+        }
+      ]
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(SaleService, 'update')
+        .resolves({
+          status: 422,
+          json: {
+            err: {
+              code: 'invalid_data',
+              message: 'Wrong product ID or invalid quantity'
+            }
+          }
+        })
+    })
+
+    after(async () => {
+      SaleService.update.restore()
+    })
+
+    it('é chamado o status de código 422', async () => {
+      await SaleController.update(request, response)
+
+      expect(response.status.calledWith(422)).to.be.equal(true)
+    });
+
+    it('é chamado o json com a mensagem "Wrong product ID or invalid quantity"', async () => {
+      await SaleController.update(request, response)
+
+      expect(response.json.calledWith({err : {code: 'invalid_data', message: 'Wrong product ID or invalid quantity'}})).to.be.equal(true)
+    });
+
+  });
+
+  describe('quando é inserido com sucesso', () => {
+    const response = {}
+    const request = {}
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      request.params = { id: ID_EXAMPLE }
+      request.body = [
+        {
+          productId: 'Example product',
+          quantity: 7
+        }
+      ]
+
+      response.status = sinon.stub()
+        .returns(response)
+
+      response.json = sinon.stub()
+        .returns()
+
+      sinon.stub(SaleService, 'update')
+        .resolves({
+          status: 200,
+          json: {
+            _id: ID_EXAMPLE,
+            itensSold: request.body,
+          }
+        })
+    })
+
+    after(async () => {
+      SaleService.update.restore()
+    })
+
+    it('é chamado o status com código 200', async () => {
+      await SaleController.update(request, response)
+
+      expect(response.status.calledWith(200)).to.be.equal(true)
+    });
+
+    it('é chamado o json com a venda criada', async () => {
+      await SaleController.update(request, response)
+
+      expect(response.json.calledWith({
+          _id: '604cb554311d68f491ba5781',
+          itensSold: request.body,
+      })).to.be.equal(true)
+    });
+  });
+});

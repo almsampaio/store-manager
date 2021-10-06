@@ -186,3 +186,76 @@ describe('Insere um novo produto no Sales BD (service)', () => {
     });
   });
 });
+
+describe('Atualiza um produto no Sale BD (service)', () => {
+  describe('quando o payload informado não é válido', () => {
+    const payloadSale = {}
+
+    it('retorna um objeto', async () => {
+      const response = await SaleService.update(payloadSale)
+
+      expect(response).to.be.a('object')
+    });
+
+    it('o objeto possui uma property json com err dentro', async () => {
+      const { json } = await SaleService.update(payloadSale)
+
+      expect(json).to.have.property('err')
+    });
+
+
+  });
+
+  describe('quando é atualizado com sucesso', () => {
+    const payloadSale = {
+      _id: 'Example sale',
+      itensSold: [
+        {
+          productId: 'Example id',
+          quantity: 2
+        }
+      ]
+    }
+
+    before(() => {
+      const ID_EXAMPLE = '604cb554311d68f491ba5781';
+
+      sinon.stub(ProductModel, 'getById')
+        .resolves({ _id: ID_EXAMPLE })
+      sinon.stub(SaleModel, 'update')
+        .resolves(payloadSale)
+    })
+
+    after(async () => {
+      SaleModel.update.restore()
+    })
+
+    it('retorna um objeto', async () => {
+      const response = await SaleService.update({
+        _id: 'Example sale',
+        itensSold: [
+          {
+            productId: 'Example id',
+            quantity: 2
+          }
+        ]
+      })
+
+      expect(response).to.be.a('object')
+    });
+
+    it('tal objeto possui o "id" do novo produto inserido', async () => {
+      const { json } = await SaleService.update({
+        _id: 'Example sale',
+        itensSold: [
+          {
+            productId: 'Example id',
+            quantity: 2
+          }
+        ]
+      })
+
+      expect(json).to.have.a.property('_id')
+    });
+  });
+});
