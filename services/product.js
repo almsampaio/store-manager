@@ -5,7 +5,7 @@ const {
   getProduct,
   updateProduct,
   deleteProduct,
-} = require('../db/models/product');
+} = require('../models/product');
 
 async function createService(data) {
   const productExists = await findByName(data.name);

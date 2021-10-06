@@ -104,7 +104,6 @@ describe('Controller de produtos', () => {
   })
 })
 
-
 describe('Controller de vendas', () => {
   it('[POST] - Deve ser possível cadastrar uma nova venda', async () => {
     const product = await productServ.createService({
@@ -121,17 +120,6 @@ describe('Controller de vendas', () => {
     await saleController.create(request, mReply)
     sinon.assert.calledWith(mReply.status, 200);
   })
-  // it('[POST] - Deve ser possível retornar um erro em caso de dados invalidos', async () => {
-  //   const mReply = { status: sinon.stub().returnsThis(), json: sinon.stub() };
-  //   const request = {
-  //     body: [{
-  //       productId: 'invalidId',
-  //       quantity: 1
-  //     }]
-  //   }
-  //   await saleController.create(request, mReply)
-  //   sinon.assert.calledWith(mReply.status, 422);
-  // })
   it('[GET] - Deve ser possível listar todas as vendas', async () => {
     const request = {
       params: ''
@@ -140,22 +128,6 @@ describe('Controller de vendas', () => {
     await saleController.list(request, mReply)
     sinon.assert.calledWith(mReply.status, 200);
   })
-  // it('[GET] - Deve ser possível retornar um erro em caso de um id invalido', async () => {
-  //   const product = await productServ.createService({
-  //     name: "product_name",
-  //     quantity: 2
-  //   })
-
-  //   await productServ.deleteProductService(product._id)
-  //   const request = {
-  //     params: {
-  //       id: product._id
-  //     }
-  //   }
-  //   const mReply = { status: sinon.stub().returnsThis(), json: sinon.stub() };
-  //   await productController.list(request, mReply)
-  //   sinon.assert.calledWith(mReply.status, 422);
-  // })
   it('[PUT] - Deve ser possível editar uma venda', async () => {
     const product = await productServ.createService({
       name: "product_name",

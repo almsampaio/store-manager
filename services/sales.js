@@ -1,5 +1,5 @@
-const { getProduct, updateProduct } = require('../db/models/product');
-const { create, getSale, getSales, updateSale, deleteSale } = require('../db/models/sale');
+const { getProduct, updateProduct } = require('../models/product');
+const { create, getSale, getSales, updateSale, deleteSale } = require('../models/sale');
 
 async function createService(data) {
   data.forEach(async (dat) => {
