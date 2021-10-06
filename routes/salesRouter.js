@@ -1,5 +1,5 @@
 const express = require('express');
-const controller = require('../controller/salesController');
+const controller = require('../controllers/salesController');
 const { 
     validateInsertedData,
     validateID,

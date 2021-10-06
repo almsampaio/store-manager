@@ -1,5 +1,5 @@
 const express = require('express');
-const controller = require('../controller/productsController');
+const controller = require('../controllers/productsController');
 const {
     validateInsertedQtd,
     validateInsertedName,

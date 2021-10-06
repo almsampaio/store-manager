@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
-const { getSalesById } = require('../service/salesService');
-const { getById } = require('../service/productsService');
+const { getById } = require('../services/productsService');
+const { getSalesById } = require('../services/salesService');
 const errors = require('../errors/salesErrors');
 
 const validateInsertedData = async (req, res, next) => {

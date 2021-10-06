@@ -1,5 +1,5 @@
-const productService = require('../service/productsService');
-const salesModel = require('../model/salesModel');
+const productService = require('../services/productsService');
+const salesModel = require('../models/salesModel');
 
 const updateWhenSaleMaded = async (id, q) => {
   const product = await productService.getById(id);

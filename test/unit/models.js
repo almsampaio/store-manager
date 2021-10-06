@@ -1,10 +1,10 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const connection = require('../../model/connection');
+const connection = require('../../models/connection');
 const sinon = require('sinon');
 const chai = require('chai');
 
-const productsModel = require('../../model/productsModel');
-const salesModel = require('../../model/salesModel');
+const productsModel = require('../../models/productsModel');
+const salesModel = require('../../models/salesModel');
 
 const { stub } = sinon;
 const { expect } = chai;
@@ -74,6 +74,13 @@ describe("Testes na camada Models", () => {
     await salesModel.addNewSale({ productId: _id, quantity });
     const sales = await salesModel.getAllSales();
     expect(sales[0].productId).to.be.deep.equal(_id);
+  })
+  it ('Busca vendas pelo id', async () => {
+    const allProducts = await productsModel.getAllProducts();
+    const { _id, quantity } = allProducts[0];
+    await salesModel.addNewSale({ productId: _id, quantity });
+    const sales = await salesModel.getSalesById(_id);
+    console.log(sales);
   })
   it ('Atualiza a venda', async () => {
     const allProducts = await productsModel.getAllProducts();
