@@ -4,10 +4,11 @@ const MONGO_DB_URL = 'mongodb://mongodb:27017';
 const DB_NAME = 'StoreManager';
 const OPTIONS = { useNewUrlParser: true, newUnifiedTopology: true };
 
-module.exports = () =>
+module.exports = () => {
   MongoClient.connect(MONGO_DB_URL, OPTIONS)
     .then((connection) => connection.db(DB_NAME))
     .catch((error) => {
       console.error(error);
       process.exit(1);
     });
+};

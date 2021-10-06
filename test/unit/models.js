@@ -144,7 +144,7 @@ describe('Carrega um produto cadastrado pela "_id"', () => {
   });
 });
 
-escribe('Atualiza as informações de um produto', () => {
+describe('Atualiza as informações de um produto', () => {
   const payload = { 
   name: 'Testy, the Tester',
   quantity: 30,
