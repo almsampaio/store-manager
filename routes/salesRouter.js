@@ -4,6 +4,8 @@ const {
     validateInsertedData,
     validateUpdatedData,
     validateID,
+    validateIdOnDelete,
+    validateExistenceSale,
 } = require('../validations/salesValidations');
 
 const router = express.Router();
@@ -11,6 +13,7 @@ const router = express.Router();
 router.post('/', validateInsertedData, controller.addNewSale);
 router.get('/', controller.getAllSales);
 router.get('/:id', validateID, controller.getSalesById);
-router.post('/:id', validateUpdatedData, controller.updateSale);
+router.post('/:id', validateUpdatedData, validateExistenceSale, controller.updateSale);
+router.delete('/:id', validateIdOnDelete, validateExistenceSale, controller.deleteSale);
 
 module.exports = router;

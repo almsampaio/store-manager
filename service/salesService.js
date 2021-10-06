@@ -36,9 +36,19 @@ const updateSale = async (id, updatedFields) => {
     }
 };
 
+const deleteSale = async (id) => {
+    try {
+      const operation = await model.deleteSale(id);
+      return operation;
+    } catch (error) {
+      return error.message;
+    }
+};
+
 module.exports = {
     addNewSale,
     getAllSales,
     getSalesById,
     updateSale,
+    deleteSale,
 };

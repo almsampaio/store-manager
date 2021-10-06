@@ -44,9 +44,20 @@ const updateSale = async (id, { productId, quantity }) => {
   }
 };
 
+const deleteSale = async (id) => {
+  try {
+    const operation = await connection().then((db) => db.collection(collection)
+    .findOneAndDelete({ _id: ObjectId(id) }));
+    return operation.value;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
     addNewSale,
     getAllSales,
     getSalesById,
     updateSale,
+    deleteSale,
 };
