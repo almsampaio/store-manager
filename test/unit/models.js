@@ -1,368 +1,230 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
+const { MongoClient } = require('mongodb');
 
-const Service = require('../../services');
-const Controller = require('../../controllers');
+const DB_NAME = 'StoreManager';
+const COLLECTION_P = 'products';
+const COLLECTION_S = 'sales';
 
-const HTTP_OK_STATUS = 200;
-const HTTP_CREATED_STATUS = 201;
-const HTTP_UNPROCESSABLE_STATUS = 422;
-const HTTP_NOT_FOUND_STATUS = 404;
+const Model = require('../../models');
+const getConnection = require('./mock');
 
 const ID_EXAMPLE = '604cb554311d68f491ba5781';
-const NOT_VALID_ID = 'I am not valid';
-
-const ERROR_CODE_400 = 'invalid_data';
-const ERROR_CODE_401 = 'stock_problem';
-const ERROR_CODE_404 = 'not_found';
-const ERROR_NAME = { err: {
-  code: ERROR_CODE_400,
-  message: '"name" length must be at least 5 characters long',
-} };
-const ERROR_ID = { err: {
-  code: ERROR_CODE_400,
-  message: 'Wrong id format',
-} };
-const ERROR_SALES = { err: {
-  code: ERROR_CODE_400,
-  message: 'Wrong product ID or invalid quantity',
-} };
-const ERROR_NOT_FOUND = { err: {
-  code: ERROR_CODE_404,
-  message: 'Sale not found',
-} };
-const ERROR_SALE_ID = { err: {
-  code: ERROR_CODE_400,
-  message: 'Wrong sale ID format',
-} };
-const ERROR_STOCK = { err: {
-  code: ERROR_CODE_401,
-  message: 'Such amount is not permitted to sell',
-} };
 
 // TESTES PRODUCTS
 
 describe('Cadastro de um novo produto', () => {
-  describe('com dados inválidos', () => {
-    const response = {};
-    const request = {};
-
-    before(() => {
-      request.body = {};
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.products, 'addProduct').resolves(ERROR_NAME);
-    });
-
-    after(() => {
-      Service.products.addProduct.restore();
-    });
-
-    it('é chamado o método "status" com o código 422', async () => {
-      await Controller.products.addProduct(request, response);
-
-      expect(response.status.calledWith(HTTP_UNPROCESSABLE_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.products.addProduct(request, response);
-
-      expect(response.json.calledWith(ERROR_NAME)).to.be.equal(true);
-    });
-  });
-
   describe('quando é adicionado com sucesso', () => {
-    const response = {};
-    const request = {};
+    const payload = { name: 'Testy, the Tester', quantity: 30 };
 
-    const payload = { _id: ID_EXAMPLE, ...request.body };
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.body = {
-        name: 'Testy, the Tester',
-        quantity: 30,
-      };
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.products, 'addProduct').resolves(payload);
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.products.addProduct.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 201', async () => {
-      await Controller.products.addProduct(request, response);
+    it('retorna um objeto', async () => {
+      const response = await Model.products.create(payload);
 
-      expect(response.status.calledWith(HTTP_CREATED_STATUS)).to.be.equal(true);
+      expect(response).to.be.an('object');
     });
 
-    it('é chamado o método "json" com as informações do produto', async () => {
-      await Controller.products.addProduct(request, response);
+    it('tal objeto possui a "_id" do produto', async () => {
+      const response = await Model.products.create(payload);
 
-      expect(response.json.calledWith(payload)).to.be.equal(true);
+      expect(response).to.have.property('_id');
     });
   });
 });
 
 describe('Carrega a lista de produtos', () => {
   describe('quando não tem nenhum cadastrado',() => {
-    const request = {};
-    const response = {};
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      sinon.stub(Service.products, 'getProducts').resolves([]);
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.products.getProducts.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.products.getProducts(request, response);
+    it('retorna um objeto contendo um array', async () => {
+      const response = await Model.products.getAll();
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
+      expect(response).to.be.an('object');
+
+      expect(response.products).to.be.an('array');
     });
 
-    it('é chamado o método "json" com um array vazio', async () => {
-      await Controller.products.getProducts(request, response);
+    it('vazio', async () => {
+      const response = await Model.products.getAll();
 
-      expect(response.json.calledWith([])).to.be.equal(true);
+      expect(response.products).to.be.empty;
     });
   });
 
   describe('quando tem produtos cadastrados', () => {
-    const request = {};
-    const response = {};
-
     const payload = { name: 'Testy, the Tester', quantity: 30 };
 
-    before(() => {
-      sinon.stub(Service.products, 'getProducts').resolves([payload]);
+    before(async () => {
+      const connectionMock = await getConnection();
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+      await connectionMock.db(DB_NAME).collection(COLLECTION_P).insertOne(payload);
     });
 
     after(() => {
-      Service.products.getProducts.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.products.getProducts(request, response);
+    it('retorna um objeto contendo um array', async () => {
+      const response = await Model.products.getAll();
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
+      expect(response).to.be.an('object');
+
+      expect(response.products).to.be.an('array');
     });
 
-    it('é chamado o método "json" com um array de produtos', async () => {
-      await Controller.products.getProducts(request, response);
+    it('de objetos', async () => {
+      const response = await Model.products.getAll();
 
-      expect(response.json.calledWith([payload])).to.be.equal(true);
+      expect(response.products[0]).to.be.an('object');
+
+      expect(response.products[0]).to.have.property('_id');
     });
   });
 });
 
 describe('Carrega um produto cadastrado pela "_id"', () => {
   describe('quando não encontrado', () => {
-    const request = {};
-    const response = {};
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
-
-      sinon.stub(Service.products, 'getProductById').resolves(ERROR_ID);
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.products.getProductById.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 422', async () => {
-      await Controller.products.getProductById(request, response);
+    it('o retorno é null', async () => {
+      const response = await Model.products.getById(ID_EXAMPLE);
 
-      expect(response.status.calledWith(HTTP_UNPROCESSABLE_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.products.getProductById(request, response);
-
-      expect(response.json.calledWith(ERROR_ID)).to.be.equal(true);
+      expect(response).to.be.equal(null);
     });
   });
 
   describe('quando encontrado', () => {
-    const request = {};
-    const response = {};
+    it('o retorno é um objeto com as informações do produto', async () => {
+      const payload = { name: 'Testy, the Tester', quantity: 30 };
 
-    const payload = { _id: ID_EXAMPLE, name: 'Testy, the Tester', quantity: 30 };
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-      sinon.stub(Service.products, 'getProductById').resolves(payload);
+      const { insertedId } = await connectionMock.db(DB_NAME).collection(COLLECTION_P).insertOne(payload);
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-    });
+      const response = await Model.products.getById(insertedId);
 
-    after(() => {
-      Service.products.getProductById.restore();
-    });
+      expect(response).to.be.an('object');
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.products.getProductById(request, response);
+      expect(response).to.have.property('name');
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
-    });
+      expect(response).to.have.property('quantity');
 
-    it('é chamado o método "json" com as informações do produto', async () => {
-      await Controller.products.getProductById(request, response);
-
-      expect(response.json.calledWith(payload)).to.be.equal(true);
+      MongoClient.connect.restore();
     });
   });
 });
 
 describe('Atualiza as informações de um produto', () => {
-  const updatedPayload = { name: 'Testy, the Tester', quantity: 45 };
+  const payload = { name: 'Testy, the Tester', quantity: 30 };
 
-  describe('com dados inválidos', () => {
-    const response = {};
-    const request = {};
+  describe('quando não encontra o produto', () => {
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: NOT_VALID_ID };
-      request.body = { ...updatedPayload };
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.products, 'updateProduct').resolves(ERROR_ID);
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.products.updateProduct.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 422', async () => {
-      await Controller.products.updateProduct(request, response);
+    it('retorna um objeto com "matchedCount" com valor 0', async () => {
+      const response = await Model.products.update(ID_EXAMPLE, payload);
 
-      expect(response.status.calledWith(HTTP_UNPROCESSABLE_STATUS)).to.be.equal(true);
-    });
+      expect(response).to.be.an('object');
 
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.products.updateProduct(request, response);
-
-      expect(response.json.calledWith(ERROR_ID)).to.be.equal(true);
+      expect(response.matchedCount).to.be.equal(0);
     });
   });
 
-  describe('quando é encontrado com sucesso', () => {
-    const response = {};
-    const request = {};
+  describe('quando encontrado', () => {
+    const updatedPayload = { name: 'Testy, the Tester', quantity: 45 };
 
-    const payload = { _id: ID_EXAMPLE, ...updatedPayload };
+    it('atualiza o produto e retorna um objeto com "modifiedCount" com valor 1', async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
-      request.body = { ...updatedPayload };
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      const { insertedId } = await connectionMock.db(DB_NAME).collection(COLLECTION_P).insertOne(payload);
 
-      sinon.stub(Service.products, 'updateProduct').resolves(payload);
-    });
+      const response = await Model.products.update(insertedId, updatedPayload);
 
-    after(() => {
-      Service.products.updateProduct.restore();
-    });
+      expect(response).to.be.an('object');
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.products.updateProduct(request, response);
+      expect(response.modifiedCount).to.be.equal(1);
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com as novas informações do produto', async () => {
-      await Controller.products.updateProduct(request, response);
-
-      expect(response.json.calledWith(payload)).to.be.equal(true);
+      MongoClient.connect.restore();
     });
   });
 });
 
 describe('Deleta um produto cadastrado', () => {
-  describe('com dados inválidos', () => {
-    const response = {};
-    const request = {};
+  describe('quando não encontrado', () => {
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: NOT_VALID_ID };
-      request.body = {};
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.products, 'deleteProduct').resolves(ERROR_ID);
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.products.deleteProduct.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 422', async () => {
-      await Controller.products.deleteProduct(request, response);
+    it('retorna um objeto com "deletedCount" com valor 0', async () => {
+      const response = await Model.products.exclude(ID_EXAMPLE);
 
-      expect(response.status.calledWith(HTTP_UNPROCESSABLE_STATUS)).to.be.equal(true);
-    });
+      expect(response).to.be.an('object');
 
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.products.deleteProduct(request, response);
-
-      expect(response.json.calledWith(ERROR_ID)).to.be.equal(true);
+      expect(response.deletedCount).to.be.equal(0);
     });
   });
 
-  describe('quando é deletado com sucesso', () => {
-    const response = {};
-    const request = {};
+  describe('quando encontrado', () => {
+    const payload = { name: 'Testy, the Tester', quantity: 45 };
 
-    const payload = { _id: ID_EXAMPLE, name: 'Testy, the Tester', quantity: 30 };
+    it('deleta o produto e retorna um objeto com "deletedCount" com valor 1', async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
-      request.body = {};
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      const { insertedId } = await connectionMock.db(DB_NAME).collection(COLLECTION_P).insertOne(payload);
 
-      sinon.stub(Service.products, 'deleteProduct').resolves(payload);
-    });
+      const response = await Model.products.exclude(insertedId);
 
-    after(() => {
-      Service.products.deleteProduct.restore();
-    });
+      expect(response).to.be.an('object');
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.products.deleteProduct(request, response);
+      expect(response.deletedCount).to.be.equal(1);
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com as informações deletadas do produto', async () => {
-      await Controller.products.deleteProduct(request, response);
-
-      expect(response.json.calledWith(payload)).to.be.equal(true);
+      MongoClient.connect.restore();
     });
   });
 });
@@ -372,422 +234,242 @@ describe('Deleta um produto cadastrado', () => {
 */
 
 describe('Cadastro de uma nova venda', () => {
-  describe('com dados inválidos', () => {
-    const response = {};
-    const request = {};
+  describe('quando uma venda de um produto é adicionada com sucesso', () => {
+    const payload = [{ productId: ID_EXAMPLE, quantity: 3 }];
 
-    before(() => {
-      request.body = {};
+    before(async () => {
+      const connectionMock = await getConnection();
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.sales, 'addSales').resolves(ERROR_SALES);
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.sales.addSales.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 422', async () => {
-      await Controller.sales.addSales(request, response);
+    it('retorna um objeto', async () => {
+      const response = await Model.sales.create(payload);
 
-      expect(response.status.calledWith(HTTP_UNPROCESSABLE_STATUS)).to.be.equal(true);
+      expect(response).to.be.an('object');
     });
 
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.addSales(request, response);
+    it('tal objeto possui a "_id" do produto', async () => {
+      const response = await Model.sales.create(payload);
 
-      expect(response.json.calledWith(ERROR_SALES)).to.be.equal(true);
+      expect(response).to.have.property('_id');
     });
   });
 
-  describe('com dados válidos, mas com erro de estoque', () => {
-    const response = {};
-    const request = {};
+  describe('quando uma venda de dois produtos é adicionada com sucesso', () => {
+    const payload = [{ productId: ID_EXAMPLE, quantity: 3 }, { productId: ID_EXAMPLE, quantity: 7 }];
 
-    before(() => {
-      request.body = {};
+    before(async () => {
+      const connectionMock = await getConnection();
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.sales, 'addSales').resolves(ERROR_STOCK);
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.sales.addSales.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 404', async () => {
-      await Controller.sales.addSales(request, response);
+    it('retorna um objeto', async () => {
+      const response = await Model.sales.create(payload);
 
-      expect(response.status.calledWith(HTTP_NOT_FOUND_STATUS)).to.be.equal(true);
+      expect(response).to.be.an('object');
     });
 
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.addSales(request, response);
+    it('tal objeto possui a "_id" do produto', async () => {
+      const response = await Model.sales.create(payload);
 
-      expect(response.json.calledWith(ERROR_STOCK)).to.be.equal(true);
-    });
-  });
-
-  describe('quando é adicionado com sucesso', () => {
-    const response = {};
-    const request = {};
-
-    const payload = { _id: ID_EXAMPLE, itensSold: request.body };
-
-    before(() => {
-      request.body = [{
-        productId: ID_EXAMPLE,
-        quantity: 3,
-      }];
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.sales, 'addSales').resolves(payload);
-    });
-
-    after(() => {
-      Service.sales.addSales.restore();
-    });
-
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.sales.addSales(request, response);
-
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com as informações do produto', async () => {
-      await Controller.sales.addSales(request, response);
-
-      expect(response.json.calledWith(payload)).to.be.equal(true);
+      expect(response).to.have.property('_id');
     });
   });
 });
 
 describe('Carrega a lista de vendas', () => {
   describe('quando não tem nenhuma cadastrada',() => {
-    const request = {};
-    const response = {};
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      sinon.stub(Service.sales, 'getSales').resolves({ sales: [] });
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.sales.getSales.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.sales.getSales(request, response);
+    it('retorna um objeto contendo um array', async () => {
+      const response = await Model.sales.getAll();
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
+      expect(response).to.be.an('object');
+
+      expect(response.sales).to.be.an('array');
     });
 
-    it('é chamado o método "json" com um objeto contendo um array vazio', async () => {
-      await Controller.sales.getSales(request, response);
+    it('vazio', async () => {
+      const response = await Model.sales.getAll();
 
-      expect(response.json.calledWith({ sales: [] })).to.be.equal(true);
+      expect(response.sales).to.be.empty;
     });
   });
 
   describe('quando tem vendas cadastradas', () => {
-    const request = {};
-    const response = {};
-
     const payload = [{ productId: ID_EXAMPLE, quantity: 3 }];
 
-    before(() => {
-      sinon.stub(Service.sales, 'getSales').resolves({
-        sales:[{ _id: ID_EXAMPLE, itensSold: payload }]
-      });
+    before(async () => {
+      const connectionMock = await getConnection();
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+      await connectionMock.db(DB_NAME).collection(COLLECTION_S).insertOne({ itensSold: payload });
     });
 
     after(() => {
-      Service.sales.getSales.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.sales.getSales(request, response);
+    it('retorna um objeto contendo um array', async () => {
+      const response = await Model.sales.getAll();
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
+      expect(response).to.be.an('object');
+
+      expect(response.sales).to.be.an('array');
     });
 
-    it('é chamado o método "json" com um objeto contendo um array de produtos', async () => {
-      await Controller.sales.getSales(request, response);
+    it('de objetos', async () => {
+      const response = await Model.sales.getAll();
 
-      expect(response.json.calledWith({
-        sales:[{ _id: ID_EXAMPLE, itensSold: payload }]
-      })).to.be.equal(true);
+      expect(response.sales[0]).to.be.an('object');
+
+      expect(response.sales[0]).to.have.property('_id');
     });
   });
 });
 
 describe('Carrega uma venda cadastrada pela "_id"', () => {
   describe('quando não encontrada', () => {
-    const request = {};
-    const response = {};
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
-
-      sinon.stub(Service.sales, 'getSaleById').resolves(ERROR_NOT_FOUND);
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.sales.getSaleById.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 404', async () => {
-      await Controller.sales.getSaleById(request, response);
+    it('o retorno é null', async () => {
+      const response = await Model.sales.getById(ID_EXAMPLE);
 
-      expect(response.status.calledWith(HTTP_NOT_FOUND_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.getSaleById(request, response);
-
-      expect(response.json.calledWith(ERROR_NOT_FOUND)).to.be.equal(true);
+      expect(response).to.be.equal(null);
     });
   });
 
   describe('quando encontrada', () => {
-    const request = {};
-    const response = {};
+    it('o retorno é um objeto com as informações dos produtos', async () => {
+      const payload = [{ productId: ID_EXAMPLE, quantity: 3 }];
 
-    const payload = [{ productId: ID_EXAMPLE, quantity: 3 }];
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-      sinon.stub(Service.sales, 'getSaleById').resolves({ _id: ID_EXAMPLE, itensSold: payload });
+      const { insertedId } = await connectionMock.db(DB_NAME).collection(COLLECTION_S).insertOne({ itensSold: payload });
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-    });
+      const response = await Model.sales.getById(insertedId);
 
-    after(() => {
-      Service.sales.getSaleById.restore();
-    });
+      expect(response).to.be.an('object');
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.sales.getSaleById(request, response);
+      expect(response).to.have.property('itensSold');
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com as informações do produto', async () => {
-      await Controller.sales.getSaleById(request, response);
-
-      expect(response.json.calledWith({ _id: ID_EXAMPLE, itensSold: payload })).to.be.equal(true);
+      MongoClient.connect.restore();
     });
   });
 });
 
 describe('Atualiza as informações de uma venda', () => {
-  const updatedPayload = [{ productId: ID_EXAMPLE, quantity: 7 }];
+  const payload = [{ productId: ID_EXAMPLE, quantity: 3 }];
 
-  describe('com dados inválidos', () => {
-    const response = {};
-    const request = {};
+  describe('quando não encontra a venda', () => {
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: NOT_VALID_ID };
-      request.body = updatedPayload;
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.sales, 'updateSale').resolves(ERROR_SALES);
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.sales.updateSale.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 422', async () => {
-      await Controller.sales.updateSale(request, response);
+    it('retorna um objeto com "matchedCount" com valor 0', async () => {
+      const response = await Model.sales.update(ID_EXAMPLE, { itensSold: payload });
 
-      expect(response.status.calledWith(HTTP_UNPROCESSABLE_STATUS)).to.be.equal(true);
-    });
+      expect(response).to.be.an('object');
 
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.updateSale(request, response);
-
-      expect(response.json.calledWith(ERROR_SALES)).to.be.equal(true);
+      expect(response.matchedCount).to.be.equal(0);
     });
   });
 
-  describe('com dados válidos, mas com erro de estoque', () => {
-    const response = {};
-    const request = {};
+  describe('quando encontrada', () => {
+    const updatedPayload = [{ productId: ID_EXAMPLE, quantity: 7 }];
 
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
-      request.body = updatedPayload;
+    it('atualiza os produtos vendidos e retorna um objeto com "modifiedCount" com valor 1', async () => {
+      const connectionMock = await getConnection();
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-      sinon.stub(Service.sales, 'updateSale').resolves(ERROR_STOCK);
-    });
+      const { insertedId } = await connectionMock.db(DB_NAME).collection(COLLECTION_S).insertOne({ itensSold: payload });
 
-    after(() => {
-      Service.sales.updateSale.restore();
-    });
+      const response = await Model.sales.update(insertedId, { itensSold: updatedPayload });
 
-    it('é chamado o método "status" com o código 404', async () => {
-      await Controller.sales.updateSale(request, response);
+      expect(response).to.be.an('object');
 
-      expect(response.status.calledWith(HTTP_NOT_FOUND_STATUS)).to.be.equal(true);
-    });
+      expect(response.modifiedCount).to.be.equal(1);
 
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.updateSale(request, response);
-
-      expect(response.json.calledWith(ERROR_STOCK)).to.be.equal(true);
-    });
-  });
-
-  describe('quando é encontrada com sucesso', () => {
-    const response = {};
-    const request = {};
-
-    const payload = { _id: ID_EXAMPLE, itensSold: updatedPayload };
-
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
-      request.body = updatedPayload;
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.sales, 'updateSale').resolves(payload);
-    });
-
-    after(() => {
-      Service.sales.updateSale.restore();
-    });
-
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.sales.updateSale(request, response);
-
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com as novas informações dos produtos vendidos', async () => {
-      await Controller.sales.updateSale(request, response);
-
-      expect(response.json.calledWith(payload)).to.be.equal(true);
+      MongoClient.connect.restore();
     });
   });
 });
 
 describe('Deleta uma venda cadastrada', () => {
-  describe('com dados inválidos', () => {
-    const response = {};
-    const request = {};
+  describe('quando não encontrada', () => {
+    before(async () => {
+      const connectionMock = await getConnection();
 
-    before(() => {
-      request.params = { id: NOT_VALID_ID };
-      request.body = {};
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.sales, 'deleteSale').resolves(ERROR_SALE_ID);
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     });
 
     after(() => {
-      Service.sales.deleteSale.restore();
+      MongoClient.connect.restore();
     });
 
-    it('é chamado o método "status" com o código 422', async () => {
-      await Controller.sales.deleteSale(request, response);
+    it('retorna um objeto com "deletedCount" com valor 0', async () => {
+      const response = await Model.sales.exclude(ID_EXAMPLE);
 
-      expect(response.status.calledWith(HTTP_UNPROCESSABLE_STATUS)).to.be.equal(true);
-    });
+      expect(response).to.be.an('object');
 
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.deleteSale(request, response);
-
-      expect(response.json.calledWith(ERROR_SALE_ID)).to.be.equal(true);
+      expect(response.deletedCount).to.be.equal(0);
     });
   });
 
-  describe('com dados válidos, mas com erro de estoque', () => {
-    const response = {};
-    const request = {};
-
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
-      request.body = {};
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      sinon.stub(Service.sales, 'deleteSale').resolves(ERROR_STOCK);
-    });
-
-    after(() => {
-      Service.sales.deleteSale.restore();
-    });
-
-    it('é chamado o método "status" com o código 404', async () => {
-      await Controller.sales.deleteSale(request, response);
-
-      expect(response.status.calledWith(HTTP_NOT_FOUND_STATUS)).to.be.equal(true);
-    });
-
-    it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.deleteSale(request, response);
-
-      expect(response.json.calledWith(ERROR_STOCK)).to.be.equal(true);
-    });
-  });
-
-  describe('quando é deletada com sucesso', () => {
-    const response = {};
-    const request = {};
-
+  describe('quando encontrada', () => {
     const payload = [{ productId: ID_EXAMPLE, quantity: 3 }];
 
-    before(() => {
-      request.params = { id: ID_EXAMPLE };
-      request.body = {};
+    it('deleta a venda e retorna um objeto com "deletedCount" com valor 1', async () => {
+      const connectionMock = await getConnection();
 
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-      sinon.stub(Service.sales, 'deleteSale').resolves({ _id: ID_EXAMPLE, itensSold: payload });
-    });
+      const { insertedId } = await connectionMock.db(DB_NAME)
+        .collection(COLLECTION_S).insertOne({ itensSold: payload });
 
-    after(() => {
-      Service.sales.deleteSale.restore();
-    });
+      const response = await Model.sales.exclude(insertedId);
 
-    it('é chamado o método "status" com o código 200', async () => {
-      await Controller.sales.deleteSale(request, response);
+      expect(response).to.be.an('object');
 
-      expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
-    });
+      expect(response.deletedCount).to.be.equal(1);
 
-    it('é chamado o método "json" com as informações deletadas dos produtos vendidos', async () => {
-      await Controller.sales.deleteSale(request, response);
-
-      expect(response.json.calledWith({ _id: ID_EXAMPLE, itensSold: payload })).to.be.equal(true);
+      MongoClient.connect.restore();
     });
   });
 });
