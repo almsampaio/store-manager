@@ -45,7 +45,7 @@ describe('12 - Escreva testes para seus services', () => {
   });
 });
 
-describe('13 - Escreva testes para seus controllers', () => {
+describe.only('13 - Escreva testes para seus controllers', () => {
   beforeAll(async () => {
     await exec(NPX_NYC_COMMAND('controllers'));
   });
