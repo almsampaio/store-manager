@@ -8,7 +8,8 @@ const addNewSale = async (req, res) => {
       const sale = { productId, quantity };
       newSales.push(sale);
     });
-    const operation = await service.addNewSale(newSales);
+    const sale = { itensSold: newSales };
+    const operation = await service.addNewSale(sale);
     res.status(200).json(operation);
   } catch (error) {
     res.status(400).json(error.message);

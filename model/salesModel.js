@@ -6,7 +6,7 @@ const collection = 'sales';
 const addNewSale = async (newSale) => {
     try {
         const result = await connection().then((db) => db.collection(collection)
-          .insertMany(newSale)).catch((err) => err);
+          .insertOne(newSale)).catch((err) => err);
         return result.ops;
       } catch (error) {
         return error.message;
@@ -35,7 +35,7 @@ const getSalesById = async (id) => {
 const updateSale = async (id, { productId, quantity }) => {
   try {
     const operation = await connection().then((db) => db.collection(collection)
-    .findOneAndUpdate({ _id: ObjectId(id) },
+    .findOneAndUpdate({ _id: ObjectId(id), 'itensSold.productId': ObjectId(productId) },
     { $set: { productId, quantity } },
     { returnDocument: 'after' })); 
     return operation.value;
