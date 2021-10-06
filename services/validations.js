@@ -46,24 +46,22 @@ const notNumberQuantity = (quantity) => {
   return false;
 };
 
-// const verifyStockNewSale = async (salesArray) => {
-//   const { itensSold } = salesArray
-//   const verifyStockAllProducts = itensSold.map(async (product) => {
-//     const { productId, quantity } = product;
-//     if (quantity) {
-//       const findProduct = await modelProduct.searchById(productId);
-//       const newStock = findProduct.quantity - quantity;
-//       if (newStock < 0) {
-//         return {
-//           err: { code: 'stock_problem', message: 'Such amount is not permitted to sell ' },
-//         }; 
-//        }
-//     return true;
-//     }
-//     return false;
-//   });
-//   return verifyStockAllProducts;
-// };
+// Solução encontrado por Rodrigo Camilo - Turma 10-A
+const verifyStockNewSale = async (salesArray) => {
+  const error = salesArray.reduce(async ({ stock }, product) => {
+    const { productId, quantity } = product;
+    if (quantity) {
+      const findProduct = await modelProduct.searchById(productId);
+      // console.log(findProduct);
+      const newStock = findProduct.quantity - quantity;
+      if (newStock < 0) {
+        return { stock: true };
+      }
+    }
+    return { stock };
+  }, { stock: false });
+  return error;
+};
 
 const validSales = async (salesArray) => {
   const verifyQuantity = await salesArray.find((sale) => sale.quantity <= 0);
@@ -88,5 +86,5 @@ module.exports = {
   notQuantityNegative,
   notNumberQuantity,
   validSales,
-  // verifyStockNewSale,
+  verifyStockNewSale,
 };

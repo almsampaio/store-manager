@@ -13,8 +13,8 @@ const inputSales = async (salesArray) => {
 
   await modelSales.updateQuantity(salesArray);
 
-  // const verifyStockNewSale = await validations.verifyStockNewSale(newSale);
-  // if (verifyStockNewSale) return verifyStockNewSale;
+  const verifyStockNewSale = await validations.verifyStockNewSale(salesArray);
+  if (verifyStockNewSale.stock) return verifyStockNewSale;
   
   const newSale = await modelSales.inputSales(salesArray);
   return newSale;
@@ -36,9 +36,7 @@ const deleteSale = async (id) => {
   const validSales = await modelSales.searchSale(id);
   if (validSales) {    
     await modelSales.returnStock(id);
-
     const delSale = await modelSales.deleteSale(id);
-    
     return delSale;
   }
   

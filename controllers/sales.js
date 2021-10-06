@@ -10,6 +10,14 @@ const inputSales = async (req, res) => {
   const salesArray = req.body;
   const newSale = await serviceSales.inputSales(salesArray);
   if (newSale.err) return res.status(status.UNPROCESSABLE_ENTITY).json(newSale);
+  if (newSale.stock) {
+    return res.status(404).json({
+      err: {
+        code: 'stock_problem',
+        message: 'Such amount is not permitted to sell',
+      },
+    });
+  }
   return res.status(status.HTTP_OK_STATUS).json(newSale);
 };
 
