@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 // linhas para o Avaliador
-const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
+const MONGO_DB_URL = 'mongodb://127.0.0.1:27017';
 const DB_NAME = 'StoreManager';
 
 const OPTIONS = {
@@ -9,7 +9,7 @@ const OPTIONS = {
   useUnifiedTopology: true,
 };
 
-// const MONGO_DB_URL = 'mongodb://127.0.0.1:27017';
+// const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
 // const DB_NAME = 'StoreManager';
 
 let db = null;
