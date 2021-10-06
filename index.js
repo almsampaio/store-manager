@@ -1,22 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const router = require('./router');
+const productRoutes = require('./routes/products');
+const salesRoutes = require('./routes/sales');
 
 const app = express();
-
 app.use(bodyParser.json());
 
-app.use(router);
+const PORT = '3000';
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
 
-const localhost = 3000;
-
-const PORT = process.env.PORT || localhost;
+app.use('/products', productRoutes);
+app.use('/sales', salesRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Ouvindo a porta ${PORT}`);
+  console.log(`App online at port ${PORT}`);
 });

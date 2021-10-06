@@ -1,61 +1,55 @@
-const Service = require('../services');
+const productServices = require('../services/productsServices');
+const httpStatus = require('../utils/httpStatus');
 
-const HTTP_OK_STATUS = 200;
-const HTTP_CREATED_STATUS = 201;
-const HTTP_UNPROCESSABLE_STATUS = 422;
+const getAll = async (_req, res) => {
+  const allProducts = await productServices.getAll();
+  console.log(allProducts, 'product controller');
+  return res.status(httpStatus.HTTP_OK_STATUS).json({ products: allProducts });
+};
 
-const addProduct = async (req, res) => {
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const product = await productServices.getById(id);
+
+  if (!product) {
+    return res.status(httpStatus.UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong id format',
+        },
+    });
+  }
+  return res.status(httpStatus.HTTP_OK_STATUS).json(product);
+};
+
+const create = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const product = await Service.products.addProduct({ name, quantity });
+  const newProduct = await productServices.create(name, quantity);
 
-  if (product.err) return res.status(HTTP_UNPROCESSABLE_STATUS).json(product);
-
-  res.status(HTTP_CREATED_STATUS).json(product);
+  return res.status(httpStatus.HTTP_CREATE_STATUS).json(newProduct);
 };
 
-const getProducts = async (_req, res) => {
-  const products = await Service.products.getProducts();
-
-  res.status(HTTP_OK_STATUS).json(products);
-};
-
-const getProductById = async (req, res) => {
+const update = async (req, res) => {
   const { id } = req.params;
-
-  const product = await Service.products.getProductById(id);
-
-  if (product.err) return res.status(HTTP_UNPROCESSABLE_STATUS).json(product);
-
-  res.status(HTTP_OK_STATUS).json(product);
-};
-
-const updateProduct = async (req, res) => {
-  const { id } = req.params;
-
   const { name, quantity } = req.body;
 
-  const product = await Service.products.updateProduct(id, { name, quantity });
-
-  if (product.err) return res.status(HTTP_UNPROCESSABLE_STATUS).json(product);
-
-  res.status(HTTP_OK_STATUS).json(product);
+  const editProduct = await productServices.update(id, name, quantity);
+  console.log(editProduct, 'controller - update product');
+  return res.status(httpStatus.HTTP_OK_STATUS).json(editProduct);
 };
 
-const deleteProduct = async (req, res) => {
+const exclude = async (req, res) => {
   const { id } = req.params;
 
-  const product = await Service.products.deleteProduct(id);
-
-  if (product.err) return res.status(HTTP_UNPROCESSABLE_STATUS).json(product);
-
-  res.status(HTTP_OK_STATUS).json(product);
+  const removeProduct = await productServices.exclude(id);
+  return res.status(httpStatus.HTTP_OK_STATUS).json(removeProduct);
 };
 
 module.exports = {
-  addProduct,
-  getProducts,
-  getProductById,
-  updateProduct,
-  deleteProduct,
+  getAll,
+  getById,
+  create,
+  update,
+  exclude,
 };
