@@ -15,6 +15,18 @@ const validateInsertedData = async (req, res, next) => {
   next();
 };
 
+const validateUpdatedData = async (req, res, next) => {
+  const { productId, quantity } = req.body;
+      if (typeof quantity !== 'number') {
+        return res.status(422).json(errors.invalidData);
+      } if (quantity <= 0) {
+        return res.status(422).json(errors.invalidData);
+      } if (!ObjectId.isValid(productId)) {
+        return res.status(422).json(errors.invalidData);
+      }
+  next();
+};
+
 const validateID = async (req, res, next) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
@@ -25,5 +37,6 @@ const validateID = async (req, res, next) => {
 
 module.exports = {
   validateInsertedData,
+  validateUpdatedData,
   validateID,
 };
