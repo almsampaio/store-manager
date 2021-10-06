@@ -164,8 +164,8 @@ const deleteSale = async (id) => {
 
   const stock = await Promise.all(sales);
 
-  stock.forEach(({ _id, name, quantity }, index) => {
-    Model.products.updateProduct(
+  stock.forEach(async ({ _id, name, quantity }, index) => {
+    await Model.products.updateProduct(
       _id,
       {
         name,
