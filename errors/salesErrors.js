@@ -12,6 +12,13 @@ const notFound = {
   },
 };
 
+const notFoundDelete = {
+  err: {
+    code: 'invalid_data',
+    message: 'Wrong sale ID format',
+  },
+};
+
 const invalidID = {
   err: {
     code: 'invalid_data',
@@ -31,4 +38,5 @@ module.exports = {
     invalidID,
     notFound,
     outOfStock,
+    notFoundDelete,
 };

@@ -39,7 +39,7 @@ const validateID = async (req, res, next) => {
 const validateIdOnDelete = async (req, res, next) => {
   const { id } = req.params;
   if (!ObjectId.isValid(id)) {
-    return res.status(404).json(errors.invalidID);
+    return res.status(422).json(errors.notFoundDelete);
   }
   next();
 };
