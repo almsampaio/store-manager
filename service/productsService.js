@@ -19,6 +19,7 @@ const getById = async (id) => {
 };
 
 const updateProduct = async (id, updatedFields) => {
+  console.log(id);
   const operation = await model.updateProduct(id, updatedFields);
   return operation;
 };

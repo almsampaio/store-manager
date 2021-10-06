@@ -4,7 +4,7 @@ const errors = require('../errors/salesErrors');
 const addNewSale = async (req, res) => {
   try {
     const newSales = [];
-    await req.body.forEach(({ productId, quantity }) => {
+    await req.body.forEach(async ({ productId, quantity }) => {
       const sale = { productId, quantity };
       newSales.push(sale);
     });
