@@ -18,9 +18,9 @@ const stockValidate = (stock) => {
   return false;
 };
 
-const saleData = (sales, dataSales) => {
+const saleData = async (sales, dataSales) => {
   dataSales.forEach(async ({ productId, quantity }) => {
-    sales.push(Model.products.productById(productId));
+    sales.push(await Model.products.productById(productId));
   
     if (!validateTypeQuantity(quantity)) return true;
     
@@ -88,13 +88,13 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-const saleQuantityProduct = (sales, saleUpdated) => {
+const saleQuantityProduct = async (sales, saleUpdated) => {
   saleUpdated.forEach(async ({ productId, quantity }) => {
     if (!validateTypeQuantity(quantity)) return true;
 
     if (!validateQuantity(quantity)) return true;
 
-    sales.push(Model.products.productById(productId));
+    sales.push(await Model.products.productById(productId));
   });
   return false;
 };
