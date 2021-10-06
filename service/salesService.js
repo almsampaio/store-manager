@@ -18,7 +18,17 @@ const getAllSales = async () => {
   }
 };
 
+const getSalesById = async (id) => {
+    try {
+      const sale = await model.getSalesById(id);
+      return sale;
+    } catch (error) {
+      return error.message;
+    }
+};
+
 module.exports = {
     addNewSale,
     getAllSales,
+    getSalesById,
 };
