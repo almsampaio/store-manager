@@ -4,6 +4,7 @@ const { create, getSale, getSales, updateSale, deleteSale } = require('../db/mod
 async function createService(data) {
   data.forEach(async (dat) => {
     const product = await getProduct(dat.productId);
+    if (!product) throw new Error('Wrong id format');
     if (product) {
       const { _id } = product;
       const newQntd = product.quantity - dat.quantity;
