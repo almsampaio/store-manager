@@ -2,21 +2,17 @@ const productService = require('../service/productsService');
 const salesModel = require('../model/salesModel');
 
 const updateWhenSaleMaded = async (id, q) => {
-  const result = await productService.getById(id);
-  const product = result.pop();
+  const product = await productService.getById(id);
   const { _id, name, quantity } = product;
-  console.log(quantity);
   await productService.updateProduct(_id, { name, quantity: quantity - q }); 
   return quantity;
 };
 
 const restoreWhenSaleDeleted = async (id) => {
-  const result = await salesModel.getSalesById(id);
-  const sale = result.pop();
-  const { itensSold } = sale;
+  const sale = await salesModel.getSalesById(id);
+  const { itensSold } = sale.pop();
   await itensSold.forEach(async ({ productId, quantity }) => {
-    const res = await productService.getById(productId);
-    const product = res.pop();
+    const product = await productService.getById(productId);
     const { _id, name, quantity: q } = product;
     const restoredQ = q + quantity;
     const operation = await productService.updateProduct(_id, { name, quantity: restoredQ });
