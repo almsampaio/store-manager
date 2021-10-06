@@ -158,8 +158,8 @@ const deleteSale = async (id) => {
 
   const sale = await Model.sales.deleteSale(id);
 
-  saleDeleted.itensSold.forEach(({ productId }) => {
-    sales.push(Model.products.productById(productId));
+  saleDeleted.itensSold.forEach(async ({ productId }) => {
+    sales.push(await Model.products.productById(productId));
   });
 
   const stock = await Promise.all(sales);
