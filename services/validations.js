@@ -1,4 +1,4 @@
-const { findByName } = require('../models/modelProducts');
+const { productByName } = require('../models/modelProducts');
 const { HTTP_UNPROCESSABLE_ENTITY } = require('../httpRequests');
 const { objectError } = require('../utils/objectError');
 
@@ -12,7 +12,7 @@ const validateName = (name) => {
 };
 
 const alreadyExists = async (name) => {
-  const result = await findByName(name);
+  const result = await productByName(name);
   const message = 'Product already exists';
 
   if (result) {

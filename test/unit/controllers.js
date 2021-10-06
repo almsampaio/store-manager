@@ -608,7 +608,7 @@ describe('Atualiza as informações de uma venda', () => {
     const request = {};
 
     before(() => {
-      request.params = { id: NOT_VALID_ID };
+      request.params = { id: ID_NOT_VALID };
       request.body = updatedPayload;
 
       response.status = sinon.stub().returns(response);
@@ -622,13 +622,13 @@ describe('Atualiza as informações de uma venda', () => {
     });
 
     it('é chamado o método "status" com o código 422', async () => {
-      await Controller.sales.updateSale(request, response);
+      await Controller.sales.saleUpdated(request, response);
 
       expect(response.status.calledWith(HTTP_UNPROCESSABLE_ENTITY)).to.be.equal(true);
     });
 
     it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.updateSale(request, response);
+      await Controller.sales.saleUpdated(request, response);
 
       expect(response.json.calledWith(errorSales)).to.be.equal(true);
     });
@@ -653,13 +653,13 @@ describe('Atualiza as informações de uma venda', () => {
     });
 
     it('é chamado o método "status" com o código 404', async () => {
-      await Controller.sales.updateSale(request, response);
+      await Controller.sales.saleUpdated(request, response);
 
       expect(response.status.calledWith(HTTP_NOT_FOUND_STATUS)).to.be.equal(true);
     });
 
     it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.sales.updateSale(request, response);
+      await Controller.sales.saleUpdated(request, response);
 
       expect(response.json.calledWith(errorStock)).to.be.equal(true);
     });
@@ -686,13 +686,13 @@ describe('Atualiza as informações de uma venda', () => {
     });
 
     it('é chamado o método "status" com o código 200', async () => {
-      await Controller.sales.updateSale(request, response);
+      await Controller.sales.saleUpdated(request, response);
 
       expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
     });
 
     it('é chamado o método "json" com as novas informações dos produtos vendidos', async () => {
-      await Controller.sales.updateSale(request, response);
+      await Controller.sales.saleUpdated(request, response);
 
       expect(response.json.calledWith(payload)).to.be.equal(true);
     });
@@ -705,13 +705,13 @@ describe('Deleta uma venda cadastrada', () => {
     const request = {};
 
     before(() => {
-      request.params = { id: NOT_VALID_ID };
+      request.params = { id: ID_NOT_VALID };
       request.body = {};
 
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
-      sinon.stub(Service.sales, 'deleteSale').resolves(ERROR_SALE_ID);
+      sinon.stub(Service.sales, 'deleteSale').resolves(errorSaleId);
     });
 
     after(() => {
@@ -736,7 +736,7 @@ describe('Deleta uma venda cadastrada', () => {
     const request = {};
 
     before(() => {
-      request.params = { id: ID_EXAMPLE };
+      request.params = { id: EXAMPLE_ID };
       request.body = {};
 
       response.status = sinon.stub().returns(response);
