@@ -140,7 +140,11 @@ describe('Insere um novo produto no Sales BD (service)', () => {
       const ID_EXAMPLE = '604cb554311d68f491ba5781';
 
       sinon.stub(ProductModel, 'getById')
-        .resolves({ _id: ID_EXAMPLE })
+        .resolves({
+          _id: ID_EXAMPLE,
+          name: 'Example product',
+          quantity: 7
+        })
 
       sinon.stub(SaleModel, 'create')
         .resolves({
@@ -221,7 +225,11 @@ describe('Atualiza um produto no Sale BD (service)', () => {
       const ID_EXAMPLE = '604cb554311d68f491ba5781';
 
       sinon.stub(ProductModel, 'getById')
-        .resolves({ _id: ID_EXAMPLE })
+        .resolves({
+          _id: ID_EXAMPLE,
+          name: 'Example product',
+          quantity: 7
+        })
       sinon.stub(SaleModel, 'update')
         .resolves(payloadSale)
     })

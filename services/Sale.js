@@ -10,6 +10,14 @@ const isProductIdValid = async (productId) => {
   return true;
 };
 
+const isProductQuantityValid = async (productId, quantity) => {
+  const product = await ProductModel.getById(productId);
+
+  if (product.quantity >= quantity) return true;
+
+  return false;
+};
+
 const validateProducts = async (itensSold) => {
   const areAllProductsValid = await everyAsync(
     itensSold,
@@ -85,7 +93,7 @@ const isQuantityValid = (quantity) => {
   };
 };
 
-const validateQuantities = (itensSold) => {
+const validateQuantityValues = (itensSold) => {
   const areAllQuantitiesValid = itensSold
     .every(({ quantity }) => isQuantityValid(quantity).isValid);
   if (!areAllQuantitiesValid) {
@@ -105,6 +113,39 @@ const validateQuantities = (itensSold) => {
   };
 };
 
+const validateProductQuantities = async (itensSold) => {
+  const areAllProductsValid = await everyAsync(
+    itensSold,
+    ({ productId, quantity }) => isProductQuantityValid(productId, quantity),
+  );
+  if (!areAllProductsValid) {
+    return {
+      isValid: false,
+      status: 404,
+      json: {
+        err: {
+          code: 'stock_problem', message: 'Such amount is not permitted to sell',
+        },
+      },
+    };
+  }
+
+  return {
+    isValid: true,
+  };
+};
+
+const validateQuantities = async (itensSold) => {
+  const validateQuantityValuesObj = validateQuantityValues(itensSold);
+  if (!validateQuantityValuesObj.isValid) return validateQuantityValuesObj;
+  const validateProductQuantitiesObj = await validateProductQuantities(itensSold);
+  if (!validateProductQuantitiesObj.isValid) return validateProductQuantitiesObj;
+
+  return {
+    isValid: true,
+  };
+};
+
 const isValid = async (itensSold) => {
   if (!itensSold || !itensSold.length) {
     return {
@@ -118,7 +159,7 @@ const isValid = async (itensSold) => {
     };
   }
 
-  const areAllQuantitiesValidObj = validateQuantities(itensSold);
+  const areAllQuantitiesValidObj = await validateQuantities(itensSold);
   if (!areAllQuantitiesValidObj.isValid) return areAllQuantitiesValidObj;
   const areAllProductsValidObj = await validateProducts(itensSold);
   if (!areAllProductsValidObj.isValid) return areAllProductsValidObj;
@@ -126,6 +167,18 @@ const isValid = async (itensSold) => {
   return {
     isValid: true,
   };
+};
+
+const updateProducts = async (itensSold, sum) => {
+  const promises = itensSold.map(async (item) => {
+    const { _id, name, quantity } = await ProductModel.getById(item.productId);
+    await ProductModel.update({
+      id: _id,
+      name,
+      quantity: sum ? quantity + item.quantity : quantity - item.quantity,
+    });
+  });
+  await Promise.all(promises);
 };
 
 const create = async (itensSold) => {
@@ -143,6 +196,7 @@ const create = async (itensSold) => {
   }
 
   const sale = await SaleModel.create(itensSold);
+  await updateProducts(itensSold, false);
 
   return {
     status: 200,
@@ -176,4 +230,5 @@ module.exports = {
   create,
   isValid,
   update,
+  updateProducts,
 };

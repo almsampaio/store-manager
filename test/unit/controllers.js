@@ -676,6 +676,18 @@ describe('Ao chamar o SaleController de deleteById', () => {
       response.json = sinon.stub()
         .returns()
 
+      sinon.stub(ProductModel, 'getById')
+        .resolves({
+          _id: 'Example id',
+          name: 'Example product',
+          quantity: 7
+        })
+      sinon.stub(ProductModel, 'update')
+        .resolves({
+          _id: 'Example id',
+          name: 'Example product',
+          quantity: 9
+        })
       sinon.stub(SaleModel, 'deleteById')
         .resolves({
           _id: ID_EXAMPLE,
@@ -690,6 +702,8 @@ describe('Ao chamar o SaleController de deleteById', () => {
 
     after(async () => {
       SaleModel.deleteById.restore()
+      ProductModel.update.restore()
+      ProductModel.getById.restore()
     })
 
     it('é chamado o status com código 200', async () => {
