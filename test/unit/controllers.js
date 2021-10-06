@@ -238,13 +238,13 @@ describe('Atualiza as informações de um produto', () => {
     });
 
     it('é chamado o método "satus" com o código 422', async () => {
-      await Controller.products.updateProduct(request, response);
+      await Controller.products.productUpdate(request, response);
 
       expect(response.status.calledWith(HTTP_UNPROCESSABLE_ENTITY)).to.be.equal(true);
     });
 
     it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.products.updateProduct(request, response);
+      await Controller.products.productUpdate(request, response);
 
       expect(response.json.calledWith(errorId)).to.be.equal(true);
     });
@@ -274,13 +274,13 @@ describe('Atualiza as informações de um produto', () => {
     });
 
     it('é chamado o método "status" com o código 200', async () => {
-      await Controller.products.updateProduct(request, response);
+      await Controller.products.productUpdate(request, response);
 
       expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
     });
 
     it('é chamado o método "json" com as novas informações do produto', async() => {
-      await Controller.products.updateProduct(request, response);
+      await Controller.products.productUpdate(request, response);
 
       expect(response.json.calledWith(payload)).to.be.equal(true);
     });
@@ -307,13 +307,13 @@ describe('Deleta um produto cadastrado', () => {
     });
 
     it('é chamado o método "status" com o código 422', async () => {
-      await Controller.products.deleteProduct(request, response);
+      await Controller.products.productDelete(request, response);
 
       expect(response.status.calledWith(HTTP_UNPROCESSABLE_ENTITY)).to.be.equal(true);
     });
 
     it('é chamado o método "json" com a mensagem correspondente', async () => {
-      await Controller.products.deleteProduct(request, response);
+      await Controller.products.productDelete(request, response);
 
       expect(response.json.calledWith(errorId)).to.be.equal(true);
     });
@@ -344,13 +344,13 @@ describe('Deleta um produto cadastrado', () => {
     });
 
     it('é chamado o método "status" com o código 200', async () => {
-      await Controller.products.deleteProduct(request, response);
+      await Controller.products.productDelete(request, response);
 
       expect(response.status.calledWith(HTTP_OK_STATUS)).to.be.equal(true);
     });
 
     it('é chamado o método "json" com as informações deletadas do produto', async () => {
-      await Controller.products.deleteProduct(request, response);
+      await Controller.products.productDelete(request, response);
 
       expect(response.json.calledWith(payload)).to.be.equal(true);
     });
