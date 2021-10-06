@@ -7,7 +7,7 @@ const addNewSale = async (newSale) => {
     try {
         const result = await connection().then((db) => db.collection(collection)
           .insertOne(newSale)).catch((err) => err);
-        return result.ops;
+        return result.ops[0];
       } catch (error) {
         return error.message;
       }

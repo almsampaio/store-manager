@@ -19,7 +19,7 @@ const addNewSale = async (req, res) => {
 const getAllSales = async (_req, res) => {
     try {
       const sales = await service.getAllSales();
-      res.status(200).json(sales);
+      res.status(200).json({ sales });
     } catch (error) {
       res.status(400).json(error.message);
     }
