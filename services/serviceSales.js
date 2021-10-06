@@ -81,7 +81,7 @@ const getSales = async () => {
 const getSaleById = async (id) => {
   if (!validateId(id)) return errorSaleNotFound;
 
-  const sale = await Model.sales.getSaleById(id);
+  const sale = await Model.sales.saleById(id);
 
   if (!sale) return errorSaleNotFound;
 
@@ -154,7 +154,7 @@ const deleteSale = async (id) => {
 
   if (!validateId(id)) return errorSaleId;
 
-  const saleDeleted = await Model.sales.getSaleById(id);
+  const saleDeleted = await Model.sales.saleById(id);
 
   const sale = await Model.sales.deleteSale(id);
 
