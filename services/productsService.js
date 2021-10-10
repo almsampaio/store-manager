@@ -2,6 +2,7 @@ const productsModel = require('../models/productsModel');
 
 const minimumNameLength = 5;
 const minimumQuantity = 1;
+
 const nameError = {
   err: {
     code: 'invalid_data',

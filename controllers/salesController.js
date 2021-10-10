@@ -21,7 +21,7 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   const itensSold = req.body;
-  const { error, err, sale } = await salesService.create(itensSold);
+  const { err, error, sale } = await salesService.create(itensSold);
   if (error) return res.status(HTTP_404).json(error);
   if (err) return res.status(HTTP_422).json({ err });
   return res.status(HTTP_200).json(sale);

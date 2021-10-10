@@ -18,47 +18,79 @@ const stockError = {
 };
 
 const getAll = async () => {
-  const sales = salesModel.getAll();
+  const sales = await salesModel.getAll();
   return sales;
 };
 
 const getById = async (id) => {
-  const sale = salesModel.getById(id);
+  const sale = await salesModel.getById(id);
   return sale;
 };
 
-const productAvailable = async (productId) => {
-  const product = await productsModel.getById(productId);
-  return (product.quantity);
+const productId = async (itensSold) => {
+  const prodId = itensSold.map((item) => item.productId);
+  return prodId;
+};
+
+const productAvailable = async (itensSold) => {
+  const prodId = await productId(itensSold);
+  
+  const quantities = await Promise.all(prodId.map(async (id) => {
+    const product = await productsModel.getById(id);
+    const quantity = { prodQty: product.quantity };
+    return quantity;
+  }));
+
+  const sldQty = itensSold.map((item) => {
+    const qty = item.quantity;
+    const sQty = { soldQty: qty };
+    return sQty;
+  });
+
+  const result = [quantities, sldQty].reduce((a, b) => a.map((c, i) => ({ ...c, ...b[i] })));
+  // https://stackoverflow.com/questions/46849286/merge-two-array-of-objects-based-on-a-key
+
+  const verification = result.every((res) => {
+    if (res.prodQty <= res.soldQty) {
+      return true;
+    } return false;
+  });
+
+  return verification;
+};
+
+const quantityValidation = async (itensSold) => {
+  const validation = await itensSold.every((item) => {
+    if (item.quantity < minimumQuantity 
+      || typeof (item.quantity) === 'string') {
+      return true;
+    } return false;
+  });
+  return validation;
 };
 
 const create = async (itensSold) => {
-  const [{ quantity, productId }] = itensSold;
-
-  const productQty = await productAvailable(productId);
-  if (productQty < quantity) return { error: stockError };
-
-  if (quantity < minimumQuantity) return quantityError;
-
-  if (typeof (quantity) === 'string') return quantityError;
+  if (await quantityValidation(itensSold) === true) {
+    return quantityError;
+  } if (await productAvailable(itensSold) === true) {
+    return { error: stockError };
+  } 
 
   const sale = await salesModel.create(itensSold);
-  return { sale };
+  return ({ sale });
 };
 
 const editById = async (id, itensSold) => {
   const [{ quantity }] = itensSold;
 
-  if (quantity < minimumQuantity) return quantityError;
-
-  if (typeof (quantity) === 'string') return quantityError;
+  if (quantity < minimumQuantity || typeof (quantity) === 'string') return quantityError;
 
   const sale = await salesModel.editById(id, itensSold);
   return { sale };
 };
 
 const deleteById = async (id) => {
-  const sale = salesModel.deleteById(id);
+  const sale = await salesModel.deleteById(id);
   return sale;
 };
 
