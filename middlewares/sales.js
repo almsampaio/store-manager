@@ -38,6 +38,7 @@ const checkIdSales = async (req, res, next) => {
 
   // O readme não disse que essa verificação seria necessária, mas a falta dela faz o requisito 8 quebrar, tive ajuda do Lucas Pedroso para enxergar essa falha do readme e consequentemente finalizar o requisito 8.
   const sale = await salesServices.findSale(id);
+
   if (!sale) {
     return res.status(status.notFound)
     .json({ err: { code: code.notFound, message: message.saleNotFound } });
@@ -49,15 +50,17 @@ const checkIdSales = async (req, res, next) => {
 const checkIdDelete = async (req, res, next) => {
   const { id } = req.params;
   const idLength = 24;
-  const sale = await salesServices.findSale(id);
 
   if (!id || id.length !== idLength) {
-    return res.status(status.unprocessable)
-      .json({ err: { code: code.invalidData, message: message.wrongSaleIdFormat } });
+    res.status(status.unprocessable).json({
+      err: { code: code.invalidData, message: message.wrongSaleIdFormat },
+    }); 
   }
 
+  const sale = await salesServices.findSale(id);
+
   if (!sale) {
-    return res.status(status.notFound)
+    return res.status(status.unprocessable)
     .json({ err: { code: code.notFound, message: message.saleNotFound } });
   }
 
