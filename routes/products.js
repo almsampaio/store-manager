@@ -2,7 +2,6 @@ const express = require('express');
 const rescue = require('express-rescue');
 const { productsControllers } = require('../controllers');
 const { middlewaresProducts } = require('../middlewares');
-// const utils = require('../utils');
 
 const router = express.Router();
 
