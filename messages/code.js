@@ -3,4 +3,4 @@ const code = {
   notFound: 'not_found',
 };
 
-module.exports = { code };
+module.exports = code;

@@ -9,4 +9,4 @@ const message = {
   wrongSaleIdFormat: 'Wrong sale ID format',
 };
 
-module.exports = { message };
+module.exports = message;

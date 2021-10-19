@@ -5,4 +5,4 @@ const status = {
   unprocessable: 422,
 };
 
-module.exports = { status };
+module.exports = status;

@@ -1,13 +1,15 @@
 const express = require('express');
+const rescue = require('express-rescue');
 const { productsControllers } = require('../controllers');
-const check = require('../utils');
+const { middlewaresProducts } = require('../middlewares');
+// const utils = require('../utils');
 
 const router = express.Router();
 
-router.post('/', check.createProducts, productsControllers.addProduct);
-router.get('/', productsControllers.findProducts);
-router.get('/:id', check.id, productsControllers.findProduct);
-router.put('/:id', check.updateProducts, productsControllers.updateProduct);
-router.delete('/:id', check.id, productsControllers.deleteProduct);
+router.post('/', middlewaresProducts.createProducts, rescue(productsControllers.addProduct));
+router.get('/', rescue(productsControllers.findProducts));
+router.get('/:id', middlewaresProducts.checkId, rescue(productsControllers.findProduct));
+router.put('/:id', middlewaresProducts.updateProducts, rescue(productsControllers.updateProduct));
+router.delete('/:id', middlewaresProducts.checkId, rescue(productsControllers.deleteProduct));
 
 module.exports = router;

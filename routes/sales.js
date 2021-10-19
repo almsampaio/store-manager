@@ -1,13 +1,14 @@
 const express = require('express');
+const rescue = require('express-rescue');
 const { salesControllers } = require('../controllers');
-const check = require('../utils');
+const { middlewaresServices } = require('../middlewares');
 
 const router = express.Router();
 
-router.post('/', check.quantitySales, salesControllers.addSales);
-router.get('/', salesControllers.findSales);
-router.get('/:id', check.idSales, salesControllers.findSale);
-router.put('/:id', check.quantitySales, salesControllers.updateSale);
-router.delete('/:id', check.idDelete, salesControllers.deleteSale);
+router.post('/', middlewaresServices.quantitySales, rescue(salesControllers.addSales));
+router.get('/', rescue(salesControllers.findSales));
+router.get('/:id', middlewaresServices.checkIdSales, rescue(salesControllers.findSale));
+router.put('/:id', middlewaresServices.quantitySales, rescue(salesControllers.updateSale));
+router.delete('/:id', middlewaresServices.checkIdDelete, rescue(salesControllers.deleteSale));
 
 module.exports = router;
